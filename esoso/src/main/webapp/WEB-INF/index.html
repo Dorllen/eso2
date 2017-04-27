@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8" />
+<meta name="viewport"
+	content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<title>易搜首页</title>
+<link rel="stylesheet" href="static/fonts/font-awesome/font-awesome.min.css" />
+<!--[if IE 7]>
+			<link rel="stylesheet" href="static/fonts/font-awesome/font-awesome-ie7.min.css"/>
+		<![endif]-->
+
+
+<link rel="shortcut icon" href="ico/i/favicon.png"
+	th:href="@{/ico/i/favicon.png}" />
+<link rel="apple-touch-icon-precomposed" sizes="144x144"
+	href="ico/i/144.png" th:href="@{/ico/i/144.png}" />
+<link rel="apple-touch-icon-precomposed" sizes="114x114"
+	href="ico/i/114.png" th:href="@{/ico/i/114.png}" />
+<link rel="apple-touch-icon-precomposed" sizes="72x72"
+	href="ico/i/72.png" th:href="@{/i/ico/72.png}" />
+<link rel="apple-touch-icon-precomposed" href="ico/i/57.png"
+	th:href="@{/ico/i/57.png}" />		
+		
+<link rel="stylesheet" href="static/css/normalize.css" />
+<link rel="stylesheet" href="css/index.css" />
+<script type="text/javascript" src="js/ajax.js"></script>
+</head>
+
+<body>
+	<header>
+		<div class="wrap">
+			<ul class="header_ul1">
+				<li><a href=""><i class="icon-github-alt icon-2x"></i></a></li>
+				<li class="active"><a href=""><i
+						class="icon-home icon-large"></i>首页</a></li>
+			</ul>
+			<ul class="header_ul2">
+				<li class=""><a href="">我的博客<i class="icon-user"></i></a></li>
+				<li class=""><a href="">我的订阅<i class="icon-envelope"></i></a></li>
+				<li class=""><a href="">消息通知<i
+						class="icon-bell-alt colorRed2">(3)</i></a></li>
+				<li>
+					<!--class="person"<div id="tools">
+							<img src="static/img/tx.jpg" width="30" height="30" class="tx" /> 欢迎，
+							<span>会开花的小果实</span> <i class="icon-angle-down icon-large"></i>
+							<ul class="person_info">
+								<li class="loginout">
+									您好，会开花的小果实
+									<a href="#">退出</a>
+								</li>
+								<li>
+									<a href="#">个人中心</a>
+								</li>
+								<li>
+									<a href="#">博客管理</a>
+								</li>
+								<li>
+									<a href="#">订阅管理</a>
+								</li>
+							</ul>
+						</div>-->
+					<div>
+						<a href="#" onclick="login(event)">登陆</a> <a href="#"
+							onclick="register(event)">注册</a>
+					</div>
+				</li>
+			</ul>
+			<ul class="header_ul3">
+				<li id="tools">工具箱<i class="icon-angle-down"></i>
+					<ul class="">
+						<li><a href="#">个人中心</a></li>
+						<li><a href="#">博客管理</a></li>
+						<li><a href="#">订阅管理</a></li>
+					</ul>
+				</li>
+				<li>
+					<div>
+						<a onclick="login(event)" href="#">登陆</a> <a
+							onclick="register(event)" href="#">注册</a>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</header>
+	<section>
+		<div>
+			<ul>
+				<li class="active">问答</li>
+				<li>博客</li>
+				<li>软件</li>
+				<li>其他</li>
+			</ul>
+			<form action="#" method="get">
+				<div class="set_btn">
+					<p>
+						<i class="icon-cogs"></i>
+					</p>
+				</div>
+				<input type="text" name="q"
+					placeholder="查找关键字:python/java/ElasticSearch" autocomplete="off"
+					id="query" /> <input type="submit" value="Do It" /> <input
+					type="hidden" name="t" value="answer" id="type" /> <input
+					type="hidden" name="f" value="segmentfault|github" id="from" />
+				<!--一定要有from,defaulWebsites,defaults-->
+				<input type="hidden" value="segmentfault|github|cnblog|python3"
+					name="defaultWebsites" id="defaultWebsites" /> <input
+					type="hidden" value="segmentfault|github" name="defaults"
+					id="defaults" /> <input type="hidden" value="" id="design"
+					name="d" />
+				<div id="noticeMessage">
+					<i class="icon-warning-sign"></i>
+					<p>请输入正确的内容</p>
+					<span></span>
+				</div>
+			</form>
+			<div class="jls">
+				最近搜索： <a href="#">python</a> <a href="#">java</a> <a href="#">php</a>
+			</div>
+		</div>
+	</section>
+	<div id="choose">
+		<div class="c_close" onclick="closeChoose()">
+			<i class="icon-remove"></i>
+		</div>
+		<p>条件筛选</p>
+		<div class="c_default">
+			默认：<span><i class="icon-check"></i><b>segmentfault</b></span>
+		</div>
+		<div class="c_websites">
+			站点：<span><i class="icon-check"></i><b>segmentfault</b></span><span><i
+				class="icon-check"></i><b>github</b></span><span><i
+				class="icon-check-empty"></i><b>inforq</b></span>
+		</div>
+		<div class="c_add">
+			定制：
+			<p>
+				请在下输入进行模糊搜索<i class="icon-arrow-down"></i>
+			</p>
+		</div>
+		<div class="c_search">
+			搜索：<input type="text" name="siteName" placeholder="输入网站域名主体部分"
+				autocomplete="off" id="siteName" />
+			<ul class="c_search_items">
+				<li>segmentfault</li>
+				<li>infor</li>
+				<li>github</li>
+			</ul>
+			<a class="c_search_fq" href="#">点击反馈</a>
+		</div>
+		<div class="c_button">
+			<button onclick="confirmChoose()">确定</button>
+			<button onclick="closeChoose()">取消</button>
+		</div>
+	</div>
+	<div id="userControl" style="display: none;">
+		<div>
+			<p>
+				<i class="icon-github-alt icon-2x"></i>登陆|注册
+			</p>
+		</div>
+		<ul>
+			<li>用户登录</li>
+			<li>用户注册</li>
+		</ul>
+		<ul>
+			<li></li>
+			<li></li>
+		</ul>
+	</div>
+	<div id="zz" style="display: none;"></div>
+	<footer>
+		<p>易搜搜，简单搜索！用心服务！</p>
+		<p>上海第二工业大学</p>
+	</footer>
+	<script src="js/index.js"></script>
+</body>
+
+</html>

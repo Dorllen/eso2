@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>后台登陆</title>
+<link rel="icon" href="favicon.ico"
+	mce_href="favicon.ico" type="image/x-icon" th:href="@{/}"/>
+<link rel="shortcut icon" href="favicon.ico"
+	mce_href="favicon.ico" type="image/x-icon"  th:href="@{/}"/>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<!-- CSS -->
+<!--  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500"/> -->
+<link rel="stylesheet"
+	href="login/bootstrap/css/bootstrap.min.css"
+	th:href="@{/admin/login/bootstrap/css/bootstrap.min.css}" />
+<link rel="stylesheet"
+	href="login/font-awesome/css/font-awesome.min.css"
+	th:href="@{/admin/login/font-awesome/css/font-awesome.min.css}" />
+<link rel="stylesheet" href="login/css/form-elements.css"
+	th:href="@{/admin/login/css/form-elements.css}" />
+<link rel="stylesheet" href="login/css/style.css"
+	th:href="@{/admin/login/css/style.css}" />
+
+<link rel="shortcut icon" href="login/ico/favicon.png"
+	th:href="@{/admin/ico/favicon.png}" />
+<link rel="apple-touch-icon-precomposed" sizes="144x144"
+	href="login/ico/144.png"
+	th:href="@{/admin/ico/144.png}" />
+<link rel="apple-touch-icon-precomposed" sizes="114x114"
+	href="login/ico/114.png"
+	th:href="@{/admin/ico/114.png}" />
+<link rel="apple-touch-icon-precomposed" sizes="72x72"
+	href="login/ico/72.png" th:href="@{/admin/ico/72.png}" />
+<link rel="apple-touch-icon-precomposed"
+	href="login/ico/57.png" th:href="@{/admin/ico/57.png}" />
+<!-- Javascript -->
+<script src="login/js/jquery-1.11.1.min.js"
+	th:src="@{/admin/login/js/jquery-1.11.1.min.js}"></script>
+<script src="login/bootstrap/js/bootstrap.min.js"
+	th:src="@{/admin/login/bootstrap/js/bootstrap.min.js}"></script>
+<script src="login/js/jquery.backstretch.min.js"
+	th:src="@{/admin/login/js/jquery.backstretch.min.js}"></script>
+<script src="login/js/scripts.js"
+	th:src="@{/admin/login/js/scripts.js}"></script>
+<script type="text/javascript"
+	src="login/Flat-UI-master/dist/js/vendor/json2.js"
+	th:src="@{/admin/login/Flat-UI-master/dist/js/vendor/json2.js}"></script>
+<script type="text/javascript"
+	src="login/Flat-UI-master/dist/js/vendor/jquery.cookie.js"
+	th:src="@{/admin/login/Flat-UI-master/dist/js/vendor/jquery.cookie.js}"></script>
+<script type="text/javascript">
+	$(function() {
+		if (navigator.userAgent.indexOf("MSIE") > 0) {
+			if (navigator.userAgent.indexOf("MSIE 6.0") > 0) {
+				alert("您使用的是ie6浏览器，此系统必须使用ie8以上浏览器。推荐使用非ie浏览器，例如Google浏览器！");
+			}
+			if (navigator.userAgent.indexOf("MSIE 7.0") > 0) {
+				alert("您使用的是ie7浏览器，此系统必须使用ie8以上浏览器。推荐使用非ie浏览器，例如Google浏览器！");
+			}
+			if (navigator.userAgent.indexOf("MSIE 8.0") > 0
+					&& !window.innerWidth) {//这里是重点，你懂的
+				alert("您使用的是ie8浏览器，此系统必须使用ie8以上浏览器。推荐使用非ie浏览器，例如Google浏览器！");
+			}
+		}
+	});
+	function login() {
+		var username = $("#username").val();
+		var password = $("#password").val();
+		var jsonStr = {
+			"account" : username,
+			"password" : password
+		};
+		if ($.trim(username) == "" || $.trim(password) == "") {
+			alert("用户名和密码不能为空，请检查");
+			return false;
+		} else {
+			$.ajax({
+				type : "POST",
+				url : "rest/PCSecurityService/doLogin",
+				contentType : "application/json; charset=utf-8",
+				data : JSON.stringify(jsonStr),
+				dataType : "json",
+				success : function(message) {
+					var status = message.status;
+					if (status == "OK-Success") {
+						//登录成功将登录信息写到Cookie里
+						$.cookie('account', message.rows[0].account);
+						$.cookie('showname', message.rows[0].showname);
+						$.cookie('token', message.rows[0].token);
+						$.cookie('roletype', message.rows[0].roletype);
+						location.href = "<%=indexPath%>";
+					} else {
+						var errorCode = message.error_code;
+						if (errorCode == "LOGIN_EXCEPTION_001") {
+							alert("账号错误，请检查!");
+							return false;
+						} else if (errorCode == "LOGIN_EXCEPTION_002") {
+							alert("密码错误，请检查!");
+							return false;
+						}
+					}
+				},
+				error : function(message) {
+				}
+			});
+		}
+	}
+</script>
+</style>
+</head>
+<body>
+	<div class="top-content">
+		<div class="inner-bg">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-8 col-sm-offset-2 text">
+						<h1>
+							<strong>易搜搜</strong>
+						</h1>
+						<div class="description"></div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-6 col-sm-offset-3 form-box">
+						<div class="form-top">
+							<div class="form-top-left">
+								<h3>后台管理入口</h3>
+								<p>请您登陆...</p>
+							</div>
+							<div class="form-top-right">
+								<i class="fa fa-lock"></i>
+							</div>
+						</div>
+						<div class="form-bottom">
+							<form action="login" method="post" role="form" class="login-form">
+								<div>
+									<div class="form-group">
+										<label class="sr-only" for="form-username">Username</label> <input
+											type="text" id="username" name="username" value=""
+											placeholder="请输入用户名" id="login-name"
+											class="form-username form-control" />
+									</div>
+
+									<div class="form-group">
+										<label class="sr-only" for="form-password">Password</label> <input
+											type="password" id="password" name="password" value=""
+											placeholder="请输入密码" id="login-pass"
+											class="form-password form-control" />
+									</div>
+									<div class="form-group" style="display:none">
+										<label class="sr-only" for="form-yzm">验证码</label> <input
+											type="text" id="yzm" name="yzm" value=""
+											placeholder="验证码" id="login-yzm"
+											class="form-yzm form-control" style="width:55%"/>
+											<img src="" alt="yzm"/>
+									</div>
+									<button type="button" class="btn" onclick="login()">登&nbsp;录</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</html>

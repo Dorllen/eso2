@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zhidian.mapper.ScheduleQueueMapper">
+
+
+	<insert id="insertScheduleQueuesForPullArticleService01SimpleVoid"
+		parameterType="ScheduleQueue">
+		insert into
+		scheduleQueues(type,type2,type3,name,createTime,createMan,url)
+		values
+		<trim suffixOverrides=",">
+			<foreach collection="list"  index="i"  separator="," item="item">
+				(#{item.type},#{item.type2},#{item.type3},#{item.name},CURRENT_TIMESTAMP(),#{item.createMan},#{item.url})
+			</foreach>
+		</trim>
+	</insert>
+	
+	<select id="queryScheduleQueuesForWormsService01ListScheduleQueue" resultType="ScheduleQueue">
+		select * from scheduleQueues where status = 1 and type != 'System';
+	</select>
+
+</mapper>

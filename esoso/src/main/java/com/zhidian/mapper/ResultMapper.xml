@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zhidian.mapper.ResultMapper">
+
+
+	<!-- <insert id="=" parameterType="list" keyColumn="id" useGeneratedKeys="true" 
+		keyProperty="id"> </insert> -->
+
+	<select id="queryResultsFor01ListResult" resultType="Result">
+		select * from results where results.using = 1 and results.uuid in
+		<foreach collection="list" item="item" open="(" separator=","
+			close=")" index="index">
+			#{item}
+		</foreach>
+	</select>
+	
+	<select id="queryResultsFor02ListResult" resultType="Result">
+		select * from results where results.using = 1 and results.name in
+		<foreach collection="from" item="item" open="(" separator=","
+			close=")" index="index">
+			#{item}
+		</foreach>
+		and results.uuid in 
+		<foreach collection="uuids" item="item" open="(" separator=","
+			close=")" index="index">
+			#{item}
+		</foreach>
+	</select>
+
+	<select id="testDD" parameterType="int" resultType="hashmap">
+		select
+		uuid,name from results where id = #{id}
+	</select>
+
+</mapper>

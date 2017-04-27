@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html th:if="${Message!=null}">
+<head>
+<meta charset="UTF-8" />
+<title th:text="${Message.title}">ubuntu上怎么设置默认python命令是执行python3而不是python2</title>
+<link rel="stylesheet"
+	href="static/fonts/font-awesome/font-awesome.min.css"
+	th:href="@{/static/fonts/font-awesome/font-awesome.min.css}" />
+<!--[if IE 7]>
+			<link rel="stylesheet" href="static/fonts/font-awesome/font-awesome-ie7.min.css" th:href="@{/static/fonts/font-awesome/font-awesome-ie7.min.css}"/>
+		<![endif]-->
+<link rel="shortcut icon" href="../ico/i/favicon.png"
+	th:href="@{/ico/i/favicon.png}" />
+<link rel="apple-touch-icon-precomposed" sizes="144x144"
+	href="../ico/i/144.png" th:href="@{/ico/i/144.png}" />
+<link rel="apple-touch-icon-precomposed" sizes="114x114"
+	href="../ico/i/114.png" th:href="@{/ico/i/114.png}" />
+<link rel="apple-touch-icon-precomposed" sizes="72x72"
+	href="../ico/i/72.png" th:href="@{/ico/i/72.png}" />
+<link rel="apple-touch-icon-precomposed" href="../ico/i/57.png"
+	th:href="@{/ico/i/57.png}" />
+
+<link rel="stylesheet"
+	href="/esoso/static/fonts/linearicons/linearicons.css"
+	th:href="@{/static/fonts/linearicons/linearicons.css}" />
+
+<script type="text/javascript"
+	src="../../../../static/js/jquery/v3.2.0/jquery-3.2.0.min.js"
+	th:src="@{/static/js/jquery/v3.2.0/jquery-3.2.0.min.js}"></script>
+<script type="text/javascript"
+	src="../../../../static/js/jquery.cookie/v1.4.1/jquery.cookie.js"
+	th:src="@{/static/js/jquery.cookie/v1.4.1/jquery.cookie.js}"></script>
+
+<link rel="stylesheet" th:each="css:${Message.cssPaths}"
+	th:href="@{|/${css}|}" />
+</head>
+<body>
+	<div id="topInfo">
+		<div class="topDiv">
+			<p>安全访问模式</p>
+		</div>
+		<div class="topDiv1" th:inline="text">
+			<p>来自[[${Message.from}]]。记录于：[[${Message.time}]]</p>
+		</div>
+		<div class="topDiv2">
+			<a href="#" th:if="${Message.contents!=null}"
+				th:href="${Message.contents.originUrl}">原网站</a>
+		</div>
+		<div class="topDiv3" data-id="4546646">
+			<span class="sc"><i class="icon-star-empty"></i><b>收藏</b></span> <span
+				class="tj"><i class="lnr lnr-thumbs-up"></i><b>推荐</b></span> <span
+				class="badTj"><i class="lnr lnr-thumbs-down"></i><b>差评</b></span>
+		</div>
+	</div>
+	<div id="main">
+		<div class="wrap">
+			<div class="post-topheader" th:if="${Message.contents!=null}"
+				th:utext="${Message.contents.title}">
+				<div class="container"></div>
+			</div>
+			<!-- end .post-topheader -->
+
+			<div class="container mt30">
+				<div class="row" th:if="${Message.contents !=null}"
+					th:utext="${Message.contents.main}">
+					<div class="col-xs-12 col-md-9 main"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="bottomInfo">
+		<div>
+			<p th:if="${Message.bottomInfo!=null}"
+				th:utext="${Message.bottomInfo}">我们一直在探索如何提供更好的搜索体验！</p>
+		</div>
+		<div>
+			<span class="joinUs"><a href="#" th:href="@{/my/register}"
+				style="color: inherit;">加入我们</a></span> <span class="answerLater">以后再说</span>
+		</div>
+	</div>
+	<script th:each="js:${Message.jsPaths}" th:src="@{|/${js}|}"></script>
+</body>
+
+
+</html>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zhidian.mapper.WebsiteMapper">
+
+
+	<insert id="addWebsite" parameterType="Website" keyColumn="id"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into
+		websites(name,shortAddr,fullAddr,createTime,createMan,sign)
+		values(#{name},#{shortAddr},#{fullAddr},#{createTime},#{createMan},#{sign})
+	</insert>
+
+	<select id="queryWebsitesForPageService01SimpleWebsite"
+		resultType="Website" parameterType="hashmap">
+		select * from websites where type = #{type} and name = #{name} 
+		<choose>
+			<when test="version ==null or version == ''">
+				and version = '0.0.0.0';
+			</when>
+			<otherwise>
+				and version = #{version}
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="queryWebsitesForWormsService01ListWebsiteBO" resultType="WebSiteBO">
+		select * from websites where type = #{type} and name in 
+		<foreach collection="names" open="(" close=")" separator="," item="item">
+			#{item}
+		</foreach>
+		and websites.using = 1;
+	</select>
+
+</mapper>
