@@ -270,8 +270,8 @@ public abstract class BasePageProcessor<T extends PageBO> extends BaseProcessor 
 	public void setWatcherForCss(CssObjectModel csModel) {
 		if (csModel != null) {
 			PullDataWatchObject watcher = new PullDataWatchObject();
-			watcher.setName(csModel.getName());// segmentfault页面是div的字符串title
-			watcher.setUrl("所属Html的Css地址：" + this.getObj().getUrl());
+			watcher.setName(csModel.getName());// css则是css的名字
+			watcher.setUrl(this.getObj().getUrl());// 存页面的地址，不要是css的地址
 			watcher.setTimes(new Date());
 			watcher.setSign(this.getObj().getSign());
 			watcher.setWebsite(this.getObj().getName());

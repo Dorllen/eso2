@@ -27,8 +27,6 @@ import com.zhidian.model.PullArticle;
 public interface PullArticleMapper {
 	// 增
 	
-	void addArticle(PullArticle article);
-
 	PullArticle queryPullArticlesForPullArticleService01SimplePullArticle(@Param("uuid") String uuid);
 
 	void insertArticlesForWormsService02ListPullArticle(@Param("list") List<PullArticle> list);

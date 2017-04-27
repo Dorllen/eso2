@@ -10,7 +10,7 @@ public class WormLog {
 	private String url;// 爬虫页面的url
 	private String sign;// 来自爬虫队列的对爬虫的描述
 	private String type;// 爬虫类型。如：待改进，待处理Css
-	private String fromType;// 爬虫类型。记录来自爬虫队列的类型
+	private String fromType;// 爬虫类型。记录来自爬虫队列的类型。可能css存儲來自QueueSchedule的会用字符串拼接：如type,type2,type3
 	private String uuid;// 爬虫页面的uuid
 	private Date triggerTime;// 触发时间
 	private int status;// 代表审视的状态。0代表已处理，1代表未处理。默认1。2代表需上级处理，3代表根本无法处理

@@ -23,12 +23,12 @@ public interface ScheduleQueueMapper {
 	List<ScheduleQueue> queryScheduleQueuesForWormsService01ListScheduleQueue();
 
 	/**
-	* @Title: insertScheduleQueuesForWormsServiceListScheduleQueue
+	* @Title: updateScheduleQueuesForWormsServiceListInteger
 	* @Description: TODO(ScheduleQueues的id集合，用户下载内容详情页面之后，状态从1->2，等待管理员处理)
 	* @param @param queues    参数
 	* @return void    返回类型
 	* @throws
 	*/
-	void insertScheduleQueuesForWormsServiceListScheduleQueue(@Param("queues") List<Integer> queues);
+	void updateScheduleQueuesForWormsServiceListInteger(@Param("list") List<Integer> queues);
 
 }

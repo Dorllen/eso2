@@ -10,7 +10,6 @@
 package com.zhidian.test;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -34,11 +33,13 @@ import com.zhidian.mapper.ScheduleQueueMapper;
 import com.zhidian.mapper.UserMapper;
 import com.zhidian.mapper.VersionMapper;
 import com.zhidian.mapper.WebsiteMapper;
+import com.zhidian.mapper.WormLogMapper;
 import com.zhidian.model.PullArticle;
 import com.zhidian.model.Result;
 import com.zhidian.model.ScheduleQueue;
 import com.zhidian.model.User;
 import com.zhidian.model.Version;
+import com.zhidian.model.WormLog;
 import com.zhidian.model.sys.PullResultPageModel;
 import com.zhidian.model.sys.ResultRoleBO;
 import com.zhidian.model.sys.WebsiteBO;
@@ -83,13 +84,13 @@ public class AppTest {
 	@Transactional
 	@Rollback
 	public void Insert() throws Exception {
-		PullArticle a = new PullArticle();
-		a.setUuid("TTTTT");
-		a.setTags("python");
-		a.setStartTime(new Date());
-		System.out.println(a);
-		articleMapper.addArticle(a);
-		System.out.println(a);
+//		PullArticle a = new PullArticle();
+//		a.setUuid("TTTTT");
+//		a.setTags("python");
+//		a.setStartTime(new Date());
+//		System.out.println(a);
+//		articleMapper.addArticle(a);
+//		System.out.println(a);
 	}
 
 	@Test
@@ -150,6 +151,8 @@ public class AppTest {
 		System.out.println(JSON.toJSONString(u));
 	}
 	@Test
+	@Transactional
+	@Rollback
 	public void testInsertBooleanValue() throws Exception{
 		User u = JSON.parseObject("{\"address\":\"tianjing\",\"age\":35,\"id\":2,\"name\":\"dongneng\",\"using\":true}",User.class);
 		System.out.println(u);
@@ -186,12 +189,26 @@ public class AppTest {
 		System.out.println(JSON.toJSONString(re));
 	}
 	
+	@Test
+	@Transactional
+	@Rollback
+	public void testInsertPullArticle(){
+		List<PullArticle> list= new ArrayList<PullArticle>();
+		PullArticle p = new PullArticle();
+		p.setUuid("GGGGGGGGGG");
+		list.add(p);
+		p = new PullArticle();
+		p.setUuid("abbbbbbb");
+		list.add(p);
+		articleMapper.insertArticlesForWormsService02ListPullArticle(list);
+	}
+	
 	@Autowired
 	ScheduleQueueMapper scheduleMapper;
 	
 	@Test
-//	@Transactional
-//	@Rollback
+	@Transactional
+	@Rollback
 	public void testInsertScheduleQueue(){
 		List<ScheduleQueue> list = new ArrayList<ScheduleQueue>();
 		ScheduleQueue s = new ScheduleQueue();
@@ -214,6 +231,13 @@ public class AppTest {
 		scheduleMapper.insertScheduleQueuesForPullArticleService01SimpleVoid(list);
 	}
 	
+	@Test
+	public void testUpdateScheduleQueue(){
+		List<Integer> queues = new ArrayList<Integer>();
+		queues.add(7);
+		scheduleMapper.updateScheduleQueuesForWormsServiceListInteger(queues);
+	}
+	
 	@Autowired
 	WebsiteMapper websiteMapper;
 	@Test
@@ -226,15 +250,36 @@ public class AppTest {
 		System.out.println(list.get(0).getCssLists());
 	}
 	
-	@Autowired
+	@Test
 	public void testWebsiteMapper03(){
 		
 	}
 	
-	@Autowired 
+	@Test
 	public void testPullPgaeData(){
 		
 	}
+	
+	@Autowired
+	WormLogMapper wormLogMapper;
+	
+	@Test
+	@Transactional
+	@Rollback
+	public void insertWormLogs(){
+		List<WormLog> list = new ArrayList<WormLog>();
+		WormLog w= new WormLog();
+		w.setId(1);
+		w.setPropertyName("hello");
+		list.add(w);
+		w = new WormLog();
+		w.setPropertyName("nice");
+		w.setId(2);
+		list.add(w);
+		wormLogMapper.insertWormsLogForWormsService01ListWormLog(list);
+		
+	}
+	
 	
 	
 	public static void main(String[] args) {

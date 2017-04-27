@@ -11,14 +11,26 @@
 		scheduleQueues(type,type2,type3,name,createTime,createMan,url)
 		values
 		<trim suffixOverrides=",">
-			<foreach collection="list"  index="i"  separator="," item="item">
+			<foreach collection="list" index="i" separator="," item="item">
 				(#{item.type},#{item.type2},#{item.type3},#{item.name},CURRENT_TIMESTAMP(),#{item.createMan},#{item.url})
 			</foreach>
 		</trim>
 	</insert>
-	
-	<select id="queryScheduleQueuesForWormsService01ListScheduleQueue" resultType="ScheduleQueue">
-		select * from scheduleQueues where status = 1 and type != 'System';
+
+	<select id="queryScheduleQueuesForWormsService01ListScheduleQueue"
+		resultType="ScheduleQueue">
+		select * from scheduleQueues where status = 1 and type !=
+		'System';
 	</select>
+
+	<update id="updateScheduleQueuesForWormsServiceListInteger"
+		parameterType="int">
+		update scheduleQueues as schedule set schedule.status = 2 where id in
+		<trim suffixOverrides=",">
+			<foreach collection="list" index="i" open="(" close=")" separator="," item="item">
+				#{item}
+			</foreach>
+		</trim>
+	</update>
 
 </mapper>

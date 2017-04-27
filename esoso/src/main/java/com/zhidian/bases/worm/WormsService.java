@@ -200,15 +200,22 @@ public class WormsService {
 	private void handlerAfterPullPageData(List<PullPageObjectModel> list) {
 		// 处理获得的日志
 		if (list != null && list.size() > 0) {
+			System.out.println("handlerAfterPullPageData:"+JSON.toJSONString(list));
 			// 处理异常监听
 			List<WormLog> wlogs = createWormLogList(list);
-			wormLogMapper.insertWormsLogForWormsService01ListWormLog(wlogs);
+			if (wlogs != null && wlogs.size() > 0) {
+				wormLogMapper.insertWormsLogForWormsService01ListWormLog(wlogs);
+			}
 			// 处理接收的数据
 			List<PullArticle> pArticles = createPullPageArtcicleData(list);
-			pullArticleMapper.insertArticlesForWormsService02ListPullArticle(pArticles);
+			if (pArticles != null && pArticles.size() > 0) {
+				pullArticleMapper.insertArticlesForWormsService02ListPullArticle(pArticles);
+			}
 			// 处理爬虫队列的数据
 			List<Integer> queues = createScheduleQueues(list);
-			scheduleMapper.insertScheduleQueuesForWormsServiceListScheduleQueue(queues);
+			if (queues != null && queues.size() > 0) {
+				scheduleMapper.updateScheduleQueuesForWormsServiceListInteger(queues);
+			}
 		}
 
 	}
@@ -302,13 +309,14 @@ public class WormsService {
 					if (p != null) {
 						w = new WormLog();
 						w.setSign(p.getSign());
-						w.setFromType(po.getFromObj());
-						w.setPropertyName("");
+						ScheduleQueue s = (ScheduleQueue) (po.getFromObj());
+						w.setFromType(s.getType() + "," + s.getType2() + "," + s.getType3());
+						w.setPropertyName(p.getName());
 						w.setStatus(2);
 						w.setTriggerTime(p.getTimes());
 						w.setType(p.getType());// css问题，还是page的问题
 						w.setUrl(p.getUrl());// 如果是css的问题，请看BasePageProcessor.setWatcherForCss
-//						w.setUuid(p.get);// 注意page的uuid与css的uuid是不一样的，？？？有无必要？
+						w.setUuid(po.getUuid());// 注意page的uuid与css的uuid是一样的，都是page的url的uuid值
 						w.setWebsite(p.getWebsite());
 						w.setXpathContent(p.getXpathContent());
 						w1.add(w);
@@ -330,6 +338,7 @@ public class WormsService {
 						.queryWebsitesForWormsService01ListWebsiteBO(AppEnumDefine.SiteService.搜索.getValue(), names);
 				// 获取站点的爬虫配置信息
 				// 觉得把websites转list换为map更加棒
+				System.out.println(JSON.toJSONString(websites));
 				Map<String, WebsiteBO> wMap = getMapWebsiteBOFromListWebsiteBO(websites);
 				String webRoot = System.getProperty("webapp.root");
 				List<PullPageDataTaskModel> models = createPullPageDataTaskModel(webRoot, list, wMap);

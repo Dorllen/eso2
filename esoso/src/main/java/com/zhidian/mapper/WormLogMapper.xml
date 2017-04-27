@@ -4,13 +4,17 @@
 
 <mapper namespace="com.zhidian.mapper.WormLogMapper">
 
-
-<!-- 	<insert id="addArticle" parameterType="WormLog" keyColumn="id" useGeneratedKeys="true" 
-		keyProperty="id">
+	<insert id="insertWormsLogForWormsService01ListWormLog"
+		parameterType="WormLog">
 		insert into
-		articles(uuid,tags,title,contents,cssVersion,cssPath,website,startTime)
-		values(#{uuid},#{tags},#{title},#{contents},#{cssVersion},#{cssPath},#{website},#{startTime})
-	</insert> -->
+		wormLogs(propertyName,website,xpathContent,url,sign,type,fromType,uuid,triggerTime)
+		values
+		<trim suffixOverrides=",">
+			<foreach collection="list" index="i" separator="," item="item">
+				(#{item.propertyName},#{item.website},#{item.xpathContent},#{item.url},#{item.sign},#{item.type},#{item.fromType},#{item.uuid},#{item.triggerTime})
+			</foreach>
+		</trim>
+	</insert>
 
 
 </mapper>
