@@ -1,12 +1,15 @@
 package com.zhidian.model.sys;
 
+import java.util.Date;
+
 public class PullDataWatchObject {
 	private String website;
 	private String name;// 属性名
 	private String xpathContent;// 解析内容
-	private long times;// 触发事件
+	private Date times;// 触发时间
 	private String url;// 在做那个url的时候触发
 	private String sign;// 来源描述
+	private String type;// 爬虫类型。如：待改进，待处理Css
 
 	public String getWebsite() {
 		return website;
@@ -32,11 +35,11 @@ public class PullDataWatchObject {
 		this.xpathContent = xpathContent;
 	}
 
-	public long getTimes() {
+	public Date getTimes() {
 		return times;
 	}
 
-	public void setTimes(long times) {
+	public void setTimes(Date times) {
 		this.times = times;
 	}
 
@@ -54,5 +57,13 @@ public class PullDataWatchObject {
 
 	public void setSign(String sign) {
 		this.sign = sign;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 }

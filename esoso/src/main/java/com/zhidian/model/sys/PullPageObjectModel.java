@@ -12,14 +12,16 @@ public class PullPageObjectModel {
 	private Date date;// 下载时间
 	private String title;
 	private String resultContent;
-	private boolean changed;// 是否下载
+	private boolean changed;// 代表css是否改变了
 	private Object model;// 页面数据模型。
 	private String downloadPath;// 目录地址 通过项目根目录地址，拼接获得当前网站的css文件根地址
 	private List<CssInfoModel> cssModel;// 当前model的css。注意cssModel的version不能为空。除非是第一次
-	private List<CssObjectModel> cssPaths;
+	private List<CssObjectModel> cssPaths;// 下载之后，Css对象的存储
 	private WebsiteConfigModel websiteConfig;// cookie等爬虫参数设置。
 	private List<PullDataWatchObject> errorWatcher;
 	private String sign;// 描述
+	private Object fromObj;// 来源对象。有些数据不丢弃，放引用。可能是ScheduleQueue
+	private WebsiteBO website;// 来源的站点
 	
 	public String getUuid() {
 		return uuid;
@@ -153,6 +155,22 @@ public class PullPageObjectModel {
 
 	public void setSign(String sign) {
 		this.sign = sign;
+	}
+
+	public Object getFromObj() {
+		return fromObj;
+	}
+
+	public void setFromObj(Object fromObj) {
+		this.fromObj = fromObj;
+	}
+
+	public WebsiteBO getWebsite() {
+		return website;
+	}
+
+	public void setWebsite(WebsiteBO website) {
+		this.website = website;
 	}
 
 }

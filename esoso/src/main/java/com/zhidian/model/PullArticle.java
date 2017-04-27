@@ -45,6 +45,7 @@ public class PullArticle {
 	private String url;// 源地址
 	private String mark;// 标记，可以管理员修改。hot,time,cviews。也可以自动。管理员修改不会触发updateManTime
 	private String cuuid;// contents的uuid值
+	private int status;// 爬虫置入的数据，如1,待处理的！，0代表已处理，可以直接访问
 	
 	/**
 	 * @return the id
@@ -349,6 +350,14 @@ public class PullArticle {
 
 	public void setCuuid(String cuuid) {
 		this.cuuid = cuuid;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
 	}
 
 }

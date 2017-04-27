@@ -9,6 +9,8 @@
 */
 package com.zhidian.mapper;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -28,6 +30,8 @@ public interface PullArticleMapper {
 	void addArticle(PullArticle article);
 
 	PullArticle queryPullArticlesForPullArticleService01SimplePullArticle(@Param("uuid") String uuid);
+
+	void insertArticlesForWormsService02ListPullArticle(@Param("list") List<PullArticle> list);
 	
 	
 	// 删

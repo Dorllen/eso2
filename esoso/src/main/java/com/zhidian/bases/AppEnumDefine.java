@@ -14,6 +14,17 @@ public class AppEnumDefine {
 		}
 	}
 
+	public enum WormLogType{
+		页面解析("PageXpath"),CSS变动("CssXpath");
+		private String value;
+		private WormLogType(String value){
+			this.value = value;
+		}
+		public String getValue() {
+			return value;
+		}
+	}
+	
 	public enum ConfigType {
 		爬虫服务("WormSercie"), 搜索服务("EngineSercie"), 系统服务("SysService");
 		private String value;

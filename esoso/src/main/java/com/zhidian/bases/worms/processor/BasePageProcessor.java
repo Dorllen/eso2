@@ -19,6 +19,7 @@ import java.util.List;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
 
+import com.zhidian.bases.AppEnumDefine;
 import com.zhidian.model.sys.CssInfoModel;
 import com.zhidian.model.sys.CssObjectModel;
 import com.zhidian.model.sys.PageBO;
@@ -90,8 +91,6 @@ public abstract class BasePageProcessor<T extends PageBO> extends BaseProcessor 
 						page.addTargetRequests(cssPaths);
 					}
 				}
-			} else if (i == -1) {
-				// 出现异常，需记录
 			}
 		}
 	}
@@ -133,14 +132,15 @@ public abstract class BasePageProcessor<T extends PageBO> extends BaseProcessor 
 									break;
 								} else {
 									csModel.setVersion(BasicUtils.newVersion(csModel.getVersion()));
-									csModel.setDownloadPath(css.getCssPath() + "/" + css.getWebSite() + "/"
-											+ csModel.getVersion() + "/" + css.getName() + ".css.temp");// 以.temp存储
-									f = new File(csModel.getDownloadPath());// 取当前站点在当前项目的css路径
+									String f_ = "/" + css.getWebSite() + "/" + csModel.getVersion() + "/"
+											+ css.getName() + ".css";
+									csModel.setCssPath(css.getCssPath() + f_);
+									csModel.setDownloadPath(css.getAbCssPath() + f_);// 存储当前站点在当前项目的css路径
+									f = new File(csModel.getDownloadPath() + ".temp");// 以.temp存储
 								}
 							}
 							csModel.setUuid(code);
 							csModel.setDate(new Date());
-							csModel.setChecked(0);
 							csModel.setUrl(page.getUrl().toString());
 							csModel.setSearch(BasicUtils.urlSearchPart(page.getUrl().toString()));
 							csModel.setName(css.getName());
@@ -150,6 +150,8 @@ public abstract class BasePageProcessor<T extends PageBO> extends BaseProcessor 
 								out.write(html.getBytes());
 								csModel.setDownload(true);// 確定下載
 								this.getObj().addCssPaths(csModel);// 增加入
+								this.getObj().setChanged(true);// 代表页面变动了
+								setWatcherForCss(csModel);
 							} catch (IOException e) {
 								e.printStackTrace();
 							} finally {
@@ -256,10 +258,25 @@ public abstract class BasePageProcessor<T extends PageBO> extends BaseProcessor 
 			PullDataWatchObject watcher = new PullDataWatchObject();
 			watcher.setName(nameDescri);// segmentfault页面是div的字符串title
 			watcher.setUrl(url);
-			watcher.setTimes(System.currentTimeMillis());
+			watcher.setTimes(new Date());
 			watcher.setSign(this.getObj().getSign());
 			watcher.setWebsite(this.getObj().getName());
 			watcher.setXpathContent(xpath);
+			watcher.setType(AppEnumDefine.WormLogType.页面解析.getValue());
+			this.getObj().addErrorWatcher(watcher);
+		}
+	}
+
+	public void setWatcherForCss(CssObjectModel csModel) {
+		if (csModel != null) {
+			PullDataWatchObject watcher = new PullDataWatchObject();
+			watcher.setName(csModel.getName());// segmentfault页面是div的字符串title
+			watcher.setUrl("所属Html的Css地址：" + this.getObj().getUrl());
+			watcher.setTimes(new Date());
+			watcher.setSign(this.getObj().getSign());
+			watcher.setWebsite(this.getObj().getName());
+			watcher.setXpathContent(csModel.getUrl());// css的地址
+			watcher.setType(AppEnumDefine.WormLogType.CSS变动.getValue());
 			this.getObj().addErrorWatcher(watcher);
 		}
 	}

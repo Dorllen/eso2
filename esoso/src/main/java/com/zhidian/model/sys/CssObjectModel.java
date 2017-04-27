@@ -4,15 +4,15 @@ import java.util.Date;
 
 // 下载期间css的存储.其实就是放csstemps表的数据
 public class CssObjectModel {
-	private String uuid;
-	private String url;
+	private String uuid;// 内容的uuid
+	private String url;// 下载的css的url
 	private String name;// 文件名
-	private String search;// 
-	private Date date;
-	private boolean download;
-	private String downloadPath;// 下载保存地址, 本地路径
+	private String search;// 后缀的内容如qa.css?v=1.3.3  search是?v1.3.3
+	private Date date;// 下载时间
+	private boolean download;// 标识是否下载了
+	private String cssPath;// 相对路径！ css/websites/0.0.0.0/xxx.css(包括文件名，不加temp后缀)
+	private String downloadPath;// 下载保存地址, 本地路径.。是通过System.getProperty("") 获得项目根地址，再而获得文件的路径(包括文件名，加temp后缀)
 	private String version;// 版本信息 
-	private int checked;// 如果遇到版本冲突，需要管理员检查，默认0,代表需要管理员，-1代表旧版本相同，1代表管理员检查，2代表检查后结果
 	public String getUuid() {
 		return uuid;
 	}
@@ -61,17 +61,17 @@ public class CssObjectModel {
 				+ "\", \"date\":\"" + date + "\", \"download\":\"" + download + "\", \"downloadPath\":\"" + downloadPath
 				+ "\", \"version\":\"" + version + "\"}";
 	}
-	public int getChecked() {
-		return checked;
-	}
-	public void setChecked(int checked) {
-		this.checked = checked;
-	}
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public String getCssPath() {
+		return cssPath;
+	}
+	public void setCssPath(String cssPath) {
+		this.cssPath = cssPath;
 	}
 	
 }

@@ -5,18 +5,28 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.alibaba.fastjson.JSON;
 import com.zhidian.bases.AppEnumDefine;
 import com.zhidian.mapper.CssInfoMapper;
+import com.zhidian.mapper.PullArticleMapper;
 import com.zhidian.mapper.ScheduleQueueMapper;
 import com.zhidian.mapper.WebsiteMapper;
+import com.zhidian.mapper.WormLogMapper;
+import com.zhidian.model.PullArticle;
 import com.zhidian.model.ScheduleQueue;
+import com.zhidian.model.WormLog;
 import com.zhidian.model.sys.CssInfoModel;
+import com.zhidian.model.sys.CssObjectModel;
+import com.zhidian.model.sys.PullDataWatchObject;
 import com.zhidian.model.sys.PullPageDataTaskModel;
 import com.zhidian.model.sys.PullPageObjectModel;
 import com.zhidian.model.sys.PullResultDataTaskModel;
@@ -46,6 +56,12 @@ public class WormsService {
 
 	@Autowired
 	CssInfoMapper cssInfoMapper;
+
+	@Autowired
+	WormLogMapper wormLogMapper;
+
+	@Autowired
+	PullArticleMapper pullArticleMapper;
 
 	public List<PullResultPageModel> getResultsByOnlineSearch(String key, List<String> from, Integer page,
 			Integer size) {
@@ -180,15 +196,128 @@ public class WormsService {
 		return getResultsByOnlineSearch(key, from, 1, 20);
 	}
 
-	public void handlerAfterPullPageData(List<PullPageObjectModel> list) {
+	@Transactional(propagation = Propagation.REQUIRED)
+	private void handlerAfterPullPageData(List<PullPageObjectModel> list) {
 		// 处理获得的日志
+		if (list != null && list.size() > 0) {
+			// 处理异常监听
+			List<WormLog> wlogs = createWormLogList(list);
+			wormLogMapper.insertWormsLogForWormsService01ListWormLog(wlogs);
+			// 处理接收的数据
+			List<PullArticle> pArticles = createPullPageArtcicleData(list);
+			pullArticleMapper.insertArticlesForWormsService02ListPullArticle(pArticles);
+			// 处理爬虫队列的数据
+			List<Integer> queues = createScheduleQueues(list);
+			scheduleMapper.insertScheduleQueuesForWormsServiceListScheduleQueue(queues);
+		}
 
-		// 处理异常监听
+	}
 
-		// 处理爬虫队列的数据
+	private List<Integer> createScheduleQueues(List<PullPageObjectModel> list) {
+		if (list != null && list.size() > 0) {
+			List<Integer> queues = new ArrayList<Integer>(list.size());
+			for (PullPageObjectModel p : list) {
+				if (p != null) {
+					ScheduleQueue q = (ScheduleQueue) p.getFromObj();
+					if (q != null && q.getId() > 0) {
+						queues.add(q.getId());
+					}
+				}
+			}
+			return queues;
+		}
+		return null;
+	}
 
-		// SysLog表处理
+	private List<PullArticle> createPullPageArtcicleData(List<PullPageObjectModel> list) {
+		if (list != null && list.size() > 0) {
+			List<PullArticle> articles = new ArrayList<PullArticle>(list.size());
+			PullArticle ar = null;
+			for (PullPageObjectModel a : list) {
+				if (a != null) {
+					ar = new PullArticle();
+					ar.setContents(JSON.toJSONString(a.getModel()));
+					ar.setCssPath(getCssPathFromCssObjectModel(a.getCssPaths()));
+					ar.setCuuid(DigestUtils.md2Hex(ar.getContents()));// 取的md5是整个内容块的json的md5，其实也差不多的！相比单独取内容
+					// ar.setJsPath("");// js 调用默认的
+					ar.setName(a.getName());
+					// ar.setPagePath(""); // page页面，使用默认的版本的page模板
+					ar.setResultContent(a.getResultContent());
+					ar.setSign(a.getSign());
+					ar.setStartTime(a.getDate());
+					ar.setStatus(2);// 需要下一步处理。
+					// ar.setTags("");// 标签，需要标签处理器。让给管理员处理之后，进行标签生成！
+					ar.setTitle(a.getTitle());//
+					ar.setUrl(a.getUrl());
+					ar.setUuid(a.getUuid());
+					ar.setVersion(a.getWebsite().getVersion());// 获取默认版本
+					articles.add(ar);
+				}
+			}
+			return articles;
+		}
+		return null;
+	}
 
+	private String getCssPathFromCssObjectModel(List<CssObjectModel> list) {
+		if (list != null && list.size() > 0) {
+			StringBuilder str = new StringBuilder();
+			for (CssObjectModel c : list) {
+				if (c != null) {
+					str.append(c.getCssPath() + ",");
+				}
+			}
+			return str.toString();
+		}
+		return null;
+	}
+
+	private List<WormLog> createWormLogList(List<PullPageObjectModel> list) {
+		if (list != null && list.size() > 0) {
+			// 处理取值问题
+			// 处理Css变更问题
+			List<WormLog> results = new ArrayList<WormLog>(list.size());
+			for (PullPageObjectModel p : list) {
+				if (p != null) {
+					List<WormLog> w1 = createWormLogFromPullDataWatch(p);
+					if (w1 != null && w1.size() > 0) {
+						results.addAll(w1);
+					}
+				}
+			}
+			return results;
+		}
+		return null;
+	}
+
+	private List<WormLog> createWormLogFromPullDataWatch(PullPageObjectModel po) {
+		// 处理取值问题
+		// 处理Css变更问题
+		if (po != null) {
+			List<PullDataWatchObject> pl = po.getErrorWatcher();
+			if (pl != null && pl.size() > 0) {
+				List<WormLog> w1 = new ArrayList<WormLog>(pl.size());
+				WormLog w = null;
+				for (PullDataWatchObject p : pl) {
+					if (p != null) {
+						w = new WormLog();
+						w.setSign(p.getSign());
+						w.setFromType(po.getFromObj());
+						w.setPropertyName("");
+						w.setStatus(2);
+						w.setTriggerTime(p.getTimes());
+						w.setType(p.getType());// css问题，还是page的问题
+						w.setUrl(p.getUrl());// 如果是css的问题，请看BasePageProcessor.setWatcherForCss
+//						w.setUuid(p.get);// 注意page的uuid与css的uuid是不一样的，？？？有无必要？
+						w.setWebsite(p.getWebsite());
+						w.setXpathContent(p.getXpathContent());
+						w1.add(w);
+					}
+				}
+				return w1;
+			}
+		}
+		return null;
 	}
 
 	public List<PullPageObjectModel> startPullDataFromScheduleByAdminTrigger() {
@@ -203,21 +332,23 @@ public class WormsService {
 				// 觉得把websites转list换为map更加棒
 				Map<String, WebsiteBO> wMap = getMapWebsiteBOFromListWebsiteBO(websites);
 				String webRoot = System.getProperty("webapp.root");
-				List<PullPageDataTaskModel> models = createPullPageDataTaskModel(webRoot + "WEB-INF/css/websites", list,
-						wMap);
-				return pullService.startPullDataFromMapCompleteScheduleQueues(models);
+				List<PullPageDataTaskModel> models = createPullPageDataTaskModel(webRoot, list, wMap);
+				// 数据处理
+				List<PullPageObjectModel> results = pullService.startPullDataFromMapCompleteScheduleQueues(models);
+				handlerAfterPullPageData(results);
+				return results;
 			}
 		}
 		return null;
 	}
 
-	private List<PullPageDataTaskModel> createPullPageDataTaskModel(String cssRootPath, List<ScheduleQueue> queues,
+	private List<PullPageDataTaskModel> createPullPageDataTaskModel(String rootPath, List<ScheduleQueue> queues,
 			Map<String, WebsiteBO> wMap) {
 		if (queues != null && queues.size() > 0) {
 			List<PullPageDataTaskModel> models = new ArrayList<PullPageDataTaskModel>(queues.size());
 			PullPageDataTaskModel model = null;
 			WebsiteBO web = null;
-			log.info("CssRootPath is -> {}", cssRootPath);
+			log.info("CssRootPath is -> {}", rootPath);
 			for (ScheduleQueue q : queues) {
 				if (q != null && q.getName() != null && q.getName().length() > 0) {
 					web = wMap.get(q.getName());
@@ -229,10 +360,12 @@ public class WormsService {
 							q.getUrl());
 					PullPageObjectModel pom = new PullPageObjectModel();// 页面数据模型创建，从数据库获取数据
 
+					pom.setFromObj(q);// 设置来源，所有操作做完之后再抛弃
+					pom.setWebsite(web);// 设置站点信息
 					pom.setName(q.getName());
 					pom.setUrl(q.getUrl());
 					pom.setUuid(org.apache.commons.codec.digest.DigestUtils.md5Hex(q.getUrl()));
-					pom.setDownloadPath(cssRootPath);// 当前css的项目的根地址.E:\esoso\eso2\esoso\src\main\webapp\WEB-INF\css\websites
+					pom.setDownloadPath(rootPath + "WEB-INF/css/websites");// 当前css的项目的根地址.E:\esoso\eso2\esoso\src\main\webapp\WEB-INF\css\websites
 					pom.setSign(q.getSign());
 					// pom.setChanged("");
 
@@ -260,7 +393,8 @@ public class WormsService {
 			for (WebsiteCssConfigModel css : cssLists) {
 				if (css != null) {
 					model = new CssInfoModel();
-					model.setCssPath(path);// 获得项目的保存文件的地址。到css文件夹就行。如:E:\esoso\eso2\esoso\src\main\webapp\WEB-INF\css\websites
+					model.setAbCssPath(path);// 获得项目的保存文件的地址。到css文件夹就行。如:E:\esoso\eso2\esoso\src\main\webapp\WEB-INF\css\websites
+					model.setCssPath("css/websites");
 					model.setName(css.getName());
 					model.setUrl(css.getUrl());
 					model.setUuid(css.getUuid());

@@ -11,7 +11,7 @@ public class ScheduleQueue {
 	private Date createTime;
 	private String createMan;
 	private String sign;
-	private int status;// 1 代表未处理，0代表处理完，2代表需上级处理无法处理，3代表无法处理
+	private int status;// 1 代表未处理，0代表处理完，2代表需上级处理，3代表无法处理
 	private String url;// 下载地址：http://segmentfault.con/a/45648797978。或者是http://segmentfault.com?q=ss&page=2(这一种服务暂时不提供)
 	public int getId() {
 		return id;

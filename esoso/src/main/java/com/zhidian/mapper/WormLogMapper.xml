@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zhidian.mapper.WormLogMapper">
+
+
+<!-- 	<insert id="addArticle" parameterType="WormLog" keyColumn="id" useGeneratedKeys="true" 
+		keyProperty="id">
+		insert into
+		articles(uuid,tags,title,contents,cssVersion,cssPath,website,startTime)
+		values(#{uuid},#{tags},#{title},#{contents},#{cssVersion},#{cssPath},#{website},#{startTime})
+	</insert> -->
+
+
+</mapper>

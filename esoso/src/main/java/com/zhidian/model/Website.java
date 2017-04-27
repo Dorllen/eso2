@@ -38,7 +38,7 @@ public class Website {
 	private String resultRObject;// 搜索结果接收对象
 	private String pageRObject;// 数据模型接收对象。如：内容详情页的接收模型
 	private boolean useSearch; // 使用后缀？ 默认false,代表去除搜索结果页捕获的链接后缀，如：?..&..。
-	private String type;// 类型。AppEnumDefine.SiteService
+	private String type;// 类型。AppEnumDefine.SiteService 。 如果获取Version的值，只需要知道type为engine就对应version's type是websites就可以了
 	private String version;// 版本，每个结果详情页可能需要对应的版本来管理维护数据传输。对应的是Version的version
 	private int using;// 除了0.0.0.0是最终默认版，如果有using代表当前页面是默认版。1代表在使用，0代表禁用（默认）
 	private String unuseMan;// 禁用人

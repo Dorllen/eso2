@@ -9,6 +9,8 @@
 */
 package com.zhidian.bases.worms.processor;
 
+import java.util.Date;
+
 import com.zhidian.bases.WormEnumDefine;
 import com.zhidian.bases.worms.pipeline.BasePagePipeline;
 import com.zhidian.model.sys.PullPageObjectModel;
@@ -57,6 +59,7 @@ public class SegmentFaultPageProcessor extends BasePageProcessor<SegmentfaultPag
 	@Override
 	public int pageHandler(Page page) {
 		try {
+			this.getObj().setDate(new Date());// 时间更新
 			// 页面解析开始
 			SegmentfaultPageBO sbo = new SegmentfaultPageBO();
 			SegmentfaultPageRObject handler = new SegmentfaultPageRObject();

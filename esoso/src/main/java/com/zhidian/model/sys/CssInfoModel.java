@@ -8,6 +8,7 @@ public class CssInfoModel {
 	private String version;// 自己的css版本，与Version，与pullarticle也无关系
 	private String url;// 链接名。https://static.segmentfault.com/v-58f1f176/qa/css/qa.css
 	private String cssPath;// 相对于项目的路径 css/index/1.1
+	private String abCssPath;// 绝对路径 d://....WEB-INF/css/segmentfault
 	private boolean useSearch;// 是否使用css/qa.css?v=1232后缀，默认false，拒绝
 	public String getUuid() {
 		return uuid;
@@ -50,5 +51,11 @@ public class CssInfoModel {
 	}
 	public void setUseSearch(boolean useSearch) {
 		this.useSearch = useSearch;
+	}
+	public String getAbCssPath() {
+		return abCssPath;
+	}
+	public void setAbCssPath(String abCssPath) {
+		this.abCssPath = abCssPath;
 	}
 }
