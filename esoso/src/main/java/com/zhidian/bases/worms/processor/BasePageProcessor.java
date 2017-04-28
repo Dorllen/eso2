@@ -104,7 +104,7 @@ public abstract class BasePageProcessor<T extends PageBO> extends BaseProcessor 
 				String html = page.getRawText();
 				if (StringUtils.isNotEmpty(html)) {
 					String code = DigestUtils.md5Hex(html);
-					System.out.println("code:" + code);
+//					System.out.println("code:" + code);
 					if (code != null) {
 						if (code.equals(css.getUuid())) {
 							// 相等则忽略
@@ -186,7 +186,6 @@ public abstract class BasePageProcessor<T extends PageBO> extends BaseProcessor 
 				if (StringUtils.isNotEmpty(dbCss.getUrl())) {
 					// http://wwww.baidu.com/css/abc.css
 					// www.baidu.com/css/abc.css?v=123456
-
 					if (!pageUrl.contains(".css")) {
 						return false;
 					}
@@ -261,7 +260,7 @@ public abstract class BasePageProcessor<T extends PageBO> extends BaseProcessor 
 			watcher.setSign(this.getObj().getSign());
 			watcher.setWebsite(this.getObj().getName());
 			watcher.setXpathContent(xpath);
-			watcher.setType(AppEnumDefine.WormLogType.页面解析.getValue());
+			watcher.setType(AppEnumDefine.WormLogType.详情页页面解析.name());
 			this.getObj().addErrorWatcher(watcher);
 		}
 	}
@@ -275,7 +274,7 @@ public abstract class BasePageProcessor<T extends PageBO> extends BaseProcessor 
 			watcher.setSign(this.getObj().getSign());
 			watcher.setWebsite(this.getObj().getName());
 			watcher.setXpathContent(csModel.getUrl());// css的地址
-			watcher.setType(AppEnumDefine.WormLogType.CSS变动.getValue());
+			watcher.setType(AppEnumDefine.WormLogType.详情页CSS变动.name());
 			this.getObj().addErrorWatcher(watcher);
 		}
 	}

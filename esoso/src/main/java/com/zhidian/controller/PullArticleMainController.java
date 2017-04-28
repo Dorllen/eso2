@@ -9,6 +9,8 @@
 */
 package com.zhidian.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -37,10 +39,10 @@ public class PullArticleMainController {
 	@GetMapping("/pa/{uuid}")
 	public String index(@PathVariable(value = "uuid", required = false) String uuid, Model model) throws Exception {
 		// 内容显示，直接从数据看。
-		
+
 		if (StringUtils.isEmpty(uuid)) {
 			throw new PageArgumentsException();
-		}else if(!uuid.matches("[0-9A-Za-z]{8,}")){
+		} else if (!uuid.matches("[0-9A-Za-z]{8,}")) {
 			throw new PageArgumentsException();
 		}
 		// 获得基本信息
@@ -56,16 +58,23 @@ public class PullArticleMainController {
 			return "websites/answer/segmentfault/0.0.0.0/index";
 		}
 	}
-	
-	@GetMapping("/pa/f/{uuid}")// 直接从来源获取数据
+
+	@GetMapping("/pa/f/{uuid}") // 直接从来源获取数据
 	@ResponseBody
-	public String notSecVisit(
-			@PathVariable("uuid") String uuid,Model model){
-		System.out.println("uuid:"+uuid);
+	public String notSecVisit(@PathVariable(value = "uuid", required = false) String uuid, HttpServletRequest request)
+			throws PageArgumentsException {
+		System.out.println("uuid:" + uuid);
 		// 手动开始爬虫
-		
-		
-//		return "redirect:http://www.cnblogs.com/yaowen/p/3779284.html";
-		return "";
+		if (StringUtils.isEmpty(uuid)) {
+			throw new PageArgumentsException();
+		} else if (!uuid.matches("[0-9A-Za-z]{8,}")) {
+			throw new PageArgumentsException();
+		}
+		String account = "test";// 获取登陆的用户账号
+		String from = request.getHeader("Referer");
+		String ip = request.getRemoteAddr();
+		String url = pageService.recordVisitedCount(uuid, account, from, ip);
+//		 return "redirect:http://www.cnblogs.com/yaowen/p/3779284.html";
+		return "redirect:" + url;
 	}
 }

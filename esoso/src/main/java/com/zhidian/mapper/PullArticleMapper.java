@@ -10,6 +10,7 @@
 package com.zhidian.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -30,8 +31,18 @@ public interface PullArticleMapper {
 	PullArticle queryPullArticlesForPullArticleService01SimplePullArticle(@Param("uuid") String uuid);
 
 	void insertArticlesForWormsService02ListPullArticle(@Param("list") List<PullArticle> list);
+
+	/**
+	* @Title: selectPullArticlesForPullArticleService01MapObject
+	* @Description: TODO(根据uuid，找出name,url,uuid)
+	* @param @param uuid
+	* @param @return    参数
+	* @return Map<String,Object>    返回类型
+	* @throws
+	*/
+	Map<String, String> selectPullArticlesForPullArticleService01MapObject(@Param("uuid") String uuid);
 	
-	
+	String tee(Map<String,Object> map);
 	// 删
 	
 	

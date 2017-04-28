@@ -130,30 +130,7 @@ public class JavaTest {
 		System.out.println(str.length());
 		return str;
 	}
-
-	private static void inputStream(File f) {
-		try {
-			String str = "";
-			InputStream br = new BufferedInputStream(new FileInputStream(f));
-			OutputStream out = new FileOutputStream(new File("c://content.txt"));
-			byte[] c = new byte[1024];
-			while (br.read(c) != -1) {
-				// str = str + new String(c,"utf-8");
-				out.write(c);
-			}
-			System.out.println(str);
-			if (br != null) {
-				br.close();
-			}
-			if (out != null) {
-				out.close();
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
+	
 	private static String bufferedReader(File f) {
 		String str = "";
 		try {
@@ -177,6 +154,28 @@ public class JavaTest {
 			e.printStackTrace();
 		}
 		return str;
+	}
+	private static void inputStream(File f) {
+		try {
+			String str = "";
+			InputStream br = new BufferedInputStream(new FileInputStream(f));
+			OutputStream out = new FileOutputStream(new File("c://content.txt"));
+			byte[] c = new byte[1024];
+			while (br.read(c) != -1) {
+				// str = str + new String(c,"utf-8");
+				out.write(c);
+			}
+			System.out.println(str);
+			if (br != null) {
+				br.close();
+			}
+			if (out != null) {
+				out.close();
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	private static void jsonObject() {

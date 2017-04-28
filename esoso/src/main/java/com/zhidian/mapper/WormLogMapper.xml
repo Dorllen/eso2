@@ -16,5 +16,25 @@
 		</trim>
 	</insert>
 
+	<insert id="insertWormLogsForPullArticleService01ListWormLog"
+		parameterType="WormLog">
+		insert into
+		wormLogs(propertyName,website,xpathContent,url,sign,type,fromType,uuid,triggerTime)
+		values
+		<trim suffixOverrides=",">
+			<foreach collection="list" index="i" separator="," item="item">
+				(#{item.propertyName},#{item.website},#{item.xpathContent},#{item.url},#{item.sign},#{item.type},#{item.fromType},#{item.uuid},#{item.triggerTime})
+			</foreach>
+		</trim>
+	</insert>
 
+	<select id="selectWormLogsForPullArticleService01ListWormLog"
+		parameterType="WormLog" resultType="WormLog">
+		select * from wormLogs where status != 0 and
+		<foreach collection="list" separator="or" open="(" close=")"
+			item="item">
+			(type = #{item.type} and website = #{item.website} and
+			propertyName = #{item.propertyName} )
+		</foreach>
+	</select>
 </mapper>

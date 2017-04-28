@@ -245,7 +245,7 @@ public class WormsService {
 					ar = new PullArticle();
 					ar.setContents(JSON.toJSONString(a.getModel()));
 					ar.setCssPath(getCssPathFromCssObjectModel(a.getCssPaths()));
-					ar.setCuuid(DigestUtils.md2Hex(ar.getContents()));// 取的md5是整个内容块的json的md5，其实也差不多的！相比单独取内容
+					ar.setCuuid(DigestUtils.md5Hex(ar.getContents()));// 取的md5是整个内容块的json的md5，其实也差不多的！相比单独取内容
 					// ar.setJsPath("");// js 调用默认的
 					ar.setName(a.getName());
 					// ar.setPagePath(""); // page页面，使用默认的版本的page模板

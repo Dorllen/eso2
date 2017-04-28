@@ -8,10 +8,11 @@ public class PullResultPageModel {
 	private String name;// 站点名
 	private String url;// 站点爬虫链接
 	private String pagination;// 爬虫分页
-	private boolean useSearch;//使用后缀？ 默认false,代表去除搜索结果页捕获的链接后缀，如：?..&..。
+	private boolean useSearch;// 使用后缀？ 默认false,代表去除搜索结果页捕获的链接后缀，如：?..&..。
 	private int size;// 爬虫数目
 	private int page;// 页号
 	private List<PullResultBO> results;
+	private List<PullDataWatchObject> errorWatcher;
 
 	public String getName() {
 		return name;
@@ -84,5 +85,20 @@ public class PullResultPageModel {
 
 	public void setPage(int page) {
 		this.page = page;
+	}
+
+	public List<PullDataWatchObject> getErrorWatcher() {
+		return errorWatcher;
+	}
+
+	public void setErrorWatcher(List<PullDataWatchObject> errorWatcher) {
+		this.errorWatcher = errorWatcher;
+	}
+
+	public void addErrorWatcher(PullDataWatchObject watch) {
+		if (this.errorWatcher == null) {
+			this.errorWatcher = new ArrayList<PullDataWatchObject>();
+		}
+		this.errorWatcher.add(watch);
 	}
 }

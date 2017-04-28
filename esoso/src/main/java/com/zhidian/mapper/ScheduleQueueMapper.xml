@@ -8,11 +8,11 @@
 	<insert id="insertScheduleQueuesForPullArticleService01SimpleVoid"
 		parameterType="ScheduleQueue">
 		insert into
-		scheduleQueues(type,type2,type3,name,createTime,createMan,url)
+		scheduleQueues(type,type2,type3,name,createTime,createMan,url,uuid)
 		values
 		<trim suffixOverrides=",">
 			<foreach collection="list" index="i" separator="," item="item">
-				(#{item.type},#{item.type2},#{item.type3},#{item.name},CURRENT_TIMESTAMP(),#{item.createMan},#{item.url})
+				(#{item.type},#{item.type2},#{item.type3},#{item.name},CURRENT_TIMESTAMP(),#{item.createMan},#{item.url},#{item.uuid})
 			</foreach>
 		</trim>
 	</insert>
@@ -24,12 +24,16 @@
 	</select>
 	<select id="queryScheduleQueuesForPullArticleService01ListScheduleQueue"
 		resultType="ScheduleQueue">
-		select * from scheduleQueues where
-		<foreach collection="list" index="i" separator="or" item="item">
+		select * from scheduleQueues where type = 'System' and type2 = 'answer' and type3 = 'websites' and 
+		<foreach collection="list" index="i" separator="or" item="item" open="(" close=")">
 			(url = #{item.url} and name = #{item.name})
 		</foreach>
 	</select>
-
+	<select id="selectScheduleQueuesForPullArticleService01MapObject"
+		resultType="string">
+		select name,url,uuid from scheduleQueues where type = 'System' and type2 = 'answer' and type3 = 'websites' and status != 0 and uuid = #{uuid} 
+	</select>
+	
 	<update id="updateScheduleQueuesForWormsServiceListInteger"
 		parameterType="int">
 		update scheduleQueues as schedule set schedule.status = 2 where id in

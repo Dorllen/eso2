@@ -2,7 +2,9 @@ package com.zhidian.service;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -15,10 +17,14 @@ import com.zhidian.bases.AppEnumDefine;
 import com.zhidian.bases.ResourceEnumDefine;
 import com.zhidian.bases.SearchEngineEnumDefine;
 import com.zhidian.bases.SearchEngineEnumDefine.Type;
+import com.zhidian.exception.PageArgumentsException;
 import com.zhidian.mapper.GlobalInfoMapper;
+import com.zhidian.mapper.PaCountMapper;
 import com.zhidian.mapper.PullArticleMapper;
+import com.zhidian.mapper.ScheduleQueueMapper;
 import com.zhidian.mapper.VersionMapper;
 import com.zhidian.mapper.WebsiteMapper;
+import com.zhidian.model.PaCount;
 import com.zhidian.model.PullArticle;
 import com.zhidian.model.Version;
 import com.zhidian.model.Website;
@@ -50,6 +56,12 @@ public class PageService {
 
 	@Autowired
 	GlobalInfoMapper globalInfoMapper;
+
+	@Autowired
+	PaCountMapper paCountMapper;
+
+	@Autowired
+	ScheduleQueueMapper scheduleQueueMapper;
 
 	public IndexPageVO getIndexCurrentPageInfo() {
 		IndexPageVO index = new IndexPageVO();
@@ -166,11 +178,11 @@ public class PageService {
 			pull.setTitle(article.getTitle());
 			pull.setUuid(article.getUuid());
 			pull.setName(article.getName());
-			if(article.getStartTime()!=null){
+			if (article.getStartTime() != null) {
 				pull.setTime(new SimpleDateFormat("yyyy-MM-dd").format(article.getStartTime()));
 			}
-			if(StringUtils.isNotEmpty(pull.getName())){
-				pull.setFrom(pull.getName()+"网站");
+			if (StringUtils.isNotEmpty(pull.getName())) {
+				pull.setFrom(pull.getName() + "网站");
 			}
 		}
 		return pull;
@@ -184,6 +196,39 @@ public class PageService {
 			result.setBottomInfo(info);
 		}
 		return result;
+	}
+
+	/**
+	 * @throws PageArgumentsException
+	 * 			@Title: recordVisitedCount @Description: TODO(记录pa/a/uuid
+	 *             的uuid的访问) @param @param uuid @param @return 参数 @return String
+	 *             返回类型 @throws
+	 */
+	public String recordVisitedCount(String uuid, String account, String originUrl, String originIp)
+			throws PageArgumentsException {
+		// 1. 情形，在线爬虫过来。数据(有存在数据库)或者(不存在数据库，存在ScheduleQueues)
+		if (StringUtils.isNotEmpty(uuid)) {
+			// 查找是否存在数据库,非搜索都不进索引服务
+			Map<String, String> result = pullArticleMapper.selectPullArticlesForPullArticleService01MapObject(uuid);
+			if (result == null) {
+				// 查找是否存在ScheduleQueue
+				result = scheduleQueueMapper.selectScheduleQueuesForPullArticleService01MapObject(uuid);
+			}
+			if (result != null) {
+				// 记录入数据库
+				PaCount pa = new PaCount();
+				pa.setCreateMan(account);
+				pa.setCreateTime(new Date());
+				pa.setName(result.get("name"));
+				pa.setOriginIp(originIp);
+				pa.setOriginUrl(originUrl);
+				pa.setType(AppEnumDefine.PageControllType.访问.ordinal());
+				pa.setUrl(result.get("url"));
+				pa.setUuid(result.get("uuid"));
+				paCountMapper.insertPaCountsForPageService01SimpleVoid(pa);
+			}
+		}
+		throw new PageArgumentsException();
 	}
 
 }

@@ -23,4 +23,17 @@
 		group by startTime desc limit 1;
 	</select>
 
+	<select id="selectPullArticlesForPullArticleService01MapObject"
+		parameterType="string" resultType="hashmap">
+		select name,url,uuid from
+		pullArticles where
+		uuid = #{uuid} and pullArticles.using = 1 and
+		pullArticles.status = 0
+		group by startTime desc limit 1;
+	</select>
+	
+	<select id="tee" parameterType="hashmap" resultType="string">
+		select url from pullArticles where uuid = #{uuid} and name = #{name};
+	</select>
+
 </mapper>

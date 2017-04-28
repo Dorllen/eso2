@@ -6,9 +6,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.zhidian.bases.AppEnumDefine;
 import com.zhidian.bases.ResourceEnumDefine;
@@ -19,10 +22,13 @@ import com.zhidian.mapper.PullArticleMapper;
 import com.zhidian.mapper.ResultMapper;
 import com.zhidian.mapper.ScheduleQueueMapper;
 import com.zhidian.mapper.VersionMapper;
+import com.zhidian.mapper.WormLogMapper;
 import com.zhidian.model.Result;
 import com.zhidian.model.ScheduleQueue;
-import com.zhidian.model.sys.PullResultPageModel;
+import com.zhidian.model.WormLog;
+import com.zhidian.model.sys.PullDataWatchObject;
 import com.zhidian.model.sys.PullResultBO;
+import com.zhidian.model.sys.PullResultPageModel;
 import com.zhidian.model.sys.ResultPageBO;
 
 @Service
@@ -41,6 +47,9 @@ public class PullArticleService {
 	@Autowired
 	ScheduleQueueMapper scheduleQueueMapper;
 
+	@Autowired
+	WormLogMapper wormLogMapper;
+
 	public List<String> analyseKeyWord(String key) {
 		// 分词器
 
@@ -53,6 +62,7 @@ public class PullArticleService {
 		// 收集用户点击后的文章，记录其关键词
 	}
 
+	@Transactional(propagation = Propagation.REQUIRED)
 	@SuppressWarnings("unchecked")
 	public void analyseSearchResultDiff(List<PullResultPageModel> list) {
 		// 分析搜索结果，记录与以前差别(如果from有，需要另再设计，因为是来自筛选网站的)
@@ -94,8 +104,67 @@ public class PullArticleService {
 					scheduleQueueMapper.insertScheduleQueuesForPullArticleService01SimpleVoid(qLists);
 				}
 			}
-
 		}
+		// 分析解析错误异常！
+		List<PullDataWatchObject> watchers = (List<PullDataWatchObject>) map.get("PullDataWatchObject");// 分析顺便把解析出问题的站点记录下来！
+		if (watchers != null && watchers.size() > 0) {
+			List<WormLog> wormLogs = createWormLogsFromPullDataWatchObject(watchers);
+			if (wormLogs != null && wormLogs.size() > 0) {
+				// 从数据库检索出存在的
+				List<WormLog> exitLog = wormLogMapper.selectWormLogsForPullArticleService01ListWormLog(wormLogs);
+				// 求异，将存在去除
+				if (exitLog != null && exitLog.size() > 0) {
+					wormLogs = filterExitWormLogsNameAndUrl(wormLogs, exitLog);
+				}
+				// 置入剩余的数据
+				wormLogMapper.insertWormLogsForPullArticleService01ListWormLog(wormLogs);
+			}
+		}
+	}
+
+	private List<WormLog> filterExitWormLogsNameAndUrl(List<WormLog> wormLogs, List<WormLog> exitLog) {
+		if (wormLogs != null && wormLogs.size() > 0 && exitLog != null && exitLog.size() > 0) {
+			List<WormLog> lists = new ArrayList<WormLog>(wormLogs.size());
+			for (WormLog w : wormLogs) {
+				if (w != null) {
+					lists.add(w);
+					for (WormLog z : exitLog) {
+						if (z != null && z.getPropertyName().equals(w.getPropertyName())
+								&& z.getWebsite().equals(w.getWebsite()) && z.getType().equals(w.getType())) {
+							lists.remove(w);
+							break;
+						}
+					}
+				}
+			}
+			return lists;
+		}
+		return wormLogs;
+	}
+
+	private List<WormLog> createWormLogsFromPullDataWatchObject(List<PullDataWatchObject> watchers) {
+		if (watchers != null && watchers.size() > 0) {
+			List<WormLog> w1 = new ArrayList<WormLog>(watchers.size());
+			WormLog w = null;
+			for (PullDataWatchObject p : watchers) {
+				if (p != null) {
+					w = new WormLog();
+					w.setSign(p.getSign());
+					w.setFromType("在线爬虫... 请检查问题!");
+					w.setPropertyName(p.getName());
+					w.setStatus(2);
+					w.setTriggerTime(p.getTimes());
+					w.setType(p.getType());// 问题的类型
+					w.setUrl(p.getUrl());
+					w.setUuid(DigestUtils.md5Hex(p.getUrl()));
+					w.setWebsite(p.getWebsite());
+					w.setXpathContent(p.getXpathContent());
+					w1.add(w);
+				}
+			}
+			return w1;
+		}
+		return null;
 	}
 
 	/**
@@ -140,6 +209,7 @@ public class PullArticleService {
 					queue.setType2(SearchEngineEnumDefine.Type.问答.getValue());// 默认是搜索引擎的answer类型
 					queue.setType3(ResourceEnumDefine.ResourceType.内容详情页.getValue());// 爬虫页面的类型
 					queue.setUrl(r.getUrl());
+					queue.setUuid(r.getUuid());
 					queues.add(queue);
 				}
 			}
@@ -182,6 +252,7 @@ public class PullArticleService {
 			List<PullResultBO> recList = new ArrayList<PullResultBO>();
 			List<String> recFrom = new ArrayList<String>();
 			List<String> recUuids = new ArrayList<String>();
+			List<PullDataWatchObject> watchers = new ArrayList<PullDataWatchObject>();
 			for (PullResultPageModel l : list) {
 				if (l != null && l.getResults() != null && l.getResults().size() > 0) {
 					for (PullResultBO p : l.getResults()) {
@@ -196,11 +267,15 @@ public class PullArticleService {
 						}
 					}
 				}
+				if (l != null && l.getErrorWatcher() != null && l.getErrorWatcher().size() > 0) {
+					watchers.addAll(l.getErrorWatcher());
+				}
 			}
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("PullResultBO", recList);
 			map.put("From", recFrom);
 			map.put("Uuids", recUuids);
+			map.put("PullDataWatchObject", watchers);
 			return map;
 		}
 		return null;

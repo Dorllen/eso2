@@ -14,17 +14,14 @@ public class AppEnumDefine {
 		}
 	}
 
-	public enum WormLogType{
-		页面解析("PageXpath"),CSS变动("CssXpath");
-		private String value;
-		private WormLogType(String value){
-			this.value = value;
-		}
-		public String getValue() {
-			return value;
-		}
+	public enum PageControllType {// 不设置value是为了更好取值
+		访问, 点赞, 收藏, 差评
 	}
-	
+
+	public enum WormLogType {
+		详情页页面解析, 详情页CSS变动, 结果页页面解析;
+	}
+
 	public enum ConfigType {
 		爬虫服务("WormSercie"), 搜索服务("EngineSercie"), 系统服务("SysService");
 		private String value;
@@ -66,7 +63,7 @@ public class AppEnumDefine {
 	}
 
 	public enum AppUser {
-		系统("System"),管理员("Admin"), 用户("User");
+		系统("System"), 管理员("Admin"), 用户("User");
 		private String value;
 
 		private AppUser(String value) {
@@ -90,16 +87,18 @@ public class AppEnumDefine {
 			return value;
 		}
 	}
-	
-	public enum ScheduleQueuesType{
+
+	public enum ScheduleQueuesType {
 		// 系统自增考虑的是：在线爬虫自动增加
 		// 定时计划指的是：定时任务向数据库添加爬虫对象
 		// 注意.xml中有依赖
-		系统自增("System"),管理员自增("AdminHandler"),定时计划("ScheduleAuto");
+		系统自增("System"), 管理员自增("AdminHandler"), 定时计划("ScheduleAuto");
 		private String value;
-		private ScheduleQueuesType(String value){
+
+		private ScheduleQueuesType(String value) {
 			this.value = value;
 		}
+
 		public String getValue() {
 			return value;
 		}

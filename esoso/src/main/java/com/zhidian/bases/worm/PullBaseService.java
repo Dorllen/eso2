@@ -68,7 +68,6 @@ public class PullBaseService {
 						log.info("{} spend time is -> {}", model.getFrom(), (e - s) / 1000);
 						// 数据装载
 						pullList.add(pipeline.getObj());
-
 					} catch (Exception e) {
 						log.info("PullBaseService downloading page ... error ...url:{}", model.getFrom());
 						e.printStackTrace();
