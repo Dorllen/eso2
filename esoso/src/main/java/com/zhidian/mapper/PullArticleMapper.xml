@@ -25,7 +25,7 @@
 
 	<select id="selectPullArticlesForPullArticleService01MapObject"
 		parameterType="string" resultType="hashmap">
-		select name,url,uuid from
+		select name,url from
 		pullArticles where
 		uuid = #{uuid} and pullArticles.using = 1 and
 		pullArticles.status = 0

@@ -22,6 +22,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Comparator;
@@ -46,8 +47,12 @@ import com.zhidian.model.websites.answer.SegmentfaultPageRObject;
 public class JavaTest {
 	public static void main(String[] args) {
 
+		
+		
+		dateExchange();
+		
 		//https://segmentfault.com/q/1010000007838751
-		System.out.println(DigestUtils.md5Hex("https://segmentfault.com/q/1010000007838751"));
+//		System.out.println(DigestUtils.md5Hex("https://segmentfault.com/q/1010000007838751"));
 		
 		//[{"name":"qa.css","url":"http://segmentfault.con/static/css/qa.css","useSearch":false,"version":"0.0.0.0","website":"segmentfault"},{"name":"qa.css","url":"http://segmentfault.con/static/css/global.css","useSearch":false,"version":"0.0.0.0","website":"seg
 //		exchangeDataWebsiteCssConfig();
@@ -65,6 +70,16 @@ public class JavaTest {
 		// listSort();
 		// jsonObject();
 
+	}
+
+	private static void dateExchange() {
+		Calendar c = Calendar.getInstance();
+//		c.add(1, amount);
+		c.roll(Calendar.MINUTE, -10);// roll 和 add是一樣的
+		Date d = c.getTime();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd HH:mm:ss");
+		System.out.println("now:"+sdf.format(new Date()));
+		System.out.println("pass:"+sdf.format(d)+ " "+(c.getTimeInMillis()-d.getTime()));
 	}
 
 	private static void exchangeDataWebsiteCssConfig() {

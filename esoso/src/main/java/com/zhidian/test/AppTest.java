@@ -10,6 +10,7 @@
 package com.zhidian.test;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +29,7 @@ import com.zhidian.bases.ResourceEnumDefine;
 import com.zhidian.bases.SearchEngineEnumDefine;
 import com.zhidian.bases.worm.WormsService;
 import com.zhidian.mapper.GlobalInfoMapper;
+import com.zhidian.mapper.PaCountMapper;
 import com.zhidian.mapper.PullArticleMapper;
 import com.zhidian.mapper.ResultMapper;
 import com.zhidian.mapper.ScheduleQueueMapper;
@@ -35,6 +37,7 @@ import com.zhidian.mapper.UserMapper;
 import com.zhidian.mapper.VersionMapper;
 import com.zhidian.mapper.WebsiteMapper;
 import com.zhidian.mapper.WormLogMapper;
+import com.zhidian.model.PaCount;
 import com.zhidian.model.PullArticle;
 import com.zhidian.model.Result;
 import com.zhidian.model.ScheduleQueue;
@@ -187,7 +190,7 @@ public class AppTest {
 	// ###########################PullArticle##################
 	@Autowired
 	PullArticleMapper articleMapper;
-	
+
 	@Test
 	public void testPullArticleData() {
 		List<String> uuid = new ArrayList<String>();
@@ -216,19 +219,19 @@ public class AppTest {
 
 	@Test
 	public void testSelectMapPullArticle() {
-		Map<String, String> map = articleMapper.selectPullArticlesForPullArticleService01MapObject("1a1717f75a7ab4088c9130f82c437dc8");
+		Map<String, String> map = articleMapper
+				.selectPullArticlesForPullArticleService01MapObject("1a1717f75a7ab4088c9130f82c437dc8");
 		System.out.println(JSON.toJSONString(map));
 	}
-	
+
 	@Test
-	public void testArgIsMapPullArticle(){
-		Map<String,Object> map = new HashMap<String,Object>();
+	public void testArgIsMapPullArticle() {
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("name", "segmentfault");
 		map.put("uuid", "1a1717f75a7ab4088c9130f82c437dc8");
 		String str = articleMapper.tee(map);
 		System.out.println(str);
 	}
-	
 
 	// ###########################ScheduleQueue##################
 	@Autowired
@@ -284,12 +287,11 @@ public class AppTest {
 		List<ScheduleQueue> qu = scheduleMapper.queryScheduleQueuesForPullArticleService01ListScheduleQueue(list);
 		System.out.println(JSON.toJSONString(qu));
 	}
-	
-	
+
 	@Test
 	@Transactional
 	@Rollback
-	public void testInsert02ScheduleQueue(){
+	public void testInsert02ScheduleQueue() {
 		List<ScheduleQueue> list = new ArrayList<ScheduleQueue>();
 		ScheduleQueue r = new ScheduleQueue();
 		r.setName("segmentfault");
@@ -298,7 +300,7 @@ public class AppTest {
 		r.setType3("test");
 		r.setUrl("test");
 		r.setUuid("test");
-		r =new ScheduleQueue();
+		r = new ScheduleQueue();
 		list.add(r);
 		r.setName("github");
 		r.setType("test");
@@ -309,8 +311,14 @@ public class AppTest {
 		list.add(r);
 		scheduleMapper.insertScheduleQueuesForPullArticleService01SimpleVoid(list);
 	}
-	
-	
+
+	@Test
+	public void selectMapScheduleQueue() {
+		Map<String, String> map = scheduleMapper
+				.selectScheduleQueuesForPullArticleService01MapObject("b717ef7ea0b7e8fbcb83677db51a9382");
+		System.out.println(JSON.toJSONString(map));
+	}
+
 	// ###########################Website##################
 	@Autowired
 	WebsiteMapper websiteMapper;
@@ -344,6 +352,34 @@ public class AppTest {
 		w.setId(2);
 		list.add(w);
 		wormLogMapper.insertWormsLogForWormsService01ListWormLog(list);
+	}
+
+	// ###########################PaCounts##################
+
+	@Autowired
+	PaCountMapper paCountMapper;
+
+	@Test
+	@Transactional
+	@Rollback
+	public void testInsertPaCount() {
+		PaCount pa = new PaCount();
+		pa.setCreateMan("test");
+		pa.setCreateTime(new Date());
+		pa.setName("test");
+		pa.setOriginIp("test");
+		pa.setOriginUrl("test");
+		pa.setType(AppEnumDefine.PageControllType.访问.ordinal());
+		pa.setUrl("test");
+		pa.setUuid("test");
+		paCountMapper.insertPaCountsForPageService01SimplePaCount(pa);
+	}
+
+	@Test
+	public void testSelectPaCount() {
+		paCountMapper.queryPaCountsForPageService01SimplePaCount("segmentfault",
+				"https://segmentfault.com/q/1010000007838751", "b717ef7ea0b7e8fbcb83677db51a9382", "test", 0, null,
+				"127.0.0.01");
 	}
 
 	public static void main(String[] args) {

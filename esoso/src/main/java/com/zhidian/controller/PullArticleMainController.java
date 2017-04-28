@@ -17,7 +17,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.zhidian.exception.PageArgumentsException;
 import com.zhidian.service.PageService;
@@ -60,7 +59,6 @@ public class PullArticleMainController {
 	}
 
 	@GetMapping("/pa/f/{uuid}") // 直接从来源获取数据
-	@ResponseBody
 	public String notSecVisit(@PathVariable(value = "uuid", required = false) String uuid, HttpServletRequest request)
 			throws PageArgumentsException {
 		System.out.println("uuid:" + uuid);

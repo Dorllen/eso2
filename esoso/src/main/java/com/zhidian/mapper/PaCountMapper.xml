@@ -5,11 +5,25 @@
 <mapper namespace="com.zhidian.mapper.PaCountMapper">
 
 
- 	<insert id="addArticle" parameterType="PaCount" >
-		insert into
-		articles(uuid,tags,title,contents,cssVersion,cssPath,website,startTime)
-		values(#{uuid},#{tags},#{title},#{contents},#{cssVersion},#{cssPath},#{website},#{startTime})
+	<insert id="insertPaCountsForPageService01SimplePaCount"
+		parameterType="PaCount">
+		insert into paCounts set uuid =
+		#{uuid},name=#{name},url=#{url},createTime =
+		CURRENT_TIMESTAMP(),createMan=#{createMan},type=#{type},originUrl=#{originUrl},originIp=#{originIp};
 	</insert>
-	
+
+	<select id="queryPaCountsForPageService01SimplePaCount" resultType="PaCount" parameterType="PaCount">
+		select * from paCounts where name = #{website} and url = #{url} and
+		uuid = #{uuid} and type = #{type} and status = 0 and
+		<choose>
+			<when test="account ==null or account == ''">
+				originUrl = #{originUrl} and originIp = #{originIp}
+			</when>
+			<otherwise>
+				createMan = #{account}
+			</otherwise>
+		</choose>
+		group by createTime desc limit 1
+	</select>
 
 </mapper>

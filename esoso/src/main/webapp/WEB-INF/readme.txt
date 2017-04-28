@@ -9,6 +9,10 @@ http://127.0.0.1:8080/esoso/s?q=ubuntu&f=segmentfault&t=answer
 手动触发详情页爬取:
 http://127.0.0.1:8080/esoso/admin/worm/start
 
+在綫访问跳转：
+http://127.0.0.1:8080/esoso/pa/f/b717ef7ea0b7e8fbcb83677db51a9382
+
+
 Websites文件夹：放爬虫内容页模板的地方
 
 
@@ -24,4 +28,5 @@ Websites文件夹：放爬虫内容页模板的地方
 	1. 新增页面记录表
 	2. 在线爬虫，结果页数据，在ScheduelQueues中的数据不重复记录
 	3. 新增规则：只有搜索会有限寻找索引服务。
+	4. 10分以内多次访问算一次
 	

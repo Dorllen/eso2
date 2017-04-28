@@ -2,7 +2,7 @@ package com.zhidian.service;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -200,9 +200,9 @@ public class PageService {
 
 	/**
 	 * @throws PageArgumentsException
-	 * 			@Title: recordVisitedCount @Description: TODO(记录pa/a/uuid
-	 *             的uuid的访问) @param @param uuid @param @return 参数 @return String
-	 *             返回类型 @throws
+	 * @Title: recordVisitedCount @Description: TODO(记录pa/a/uuid
+	 *         的uuid的访问) @param @param uuid @param @return 参数 @return String
+	 *         返回类型 @throws
 	 */
 	public String recordVisitedCount(String uuid, String account, String originUrl, String originIp)
 			throws PageArgumentsException {
@@ -214,18 +214,27 @@ public class PageService {
 				// 查找是否存在ScheduleQueue
 				result = scheduleQueueMapper.selectScheduleQueuesForPullArticleService01MapObject(uuid);
 			}
-			if (result != null) {
+			System.out.println("result:" + JSON.toJSONString(result));
+			if (result != null && StringUtils.isNotEmpty(result.get("url"))) {
 				// 记录入数据库
-				PaCount pa = new PaCount();
-				pa.setCreateMan(account);
-				pa.setCreateTime(new Date());
-				pa.setName(result.get("name"));
-				pa.setOriginIp(originIp);
-				pa.setOriginUrl(originUrl);
-				pa.setType(AppEnumDefine.PageControllType.访问.ordinal());
-				pa.setUrl(result.get("url"));
-				pa.setUuid(result.get("uuid"));
-				paCountMapper.insertPaCountsForPageService01SimpleVoid(pa);
+				// 检查... 10分钟以内访问算一次
+				Calendar c = Calendar.getInstance();
+				c.add(Calendar.MINUTE, -10);
+				PaCount pc = paCountMapper.queryPaCountsForPageService01SimplePaCount(result.get("name"),
+						result.get("url"), uuid, account, AppEnumDefine.PageControllType.访问.ordinal(), originUrl,
+						originIp);
+				if (pc == null || pc.getCreateTime().getTime() < c.getTimeInMillis()) {
+					PaCount pa = new PaCount();
+					pa.setCreateMan(account);
+					pa.setName(result.get("name"));
+					pa.setOriginIp(originIp);
+					pa.setOriginUrl(originUrl);
+					pa.setType(AppEnumDefine.PageControllType.访问.ordinal());
+					pa.setUrl(result.get("url"));
+					pa.setUuid(uuid);
+					paCountMapper.insertPaCountsForPageService01SimplePaCount(pa);
+				}
+				return result.get("url");
 			}
 		}
 		throw new PageArgumentsException();
