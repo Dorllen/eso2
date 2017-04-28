@@ -44,7 +44,7 @@
 		</div>
 		<div class="topDiv2">
 			<a href="#" th:if="${Message.contents!=null}"
-				th:href="${Message.contents.originUrl}">原网站</a>
+				th:href="@{|/pa/f/${Message.uuid}|}">原网站</a>
 		</div>
 		<div class="topDiv3" data-id="4546646">
 			<span class="sc"><i class="icon-star-empty"></i><b>收藏</b></span> <span

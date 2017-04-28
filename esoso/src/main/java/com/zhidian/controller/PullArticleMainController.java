@@ -18,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import com.alibaba.fastjson.JSON;
 import com.zhidian.exception.PageArgumentsException;
 import com.zhidian.service.PageService;
 import com.zhidian.views.PullArticlePageVO;
@@ -52,6 +53,7 @@ public class PullArticleMainController {
 		if (result == null) {
 			throw new PageArgumentsException();
 		} else if (StringUtils.isNotEmpty(result.getUrl())) {
+			System.out.println(JSON.toJSONString(result));
 			return result.getUrl();// "//websites/answer/segmentfault/0.0.0.0/index";
 		} else {
 			return "websites/answer/segmentfault/0.0.0.0/index";
