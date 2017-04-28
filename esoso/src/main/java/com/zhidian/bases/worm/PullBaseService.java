@@ -42,7 +42,6 @@ public class PullBaseService {
 			for (int i = 0; i < models.size(); i++) {
 				final PullResultDataTaskModel model = models.get(i);
 				cs.submit(new Callable<PullResultPageModel>() {
-					@Override
 					public PullResultPageModel call() throws Exception {
 						if (model == null) {
 							return null;
@@ -75,8 +74,7 @@ public class PullBaseService {
 								log.info("PullBaseService downloading page ... error ...url:{}", model.getFrom());
 								e.printStackTrace();
 							}
-						} catch (InstantiationException | IllegalAccessException | NoSuchMethodException
-								| SecurityException | IllegalArgumentException | InvocationTargetException e) {
+						} catch (InstantiationException e) {
 							e.printStackTrace();
 						}
 						return null;
@@ -91,7 +89,11 @@ public class PullBaseService {
 					if (pull != null) {
 						pullList.add(pull);
 					}
-				} catch (InterruptedException | ExecutionException | TimeoutException e) {
+				} catch (TimeoutException e) {
+					e.printStackTrace();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				} catch (ExecutionException e) {
 					e.printStackTrace();
 				}
 			}
@@ -115,7 +117,6 @@ public class PullBaseService {
 			for (int i = 0; i < models.size(); i++) {
 				final PullPageDataTaskModel model = models.get(i);
 				cs.submit(new Callable<PullPageObjectModel>() {
-					@Override
 					public PullPageObjectModel call() throws Exception {
 						if (model == null) {
 							return null;
@@ -147,8 +148,7 @@ public class PullBaseService {
 								log.info("PullBaseService downloading page ... error ...url:{}", model.getFrom());
 								e.printStackTrace();
 							}
-						} catch (InstantiationException | IllegalAccessException | NoSuchMethodException
-								| SecurityException | IllegalArgumentException | InvocationTargetException e) {
+						} catch (InvocationTargetException e) {
 							e.printStackTrace();
 						}
 						return null;
@@ -163,7 +163,11 @@ public class PullBaseService {
 					if (pull != null) {
 						pullList.add(pull);
 					}
-				} catch (InterruptedException | ExecutionException | TimeoutException e) {
+				} catch (TimeoutException e) {
+					e.printStackTrace();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				} catch (ExecutionException e) {
 					e.printStackTrace();
 				}
 			}

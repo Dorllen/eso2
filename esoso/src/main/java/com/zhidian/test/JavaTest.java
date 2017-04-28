@@ -198,7 +198,6 @@ public class JavaTest {
 		list.add("bbbb");
 		list.add("2");
 		list.sort(new Comparator<String>() {
-			@Override
 			public int compare(String o1, String o2) {
 				if (o1 != null) {
 					if (o2 != null) {

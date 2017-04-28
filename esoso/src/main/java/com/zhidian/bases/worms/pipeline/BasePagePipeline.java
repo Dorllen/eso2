@@ -13,7 +13,6 @@ public class BasePagePipeline implements Pipeline {
 	public PullPageObjectModel pageObj;
 	public final static String STATUS = "RESULTSTATUS";
 
-	@Override
 	public synchronized void process(ResultItems resultItems, Task task) {
 		// log.info("pageObj->{}", obj);
 		if (resultItems != null) {

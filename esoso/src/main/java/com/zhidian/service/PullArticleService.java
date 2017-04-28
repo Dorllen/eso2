@@ -207,7 +207,6 @@ public class PullArticleService {
 			if (SearchEngineEnumDefine.UpOrDown.升序.getValue().equals(upOrdown)) {
 				// "up"
 				lists.sort(new Comparator<ResultPageBO>() {
-					@Override
 					public int compare(ResultPageBO o1, ResultPageBO o2) {
 						if (o1 != null && o2 != null) {
 							if (SearchEngineEnumDefine.Sort.时间.getValue().equals(o1.getMark())
@@ -236,7 +235,6 @@ public class PullArticleService {
 			} else if (SearchEngineEnumDefine.UpOrDown.降序.getValue().equals(upOrdown)) {
 				// "down"
 				lists.sort(new Comparator<ResultPageBO>() {
-					@Override
 					public int compare(ResultPageBO o1, ResultPageBO o2) {
 						if (o1 != null && o2 != null) {
 							if (SearchEngineEnumDefine.Sort.时间.getValue().equals(o1.getMark())
@@ -308,7 +306,6 @@ public class PullArticleService {
 			if (SearchEngineEnumDefine.UpOrDown.升序.getValue().equals(upOrdown)) {
 				// "up"
 				lists.sort(new Comparator<ResultPageBO>() {
-					@Override
 					public int compare(ResultPageBO o1, ResultPageBO o2) {
 						if (o1 != null && o2 != null) {
 							if (SearchEngineEnumDefine.Sort.时间.getValue().equals(o1.getMark())
@@ -337,7 +334,6 @@ public class PullArticleService {
 			} else if (SearchEngineEnumDefine.UpOrDown.降序.getValue().equals(upOrdown)) {
 				// "down"
 				lists.sort(new Comparator<ResultPageBO>() {
-					@Override
 					public int compare(ResultPageBO o1, ResultPageBO o2) {
 						if (o1 != null && o2 != null) {
 							if (SearchEngineEnumDefine.Sort.时间.getValue().equals(o1.getMark())

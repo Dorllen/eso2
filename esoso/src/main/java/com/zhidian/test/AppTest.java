@@ -103,7 +103,7 @@ public class AppTest {
 			// }
 			System.out.println(map.get("name"));
 			System.out.println(map.get("ggg"));
-			int i = (int) map.get("ggg");
+			int i = (Integer) map.get("ggg");
 			System.out.println(i);
 		}
 	}

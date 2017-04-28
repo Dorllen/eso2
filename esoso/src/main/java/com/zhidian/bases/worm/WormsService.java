@@ -115,7 +115,7 @@ public class WormsService {
 				String website = from.get(0);
 				Object temp = resultRole.getWebsites().get(website);
 				int num = resultRole.getDefault_() != 0 ? resultRole.getDefault_() : 20;
-				num = temp != null ? (int) temp : num;
+				num = temp != null ? (Integer) temp : num;
 				map.put(website, num);
 			} else {
 				map.put("default_", resultRole.getDefault_() != 0 ? resultRole.getDefault_() : 20);
@@ -124,7 +124,7 @@ public class WormsService {
 					int t = map.get("total");
 					Object temp = resultRole.getWebsites().get(website);
 					int num = resultRole.getDefault_() != 0 ? resultRole.getDefault_() : 20;
-					num = temp != null ? (int) temp : num;
+					num = temp != null ? (Integer) temp : num;
 					map.put(website, num);
 					map.put("total", t + num);
 				}
@@ -137,7 +137,7 @@ public class WormsService {
 		if (website != null) {
 			Object temp = resultRole.getWebsites().get(website);
 			int num = resultRole.getDefault_() != 0 ? resultRole.getDefault_() : 20;
-			num = temp != null ? (int) temp : num;
+			num = temp != null ? (Integer) temp : num;
 			return num;
 		}
 		return null;

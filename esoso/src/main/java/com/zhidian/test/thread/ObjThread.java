@@ -8,7 +8,6 @@ public class ObjThread implements Runnable {
 		this.obj = obj;
 	}
 
-	@Override
 	public void run() {
 		synchronized (obj) {
 			obj.process();

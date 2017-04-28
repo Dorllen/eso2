@@ -20,7 +20,6 @@ public class ResultSimplePipeline<T extends PullResultPageModel> implements Pipe
 		return obj;
 	}
 
-	@Override
 	public synchronized void process(ResultItems resultItems, Task task) {
 		log.info("loading process....");
 		if(resultItems!=null){

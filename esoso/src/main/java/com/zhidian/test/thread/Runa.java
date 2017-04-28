@@ -14,7 +14,6 @@ public class Runa implements Runnable{
 	private static int i = 0;
 	
 	
-	@Override
 	public  void run() {
 		System.out.println("name:"+Thread.currentThread().getName());
 		try {

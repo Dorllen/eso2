@@ -58,7 +58,6 @@ public abstract class BasePageProcessor<T extends PageBO> extends BaseProcessor 
 		this.obj = obj;
 	}
 
-	@Override
 	public void process(Page page) {
 		System.out.println(page.getUrl());
 		if (isCss(page.getUrl().toString())) {
