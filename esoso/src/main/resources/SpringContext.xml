@@ -52,13 +52,13 @@
 	</mvc:annotation-driven>
 
 	<!--避免拦截静态资源 -->
-<!--  	<mvc:resources location="/WEB-INF/static/" mapping="/static/**/*" />
+<!--   	<mvc:resources location="/WEB-INF/static/" mapping="/static/**/*" />
 	<mvc:resources location="/WEB-INF/css/" mapping="/css/**/*" />
 	<mvc:resources location="/WEB-INF/js/" mapping="/js/**/*" />
 	<mvc:resources location="/WEB-INF/img/" mapping="/img/**/*" />
 	<mvc:resources location="/WEB-INF/websites/" mapping="/websites/**/*" />
 	<mvc:resources location="/WEB-INF/admin/" mapping="/admin/**/*" />
-	<mvc:resources location="/WEB-INF/ico/" mapping="/ico/**/*" />  -->
+	<mvc:resources location="/WEB-INF/ico/" mapping="/ico/**/*" /> -->
 	<!-- <mvc:resources location="/WEB-INF/" mapping="/**/*.js" /> <mvc:resources 
 		location="/WEB-INF/" mapping="/**/*.png" /> <mvc:resources location="/WEB-INF/" 
 		mapping="/**/*.gif" /> <mvc:resources location="/WEB-INF/" mapping="/**/*.css" 

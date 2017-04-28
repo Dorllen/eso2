@@ -27,7 +27,7 @@ import com.zhidian.model.sys.ResultPageBO;
 
 @Service
 public class PullArticleService {
-//	private Logger log = LoggerFactory.getLogger(getClass());
+	// private Logger log = LoggerFactory.getLogger(getClass());
 
 	@Autowired
 	ResultMapper resultMapper;
@@ -62,12 +62,18 @@ public class PullArticleService {
 		List<String> recFrom = (List<String>) map.get("From");
 		List<String> recUuids = (List<String>) map.get("Uuids");
 		if (recLists != null && recLists.size() > 0) {
-			List<Result> resLists = resultMapper.queryResultsFor02ListResult(recFrom, recUuids);// 这里可以考虑从索引服务器中比较
+			List<Result> resLists = resultMapper.queryResultsForPullArticleService02ListResult(recFrom, recUuids);// 这里可以考虑从索引服务器中比较
 			if (resLists != null && resLists.size() > 0) {
 				// 取出不存在DB的数据，没有存在的代表，来源已经有更新了。马上更新！
 				List<PullResultBO> noExits = getNotExitsDB(resLists, recLists);
 				if (noExits != null && noExits.size() > 0) {
 					// 放入爬虫队列
+					// 首先比较爬虫队列有对应的数据没处理的否？如果有，则不加入.进行筛选
+					List<ScheduleQueue> exitSQ = scheduleQueueMapper
+							.queryScheduleQueuesForPullArticleService01ListScheduleQueue(noExits);
+					if (exitSQ != null && exitSQ.size() > 0) {
+						noExits = filterExitScheduleNameAndUrl(noExits, exitSQ);
+					}
 					List<ScheduleQueue> qLists = createScheduleQueueObj(noExits);
 					if (qLists != null && qLists.size() > 0) {
 						scheduleQueueMapper.insertScheduleQueuesForPullArticleService01SimpleVoid(qLists);
@@ -77,6 +83,12 @@ public class PullArticleService {
 				// 分析有差别的数据? 這個比较是无效用的，所以放弃。因为结果显示页，只捕获标题，实际作用并不多。
 			} else {
 				// 数据库没有数据。搜索的结果都加入爬虫队列中
+				// 首先比较爬虫队列有对应的数据没处理的否？如果有，则不加入
+				List<ScheduleQueue> exitSQ = scheduleQueueMapper
+						.queryScheduleQueuesForPullArticleService01ListScheduleQueue(recLists);
+				if (exitSQ != null && exitSQ.size() > 0) {
+					recLists = filterExitScheduleNameAndUrl(recLists, exitSQ);
+				}
 				List<ScheduleQueue> qLists = createScheduleQueueObj(recLists);
 				if (qLists != null && qLists.size() > 0) {
 					scheduleQueueMapper.insertScheduleQueuesForPullArticleService01SimpleVoid(qLists);
@@ -86,6 +98,34 @@ public class PullArticleService {
 		}
 	}
 
+	/**
+	 * @Title: filterExitScheduleNameAndUrl @Description:
+	 *         TODO(筛选不存在exitSQ的PullResultBO) @param @param
+	 *         noExits @param @param exitSQ @param @return 参数 @return
+	 *         List<PullResultBO> 返回类型 @throws
+	 */
+	private List<PullResultBO> filterExitScheduleNameAndUrl(List<PullResultBO> noExits, List<ScheduleQueue> exitSQ) {
+		if (exitSQ != null && exitSQ.size() > 0 && noExits != null && noExits.size() > 0) {
+			List<PullResultBO> results = new ArrayList<PullResultBO>(noExits.size());
+			for (PullResultBO p : noExits) {
+				if (p != null) {
+					results.add(p);
+					for (ScheduleQueue s : exitSQ) {
+						if (s != null) {
+							if (s.getName().equals(p.getName()) && s.getUrl().equals(p.getUrl())) {
+								if (results.contains(p)) {
+									results.remove(p);
+								}
+							}
+						}
+					}
+				}
+			}
+			return results;
+		}
+		return noExits;
+	}
+
 	private List<ScheduleQueue> createScheduleQueueObj(List<PullResultBO> bos) {
 		if (bos != null && bos.size() > 0) {
 			List<ScheduleQueue> queues = new ArrayList<ScheduleQueue>();
@@ -93,7 +133,8 @@ public class PullArticleService {
 				if (r != null) {
 					ScheduleQueue queue = new ScheduleQueue();
 					queue.setCreateMan(AppEnumDefine.AppUser.系统.getValue());
-//					queue.setCreateTime(new Date());// 时间采用了数据库的入库时间，即数据库内置函数【需注意】
+					// queue.setCreateTime(new Date());//
+					// 时间采用了数据库的入库时间，即数据库内置函数【需注意】
 					queue.setName(r.getName());
 					queue.setType(AppEnumDefine.ScheduleQueuesType.系统自增.getValue());
 					queue.setType2(SearchEngineEnumDefine.Type.问答.getValue());// 默认是搜索引擎的answer类型
@@ -171,7 +212,7 @@ public class PullArticleService {
 			List<ResultPageBO> lists = new ArrayList<ResultPageBO>(list.size());
 			List<String> uuidList = getUUIDListFromList(list);
 			// 从数据库获取数据
-			List<Result> resLists = resultMapper.queryResultsFor01ListResult(uuidList);
+			List<Result> resLists = resultMapper.queryResultsForPullArticleService01ListResult(uuidList);
 			for (PullResultPageModel pull : list) {
 				// 装载数据，补全
 				for (PullResultBO pBo : pull.getResults()) {
@@ -272,7 +313,7 @@ public class PullArticleService {
 			List<ResultPageBO> lists = new ArrayList<ResultPageBO>(list.size());
 			List<String> uuidList = getUUIDListFromList(list);
 			// 从数据库获取数据
-			List<Result> resLists = resultMapper.queryResultsFor01ListResult(uuidList);
+			List<Result> resLists = resultMapper.queryResultsForPullArticleService01ListResult(uuidList);
 			for (PullResultPageModel pull : list) {
 				// 装载数据，补全
 				for (PullResultBO pBo : pull.getResults()) {

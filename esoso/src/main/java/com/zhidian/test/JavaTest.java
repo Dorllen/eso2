@@ -46,8 +46,11 @@ import com.zhidian.model.websites.answer.SegmentfaultPageRObject;
 public class JavaTest {
 	public static void main(String[] args) {
 
+		//https://segmentfault.com/q/1010000007838751
+		System.out.println(DigestUtils.md5Hex("https://segmentfault.com/q/1010000007838751"));
+		
 		//[{"name":"qa.css","url":"http://segmentfault.con/static/css/qa.css","useSearch":false,"version":"0.0.0.0","website":"segmentfault"},{"name":"qa.css","url":"http://segmentfault.con/static/css/global.css","useSearch":false,"version":"0.0.0.0","website":"seg
-		exchangeDataWebsiteCssConfig();
+//		exchangeDataWebsiteCssConfig();
 //		String str = "[{\"name\":\"qa.css\",\"url\":\"http://segmentfault.con/static/css/qa.css\",\"useSearch\":false,\"version\":\"0.0.0.0\",\"website\":\"segmentfault\"},{\"name\":\"qa.css\",\"url\":\"http://segmentfault.con/static/css/global.css\",\"useSearch\":false,\"version\":\"0.0.0.0\",\"website\":\"seg";
 //		System.out.println(str.length());
 		

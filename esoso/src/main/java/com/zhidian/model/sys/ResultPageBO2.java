@@ -11,7 +11,7 @@ public class ResultPageBO2 {
 	private String mark = "common";// 热度\高访问量\普通
 	private String tags;// 标签
 	private String from;// 来的网站，如segmentfault
-	private String originUrl;// 源地址
+	private String originUrl;// 源地址。待思考：是否源地址在页面上显示也处理下？
 	private Date createTime;
 	private String view;
 	private String scores; //评分

@@ -8,7 +8,7 @@
 	<!-- <insert id="=" parameterType="list" keyColumn="id" useGeneratedKeys="true" 
 		keyProperty="id"> </insert> -->
 
-	<select id="queryResultsFor01ListResult" resultType="Result">
+	<select id="queryResultsForPullArticleService01ListResult" resultType="Result">
 		select * from results where results.using = 1 and results.uuid in
 		<foreach collection="list" item="item" open="(" separator=","
 			close=")" index="index">
@@ -16,7 +16,7 @@
 		</foreach>
 	</select>
 	
-	<select id="queryResultsFor02ListResult" resultType="Result">
+	<select id="queryResultsForPullArticleService02ListResult" resultType="Result">
 		select * from results where results.using = 1 and results.name in
 		<foreach collection="from" item="item" open="(" separator=","
 			close=")" index="index">

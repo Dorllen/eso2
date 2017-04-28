@@ -22,12 +22,20 @@
 		select * from scheduleQueues where status = 1 and type !=
 		'System';
 	</select>
+	<select id="queryScheduleQueuesForPullArticleService01ListScheduleQueue"
+		resultType="ScheduleQueue">
+		select * from schdeuleQueues where
+		<foreach collection="list" index="i" separator="or" item="item">
+			(url = #{item.url} and name = #{item.name})
+		</foreach>
+	</select>
 
 	<update id="updateScheduleQueuesForWormsServiceListInteger"
 		parameterType="int">
 		update scheduleQueues as schedule set schedule.status = 2 where id in
 		<trim suffixOverrides=",">
-			<foreach collection="list" index="i" open="(" close=")" separator="," item="item">
+			<foreach collection="list" index="i" open="(" close=")"
+				separator="," item="item">
 				#{item}
 			</foreach>
 		</trim>

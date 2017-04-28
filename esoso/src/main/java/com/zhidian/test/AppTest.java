@@ -40,6 +40,7 @@ import com.zhidian.model.ScheduleQueue;
 import com.zhidian.model.User;
 import com.zhidian.model.Version;
 import com.zhidian.model.WormLog;
+import com.zhidian.model.sys.PullResultBO;
 import com.zhidian.model.sys.PullResultPageModel;
 import com.zhidian.model.sys.ResultRoleBO;
 import com.zhidian.model.sys.WebsiteBO;
@@ -185,7 +186,7 @@ public class AppTest {
 		List<String> from = new ArrayList<String>();
 		from.add("segmentfault");
 		from.add("github");
-		List<Result> re = resultMapper.queryResultsFor02ListResult(from,uuid);	
+		List<Result> re = resultMapper.queryResultsForPullArticleService02ListResult(from,uuid);	
 		System.out.println(JSON.toJSONString(re));
 	}
 	
@@ -238,6 +239,25 @@ public class AppTest {
 		scheduleMapper.updateScheduleQueuesForWormsServiceListInteger(queues);
 	}
 	
+	@Test
+	public void testQueryScheduleQueue(){
+		List<PullResultBO> list = new ArrayList<PullResultBO>();
+		PullResultBO p = new PullResultBO();
+		p.setUrl("https://segmentfault.com/q/1010000008561228");
+		p.setName("segmentfault");
+		list.add(p);
+		p = new PullResultBO();
+		p.setUrl("https://segmentfault.com/q/1010000005915613");
+		p.setName("segmentfault");
+		list.add(p);
+		p = new PullResultBO();
+		p.setUrl("https://segmentfault.com/q/1010000006984096");
+		p.setName("segmentfault");
+		list.add(p);
+		List<ScheduleQueue> qu = scheduleMapper.queryScheduleQueuesForPullArticleService01ListScheduleQueue(list);
+		System.out.println(JSON.toJSONString(qu));
+	}
+	
 	@Autowired
 	WebsiteMapper websiteMapper;
 	@Test
@@ -277,7 +297,6 @@ public class AppTest {
 		w.setId(2);
 		list.add(w);
 		wormLogMapper.insertWormsLogForWormsService01ListWormLog(list);
-		
 	}
 	
 	

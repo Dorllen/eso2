@@ -22,9 +22,9 @@ public interface ResultMapper {
 	
 	// 查
 	
-	List<Result> queryResultsFor01ListResult(@Param("list") List<String> list);
+	List<Result> queryResultsForPullArticleService01ListResult(@Param("list") List<String> list);
 	
-	List<Result> queryResultsFor02ListResult(@Param("from") List<String> from,@Param("uuids")  List<String> uuids);
+	List<Result> queryResultsForPullArticleService02ListResult(@Param("from") List<String> from,@Param("uuids")  List<String> uuids);
 
 	Map<String,Object> testDD(int id);
 

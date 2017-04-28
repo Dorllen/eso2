@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.zhidian.model.ScheduleQueue;
+import com.zhidian.model.sys.PullResultBO;
 
 @Mapper
 public interface ScheduleQueueMapper {
@@ -30,5 +31,15 @@ public interface ScheduleQueueMapper {
 	* @throws
 	*/
 	void updateScheduleQueuesForWormsServiceListInteger(@Param("list") List<Integer> queues);
+
+	/**
+	* @Title: queryScheduleQueuesForPullArticleService01ListScheduleQueue
+	* @Description: TODO(通过PullResultBO的url,name来查找是否存在，无论status是如何。因为这是用户搜索触发，不需要每次搜索都加入)
+	* @param @param list
+	* @param @return    参数
+	* @return List<ScheduleQueue>    返回类型
+	* @throws
+	*/
+	List<ScheduleQueue> queryScheduleQueuesForPullArticleService01ListScheduleQueue(@Param("list") List<PullResultBO> list);
 
 }

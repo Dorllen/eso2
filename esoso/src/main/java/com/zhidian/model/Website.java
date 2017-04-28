@@ -32,9 +32,9 @@ public class Website {
 	private String updateMan;
 	private String sign;// 描述
 	private String resultProcessor;//文件名
-	private String resultPipeline;// 文件名
+	private String resultPipeline;// 文件名.结果页是使用的是：ResultSimplePipeline
 	private String pageProcessor;
-	private String pagePipeline;
+	private String pagePipeline;// 详情页使用的是：BasePagePipeline
 	private String resultRObject;// 搜索结果接收对象
 	private String pageRObject;// 数据模型接收对象。如：内容详情页的接收模型
 	private boolean useSearch; // 使用后缀？ 默认false,代表去除搜索结果页捕获的链接后缀，如：?..&..。
