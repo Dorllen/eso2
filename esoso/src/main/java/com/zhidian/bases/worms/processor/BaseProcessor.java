@@ -9,11 +9,11 @@ import us.codecraft.webmagic.processor.PageProcessor;
 public abstract class BaseProcessor implements PageProcessor {
 	private String userAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64; rv/:51.0) Gecko/20100101 Firefox/51.0";
 
-	private int timeout = 3000;
+	private int timeout = 1000;
 
 	private String charset = "UTF-8";
 
-	private int sleepTime = 2000;
+	private int sleepTime = 1000;
 
 	private int cycleTime = 0;
 
