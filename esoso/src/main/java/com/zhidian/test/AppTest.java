@@ -377,9 +377,10 @@ public class AppTest {
 
 	@Test
 	public void testSelectPaCount() {
-		paCountMapper.queryPaCountsForPageService01SimplePaCount("segmentfault",
+		PaCount q = paCountMapper.queryPaCountsForPageService01SimplePaCount("segmentfault",
 				"https://segmentfault.com/q/1010000007838751", "b717ef7ea0b7e8fbcb83677db51a9382", "test", 0, null,
-				"127.0.0.01");
+				"127.0.0.1");
+		System.out.println(JSON.toJSONString(q));
 	}
 
 	public static void main(String[] args) {
