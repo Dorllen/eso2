@@ -35,7 +35,6 @@ public class AdminMainController {
 	@ResponseBody
 	public List<PullPageObjectModel> startPullData() {
 		List<PullPageObjectModel> list= wormsService.startPullDataFromScheduleByAdminTrigger();
-		System.out.println(JSON.toJSONString(list));
 		return list;
 	}
 }

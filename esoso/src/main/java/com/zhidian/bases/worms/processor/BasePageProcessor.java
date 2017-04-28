@@ -22,7 +22,6 @@ import org.apache.commons.lang.StringUtils;
 import com.zhidian.bases.AppEnumDefine;
 import com.zhidian.model.sys.CssInfoModel;
 import com.zhidian.model.sys.CssObjectModel;
-import com.zhidian.model.sys.PageBO;
 import com.zhidian.model.sys.PullDataWatchObject;
 import com.zhidian.model.sys.PullPageObjectModel;
 import com.zhidian.model.sys.WebsiteConfigModel;
@@ -39,7 +38,7 @@ import us.codecraft.webmagic.selector.Selectable;
  * @date 2017-3-21 上午12:06:48
  * 
  */
-public abstract class BasePageProcessor<T extends PageBO> extends BaseProcessor {
+public abstract class BasePageProcessor extends BaseProcessor {
 	private PullPageObjectModel obj;
 
 	public BasePageProcessor() {
@@ -59,11 +58,9 @@ public abstract class BasePageProcessor<T extends PageBO> extends BaseProcessor 
 	}
 
 	public void process(Page page) {
-		System.out.println(page.getUrl());
 		if (isCss(page.getUrl().toString())) {
 			try {
 				// cssHandler(page);
-				System.out.println("CssHandler:" + page.getUrl());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -104,7 +101,6 @@ public abstract class BasePageProcessor<T extends PageBO> extends BaseProcessor 
 				String html = page.getRawText();
 				if (StringUtils.isNotEmpty(html)) {
 					String code = DigestUtils.md5Hex(html);
-//					System.out.println("code:" + code);
 					if (code != null) {
 						if (code.equals(css.getUuid())) {
 							// 相等则忽略

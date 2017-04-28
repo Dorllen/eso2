@@ -8,10 +8,6 @@
  */
 package com.zhidian.controller;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,11 +48,12 @@ public class FileUploadController {
 	@RequestMapping(method = RequestMethod.GET, value = "/{filename:.+}")
 	@ResponseBody
 	public ResponseEntity<?> getFile(@PathVariable String filename) {
-		try {
-			return ResponseEntity.ok(resourceLoader.getResource("file:" + Paths.get(ROOT, filename).toString()));
-		} catch (Exception e) {
-			return ResponseEntity.notFound().build();
-		}
+//		try {
+//			return ResponseEntity.ok(resourceLoader.getResource("file:" + Paths.get(ROOT, filename).toString()));
+//		} catch (Exception e) {
+//			return ResponseEntity.notFound().build();
+//		}
+		return null;
 	}
 
 	// 上传的方法
@@ -65,11 +62,11 @@ public class FileUploadController {
 			HttpServletRequest request) {
 		System.out.println(request.getParameter("member"));
 		if (!file.isEmpty()) {
-			try {
-				Files.copy(file.getInputStream(), Paths.get(ROOT, file.getOriginalFilename()));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+//			try {
+//				Files.copy(file.getInputStream(), Paths.get(ROOT, file.getOriginalFilename()));
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
 		}
 		return "index";
 	}

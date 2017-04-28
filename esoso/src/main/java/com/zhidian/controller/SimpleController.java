@@ -9,9 +9,6 @@
 package com.zhidian.controller;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -235,10 +232,11 @@ public class SimpleController {
 //			String temp = request.getSession().getServletContext().getRealPath(Paths.get(ROOT, filename).toString());
 //			System.out.println(temp);
 //			return ResponseEntity.ok(resourceLoader.getResource(temp));
-			return ResponseEntity.ok(resourceLoader.getResource("file:" + Paths.get(ROOT, filename).toString()));
+//			return ResponseEntity.ok(resourceLoader.getResource("file:" + Paths.get(ROOT, filename).toString()));
 		} catch (Exception e) {
 			return ResponseEntity.notFound().build();
 		}
+		return null;
 	}
 
 	
@@ -272,7 +270,7 @@ public class SimpleController {
 //		
 //		System.out.println(rootPath);
 //		file.transferTo(new File(rootPath+"1.jpg"));
-		Files.copy(file.getInputStream(), Paths.get(ROOT, "1.jpg"));
+//		Files.copy(file.getInputStream(), Paths.get(ROOT, "1.jpg"));
 		return "ok!";
 	}
 }

@@ -200,7 +200,6 @@ public class WormsService {
 	private void handlerAfterPullPageData(List<PullPageObjectModel> list) {
 		// 处理获得的日志
 		if (list != null && list.size() > 0) {
-			System.out.println("handlerAfterPullPageData:"+JSON.toJSONString(list));
 			// 处理异常监听
 			List<WormLog> wlogs = createWormLogList(list);
 			if (wlogs != null && wlogs.size() > 0) {
@@ -338,7 +337,6 @@ public class WormsService {
 						.queryWebsitesForWormsService01ListWebsiteBO(AppEnumDefine.SiteService.搜索.getValue(), names);
 				// 获取站点的爬虫配置信息
 				// 觉得把websites转list换为map更加棒
-				System.out.println(JSON.toJSONString(websites));
 				Map<String, WebsiteBO> wMap = getMapWebsiteBOFromListWebsiteBO(websites);
 				String webRoot = System.getProperty("webapp.root");
 				List<PullPageDataTaskModel> models = createPullPageDataTaskModel(webRoot, list, wMap);

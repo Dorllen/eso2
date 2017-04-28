@@ -114,7 +114,7 @@ public class PullBaseService {
 										model.getFrom());
 								return null;
 							}
-							BasePageProcessor<?> pageProcessor = (BasePageProcessor<?>) c.newInstance(model.getPom());
+							BasePageProcessor pageProcessor = (BasePageProcessor) c.newInstance(model.getPom());
 							BasePagePipeline pipeline = new BasePagePipeline();
 							try {
 								long s = System.currentTimeMillis();

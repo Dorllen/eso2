@@ -131,7 +131,7 @@ public class PageService {
 			if (css == null || css.size() == 0 || js == null || js.size() == 0 || StringUtils.isEmpty(page)) {
 				// css为空
 				version = versionMapper.queryVersionsForPullArticleService01SimpleVersion(
-						AppEnumDefine.SiteService.搜索.getValue(), article.getName(), article.getVersion());
+						ResourceEnumDefine.ResourceType.内容详情页.getValue(), article.getName(), article.getVersion());
 				if (version == null) {
 					log.warn("PullArticlePageVO无法获取，需处理异常....未找到PullArticle的版本信息，连默认版本都没有！ uuid -> {}",
 							article.getUuid());
@@ -139,22 +139,25 @@ public class PageService {
 				}
 				if (css == null || css.size() == 0) {
 					article.setCssPath(version.getDefCss());
+					css = RegExpUtils.convertString2List2(article.getCssPath());
 				}
 
 				if (js == null || js.size() == 0) {
 					// js为空
 					article.setJsPath(version.getDefJs());
+					js = RegExpUtils.convertString2List2(article.getJsPath());
 				}
 				if (StringUtils.isEmpty(page)) {
 					// page为空
 					article.setPagePath(version.getDefPage());
+					page = article.getPagePath();
 				}
 			}
 			pull = new PullArticlePageVO();
 			if (StringUtils.isNotEmpty(article.getContents())) {
 				// 从websites表去获取对象信息，进行Class装载
 				Website web = websiteMapper.queryWebsitesForPageService01SimpleWebsite(
-						ResourceEnumDefine.ResourceType.内容详情页.getValue(), article.getName(), article.getVersion());
+						AppEnumDefine.SiteService.搜索.getValue(), article.getName(), article.getVersion());
 				if (web != null) {
 					String receiveObj = web.getPageRObject();
 					if (StringUtils.isNotEmpty(receiveObj)) {
@@ -162,7 +165,9 @@ public class PageService {
 							Class<?> clazz = Class.forName(receiveObj);
 							if (clazz != null) {
 								log.info("Contents Object Size is : " + article.getContents().length());
+								System.out.println(article.getContents().substring(0,20));
 								Object obj = JSON.parseObject(article.getContents(), clazz);
+								System.out.println(JSON.toJSONString(obj));
 								pull.setContents(obj);
 							}
 						} catch (ClassNotFoundException e) {

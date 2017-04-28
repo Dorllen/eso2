@@ -14,7 +14,6 @@ import java.util.Date;
 import com.zhidian.bases.WormEnumDefine;
 import com.zhidian.bases.worms.pipeline.BasePagePipeline;
 import com.zhidian.model.sys.PullPageObjectModel;
-import com.zhidian.model.sys.SegmentfaultPageBO;
 import com.zhidian.model.websites.answer.SegmentfaultPageRObject;
 
 import us.codecraft.webmagic.Page;
@@ -27,7 +26,7 @@ import us.codecraft.webmagic.selector.Selectable;
  * @date 2017-3-21 上午12:42:15
  *
  */
-public class SegmentFaultPageProcessor extends BasePageProcessor<SegmentfaultPageBO> {
+public class SegmentFaultPageProcessor extends BasePageProcessor {
 	// private Logger log = LoggerFactory.getLogger(getClass());
 
 	public SegmentFaultPageProcessor(PullPageObjectModel pom) {
@@ -61,7 +60,7 @@ public class SegmentFaultPageProcessor extends BasePageProcessor<SegmentfaultPag
 		try {
 			this.getObj().setDate(new Date());// 时间更新
 			// 页面解析开始
-			SegmentfaultPageBO sbo = new SegmentfaultPageBO();
+//			SegmentfaultPageBO sbo = new SegmentfaultPageBO();
 			SegmentfaultPageRObject handler = new SegmentfaultPageRObject();
 			Selectable title = page.getHtml().$("div.post-topheader");
 			// 手动网站取值监控
@@ -85,8 +84,8 @@ public class SegmentFaultPageProcessor extends BasePageProcessor<SegmentfaultPag
 			handler.setOriginUrl(page.getUrl().toString());// 页面源地址
 			handler.setTitle(title.get());
 			handler.setMain(content.get());
-			sbo.setContents(handler);
-			this.getObj().setModel(sbo);
+//			sbo.setContents(handler);
+			this.getObj().setModel(handler);
 			page.putField(BasePagePipeline.STATUS, WormEnumDefine.Status.结束.name());
 			page.putField(WormEnumDefine.Object.内容详情页.name(), this.getObj());
 

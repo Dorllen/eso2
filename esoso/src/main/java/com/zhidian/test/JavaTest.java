@@ -21,6 +21,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.StringReader;
+import java.io.UnsupportedEncodingException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -32,6 +34,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.junit.Test;
 
 import com.alibaba.fastjson.JSON;
 import com.zhidian.model.sys.WebsiteCssConfigModel;
@@ -47,18 +50,28 @@ import com.zhidian.model.websites.answer.SegmentfaultPageRObject;
 public class JavaTest {
 	public static void main(String[] args) {
 
-		
-		
-		dateExchange();
-		
-		//https://segmentfault.com/q/1010000007838751
-//		System.out.println(DigestUtils.md5Hex("https://segmentfault.com/q/1010000007838751"));
-		
-		//[{"name":"qa.css","url":"http://segmentfault.con/static/css/qa.css","useSearch":false,"version":"0.0.0.0","website":"segmentfault"},{"name":"qa.css","url":"http://segmentfault.con/static/css/global.css","useSearch":false,"version":"0.0.0.0","website":"seg
-//		exchangeDataWebsiteCssConfig();
-//		String str = "[{\"name\":\"qa.css\",\"url\":\"http://segmentfault.con/static/css/qa.css\",\"useSearch\":false,\"version\":\"0.0.0.0\",\"website\":\"segmentfault\"},{\"name\":\"qa.css\",\"url\":\"http://segmentfault.con/static/css/global.css\",\"useSearch\":false,\"version\":\"0.0.0.0\",\"website\":\"seg";
-//		System.out.println(str.length());
-		
+		String str = testDBPullArticle();
+		Class<?> claz;
+		try {
+			claz = Class.forName("com.zhidian.model.websites.answer.SegmentfaultPageRObject");
+			Object o = JSON.parseObject(str, claz);
+			System.out.println(o==null);
+			System.out.println(JSON.toJSONString(o));
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		// dateExchange();
+
+		// https://segmentfault.com/q/1010000007838751
+		// System.out.println(DigestUtils.md5Hex("https://segmentfault.com/q/1010000007838751"));
+
+		// [{"name":"qa.css","url":"http://segmentfault.con/static/css/qa.css","useSearch":false,"version":"0.0.0.0","website":"segmentfault"},{"name":"qa.css","url":"http://segmentfault.con/static/css/global.css","useSearch":false,"version":"0.0.0.0","website":"seg
+		// exchangeDataWebsiteCssConfig();
+		// String str =
+		// "[{\"name\":\"qa.css\",\"url\":\"http://segmentfault.con/static/css/qa.css\",\"useSearch\":false,\"version\":\"0.0.0.0\",\"website\":\"segmentfault\"},{\"name\":\"qa.css\",\"url\":\"http://segmentfault.con/static/css/global.css\",\"useSearch\":false,\"version\":\"0.0.0.0\",\"website\":\"seg";
+		// System.out.println(str.length());
+
 		// 数据转换工具。将segmentfault的数据，从title、content表转到main.txt中。json格式
 		// exchangeDataFromFile();
 
@@ -72,14 +85,51 @@ public class JavaTest {
 
 	}
 
-	private static void dateExchange() {
+	// @Test
+	private static String testDBPullArticle() {
+		try {
+			BufferedReader br = new BufferedReader(
+					new InputStreamReader(new FileInputStream(new File("c://test.txt")), "gbk"));
+			StringBuffer str = new StringBuffer();
+			String temp = new String();
+			try {
+				while ((temp = br.readLine()) != null) {
+					str.append(temp);
+				}
+				System.out.println(str.toString());
+				return str.toString();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				if (br != null) {
+					try {
+						br.close();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		return null;
+
+	}
+
+	@Test
+	private void dateExchange() {
 		Calendar c = Calendar.getInstance();
-//		c.add(1, amount);
+		// c.add(1, amount);
 		c.roll(Calendar.MINUTE, -10);// roll 和 add是一樣的
 		Date d = c.getTime();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd HH:mm:ss");
-		System.out.println("now:"+sdf.format(new Date()));
-		System.out.println("pass:"+sdf.format(d)+ " "+(c.getTimeInMillis()-d.getTime()));
+		System.out.println("now:" + sdf.format(new Date()));
+		System.out.println("pass:" + sdf.format(d) + " " + (c.getTimeInMillis() - d.getTime()));
 	}
 
 	private static void exchangeDataWebsiteCssConfig() {
@@ -145,7 +195,7 @@ public class JavaTest {
 		System.out.println(str.length());
 		return str;
 	}
-	
+
 	private static String bufferedReader(File f) {
 		String str = "";
 		try {
@@ -170,6 +220,7 @@ public class JavaTest {
 		}
 		return str;
 	}
+
 	private static void inputStream(File f) {
 		try {
 			String str = "";

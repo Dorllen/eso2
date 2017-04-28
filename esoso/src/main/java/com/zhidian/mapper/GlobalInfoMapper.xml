@@ -4,7 +4,7 @@
 
 <mapper namespace="com.zhidian.mapper.GlobalInfoMapper">
 
-	<select id="queryGlobalInfoForPageService01SimpleString"
+	<select id="selectGlobalInfoForPageService01SimpleString"
 		parameterType="hashmap" resultType="string">
 		select value from globalInfos where
 		type = #{type} and name = #{name} and globalInfos.using = 1 and
