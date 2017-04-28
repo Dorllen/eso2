@@ -24,7 +24,7 @@
 	</select>
 	<select id="queryScheduleQueuesForPullArticleService01ListScheduleQueue"
 		resultType="ScheduleQueue">
-		select * from schdeuleQueues where
+		select * from scheduleQueues where
 		<foreach collection="list" index="i" separator="or" item="item">
 			(url = #{item.url} and name = #{item.name})
 		</foreach>
