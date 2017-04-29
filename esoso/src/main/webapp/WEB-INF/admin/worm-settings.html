@@ -394,8 +394,8 @@
 									<td>版本号</td>
 									<td>0.0.0.0</td>
 									<td>別名</td>
-									<td><input type="text" value="sm,segment" name=""  class="input-text"
-										placeholder="以‘,’间隔" /></td>
+									<td><input type="text" value="sm,segment" name=""
+										class="input-text" placeholder="以‘,’间隔" /></td>
 								</tr>
 								<tr>
 									<td>类型</td>
@@ -407,18 +407,23 @@
 								</tr>
 								<tr>
 									<td>短地址</td>
-									<td colspan="5"><input type="text"  class="input-text"
+									<td colspan="5"><input type="text" class="input-text"
 										value="segmentfault.com" name="" placeholder="以‘,’间隔" /></td>
 								</tr>
 								<tr>
 									<td>全地址</td>
-									<td colspan="5"><input type="text"  class="input-text"
+									<td colspan="5"><input type="text" class="input-text"
 										value="https://www.segmentfault.com" name=""
 										placeholder="仅存一个，最全的地址" /></td>
 								</tr>
 								<tr>
 									<td>是否在用</td>
-									<td>否</td>
+									<td><span class="select-box"> <select
+											class="select" size="1" name="using">
+												<option value="0" selected>否</option>
+												<option value="1">是</option>
+										</select>
+									</span></td>
 									<td>禁用时间</td>
 									<td>2017-4-29 21:35</td>
 									<td>禁用人</td>
@@ -427,13 +432,14 @@
 								<tr>
 									<td>搜索地址</td>
 									<td colspan="5"><input type="text"
-										value="https://segmentfault.com/search?q=" name=""  class="input-text"
+										value="https://segmentfault.com/search?q=" name=""
+										class="input-text"
 										placeholder="搜索入口,如:https://segmentfault.com/search?q=" /></td>
 								</tr>
 								<tr>
 									<td>分頁符</td>
-									<td colspan="5"><input type="text" value="&page={0}"  class="input-text"
-										name="" placeholder="分页核心部分,如:&page={0}" /></td>
+									<td colspan="5"><input type="text" value="&page={0}"
+										class="input-text" name="" placeholder="分页核心部分,如:&page={0}" /></td>
 								</tr>
 								<tr>
 									<td>更新時間</td>
@@ -441,17 +447,22 @@
 									<td>更新人</td>
 									<td>Admin</td>
 									<td>使用后缀</td>
-									<td>否</td>
+									<td><span class="select-box"> <select
+											class="select" size="1" name="demo1">
+												<option value="0" selected>否</option>
+												<option value="1">是</option>
+										</select>
+									</span></td>
 								</tr>
 								<tr>
 									<td>详情頁處理器</td>
-									<td colspan="5"><input type="text"  class="input-text"
+									<td colspan="5"><input type="text" class="input-text"
 										value="com.zhidian.bases.worms.processor.SegmentFaultPageProcessor"
 										name="" placeholder="详情页数据解析器" /></td>
 								</tr>
 								<tr>
 									<td>详情页接收器</td>
-									<td colspan="5"><input type="text"  class="input-text"
+									<td colspan="5"><input type="text" class="input-text"
 										value="com.zhidian.bases.worms.pipeline.NullPipeline" name=""
 										placeholder="详情页数据处理器" /></td>
 								</tr>
@@ -463,20 +474,20 @@
 								</tr>
 								<tr>
 									<td>结果页处理器</td>
-									<td colspan="5"><input type="text"  class="input-text"
+									<td colspan="5"><input type="text" class="input-text"
 										value="com.zhidian.bases.worms.processor.SegmentFaultResultProcessor"
 										name="" placeholder="结果页数据解析器" /></td>
 								</tr>
 								<tr>
 									<td>結果頁接受器</td>
-									<td colspan="5"><input type="text"  class="input-text"
+									<td colspan="5"><input type="text" class="input-text"
 										value="com.zhidian.bases.worms.pipeline.NullPipeline"
 										placeholder="结果页数据处理器" /></td>
 								</tr>
 								<tr>
 									<td>結果頁接收类</td>
-									<td colspan="5"><input type="text" value=""  class="input-text"
-										placeholder="结果页数据传递对象(暂可为空)" /></td>
+									<td colspan="5"><input type="text" value=""
+										class="input-text" placeholder="结果页数据传递对象(暂可为空)" /></td>
 								</tr>
 								<tr>
 									<td>系統Css</td>
@@ -484,7 +495,7 @@
 								</tr>
 								<tr>
 									<td>自定义Cookie</td>
-									<td colspan="5"><textare class="textarea radius">无</textare></td>
+									<td colspan="5"><textare class="textarea radius"></textare></td>
 								</tr>
 								<tr>
 									<td>描述</td>
