@@ -17,8 +17,8 @@
 <link rel="apple-touch-icon-precomposed" sizes="72x72"
 	href="../ico/i/72.png" th:href="@{/ico/i/72.png}" />
 <link rel="apple-touch-icon-precomposed" href="../ico/i/57.png"
-	th:href="@{/ico/i/57.png}" />	
-	
+	th:href="@{/ico/i/57.png}" />
+
 <!--[if lt IE 9]>
 <script type="text/javascript" src="lib/html5shiv.js" th:src="@{/admin/lib/html5shiv.js}"></script>
 <script type="text/javascript" src="lib/respond.min.js" th:src="@{/admin/lib/respond.min.js}"></script>
@@ -65,13 +65,13 @@
 							<ul class="dropDown-menu menu radius box-shadow">
 								<li><a href="javascript:;"
 									onclick="picture_add('添加资讯','picture-add.html')"><i
-										class="Hui-iconfont">&#xe613;</i> 爬虫模板</a></li>
+										class="Hui-iconfont">&#xe613;</i> 消息</a></li>
 								<li><a href="javascript:;"
 									onclick="product_add('添加资讯','product-add.html')"><i
-										class="Hui-iconfont">&#xe620;</i> 标签</a></li>
+										class="Hui-iconfont">&#xe620;</i> 推荐</a></li>
 								<li><a href="javascript:;"
 									onclick="member_add('添加用户','member-add.html','','510')"><i
-										class="Hui-iconfont">&#xe60d;</i> 计划</a></li>
+										class="Hui-iconfont">&#xe60d;</i> 站点</a></li>
 							</ul></li>
 					</ul>
 				</nav>
@@ -108,105 +108,115 @@
 	</header>
 	<aside class="Hui-aside">
 		<div class="menu_dropdown bk_2">
-			<dl id="menu-article">
+			<dl id="menu-news">
 				<dt>
 					<i class="Hui-iconfont">&#xe616;</i> 消息管理<i
 						class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i>
 				</dt>
 				<dd>
 					<ul>
-						<li><a data-href="article-list.html" data-title="资讯管理"
+						<li><a data-href="article-list.html" data-title="消息中心"
 							href="javascript:void(0)">消息中心</a></li>
-						<li><a data-href="member-level.html" data-title="等级管理"
+						<li><a data-href="member-level.html" data-title="页面消息管理"
 							href="javascript:;">页面消息管理</a></li>
-						<li><a data-href="member-level.html" data-title="等级管理"
+						<li><a data-href="member-level.html" data-title="推荐管理"
 							href="javascript:;">推荐管理</a></li>
-						<li><a data-href="member-level.html" data-title="等级管理"
+						<li><a data-href="member-level.html" data-title="邮件推送管理"
 							href="javascript:;">邮件推送管理</a></li>
 					</ul>
 				</dd>
 			</dl>
-			<dl id="menu-picture">
+			<dl id="menu-worms">
 				<dt>
 					<i class="Hui-iconfont">&#xe613;</i> 爬虫管理<i
 						class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i>
 				</dt>
 				<dd>
 					<ul>
-						<li><a data-href="picture-list.html" data-title="爬虫计划"
-							href="javascript:void(0)">爬虫信息</a></li>
-						<li><a data-href="picture-list.html" data-title="爬虫模板"
-							href="javascript:void(0)">队列管理</a></li>
-						<li><a data-href="picture-list.html" data-title="历史记录"
-							href="javascript:void(0)">定时计划管理</a></li>
-						<li><a data-href="picture-list.html" data-title="历史记录"
+						<li><a data-href="worm-index.html" data-title="信息汇总"
+							href="javascript:void(0)">信息汇总</a></li>
+						<li><a data-href="worm-settings.html" data-title="爬虫设置"
+							href="javascript:void(0)">爬虫设置</a></li>
+						<li><a data-href="picture-list.html" data-title="爬虫队列"
+							href="javascript:void(0)">爬虫队列</a></li>
+						<li><a data-href="picture-list.html" data-title="定时计划"
+							href="javascript:void(0)">定时计划</a></li>
+						<li><a data-href="picture-list.html" data-title="异常记录"
+							href="javascript:void(0)">异常记录</a></li>
+						<li><a data-href="picture-list.html" data-title="模板管理"
 							href="javascript:void(0)">模板管理</a></li>
 						<li><a data-href="picture-list.html" data-title="爬虫日志"
 							href="javascript:void(0)">爬虫日志</a></li>
 					</ul>
 				</dd>
 			</dl>
-			<dl id="menu-product">
+			<dl id="menu-engines">
 				<dt>
 					<i class="Hui-iconfont">&#xe620;</i> 搜索服务<i
 						class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i>
 				</dt>
 				<dd>
 					<ul>
-						<li><a data-href="product-brand.html" data-title="品牌管理"
+						<li><a data-href="product-brand.html" data-title="搜索中心"
 							href="javascript:void(0)">搜索中心</a></li>
-						<li><a data-href="product-brand.html" data-title="品牌管理"
+						<li><a data-href="product-brand.html" data-title="关键词管理"
 							href="javascript:void(0)">关键词管理</a></li>
-						<li><a data-href="product-category.html" data-title="分类管理"
-							href="javascript:void(0)">规则配置管理</a></li>
-						<li><a data-href="product-list.html" data-title="产品管理"
+						<li><a data-href="product-category.html" data-title="搜索规则管理"
+							href="javascript:void(0)">搜索规则管理</a></li>
+						<li><a data-href="product-list.html" data-title="其他"
 							href="javascript:void(0)">其他</a></li>
 					</ul>
 				</dd>
 			</dl>
-			<dl id="menu-comments">
+			<dl id="menu-websites">
 				<dt>
-					<i class="Hui-iconfont">&#xe622;</i> 收录管理<i
+					<i class="Hui-iconfont">&#xe622;</i> 站点管理<i
 						class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i>
 				</dt>
 				<dd>
 					<ul>
 						<li><a data-href="http://h-ui.duoshuo.com/admin/"
-							data-title="评论列表" href="javascript:;">收录中心</a></li>
+							data-title="站点中心" href="javascript:;">站点中心</a></li>
 						<li><a data-href="http://h-ui.duoshuo.com/admin/"
-							data-title="评论列表" href="javascript:;">内容库管理</a></li>
-						<li><a data-href="feedback-list.html" data-title="意见反馈"
-							href="javascript:void(0)">展示页管理</a></li>
-						<li><a data-href="feedback-list.html" data-title="意见反馈"
+							data-title="收录管理" href="javascript:;">收录管理</a></li>
+						<li><a data-href="feedback-list.html" data-title="页面管理"
+							href="javascript:void(0)">页面管理</a></li>
+						<li><a data-href="feedback-list.html" data-title="新增模板"
 							href="javascript:void(0)">新增模板</a></li>
 					</ul>
 				</dd>
 			</dl>
-			<dl id="menu-member">
+			<dl id="menu-users">
 				<dt>
 					<i class="Hui-iconfont">&#xe60d;</i> 用户管理<i
 						class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i>
 				</dt>
 				<dd>
 					<ul>
-						<li><a data-href="member-list.html" data-title="会员列表"
-							href="javascript:;">用户中心</a></li>
-						<li><a data-href="member-del.html" data-title="删除的会员"
+						<li><a data-href="member-list.html" data-title="用户汇总"
+							href="javascript:;">用户汇总</a></li>
+						<li><a data-href="member-list.html" data-title="用户管理"
+							href="javascript:;">用户管理</a></li>
+						<li><a data-href="member-del.html" data-title="订阅管理"
 							href="javascript:;">订阅管理</a></li>
-						<li><a data-href="member-level.html" data-title="等级管理"
+						<li><a data-href="member-level.html" data-title="权限管理"
 							href="javascript:;">权限管理</a></li>
+						<li><a data-href="member-list.html" data-title="黑名单"
+							href="javascript:;">黑名单</a></li>
+						<li><a data-href="member-list.html" data-title="白名单"
+							href="javascript:;">白名单</a></li>
 					</ul>
 				</dd>
 			</dl>
-			<dl id="menu-blog">
+			<dl id="menu-dy">
 				<dt>
 					<i class="Hui-iconfont">&#xe60d;</i> 订阅号<i
 						class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i>
 				</dt>
 				<dd>
 					<ul>
-						<li><a data-href="#" data-title="博客信息" href="javascript:;">暂无服务</a></li>
-						<li><a data-href="#" data-title="博客信息" href="javascript:;">推送管理</a></li>
+						<li><a data-href="#" data-title="暂无服务" href="javascript:;">暂无服务</a></li>
+						<li><a data-href="#" data-title="推送管理" href="javascript:;">推送管理</a></li>
 					</ul>
 				</dd>
 			</dl>
@@ -217,7 +227,7 @@
 				</dt>
 				<dd>
 					<ul>
-						<li><a data-href="#" data-title="博客信息" href="javascript:;">暂无服务</a></li>
+						<li><a data-href="#" data-title="暂无服务" href="javascript:;">暂无服务</a></li>
 					</ul>
 				</dd>
 			</dl>
@@ -254,13 +264,15 @@
 					<ul>
 						<li><a data-href="system-base.html" data-title="系统设置"
 							href="javascript:void(0)">系统设置</a></li>
-						<li><a data-href="system-category.html" data-title="栏目管理"
-							href="javascript:void(0)">权限控制</a></li>
-						<li><a data-href="system-data.html" data-title="数据字典"
+						<li><a data-href="system-base.html" data-title="系統服务控制"
+							href="javascript:void(0)">系統服务控制</a></li>
+						<li><a data-href="system-data.html" data-title="页面管理"
 							href="javascript:void(0)">页面管理</a></li>
-						<li><a data-href="system-shielding.html" data-title="屏蔽词"
+						<li><a data-href="system-shielding.html" data-title="站点管理"
 							href="javascript:void(0)">站点管理</a></li>
-						<li><a data-href="system-category.html" data-title="栏目管理"
+						<li><a data-href="system-category.html" data-title="管理员管理"
+							href="javascript:void(0)">管理员管理</a></li>
+						<li><a data-href="system-category.html" data-title="版本升级"
 							href="javascript:void(0)">版本升级</a></li>
 						<li><a data-href="system-log.html" data-title="系统日志"
 							href="javascript:void(0)">系统日志</a></li>

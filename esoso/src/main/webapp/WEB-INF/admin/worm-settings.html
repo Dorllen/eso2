@@ -1,0 +1,371 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="lib/html5shiv.js"></script>
+<script type="text/javascript" src="lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css"
+	href="static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css"
+	href="static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css"
+	href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css"
+	href="static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css"
+	href="static/h-ui.admin/css/style.css" />
+<!--[if IE 6]>
+<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+
+<title>爬虫设置</title>
+</head>
+<body>
+	<div class="page-container">
+		<div class="HuiTab" id="settings" style="min-height: 600px">
+			<div class="tabBar clearfix">
+				<span>站点管理</span><span>全局信息</span>
+			</div>
+			<div class="tabCon">
+				<div class="text-c mt-20">
+
+					站点名称： <input type="text" name="" id="" style="width: 250px"
+						class="input-text" placeholder="segmentfault|github">
+					<button name="" id="" class="btn btn-success" type="submit">
+						<i class="Hui-iconfont">&#xe665;</i> 搜索
+					</button>
+					<a class="btn btn-primary radius"
+						style="float: right; margin-right: 20px"
+						onclick="picture_add('新增站点','picture-add.html')"
+						href="javascript:;"><i class="Hui-iconfont">&#xe600;</i> 新增站点</a>
+				</div>
+				<div class="cl pd-5 bg-1 bk-gray mt-20">
+					<span class="l"><a class="btn btn-primary radius"
+						onclick="picture_add('新增规则','picture-add.html')"
+						href="javascript:;"><i class="Hui-iconfont">&#xe600;</i> 新增规则</a>
+					</span> <span class="r">共有：<strong>1</strong> 站点
+					</span>
+				</div>
+				<div>
+					<table class="table table-border table-bordered table-bg mt-15">
+						<thead>
+							<tr>
+								<th colspan="9" scope="col">站点：<span
+									class="mr-10 ml-10 f-16" style="color: #f75809;">segmentfault</span>
+									版本信息
+								</th>
+							</tr>
+							<tr class="text-c">
+								<th>站点名</th>
+								<th>版本名</th>
+								<th>创建时间</th>
+								<th>创建人</th>
+								<th>描述</th>
+								<th>最近更新时间</th>
+								<th>更新人</th>
+								<th>是否在用</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="text-c">
+								<td>segmentfault</td>
+								<td>0.0.0.0</td>
+								<td>2017-4-28 13:22</td>
+								<td>Admin</td>
+								<td><abbr title="新版本2016版，用于解决样式出现特殊异常！"
+									class="initialism text-overflow"
+									style="width: 80px; display: inline-block">新版本2016版，用于解决样式出现特殊异常！</abbr></td>
+								<td>2017-4-28 13:22</td>
+								<td>Admin</td>
+								<td><input type="checkbox" id="radio1" checked>
+								<td><input class="btn btn-success radius" type="button"
+									value="具体内容" onClick="getInfo()"> <input
+									class="btn btn-primary radius" type="button" value="修改"
+									onClick="updateInfo()"> <input
+									class="btn radius btn-warning" type="button" value="设为默认"
+									onClick="setDefault(this)"></td>
+							</tr>
+							<tr class="text-c">
+								<td>segmentfault</td>
+								<td>0.0.0.0</td>
+								<td>2017-4-28 13:22</td>
+								<td>Admin</td>
+								<td><abbr title="User Interface"
+									class="initialism text-overflow" style="width: 300px;">UI</abbr></td>
+								<td>2017-4-28 13:22</td>
+								<td>Admin</td>
+								<td><input type="checkbox" id="radio1" checked>
+								<td><input class="btn btn-success radius" type="button"
+									value="具体内容"> <input class="btn btn-primary radius"
+									type="button" value="修改"> <input
+									class="btn radius btn-warning" type="button" value="设为默认"></td>
+							</tr>
+							<tr class="text-c">
+								<td>segmentfault</td>
+								<td>0.0.0.0</td>
+								<td>2017-4-28 13:22</td>
+								<td>Admin</td>
+								<td><abbr title="User Interface"
+									class="initialism text-overflow" style="width: 300px;">UI</abbr></td>
+								<td>2017-4-28 13:22</td>
+								<td>Admin</td>
+								<td><input type="checkbox" id="radio1" checked>
+								<td><input class="btn btn-success radius" type="button"
+									value="具体内容"> <input class="btn btn-primary radius"
+									type="button" value="修改"> <input
+									class="btn radius btn-warning" type="button" value="设为默认"></td>
+							</tr>
+							<tr class="text-c">
+								<td>segmentfault</td>
+								<td>0.0.0.0</td>
+								<td>2017-4-28 13:22</td>
+								<td>Admin</td>
+								<td><abbr title="User Interface"
+									class="initialism text-overflow" style="width: 300px;">UI</abbr></td>
+								<td>2017-4-28 13:22</td>
+								<td>Admin</td>
+								<td><input type="checkbox" id="radio1" checked>
+								<td><input class="btn btn-success radius" type="button"
+									value="具体内容"> <input class="btn btn-primary radius"
+									type="button" value="修改"> <input
+									class="btn radius btn-warning" type="button" value="设为默认"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="tabCon">
+				<h4 class="text-success text-l mb-20">服务默认信息</h4>
+				<table class="table table-border table-bordered table-bg mb-15">
+					<thead>
+						<tr>
+							<th colspan="4" scope="col">请求头</th>
+						</tr>
+						<tr>
+							<th colspan="1" class="text-c">name</th>
+							<th colspan="1" class="text-c">value</th>
+							<th colspan="1" class="text-c">name</th>
+							<th colspan="1" class="text-c">value</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="text-c">
+							<th>9</th>
+							<th>0</th>
+							<th>8</th>
+							<th>20</th>
+						</tr>
+						<tr class="text-c">
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+						<tr class="text-c">
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+						<tr class="text-c">
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+						<tr class="text-c">
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+					</tbody>
+				</table>
+
+
+				<hr class="mt-20 mb-20" />
+
+				<table class="table table-border table-bordered table-bg mt-15">
+					<thead>
+						<tr>
+							<th colspan="4" scope="col">服务配置</th>
+						</tr>
+						<tr>
+							<th colspan="1" class="text-c">name</th>
+							<th colspan="1" class="text-c">value</th>
+							<th colspan="1" class="text-c">name</th>
+							<th colspan="1" class="text-c">value</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="text-c">
+							<th>9</th>
+							<th>0</th>
+							<th>8</th>
+							<th>20</th>
+						</tr>
+						<tr class="text-c">
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+						<tr class="text-c">
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+						<tr class="text-c">
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+						<tr class="text-c">
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div id="websiteInfo" class="modal fade" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content radius">
+				<div class="modal-header">
+					<h3 class="modal-title">版本内容詳情</h3>
+					<a class="close" data-dismiss="modal" aria-hidden="true"
+						href="javascript:void();">×</a>
+				</div>
+				<div class="modal-body">
+					<table class="table table-border table-bordered table-hover">
+						<thead>
+							<tr>
+								<th>名稱</th>
+								<th>内容</th>
+								<th>名稱</th>
+								<th>内容</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>站點名</td>
+								<td>segmentfault</td>
+								<td>別名</td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>短地址</td>
+								<td>segmentfault.com</td>
+								<td>居全地址</td>
+								<td>https://www.segmentfault.com</td>
+							</tr>
+							<tr>
+								<td>搜索地址</td>
+								<td colspan="3">https://segmentfault.com/search?q=</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary">确定</button>
+					<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="websiteUpdate" class="modal fade" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content radius">
+				<div class="modal-header">
+					<h3 class="modal-title">内容詳情</h3>
+					<a class="close" data-dismiss="modal" aria-hidden="true"
+						href="javascript:void();">×</a>
+				</div>
+				<div class="modal-body">
+					<p>我要更新的是。。。</p>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary">确定</button>
+					<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<footer class="footer mt-20">
+		<div class="container">
+			<p>
+				感谢jQuery、layer、laypage、Validform、UEditor、My97DatePicker、iconfont、Datatables、WebUploaded、icheck、highcharts、bootstrap-Switch<br>
+				Copyright &copy;2015-2017 H-ui.admin v3.0 All Rights Reserved.<br>
+				本后台系统由<a href="http://www.h-ui.net/" target="_blank"
+					title="H-ui前端框架">H-ui前端框架</a>提供前端技术支持
+			</p>
+		</div>
+	</footer>
+	<!--_footer 作为公共模版分离出去-->
+	<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
+	<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script>
+	<!--/_footer 作为公共模版分离出去-->
+	<!--此乃百度统计代码，请自行删除-->
+	<script>
+		/* 		var _hmt = _hmt || [];
+		 (function() {
+		 var hm = document.createElement("script");
+		 hm.src = "https://hm.baidu.com/hm.js?080836300300be57b7f34f4b3e97d911";
+		 var s = document.getElementsByTagName("script")[0];
+		 s.parentNode.insertBefore(hm, s);
+		 })(); */
+	</script>
+	<!--/此乃百度统计代码，请自行删除-->
+	<!--请在下方写此页面业务相关的脚本-->
+	<script type="text/javascript">
+		function getInfo() {
+			$("#websiteInfo").modal("show")
+		}
+		function updateInfo() {
+			$("#websiteUpdate").modal("show")
+		}
+		function setDefault(obj) {
+			alert("設置默認！");
+		}
+		$(function() {
+			$.Huitab("#settings .tabBar span", "#settings .tabCon", "current",
+					"click", "0");
+
+		});
+	</script>
+</body>
+</html>
