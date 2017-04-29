@@ -16,12 +16,15 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.RandomAccessFile;
 import java.io.StringReader;
+import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -49,18 +52,20 @@ import com.zhidian.model.websites.answer.SegmentfaultPageRObject;
  */
 public class JavaTest {
 	public static void main(String[] args) {
+		randomAccessFile();
 
-		String str = testDBPullArticle();
-		Class<?> claz;
-		try {
-			claz = Class.forName("com.zhidian.model.websites.answer.SegmentfaultPageRObject");
-			Object o = JSON.parseObject(str, claz);
-			System.out.println(o==null);
-			System.out.println(JSON.toJSONString(o));
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		// bufferedReader();
+
+		// stringWriter();
+
+		// stringReader();
+		// fileReader();
+
+		// fileInputStream2();
+
+		// fileInputStream();
+
+		// jsonObjectExchange();
 		// dateExchange();
 
 		// https://segmentfault.com/q/1010000007838751
@@ -83,6 +88,193 @@ public class JavaTest {
 		// listSort();
 		// jsonObject();
 
+	}
+
+	private static void randomAccessFile() {
+		File f = new File("c:" + File.separator + "tte.txt");// hello world!!!
+		try {
+			RandomAccessFile raf = new RandomAccessFile(f, "rw");//r , rw , w, rwd , rws
+			byte[] b = new byte[2];
+			int i = 0;
+			StringBuffer sb = new StringBuffer();
+			try {
+				while ((i = raf.read(b)) != -1) {
+					String str = new String(b);
+					System.out.println(str);
+					sb.append(str);
+				}
+				System.out.println(sb.toString());
+				System.out.println(sb.length());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				if (raf != null) {
+					try {
+						raf.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private static void bufferedReader() {
+		File f = new File("c:" + File.separator + "tte.txt");// hello world!!!
+		try {
+			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(f)));
+			char[] c = new char[2];
+			int i = 0;
+			try {
+				StringBuffer sb = new StringBuffer();
+				while ((i = br.read(c)) != -1) {
+					sb.append(c);
+				}
+				System.out.println(sb);
+				System.out.println(sb.length());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}finally{
+				if(br!=null){
+					try {
+						br.close();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private static void stringWriter() {
+		StringWriter sw = new StringWriter();
+		String str = "hello world!!!";
+		sw.write(str, 0, str.length() - 1);
+		System.out.println(sw.toString());
+	}
+
+	private static void stringReader() {
+		StringReader sr = new StringReader("Hello World!!!");
+		try {
+			int i = sr.read();
+			System.out.println(i);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private static void fileReader() {
+		File f = new File("c:" + File.separator + "tte.txt");// hello world!!!
+		try {
+			FileReader fr = new FileReader(f);
+			char[] c = new char[2];
+			int i;
+			try {
+				// fr.skip(2);
+				StringBuffer sb = new StringBuffer();
+				while ((i = fr.read(c)) != -1) {
+					System.out.println(c);
+					sb.append(c);
+				}
+				System.out.println(sb);
+				System.out.println(sb.length());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private static void fileInputStream2() {
+		InputStream in = null;
+		try {
+			File f = new File("c:" + File.separator + "tte.txt");// hello
+																	// world!!!
+			System.out.println(File.pathSeparator);
+			in = new FileInputStream(f);
+			byte[] b = new byte[2];
+			// in.skip(10);
+			int i = 0;
+			StringBuffer sb = new StringBuffer();
+			while ((i = in.read(b)) != -1) {
+				String s = new String(b, 0, i);
+				System.out.println(s);
+				sb.append(s);
+			}
+			System.out.println(sb);
+			System.out.println(sb.length());
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if (in != null) {
+				try {
+					in.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
+	private static void fileInputStream() {
+		FileInputStream in = null;
+		try {
+			File f = new File("c:" + File.separator + "tte.txt");// hello
+																	// world!!!
+			in = new FileInputStream(f);
+			byte[] b = new byte[(int) f.length()];
+			in.skip(10);
+			int i = in.read(b);
+			System.out.println(i);
+			System.out.println(new String(b, 0, i));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if (in != null) {
+				try {
+					in.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
+	private static void jsonObjectExchange() {
+		String str = testDBPullArticle();
+		Class<?> claz;
+		try {
+			claz = Class.forName("com.zhidian.model.websites.answer.SegmentfaultPageRObject");
+			Object o = JSON.parseObject(str, claz);
+			System.out.println(o == null);
+			System.out.println(JSON.toJSONString(o));
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	// @Test
