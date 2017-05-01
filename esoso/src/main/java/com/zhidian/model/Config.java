@@ -16,8 +16,9 @@ public class Config {
 	private String value;// segmentfault的网站热度为1.1
 	private String type;// 配置的类型。 AppEnumDefine.ConfigType
 	// Type: EngineSercie Name: defaultEngine(默认搜索来源)  engineSort类型(代表热度等设置),onlineEngine(代表当前站点的在线搜索是否开启),engineType代表搜索界面的默认值,
-	// Type: SysService Name: secVisit安全访问(可以设置那些网站的安全访问是开启的) pageSnapshot(页面快照) resultSnapshot(结果快照) recVersion(最近版本),pageClose(设置哪些页面的安全访问关闭，比secVisit级别低)
+	// Type: SysService Name:  pageSnapshot(页面快照) resultSnapshot(结果快照) recVersion(最近版本),
 	// Type: WormSercie Name: stopWorm(哪些站点停止爬虫，无论进行的）
+	// Type: WebsiteService Name:preventVisit(不允许访问，报找不到),allowVisit(允许访问),pageSecVisit安全访问(可以设置那些网站的安全访问是开启的),pageSecClose(设置哪些页面的安全访问关闭，比secVisit级别低)
 	private Date createTime;
 	private Date updateTime;
 	private String updateMan;
