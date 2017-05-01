@@ -327,6 +327,13 @@ public class WormsService {
 		return null;
 	}
 
+	/**
+	* @Title: startPullDataFromScheduleByAdminTrigger
+	* @Description: TODO()
+	* @param @return    参数
+	* @return List<PullPageObjectModel>    返回类型
+	* @throws
+	*/
 	public List<PullPageObjectModel> startPullDataFromScheduleByAdminTrigger() {
 		List<ScheduleQueue> list = scheduleMapper.queryScheduleQueuesForWormsService01ListScheduleQueue();
 		if (list != null && list.size() > 0) {
@@ -377,10 +384,10 @@ public class WormsService {
 					// pom.setChanged("");
 
 					List<CssInfoModel> cLists = createCssInfoModelFromWebsiteDefaultCssConfig(pom.getDownloadPath(),
-							web.getCssLists());
+							web.getPageCssLists());
 					pom.setCssModel(cLists);
 
-					pom.setWebsiteConfig(web.getConfig());
+					pom.setWebsiteConfig(web.getPageConfig());
 
 					model.setPom(pom);
 
@@ -393,11 +400,11 @@ public class WormsService {
 	}
 
 	private List<CssInfoModel> createCssInfoModelFromWebsiteDefaultCssConfig(String path,
-			List<WebsiteCssConfigModel> cssLists) {
-		if (cssLists != null && cssLists.size() > 0) {
-			List<CssInfoModel> list = new ArrayList<CssInfoModel>(cssLists.size());
+			List<WebsiteCssConfigModel> pageCssLists) {
+		if (pageCssLists != null && pageCssLists.size() > 0) {
+			List<CssInfoModel> list = new ArrayList<CssInfoModel>(pageCssLists.size());
 			CssInfoModel model = null;
-			for (WebsiteCssConfigModel css : cssLists) {
+			for (WebsiteCssConfigModel css : pageCssLists) {
 				if (css != null) {
 					model = new CssInfoModel();
 					model.setAbCssPath(path);// 获得项目的保存文件的地址。到css文件夹就行。如:E:\esoso\eso2\esoso\src\main\webapp\WEB-INF\css\websites

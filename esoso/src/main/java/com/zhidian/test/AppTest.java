@@ -331,7 +331,7 @@ public class AppTest {
 		List<WebsiteBO> list = websiteMapper
 				.queryWebsitesForWormsService01ListWebsiteBO(AppEnumDefine.SiteService.搜索.getValue(), names);
 		System.out.println(JSON.toJSONString(list));
-		System.out.println(list.get(0).getCssLists());
+		System.out.println(list.get(0).getPageCssLists());
 	}
 
 	// ###########################WormLog##################

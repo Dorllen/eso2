@@ -14,6 +14,7 @@ public class ScheduleQueue {
 	private int status;// 1 代表未处理，0代表处理完，2代表需上级处理，3代表无法处理
 	private String url;// 下载地址：http://segmentfault.con/a/45648797978。或者是http://segmentfault.com?q=ss&page=2(这一种服务暂时不提供)
 	private String uuid;// 下载地址的uuid。提供给在线获取页面
+	private int mark;// 排序级别。默认0，越大越有限执行。【待改进：执行的时候】
 	public int getId() {
 		return id;
 	}
@@ -79,5 +80,11 @@ public class ScheduleQueue {
 	}
 	public void setUuid(String uuid) {
 		this.uuid = uuid;
+	}
+	public int getMark() {
+		return mark;
+	}
+	public void setMark(int mark) {
+		this.mark = mark;
 	}
 }

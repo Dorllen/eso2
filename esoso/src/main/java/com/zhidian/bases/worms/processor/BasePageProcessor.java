@@ -24,6 +24,8 @@ import com.zhidian.model.sys.CssInfoModel;
 import com.zhidian.model.sys.CssObjectModel;
 import com.zhidian.model.sys.PullDataWatchObject;
 import com.zhidian.model.sys.PullPageObjectModel;
+import com.zhidian.model.sys.RequestHeaderModel;
+import com.zhidian.model.sys.WebsiteBO;
 import com.zhidian.model.sys.WebsiteConfigModel;
 import com.zhidian.util.BasicUtils;
 
@@ -60,6 +62,7 @@ public abstract class BasePageProcessor extends BaseProcessor {
 	public void process(Page page) {
 		if (isCss(page.getUrl().toString())) {
 			try {
+				System.out.println("進入Css處理識別中....");
 				// cssHandler(page);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -218,11 +221,11 @@ public abstract class BasePageProcessor extends BaseProcessor {
 
 	@Override
 	public Site getSite() {
-		return loadingWebsiteConfig(super.getSite());
+		return loadingConfig(super.getSite());
 	}
 
-	public Site loadingWebsiteConfig(Site site) {
-		// WebsiteConfig websiteConfig
+	public Site loadingConfig(Site site) {
+		// WebsiteConfigModel WebsiteConfigModel
 		if (this.getObj().getWebsiteConfig() != null) {
 			WebsiteConfigModel config = this.getObj().getWebsiteConfig();
 			if (config.getCharset() != null && config.getCharset().length() > 0) {
@@ -242,6 +245,21 @@ public abstract class BasePageProcessor extends BaseProcessor {
 			}
 			if (config.getTimeout() > 0) {
 				site.setTimeOut(config.getTimeout());
+			}
+		}
+		// RequestHeaderModel
+		if(this.getObj().getWebsite()!=null){
+			WebsiteBO web = this.getObj().getWebsite();// 站點信息.用於增加請求頭。
+			if(web.getRequestHeaders()!=null&&web.getRequestHeaders().size()>0){
+				for(RequestHeaderModel r : web.getRequestHeaders()){
+					if(r!=null){
+						if(r.getType()!=null&&RequestHeaderModel.CookieType.equals(r.getType())){// 請求类型
+							site.addCookie(r.getName(), r.getValue());
+						}else{
+							site.addHeader(r.getName(), r.getValue());
+						}
+					}
+				}
 			}
 		}
 		return site;

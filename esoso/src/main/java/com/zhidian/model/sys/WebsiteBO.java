@@ -19,10 +19,15 @@ public class WebsiteBO {
 	private boolean useSearch; // 使用后缀？ 默认false,代表去除搜索结果页捕获的链接后缀，如：?..&..。
 	private String type;// 类型。AppEnumDefine.SiteService
 	private String version;// 版本，每个结果详情页可能需要对应的版本来管理维护数据传输。
-	private String defaultCss;//
-	private List<WebsiteCssConfigModel> cssLists;
-	private String defConfig;
-	private WebsiteConfigModel config;
+	private String defaultPageCss;//
+	private String defPageConfig;// 默认詳情頁配置 WebsiteConfigModel
+	private String defResultConfig;// 默認結果頁爬取規則 WebsiteConfigModel
+	private String defRequestHeader;// 定义请求头 RequestHeaderModel
+
+	private List<WebsiteCssConfigModel> pageCssLists;
+	private List<RequestHeaderModel> requestHeaders;
+	private WebsiteConfigModel pageConfig;
+	private WebsiteConfigModel resultConfig;
 
 	public int getId() {
 		return id;
@@ -136,46 +141,68 @@ public class WebsiteBO {
 		this.version = version;
 	}
 
-	public List<WebsiteCssConfigModel> getCssLists() {
-		if (cssLists == null) {
-			if (defaultCss != null && defaultCss.length() > 0) {
+	public List<WebsiteCssConfigModel> getPageCssLists() {
+		if (pageCssLists == null) {
+			if (defaultPageCss != null && defaultPageCss.length() > 0) {
 				try {
-					this.cssLists = JSON.parseArray(defaultCss, WebsiteCssConfigModel.class);
+					this.pageCssLists = JSON.parseArray(defaultPageCss, WebsiteCssConfigModel.class);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		}
-		return cssLists;
+		return pageCssLists;
 	}
 
-	public WebsiteConfigModel getConfig() {
-		if (config == null) {
-			if (defConfig != null && defConfig.length() > 0) {
+	public WebsiteConfigModel getPageConfig() {
+		if (pageConfig == null) {
+			if (defPageConfig != null && defPageConfig.length() > 0) {
 				try {
-					this.config = JSON.parseObject(defConfig, WebsiteConfigModel.class);
+					this.pageConfig = JSON.parseObject(defPageConfig, WebsiteConfigModel.class);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		}
-		return config;
+		return pageConfig;
 	}
 
-	public String getDefaultCss() {
-		return defaultCss;
+	public WebsiteConfigModel getResultConfig() {
+		if (resultConfig == null) {
+			if (defResultConfig != null && defResultConfig.length() > 0) {
+				try {
+					this.resultConfig = JSON.parseObject(defResultConfig, WebsiteConfigModel.class);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return resultConfig;
 	}
 
-	public void setDefaultCss(String defaultCss) {
-		this.defaultCss = defaultCss;
+	public List<RequestHeaderModel> getRequestHeaders() {
+		if (requestHeaders == null) {
+			if (defRequestHeader != null && defRequestHeader.length() > 0) {
+				this.requestHeaders = JSON.parseArray(defRequestHeader, RequestHeaderModel.class);
+			}
+		}
+		return requestHeaders;
 	}
 
-	public String getDefConfig() {
-		return defConfig;
+	public String getDefResultConfig() {
+		return defResultConfig;
 	}
 
-	public void setDefConfig(String defConfig) {
-		this.defConfig = defConfig;
+	public void setDefResultConfig(String defResultConfig) {
+		this.defResultConfig = defResultConfig;
+	}
+
+	public String getDefRequestHeader() {
+		return defRequestHeader;
+	}
+
+	public void setDefRequestHeader(String defRequestHeader) {
+		this.defRequestHeader = defRequestHeader;
 	}
 
 }
