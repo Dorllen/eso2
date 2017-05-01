@@ -1,0 +1,322 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="lib/html5shiv.js"></script>
+<script type="text/javascript" src="lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css"
+	href="static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css"
+	href="static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css"
+	href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css"
+	href="static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css"
+	href="static/h-ui.admin/css/style.css" />
+<!--[if IE 6]>
+<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<title>新增站点</title>
+<link href="lib/webuploader/0.1.5/webuploader.css" rel="stylesheet"
+	type="text/css" />
+<style type="text/css">
+@media screen and (min-width:768px) {
+	div.modal-dialog {
+		width: 80%;
+	}
+}
+</style>
+</head>
+<body>
+	<div class="page-container">
+		<div class="text-l mt-20 mb-20">
+
+			站点名称： <input type="text" name="" id="" style="width: 250px"
+				class="input-text" placeholder="segmentfault|github">
+			<button name="" id="" class="btn btn-success" type="submit">
+				<i class="Hui-iconfont">&#xe665;</i> 搜索
+			</button>
+		</div>
+		<div class="panel panel-primary pb-30">
+			<div class="panel-header">资源库收录列表</div>
+			<div class="panel-body">
+				<table
+					class="table table-border table-bordered table-bg mb-15 table-hover table-sort">
+					<thead class="text-c">
+						<tr>
+							<th>服务名</th>
+							<th>类型</th>
+							<th>站点名</th>
+							<th>UUID</th>
+							<th>标题</th>
+							<th>创建时间</th>
+							<th>更新时间</th>
+							<th>浏览量</th>
+							<th>收藏量</th>
+							<th>热度</th>
+							<th>使用中</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody class="text-c">
+						<tr>
+							<td>engine</td>
+							<td>answer</td>
+							<td>segmentfault</td>
+							<td><abbr title="ac6cc2e9edbedd238dd316f1e9bc59c1"
+								class="text-overflow" style="width: 80px; display: inline-block">ac6cc2e9edbedd238dd316f1e9bc59c1</abbr></td>
+							<td><abbr title="vue配合webpack开发组件，需要每个组件都引入'vue'？"
+								class="text-overflow"
+								style="width: 100px; display: inline-block">vue配合webpack开发组件，需要每个组件都引入'vue'？</abbr></td>
+							<td>2017-4-20 18:35:24</td>
+							<td>2017-4-20 18:35:24</td>
+							<td>208</td>
+							<td>38</td>
+							<td>1.75</td>
+							<td>是</td>
+							<td><input class="btn btn-primary radius" type="button"
+								value="更多信息" onclick="moreArticleInfo()"> <input
+								class="btn btn-primary radius" type="button" value="变更"
+								onclick="updateSettings()"> <input
+								class="btn radius btn-warning" type="button" value="停止访问"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div id="articleInfo" class="modal fade" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content radius">
+				<div class="modal-header">
+					<h3 class="modal-title">詳情</h3>
+					<a class="close" data-dismiss="modal" aria-hidden="true"
+						href="javascript:void();">×</a>
+				</div>
+				<div class="modal-body">
+					<form action="#">
+						<table class="table table-border table-bordered table-hover">
+							<tbody class="text-c">
+								<tr>
+									<th>服务名</th>
+									<td>engine</td>
+									<th>类型</th>
+									<td>answer</td>
+									<th>站点名</th>
+									<td>segmentfault</td>
+								</tr>
+								<tr>
+									<th>UUID</th>
+									<td><abbr title="ac6cc2e9edbedd238dd316f1e9bc59c1"
+										class="text-overflow"
+										style="width: 80px; display: inline-block">ac6cc2e9edbedd238dd316f1e9bc59c1</abbr></td>
+									<th>版本号</th>
+									<td>0.0.0.1</td>
+									<th>标题</th>
+									<td><abbr title="vue配合webpack开发组件，需要每个组件都引入'vue'？"
+										class="text-overflow"
+										style="width: 100px; display: inline-block">vue配合webpack开发组件，需要每个组件都引入'vue'？</abbr></td>
+								</tr>
+								<tr>
+									<th>搜索部分</th>
+									<td><abbr
+										title="例如在main.js已经 import Vue from 'vue' 然后在App.vue中也 import Vue from 'vue' 两者在打包中会不会重复打包vue，造成最后体积很庞大，还是只打包一次？？ 谢谢大家了！！！"
+										class="text-overflow"
+										style="width: 100px; display: inline-block">例如在main.js已经
+											import Vue from 'vue' 然后在App.vue中也 import Vue from 'vue'
+											两者在打包中会不会重复打包vue，造成最后体积很庞大，还是只打包一次？？ 谢谢大家了！！！</abbr></td>
+									<th>标签</th>
+									<td><abbr title="windows,操作系統" class="text-overflow"
+										style="width: 100px; display: inline-block">windows,操作系統</abbr></td>
+									<th>使用中</th>
+									<td>是</td>
+								</tr>
+								<tr>
+									<th>创建时间</th>
+									<td colspan="2">2017-4-20 18:35:24</td>
+									<th>更新人</th>
+									<td colspan="2">Admin</td>
+								</tr>
+								<tr>
+									<th>浏览量</th>
+									<td>11</td>
+									<th>收藏量</th>
+									<td>2</td>
+									<th>热度</th>
+									<td>1.5</td>
+								</tr>
+								<tr>
+									<th>JS地址</th>
+									<td><abbr
+										title="js/websites/segmentfault/0.0.0.0/defaults.js"
+										class="text-overflow"
+										style="width: 100px; display: inline-block">js/websites/segmentfault/0.0.0.0/defaults.js</abbr></td>
+									<th>模板地址</th>
+									<td><abbr title="websites/segmentfault/0.0.0.0/index"
+										class="text-overflow"
+										style="width: 100px; display: inline-block">websites/segmentfault/0.0.0.0/index</abbr></td>
+									<th>CSS地址</th>
+									<td><abbr
+										title="css/websites/segmentfault/0.0.0.0/global.css,css/websites/segmentfault/0.0.0.0/qa.css,css/websites/segmentfault/0.0.0.0/info.css"
+										class="text-overflow"
+										style="width: 100px; display: inline-block">css/websites/segmentfault/0.0.0.0/global.css,css/websites/segmentfault/0.0.0.0/qa.css,css/websites/segmentfault/0.0.0.0/info.css</abbr></td>
+								</tr>
+								<tr>
+									<th>更新时间</th>
+									<td colspan="2">2017-4-20 18:35:24</td>
+									<th>更新人</th>
+									<td colspan="2">Admin</td>
+								</tr>
+								<tr>
+									<th>标记</th>
+									<td colspan="2">hot</td>
+									<th>源地址</th>
+									<td colspan="2">https://segmentfault.com/q/1010000007948440</td>
+								</tr>
+								<tr>
+									<th>描述</th>
+									<td colspan="5"></td>
+								</tr>
+							</tbody>
+						</table>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary">确定</button>
+					<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="articleSettings" class="modal fade" tabindex="-1"
+		role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content radius">
+				<div class="modal-header">
+					<h3 class="modal-title">变更</h3>
+					<a class="close" data-dismiss="modal" aria-hidden="true"
+						href="javascript:void();">×</a>
+				</div>
+				<div class="modal-body">
+					<form action="#">
+						<table class="table table-border table-bordered table-hover">
+							<tbody class="text-c">
+								<tr>
+									<th>版本号</th>
+									<td>0.0.0.1</td>
+									<th>标题</th>
+									<td>vue配合webpack开发组件，需要每个组件都引入'vue'？</td>
+								</tr>
+								<tr>
+									<th>搜索部分</th>
+									<td colspan="3"><textarea class="textarea radius"
+											placeholder="描述该版本，请勿备注">例如在main.js已经 import Vue from 'vue' 然后在App.vue中也 import Vue from 'vue'两者在打包中会不会重复打包vue，造成最后体积很庞大，还是只打包一次？？ 谢谢大家了！！！</textarea></td>
+								</tr>
+								<tr>
+									<th>标签</th>
+									<td><input type="text" value="windows,操作系統"
+										class="input-text" name="" placeholder="分页核心部分,如:&page={0}" /></td>
+									<th>使用中</th>
+									<td><span class="select-box"> <select
+											class="select" size="1" name="demo1">
+												<option value="0" selected>否</option>
+												<option value="1">是</option>
+										</select>
+									</span></td>
+								</tr>
+								<tr>
+									<th>JS地址</th>
+									<td colspan="3"><textarea class="textarea radius"
+											placeholder="描述该版本，请勿备注">js/websites/segmentfault/0.0.0.0/defaults.js</textarea></td>
+								</tr>
+								<tr>
+									<th>模板地址</th>
+									<td colspan="3"><textarea class="textarea radius"
+											placeholder="描述该版本，请勿备注">websites/segmentfault/0.0.0.0/index</textarea></td>
+								</tr>
+								<tr>
+									<th>CSS地址</th>
+									<td colspan="3"><textarea class="textarea radius"
+											placeholder="描述该版本，请勿备注">css/websites/segmentfault/0.0.0.0/global.css,css/websites/segmentfault/0.0.0.0/qa.css,css/websites/segmentfault/0.0.0.0/info.css</textarea></td>
+								</tr>
+								<tr>
+									<th>标记</th>
+									<td colspan="3"><span class="select-box"> <select
+											class="select" size="1" name="demo1">
+												<option value="0" selected>无</option>
+												<option value="1">hot</option>
+										</select>
+									</span></td>
+								</tr>
+								<tr>
+									<th>描述</th>
+									<td colspan="3"><textarea class="textarea radius"
+											placeholder="描述该版本，请勿备注"></textarea></td>
+								</tr>
+							</tbody>
+						</table>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary">确定</button>
+					<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--_footer 作为公共模版分离出去-->
+	<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
+	<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+	<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script>
+	<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script>
+	<!--/_footer /作为公共模版分离出去-->
+
+	<!--请在下方写此页面业务相关的脚本-->
+	<script type="text/javascript"
+		src="lib/jquery.validation/1.14.0/jquery.validate.js"></script>
+	<script type="text/javascript"
+		src="lib/jquery.validation/1.14.0/validate-methods.js"></script>
+	<script type="text/javascript"
+		src="lib/jquery.validation/1.14.0/messages_zh.js"></script>
+	<script type="text/javascript"
+		src="lib/webuploader/0.1.5/webuploader.min.js"></script>
+
+	<script type="text/javascript"
+		src="lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
+	<script type="text/javascript" src="lib/laypage/1.2/laypage.js"></script>
+	<script type="text/javascript">
+		$('.table-sort').dataTable({
+			"aaSorting" : [ [ 5, "desc" ] ],//默认第几个排序
+			"bStateSave" : true,//状态保存
+			"aoColumnDefs" : [
+			//{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
+			{
+				"orderable" : false,
+				"aTargets" : [ 4, 10, 11 ]
+			} // 制定列不参与排序
+			]
+		});
+	</script>
+	<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+	<script type="text/javascript">
+		var moreArticleInfo = function() {
+			$("#articleInfo").modal("show")
+		}
+		var updateSettings = function() {
+			$("#articleSettings").modal("show")
+		}
+	</script>
+</body>
+</html>

@@ -65,7 +65,7 @@
 								value="詳情"
 								onclick="websiteInfo('segmentfault配置詳情','website-control-info.html')">
 								<input class="btn btn-primary radius" type="button" value="配置"
-								onclick="websiteInfo('segmentfault配置修改','website-control-info-update.html')">
+								onclick="updateSettings()">
 								<input class="btn radius btn-warning" type="button" value="站点停用"></td>
 						</tr>
 					</tbody>
@@ -73,16 +73,81 @@
 			</div>
 		</div>
 	</div>
-	<footer class="footer mt-20">
-		<div class="container">
-			<p>
-				感谢jQuery、layer、laypage、Validform、UEditor、My97DatePicker、iconfont、Datatables、WebUploaded、icheck、highcharts、bootstrap-Switch<br>
-				Copyright &copy;2015-2017 H-ui.admin v3.0 All Rights Reserved.<br>
-				本后台系统由<a href="http://www.h-ui.net/" target="_blank"
-					title="H-ui前端框架">H-ui前端框架</a>提供前端技术支持
-			</p>
+	<div id="websiteSetting" class="modal fade" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content radius">
+				<div class="modal-header">
+					<h3 class="modal-title">服務设置</h3>
+					<a class="close" data-dismiss="modal" aria-hidden="true"
+						href="javascript:void();">×</a>
+				</div>
+				<div class="modal-body">
+					<form action="#">
+						<table class="table table-border table-bordered table-hover">
+							<thead>
+								<tr>
+									<th>服务名称</th>
+									<th>开启状态</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>搜索服务</td>
+									<td><span class="select-box"> <select
+											class="select" size="1" name="demo1">
+												<option value="0">否</option>
+												<option value="1" selected>是</option>
+										</select>
+									</span></td>
+								</tr>
+								<tr>
+									<td>直接访问</td>
+									<td><span class="select-box"> <select
+											class="select" size="1" name="demo1">
+												<option value="0">否</option>
+												<option value="1" selected>是</option>
+										</select>
+									</span></td>
+								</tr>
+								<tr>
+									<td>安全访问</td>
+									<td><span class="select-box"> <select
+											class="select" size="1" name="demo1">
+												<option value="0">否</option>
+												<option value="1" selected>是</option>
+										</select>
+									</span></td>
+								</tr>
+								<tr>
+									<td>站點分析</td>
+									<td><span class="select-box"> <select
+											class="select" size="1" name="demo1">
+												<option value="0">否</option>
+												<option value="1" selected>是</option>
+										</select>
+									</span></td>
+								</tr>
+								<tr>
+									<td>排名服務</td>
+									<td><span class="select-box"> <select
+											class="select" size="1" name="demo1">
+												<option value="0">否</option>
+												<option value="1" selected>是</option>
+										</select>
+									</span></td>
+								</tr>
+							</tbody>
+						</table>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary">确定</button>
+					<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+				</div>
+			</div>
 		</div>
-	</footer>
+	</div>
 	<!--_footer 作为公共模版分离出去-->
 	<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
 	<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
@@ -121,13 +186,16 @@
 	<!--/_footer 作为公共模版分离出去-->
 	<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
 	<script type="text/javascript">
-		function websiteInfo(title, url) {
+		var websiteInfo = function(title, url) {
 			var index = layer.open({
 				type : 2,
 				title : title,
 				content : url
 			});
 			layer.full(index);
+		}
+		var updateSettings = function() {
+			$("#websiteSetting").modal("show")
 		}
 	</script>
 </body>
