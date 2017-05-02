@@ -27,7 +27,7 @@
 <script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
 <script>DD_belatedPNG.fix('*');</script>
 <![endif]-->
-<title>搜索管理</title>
+<title>新增模板</title>
 </head>
 <body>
 	<nav class="breadcrumb">
@@ -41,11 +41,88 @@
 			<form class="form form-horizontal" id="form-article-add">
 				<div class="row cl">
 					<label class="form-label col-xs-3 col-sm-2"><span
-						class="c-red">*</span>站点名称：</label>
+						class="c-red">*</span>类型：</label>
 					<div class="formControls col-xs-8 col-sm-9">
 						<span class="select-box"> <select name="" class="select">
 								<option value="0" selected>engine</option>
 						</select>
+						</span>
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-3 col-sm-2"><span
+						class="c-red">*</span>类型2：</label>
+					<div class="formControls col-xs-8 col-sm-9">
+						<span class="select-box"> <select name="" class="select">
+								<option value="0" selected>answer</option>
+						</select>
+						</span>
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-3 col-sm-2"><span
+						class="c-red">*</span>站点名称：</label>
+					<div class="formControls col-xs-8 col-sm-9">
+						<input type="text" value="" class="input-text" name=""
+							placeholder="" />
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-2 col-sm-2">是否是新版本：</label>
+					<div class="formControls col-xs-3 col-sm-3">
+						<span class="select-box"> <select name="" class="select">
+								<option value="0" selected>否</option>
+								<option value="1">是</option>
+						</select>
+						</span>
+					</div>
+					<label class="form-label col-xs-3 col-sm-2">覆盖版本号：</label>
+					<div class="formControls col-xs-4 col-sm-4">
+						<div class="formControls col-xs-8 col-sm-9">
+							<input type="text" class="input-text" value=""
+								placeholder="如：0.0.0.1(0.0.0.0不允许覆盖)" id="" name="">
+						</div>
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-3 col-sm-2"><span
+						class="c-red">*</span>静态JS文件：</label>
+					<div class="formControls col-xs-8 col-sm-9">
+						<span class="btn-upload"> <input
+							class="input-text upload-url radius" type="text"
+							style="width: 50%; margin-right: 10px" placeholder=".class文件"
+							id="uploadfile-1" readonly autocomplete="off"><a
+							href="javascript:void();" class="btn btn-primary radius"><i
+								class="Hui-iconfont">&#xe642;</i> 浏览文件</a> <input type="file"
+							name="" class="input-file">
+						</span>
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-3 col-sm-2"><span
+						class="c-red">*</span>静态Css文件：</label>
+					<div class="formControls col-xs-8 col-sm-9">
+						<span class="btn-upload"> <input
+							class="input-text upload-url radius" type="text"
+							style="width: 50%; margin-right: 10px" placeholder=".class文件"
+							id="uploadfile-1" readonly autocomplete="off"><a
+							href="javascript:void();" class="btn btn-primary radius"><i
+								class="Hui-iconfont">&#xe642;</i> 浏览文件</a> <input type="file"
+							name="" class="input-file">
+						</span>
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-3 col-sm-2"><span
+						class="c-red">*</span>模板上傳：</label>
+					<div class="formControls col-xs-8 col-sm-9">
+						<span class="btn-upload"> <input
+							class="input-text upload-url radius" type="text"
+							style="width: 50%; margin-right: 10px" placeholder=".class文件"
+							id="uploadfile-1" readonly autocomplete="off"><a
+							href="javascript:void();" class="btn btn-primary radius"><i
+								class="Hui-iconfont">&#xe642;</i> 浏览文件</a> <input type="file"
+							name="" class="input-file">
 						</span>
 					</div>
 				</div>
