@@ -8,7 +8,10 @@ import org.apache.commons.lang.StringUtils;
 import com.zhidian.bases.AppEnumDefine;
 import com.zhidian.model.sys.PullDataWatchObject;
 import com.zhidian.model.sys.PullResultPageModel;
+import com.zhidian.model.sys.RequestHeaderModel;
+import com.zhidian.model.sys.WebsiteConfigModel;
 
+import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.selector.Selectable;
 
 public abstract class BaseResultPageProcessor<T extends PullResultPageModel> extends BaseProcessor {
@@ -29,6 +32,47 @@ public abstract class BaseResultPageProcessor<T extends PullResultPageModel> ext
 		this.obj = obj;
 	}
 
+	public Site getSite() {
+		return loadingConfig(super.getSite());
+	}
+
+	private Site loadingConfig(Site site) {
+		if (this.getObj().getWebsiteConfig() != null) {
+			WebsiteConfigModel config = this.getObj().getWebsiteConfig();
+			if (config.getCharset() != null && config.getCharset().length() > 0) {
+				site.setCharset(config.getCharset());
+			}
+			if (config.getCycyleTime() != 0) {
+				site.setCycleRetryTimes(config.getCycyleTime());
+			}
+			if (config.getUserAgent() != null && config.getUserAgent().length() > 0) {
+				site.setUserAgent(config.getUserAgent());
+			}
+			if (config.isUseGzip()) {
+				site.setUseGzip(true);
+			}
+			if (config.getSleepTime() / 1000 > 0) {
+				site.setSleepTime(config.getSleepTime());
+			}
+			if (config.getTimeout() > 0) {
+				site.setTimeOut(config.getTimeout());
+			}
+		}
+		// RequestHeaderModel
+		if (this.getObj().getRequestHeaders() != null && this.getObj().getRequestHeaders().size() > 0) {
+			for (RequestHeaderModel r : this.getObj().getRequestHeaders()) {
+				if (r != null) {
+					if (r.getType() != null && RequestHeaderModel.CookieType.equals(r.getType())) {// 請求类型
+						site.addCookie(r.getName(), r.getValue());
+					} else {
+						site.addHeader(r.getName(), r.getValue());
+					}
+				}
+			}
+		}
+		return site;
+	}
+
 	/**
 	 * @Title: removeUrlSearch @Description: TODO(去除?及后面字符) @param @param
 	 *         url @param @return 参数 @return String 返回类型 @throws
@@ -46,9 +90,9 @@ public abstract class BaseResultPageProcessor<T extends PullResultPageModel> ext
 
 	/**
 	 * @Title: setWatcherForProperty @Description:
-	 * TODO(监控表达式是否能取值，如果不能取值则记录，同样不会对同一属性表达式记录多次) @param @param
-	 * select @param @param url @param @param nameDescri @param @param xpath
-	 * 参数 @return void 返回类型 @throws
+	 *         TODO(监控表达式是否能取值，如果不能取值则记录，同样不会对同一属性表达式记录多次) @param @param
+	 *         select @param @param url @param @param nameDescri @param @param
+	 *         xpath 参数 @return void 返回类型 @throws
 	 */
 	public void setWatcherForProperty(Selectable select, String url, String nameDescri, String xpath) {
 		if (select == null || StringUtils.isEmpty(select.get())) {

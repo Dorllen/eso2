@@ -146,25 +146,29 @@ public class WormsService {
 	private PullResultDataTaskModel createPullResultDataTaskModel(Map<String, Integer> authority, String website,
 			String key, Integer page, Integer size, Map<String, WebsiteBO> wMap) {
 		// 默认一张页面显示20
-		WebsiteBO web = wMap.get(website);
-		if (web != null) {
-			int num = 20;
-			if (authority != null && authority.size() > 1) {
-				num = authority.get(website) / authority.get("total") - authority.get("default_");
-			}
-			PullResultDataTaskModel model = new PullResultDataTaskModel(website, web.getResultProcessor(),
-					web.getResultPipeline(), web.getSearchAddr() + key, web.getPagination(), num);
-			if (model != null && num > 0) {
-				// 扒搜索结果页，PullDataTaskModel的部分数据是无效的。如:pagination,num，但是起初url是有效的
-				PullResultPageModel pull = new PullResultPageModel();// 从数据库获取爬虫数据模型
-				pull.setName(model.getWebsite());
-				pull.setSize(num);
-				pull.setUrl(web.getSearchAddr() + key);
-				pull.setPagination(web.getPagination());
-				pull.setPage(page);// 页号
-				pull.setUseSearch(false);// 不允许后缀
-				model.setPom(pull);
-				return model;
+		if (wMap != null) {
+			WebsiteBO web = wMap.get(website);
+			if (web != null) {
+				int num = 20;
+				if (authority != null && authority.size() > 1) {
+					num = authority.get(website) / authority.get("total") - authority.get("default_");
+				}
+				PullResultDataTaskModel model = new PullResultDataTaskModel(website, web.getResultProcessor(),
+						web.getResultPipeline(), web.getSearchAddr() + key, web.getPagination(), num);
+				if (model != null && num > 0) {
+					// 扒搜索结果页，PullDataTaskModel的部分数据是无效的。如:pagination,num，但是起初url是有效的
+					PullResultPageModel pull = new PullResultPageModel();// 从数据库获取爬虫数据模型
+					pull.setName(model.getWebsite());
+					pull.setSize(num);
+					pull.setUrl(web.getSearchAddr() + key);
+					pull.setPagination(web.getPagination());
+					pull.setPage(page);// 页号
+					pull.setUseSearch(web.isUseSearch());// 不允许后缀
+					pull.setRequestHeaders(web.getRequestHeaders());
+					pull.setWebsiteConfig(web.getResultConfig());
+					model.setPom(pull);
+					return model;
+				}
 			}
 		}
 		return null;
@@ -328,12 +332,9 @@ public class WormsService {
 	}
 
 	/**
-	* @Title: startPullDataFromScheduleByAdminTrigger
-	* @Description: TODO()
-	* @param @return    参数
-	* @return List<PullPageObjectModel>    返回类型
-	* @throws
-	*/
+	 * @Title: startPullDataFromScheduleByAdminTrigger @Description:
+	 * TODO() @param @return 参数 @return List<PullPageObjectModel> 返回类型 @throws
+	 */
 	public List<PullPageObjectModel> startPullDataFromScheduleByAdminTrigger() {
 		List<ScheduleQueue> list = scheduleMapper.queryScheduleQueuesForWormsService01ListScheduleQueue();
 		if (list != null && list.size() > 0) {

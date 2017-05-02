@@ -33,34 +33,12 @@ public class SegmentFaultPageProcessor extends BasePageProcessor {
 		super(pom);
 	}
 
-	// public static void main2(String[] args) {
-	// PullPageObjectModel<SegmentfaultPageBO> pom = new
-	// PullPageObjectModel<SegmentfaultPageBO>();
-	// pom.setUuid(org.apache.commons.codec.digest.DigestUtils.md5Hex("http://segmentfault.com/q/1010000003713912"));
-	// pom.setName("segmentfault");
-	// pom.setDownloadPath("d:/css/segmentfault");// 当前css的项目的根地址，不能加/
-	// List<CssInfoModel> list = new ArrayList<CssInfoModel>();
-	// CssInfoModel mo = new CssInfoModel();
-	// mo.setName("qa");
-	// mo.setUuid("95ef7bb5b85546e6e3f05c7a1f3f8f41");
-	// mo.setUrl("https://static.segmentfault.com/v-58f1f176/qa/css/qa.css");
-	// mo.setVersion("0.0.1.0");
-	// mo.setCssPath("d:/css/segmentfault/0.0.1.0");
-	// list.add(mo);
-	// pom.setCssModel(list);
-	// SegmentFaultPageProcessor page = new SegmentFaultPageProcessor(pom);
-	// page.getSite().addHeader("Origin", "https://segmentfault.com");
-	// Spider.create(page).addUrl("http://segmentfault.com/q/1010000003713912").addPipeline(new
-	// NullPipeline()).run();
-	// System.out.println(JSON.toJSONString(pom));
-	// }
 
 	@Override
 	public int pageHandler(Page page) {
 		try {
 			this.getObj().setDate(new Date());// 时间更新
 			// 页面解析开始
-//			SegmentfaultPageBO sbo = new SegmentfaultPageBO();
 			SegmentfaultPageRObject handler = new SegmentfaultPageRObject();
 			Selectable title = page.getHtml().$("div.post-topheader");
 			// 手动网站取值监控
@@ -84,7 +62,6 @@ public class SegmentFaultPageProcessor extends BasePageProcessor {
 			handler.setOriginUrl(page.getUrl().toString());// 页面源地址
 			handler.setTitle(title.get());
 			handler.setMain(content.get());
-//			sbo.setContents(handler);
 			this.getObj().setModel(handler);
 			page.putField(BasePagePipeline.STATUS, WormEnumDefine.Status.结束.name());
 			page.putField(WormEnumDefine.Object.内容详情页.name(), this.getObj());

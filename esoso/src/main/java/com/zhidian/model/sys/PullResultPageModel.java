@@ -13,6 +13,8 @@ public class PullResultPageModel {
 	private int page;// 页号
 	private List<PullResultBO> results;
 	private List<PullDataWatchObject> errorWatcher;
+	private WebsiteConfigModel websiteConfig;// cookie等爬虫参数设置。
+	private List<RequestHeaderModel> requestHeaders;
 
 	public String getName() {
 		return name;
@@ -100,5 +102,21 @@ public class PullResultPageModel {
 			this.errorWatcher = new ArrayList<PullDataWatchObject>();
 		}
 		this.errorWatcher.add(watch);
+	}
+
+	public WebsiteConfigModel getWebsiteConfig() {
+		return websiteConfig;
+	}
+
+	public void setWebsiteConfig(WebsiteConfigModel websiteConfig) {
+		this.websiteConfig = websiteConfig;
+	}
+
+	public List<RequestHeaderModel> getRequestHeaders() {
+		return requestHeaders;
+	}
+
+	public void setRequestHeaders(List<RequestHeaderModel> requestHeaders) {
+		this.requestHeaders = requestHeaders;
 	}
 }
