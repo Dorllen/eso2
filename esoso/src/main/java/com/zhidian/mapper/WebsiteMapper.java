@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.zhidian.model.Website;
 import com.zhidian.model.sys.WebsiteBO;
+import com.zhidian.model.sys.WebsiteBO2;
 
 @Mapper
 public interface WebsiteMapper {
@@ -46,6 +47,20 @@ public interface WebsiteMapper {
 
 
 	Website queryWebsitesForDataInfoAdminService01Website(@Param("id") int id,@Param("name") String name);
+
+
+	void updateWebsitesForDataInfoAdminService01SmpleWebsiteBO2(WebsiteBO2 w);
+
+
+	/**
+	* @Title: updateWebsitesForDataInfoAdmin01SimpleWebsite
+	* @Description: TODO(设置website使用的版本)
+	* @param @param id
+	* @param @param name    参数
+	* @return void    返回类型
+	* @throws
+	*/
+	void updateWebsitesForDataInfoAdmin01SimpleWebsite(@Param("id") String id,@Param("name")  String name);
 
 	
 	

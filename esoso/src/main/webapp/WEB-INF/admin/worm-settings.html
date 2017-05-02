@@ -348,7 +348,7 @@
 					</table>
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-primary">确定</button>
+					<button class="btn btn-primary" onclick="confirm()">确定</button>
 					<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
 				</div>
 			</div>
@@ -364,7 +364,9 @@
 						href="javascript:void();">×</a>
 				</div>
 				<div class="modal-body">
-					<form action="#">
+					<form action="#" id="websiteForm">
+						<input type="hidden" name="id" value="" class="_id" /> <input
+							type="hidden" name="name" value="" class="_name" />
 						<table class="table table-border table-bordered table-hover">
 							<thead>
 								<tr>
@@ -384,7 +386,7 @@
 									<td class="_version">0.0.0.5</td>
 									<td>別名</td>
 									<td class="_alias"><input type="text" value="sm,segment"
-										name="" class="input-text" placeholder="以‘,’间隔" /></td>
+										name="alias" class="input-text" placeholder="以‘,’间隔" /></td>
 								</tr>
 								<tr>
 									<td>类型</td>
@@ -397,17 +399,17 @@
 								<tr>
 									<td>短地址</td>
 									<td colspan="5" class="_shortAddr"><input type="text"
-										class="input-text" value="segmentfault.com" name=""
+										class="input-text" value="segmentfault.com" name="shortAddr"
 										placeholder="以‘,’间隔" /></td>
 								</tr>
 								<tr>
 									<td>全地址</td>
 									<td colspan="5" class="_fullAddr"><input type="text"
 										class="input-text" value="https://www.segmentfault.com"
-										name="" placeholder="仅存一个，最全的地址" /></td>
+										name="fullAddr" placeholder="仅存一个，最全的地址" /></td>
 								</tr>
 								<tr>
-									<td>是否在用</td>
+									<td><span class="c-red">*</span>是否在用</td>
 									<td class="_use"></td>
 									<td>禁用时间</td>
 									<td class="_unuseTime">2017-4-29 21:35</td>
@@ -415,9 +417,9 @@
 									<td class="_unuseMan">Admin</td>
 								</tr>
 								<tr>
-									<td>搜索地址</td>
+									<td><span class="c-red">*</span>搜索地址</td>
 									<td colspan="5" class="_sAddr"><input type="text"
-										value="https://segmentfault.com/search?q=" name=""
+										value="https://segmentfault.com/search?q=" name="searchAddr"
 										class="input-text"
 										placeholder="搜索入口,如:https://segmentfault.com/search?q=" /></td>
 								</tr>
@@ -432,76 +434,84 @@
 									<td class="_uTime">2017-4-29 21:35</td>
 									<td>更新人</td>
 									<td class="_uMan">Admin</td>
-									<td>使用后缀</td>
+									<td><span class="c-red">*</span>使用后缀</td>
 									<td class="_hZ"></td>
 								</tr>
 								<tr>
-									<td>详情頁處理器</td>
-									<td colspan="5" class="_c1"><input type="text"
-										class="input-text" value="" name=""
+									<td><span class="c-red">*</span>详情頁處理器</td>
+									<td colspan="3" class="_c1"><input type="text"
+										class="input-text" value="" name="pageProcessor"
 										placeholder="详情页数据解析器的包名字符串,不可为空!" /></td>
+									<td colspan="2"></td>
 								</tr>
 								<tr>
 									<td>详情页接收器</td>
-									<td colspan="5" class="_c2"><input type="text"
-										class="input-text" value="" name=""
+									<td colspan="3" class="_c2"><input type="text"
+										class="input-text" value="" name="pagePipeline"
 										placeholder="详情页数据处理器的包名字符串,不可为空!" /></td>
+									<td colspan="2"></td>
 								</tr>
 								<tr>
-									<td>详情页接收对象</td>
-									<td colspan="5" class="_c3"><input type="text"
-										class="input-text" value="" name=""
+									<td><span class="c-red">*</span>详情页接收对象</td>
+									<td colspan="3" class="_c3"><input type="text"
+										class="input-text" value="" name="pageRObject"
 										placeholder="详情页传递对象的包名字符串,不可为空!" /></td>
+									<td colspan="2"></td>
 								</tr>
 								<tr>
-									<td>结果页处理器</td>
-									<td colspan="5" class="_c4"><input type="text"
-										class="input-text" value="" name=""
+									<td><span class="c-red">*</span>结果页处理器</td>
+									<td colspan="3" class="_c4"><input type="text"
+										class="input-text" value="" name="resultProcessor"
 										placeholder="结果页数据解析器的包名字符串,不可为空!" /></td>
+									<td colspan="2"></td>
 								</tr>
 								<tr>
 									<td>結果頁接受器</td>
-									<td colspan="5" class="_c5"><input type="text"
-										class="input-text"
-										value="com.zhidian.bases.worms.pipeline.NullPipeline"
+									<td colspan="3" class="_c5"><input type="text"
+										class="input-text" value="" name="resultPipeline"
 										placeholder="结果页数据处理器的包名字符串" /></td>
+									<td colspan="2"></td>
 								</tr>
 								<tr>
 									<td>結果頁接收对象</td>
-									<td colspan="5" class="_c6"><input type="text" value=""
-										class="input-text" placeholder="结果页数据传递对象(暂可为空)" /></td>
+									<td colspan="3" class="_c6"><input type="text" value=""
+										name="resultRObject" class="input-text"
+										placeholder="结果页数据传递对象(暂可为空)" /></td>
+									<td colspan="2"></td>
 								</tr>
 								<tr>
 									<td>站點默認Css</td>
 									<td colspan="5" class="_c7"><textarea
-											class="textarea radius" placeholder="站点默认Css.以‘,’间隔"></textarea></td>
+											class="textarea radius" placeholder="站点默认Css.以‘,’间隔"
+											name="defPageCss"></textarea></td>
 								</tr>
 								<tr>
 									<td>入口頁爬取配置</td>
 									<td colspan="5" class="_c8"><textarea rows="" cols=""
-											class="textarea radius"
+											class="textarea radius" name="defResultConfig"
 											placeholder="入口爬取配置。请按WebsiteConfigModel的JSON格式"></textarea></td>
 								</tr>
 								<tr>
 									<td>详情頁爬取配置</td>
 									<td colspan="5" class="_c9"><textarea rows="" cols=""
-											class="textarea radius"
+											class="textarea radius" name="defPageConfig"
 											placeholder="详情页爬取规配置。请按WebsiteConfigModel的JSON格式"></textarea></td>
 								</tr>
 								<tr>
-									<td>Css爬取設置</td>
+									<td><span class="c-red">*</span>Css爬取設置</td>
 									<td colspan="5" class="_c10"><textarea
-											class="textarea radius"
+											class="textarea radius" name="defaultPageCss"
 											placeholder="站点Css爬取规则。请按WebsiteCssConfigModel的JSON格式">[{"name":"qa.css","url":"http://segmentfault.con/static/css/qa.css","useSearch":false,"version":"0.0.0.0","website":"segmentfault"},{"name":"qa.css","url":"http://segmentfault.con/static/css/global.css","useSearch":false,"version":"0.0.0.0","website":"segmentfault"}]</textarea></td>
 								</tr>
 								<tr>
 									<td>自定义请求头</td>
 									<td colspan="5" class="_c11"><textarea
-											class="textarea radius" placeholder="请按规则定义。注意Cookie的JSON格式"></textarea></td>
+											name="defRequestHeader" class="textarea radius"
+											placeholder="请按规则定义。注意Cookie的JSON格式"></textarea></td>
 								</tr>
 								<tr>
 									<td>描述</td>
-									<td colspan="5" class="_c12"><textarea
+									<td colspan="5" class="_c12"><textarea name="sign"
 											class="textarea radius" placeholder="描述该版本，请勿备注">這是默认版本。無論是否处于关闭状态，页面解析无定义解析版本，都会指向它</textarea></td>
 								</tr>
 							</tbody>
@@ -509,7 +519,7 @@
 					</form>
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-primary">确定</button>
+					<button class="btn btn-primary" onclick="submitForm()">确定</button>
 					<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
 				</div>
 			</div>
@@ -522,6 +532,36 @@
 
 	<!--/_footer 作为公共模版分离出去-->
 	<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+	<script type="text/javascript">
+		var submitForm = function(){
+			$.ajax({url:"website/info/updateWebsite",type:"post",data:$("#websiteForm").serialize()}).done(function(data){
+				if(data&&data.message){
+					console.log(data.code);
+					if(200 == data.code){
+						$("#websiteUpdate").modal("hide");
+					}
+					$.Huimodalalert(data.message, 2000);
+				}
+			}).fail(function(){
+				$.Huimodalalert('更新失敗!', 2000);
+			})
+		}
+		
+		var confirm = function(){
+			$("#websiteInfo").modal("hide");
+		}
+		
+		var setDefault = function(id, name) {
+			$.post("website/info/setDefaultWebsite",data:{id:id,name:name}).done(function(data){
+				if(data&&data.message){
+					$.Huimodalalert(data.message, 2000);
+				}
+			}).fail(function(){
+				$.Huimodalalert('设置失敗!', 2000);
+			})
+		}
+	</script>
+
 	<!--请在下方写此页面业务相关的脚本-->
 	<script type="text/javascript">
 		function website_add(title, url) {
@@ -561,7 +601,7 @@
 					var i = data.item;
 					var $p = $("#websiteInfo");
 					$p.find("td[class]").empty();// 重置
-					$("#websiteInfo").modal("show")
+					$("#websiteInfo").modal("show");
 					initInfoDialog($p, i);
 				}
 			}).fail(function() {
@@ -625,8 +665,9 @@
 			})
 		}
 		function initUpdateDialog($p, i) {
-			console.log(i);
-			$p.find("._name").html(i.name);
+			$p.find("input._id").val(i.id);
+			$p.find("input._name").val(i.name);
+			$p.find("td._name").html(i.name);
 			$p.find("._version").html(i.version);
 			$p.find("._alias input").val(i.alias ? i.alias : '');
 			$p.find("._type").html(i.type);
@@ -634,18 +675,7 @@
 			$p.find("._cMan").html(i.createMan ? i.createMan : '无');
 			$p.find("._shortAddr input").val(i.shortAddr ? i.shortAddr : '');
 			$p.find("._fullAddr input").val(i.fullAddr ? i.fullAddr : '');
-			$p.find("._use").remove();
-			var $s = $("<span class='select-box'><select class='select' size='1' name=''></select></span>");
-			var $o1 = $("<option value='0' >否</option>");
-			var $o2 = $("<option value='1' >是</option>");
-			if (i.using) {
-				$o2.prop("selected", true);
-			} else {
-				$o1.prop("selected", true);
-			}
-			$s.append($o1);
-			$s.append($o2);
-			$p.find("._use").append($s);
+			$p.find("._use").html(i.using?'是':'否');
 			$p.find("._unuseTime").html(i.unuseTime ? i.unuseTime : '无');
 
 			$p.find("._unuseMan").html(i.unuseMan ? i.unuseMan : '无');
@@ -653,7 +683,9 @@
 			$p.find("._page input").val(i.pagination ? i.pagination : '');
 			$p.find("._uTime").html(i.updateTime ? i.updateTime : '无');
 			$p.find("._uMan").html(i.updateMan ? i.updateMan : '无');
-			var $s_ = $("<span class='select-box'><select class='select' size='1' name=''></select></span>");
+			$p.find("._hZ").empty();
+ 			var $s_ = $("<span class='select-box'></span>");
+ 			var $s1_ = $("<select class='select' size='1' name='useSearch'></select>");
 			var $o1_ = $("<option value='0' >否</option>");
 			var $o2_ = $("<option value='1' >是</option>");
 			if (i.useSearch) {
@@ -661,11 +693,10 @@
 			} else {
 				$o1_.prop("selected", true);
 			}
-			$s.append($o1_);
-			$s.append($o2_);
-			$p.find("._hZ").empty();
-			//$p.find("._hZ").append($s_);
-			// $p.find("._hZ").html(i.useSearch?'是':'否');
+			$s1_.append($o1_);
+			$s1_.append($o2_);
+			$s_.append($s1_);
+			$p.find("._hZ").append($s_);
 
 			$p.find("._c1 input").val(i.pageProcessor ? i.pageProcessor : '');
 			$p.find("._c2 input").val(i.pagePipeline ? i.pagePipeline : '');
@@ -675,21 +706,18 @@
 
 			$p.find("._c5 input").val(i.resultPipeline ? i.resultPipeline : '');
 			$p.find("._c6 input").val(i.resultRObject ? i.resultRObject : '');
-			$p.find("._c7 textarea").html(i.defPageCss ? i.defPageCss : '');
-			$p.find("._c8 textarea").html(
+			$p.find("._c7 textarea").val(i.defPageCss ? i.defPageCss : '');
+			$p.find("._c8 textarea").val(
 					i.defResultConfig ? i.defResultConfig : '');
-			$p.find("._c9 textarea").html(
+			$p.find("._c9 textarea").val(
 					i.defPageConfig ? i.defPageConfig : '');
-			$p.find("._c10 textarea").html(
+			$p.find("._c10 textarea").val(
 					i.defaultPageCss ? i.defaultPageCss : '');
-			$p.find("._c11 textarea").html(
+			$p.find("._c11 textarea").val(
 					i.defRequestHeader ? i.defRequestHeader : '');
 			$p.find("._c12 textarea").val(i.sign ? i.sign : '');
 		}
 
-		function setDefault(id, name) {
-			alert("設置默認！");
-		}
 		$(function() {
 			$.Huitab("#settings .tabBar span", "#settings .tabCon", "current",
 					"click", "0");

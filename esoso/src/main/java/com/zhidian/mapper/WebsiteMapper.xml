@@ -40,4 +40,17 @@
 	<select id="queryWebsitesForDataInfoAdminService01Website" resultType="Website">
 		select * from  websites where type='engine' and name = #{name} and id = #{id};
 	</select>
+	
+	
+	
+	<update id="updateWebsitesForDataInfoAdminService01SmpleWebsiteBO2">
+		update websites set searchAddr = #{searchAddr},pagination=#{pagination},sign=#{sign},resultProcessor=#{resultProcessor},
+		resultPipeline=#{resultPipeline},pageProcessor=#{pageProcessor},pagePipeline=#{pagePipeline},resultRObject=#{resultRObject},
+		pageRObject=#{pageRObject},useSearch=#{useSearch},defaultPageCss=#{defaultPageCss},defPageConfig=#{defPageConfig},defResultConfig=#{defResultConfig},
+		defRequestHeader=#{defRequestHeader} where id = #{id} and name = #{name};
+	</update>
+	
+	<update id="updateWebsitesForDataInfoAdmin01SimpleWebsite">
+		call websitesp1(#{id},#{name});
+	</update>
 </mapper>

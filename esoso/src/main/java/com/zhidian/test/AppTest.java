@@ -403,9 +403,12 @@ public class AppTest {
 		System.out.println(JSON.toJSONString(page));
 	}
 	
-	private void getWebsiteVersionListByName(String string) {
-
+	@Test
+	public void testWebsiteProcedure(){
+//		dataService.setWebisteDefaultUsing("1","segmentfault");
+		websiteMapper.updateWebsitesForDataInfoAdmin01SimpleWebsite("1","segmentfault");
 	}
+	
 
 	public static void main(String[] args) {
 		// User u =

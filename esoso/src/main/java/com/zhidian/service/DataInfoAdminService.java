@@ -2,6 +2,7 @@ package com.zhidian.service;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -12,7 +13,9 @@ import com.alibaba.fastjson.JSON;
 import com.zhidian.mapper.PullArticleMapper;
 import com.zhidian.mapper.WebsiteMapper;
 import com.zhidian.model.Website;
+import com.zhidian.model.sys.WebsiteBO2;
 import com.zhidian.views.WebsitePageVO;
+import com.zhidian.views.WebsitePostModel;
 import com.zhidian.views.WormSettingsSearchResultVO;
 
 /**
@@ -86,12 +89,13 @@ public class DataInfoAdminService {
 	}
 
 	private WebsitePageVO createWebsitePageVOFromWebsite(Website w) {
-		if(w!=null){
+		if (w != null) {
 			WebsitePageVO v = new WebsitePageVO();
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			v.setId(String.valueOf(w.getId()));
 			v.setAlias(w.getAlias());
 			v.setCreateMan(v.getCreateMan());
-			if(w.getCreateTime()!=null){
+			if (w.getCreateTime() != null) {
 				v.setCreateTime(sdf.format(w.getCreateTime()));
 			}
 			v.setDefaultPageCss(w.getDefaultPageCss());
@@ -113,19 +117,52 @@ public class DataInfoAdminService {
 			v.setSign(w.getSign());
 			v.setType(w.getType());
 			v.setUnuseMan(w.getUnuseMan());
-			if(w.getUnuseTime()!=null){
+			if (w.getUnuseTime() != null) {
 				v.setUnuseTime(sdf.format(w.getUnuseTime()));
 			}
 			v.setUpdateMan(w.getUpdateMan());
-			if(w.getUpdateTime()!=null){
+			if (w.getUpdateTime() != null) {
 				v.setUpdateTime(sdf.format(w.getUpdateTime()));
 			}
 			v.setUseSearch(w.isUseSearch());
-			v.setUsing(w.getUsing()==0?false:true);
+			v.setUsing(w.getUsing() == 0 ? false : true);
 			v.setVersion(w.getVersion());
 			return v;
 		}
 		return null;
+	}
+
+	public void updateWebsiteFromPostObject(WebsitePostModel model,String account) {
+		WebsiteBO2 w = createWebsiteBO2FromWebsitePostModel(model,account);
+		if(w!=null){
+			websiteMapper.updateWebsitesForDataInfoAdminService01SmpleWebsiteBO2(w);// 更新数据库
+		}
+	}
+
+	private WebsiteBO2 createWebsiteBO2FromWebsitePostModel(WebsitePostModel m, String account) {
+		if (m != null) {
+			WebsiteBO2 w = new WebsiteBO2();
+			w.setDefRequestHeader(m.getDefRequestHeader());
+			w.setDefResultConfig(m.getDefResultConfig());
+			w.setId(Integer.parseInt(m.getId()));
+			w.setName(m.getName());
+			w.setPagePipeline(m.getPagination());
+			w.setPageProcessor(m.getPageProcessor());
+			w.setPageRObject(m.getPageRObject());
+			w.setSearchAddr(m.getSearchAddr());
+			w.setSign(m.getSign());
+			w.setUseSearch(m.isUseSearch());
+			w.setUpdateMan(account);
+			w.setUpdateTime(new Date());
+			return w;
+		}
+		return null;
+	}
+
+	public void setWebisteDefaultUsing(String id, String name) {
+		if(!StringUtils.isEmpty(id)&&!StringUtils.isEmpty(name)){
+			websiteMapper.updateWebsitesForDataInfoAdmin01SimpleWebsite(id,name);
+		}
 	}
 
 }
