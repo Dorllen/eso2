@@ -41,6 +41,12 @@ public interface WebsiteMapper {
 	*/
 	List<WebsiteBO> queryWebsitesForWormsService01ListWebsiteBO(@Param("type") String type,@Param("names") List<String> names);
 
+
+	List<Website> queryWebsitesForDataInfoAdminService01ListWebsite(@Param("name") String name);
+
+
+	Website queryWebsitesForDataInfoAdminService01Website(@Param("id") int id,@Param("name") String name);
+
 	
 	
 	// 删

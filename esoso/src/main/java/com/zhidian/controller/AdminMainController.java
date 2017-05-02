@@ -1,22 +1,13 @@
 package com.zhidian.controller;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.zhidian.bases.worm.WormsService;
-import com.zhidian.model.sys.PullPageObjectModel;
 
 @Controller
 @RequestMapping("/admin")
 public class AdminMainController {
 
-	@Autowired
-	WormsService wormsService;
 
 	@GetMapping("")
 	public String index_() {
@@ -30,10 +21,7 @@ public class AdminMainController {
 		return "admin/index";
 	}
 
-	@GetMapping("/worm/start")
-	@ResponseBody
-	public List<PullPageObjectModel> startPullData() {
-		List<PullPageObjectModel> list= wormsService.startPullDataFromScheduleByAdminTrigger();
-		return list;
-	}
+	
+	
+
 }

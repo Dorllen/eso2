@@ -31,7 +31,7 @@
 	</select>
 	<select id="selectScheduleQueuesForPullArticleService01MapObject" parameterType="string"
 		resultType="hashmap">
-		select name,url from scheduleQueues where type = 'System' and type2 = 'answer' and type3 = 'websites' and status != 0 and uuid = #{uuid} 
+		select name,url from scheduleQueues where type = 'System' and type2 = 'answer' and type3 = 'websites' and status != 0 and uuid = #{uuid} limit 1
 	</select>
 	
 	<update id="updateScheduleQueuesForWormsServiceListInteger"

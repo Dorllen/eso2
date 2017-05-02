@@ -25,7 +25,7 @@
 		</choose>
 	</select>
 	
-	<select id="queryWebsitesForWormsService01ListWebsiteBO" resultType="WebSiteBO">
+	<select id="queryWebsitesForWormsService01ListWebsiteBO" resultType="WebsiteBO">
 		select * from websites where type = #{type} and name in 
 		<foreach collection="names" open="(" close=")" separator="," item="item">
 			#{item}
@@ -33,4 +33,11 @@
 		and websites.using = 1;
 	</select>
 
+	<select id="queryWebsitesForDataInfoAdminService01ListWebsite" parameterType="string" resultType="Website">
+		select * from websites where type='engine' and name = #{name};
+	</select>
+	
+	<select id="queryWebsitesForDataInfoAdminService01Website" resultType="Website">
+		select * from  websites where type='engine' and name = #{name} and id = #{id};
+	</select>
 </mapper>

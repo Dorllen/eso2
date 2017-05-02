@@ -48,6 +48,9 @@ import com.zhidian.model.sys.PullResultBO;
 import com.zhidian.model.sys.PullResultPageModel;
 import com.zhidian.model.sys.ResultRoleBO;
 import com.zhidian.model.sys.WebsiteBO;
+import com.zhidian.service.DataInfoAdminService;
+import com.zhidian.views.WebsitePageVO;
+import com.zhidian.views.WormSettingsSearchResultVO;
 
 /**
  * @ClassName: AppTest
@@ -381,6 +384,27 @@ public class AppTest {
 				"https://segmentfault.com/q/1010000007838751", "b717ef7ea0b7e8fbcb83677db51a9382", "test", 0, null,
 				"127.0.0.1");
 		System.out.println(JSON.toJSONString(q));
+	}
+
+	// -------------------service-----------------
+
+	@Autowired
+	DataInfoAdminService dataService;
+
+	@Test
+	public void testServiceDataInfoAdminService01() {
+		List<WormSettingsSearchResultVO> list = dataService.getWebsiteVersionListByName("segmentfault");
+		System.out.println(JSON.toJSONString(list));
+	}
+
+	@Test
+	public void testServiceDataInfoAdminService02(){
+		WebsitePageVO page = dataService.getWebsiteInforDetailByNameAndId(1,"segmentfault");
+		System.out.println(JSON.toJSONString(page));
+	}
+	
+	private void getWebsiteVersionListByName(String string) {
+
 	}
 
 	public static void main(String[] args) {

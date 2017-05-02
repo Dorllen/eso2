@@ -16,14 +16,14 @@ import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.selector.Selectable;
 
 public class SegmentFaultResultProcessor extends BaseResultPageProcessor<PullResultPageModel> {
-//	private Logger log = LoggerFactory.getLogger(getClass());
+	// private Logger log = LoggerFactory.getLogger(getClass());
 
 	public SegmentFaultResultProcessor(PullResultPageModel pullPageModel) {
 		super(pullPageModel);
 	}
 
 	public void process(Page page) {
-//		long s = System.currentTimeMillis();
+		// long s = System.currentTimeMillis();
 		Selectable select = page.getHtml().xpath("//section[@class^='widget-question']");
 		List<Selectable> resultList = select.nodes();
 		Date d = new Date();
@@ -64,7 +64,21 @@ public class SegmentFaultResultProcessor extends BaseResultPageProcessor<PullRes
 						search.setDate(d);
 						search.setUuid(DigestUtils.md5Hex(tempUrl));
 						search.setName(this.getObj().getName());
-						results.add(search);
+//						System.out.println(search.getUrl()+" " + search.getTitle());
+						// 内容筛选，去除重复url
+						if (results.size() > 0) {
+							for (PullResultBO r : results) {
+								if (r != null && r.getUuid().equals(search.getUuid())) {
+									search = null;
+									break;
+								}
+							}
+							if (search != null) {
+								results.add(search);
+							}
+						} else {
+							results.add(search);
+						}
 					} catch (Exception e) {
 						e.printStackTrace();
 						break;
@@ -73,8 +87,10 @@ public class SegmentFaultResultProcessor extends BaseResultPageProcessor<PullRes
 				this.getObj().addResults(results);
 				if (this.getObj().getSize() - this.getObj().getResults().size() > 0) {
 					// 放入请求schedule中
-//					log.info("Again to Get Data , and want to get size -> {}",
-//							this.getObj().getSize() - this.getObj().getResults().size());
+					// log.info("Again to Get Data , and want to get size ->
+					// {}",
+					// this.getObj().getSize() -
+					// this.getObj().getResults().size());
 					List<String> requests = new ArrayList<String>(1);
 					String url = this.getObj().getUrl() + this.getObj().getPagination();
 					this.getObj().setPage(this.getObj().getPage() + 1);
@@ -92,8 +108,9 @@ public class SegmentFaultResultProcessor extends BaseResultPageProcessor<PullRes
 				}
 			}
 		}
-//		long e = System.currentTimeMillis();
-//		log.info("{} spend time is -> {} s", page.getUrl().toString(), (e - s) / 1000);
+		// long e = System.currentTimeMillis();
+		// log.info("{} spend time is -> {} s", page.getUrl().toString(), (e -
+		// s) / 1000);
 	}
 
 	public static void main(String[] args) {

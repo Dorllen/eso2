@@ -52,7 +52,7 @@
 	</mvc:annotation-driven>
 
 	<!--避免拦截静态资源 -->
-   	<mvc:resources location="/WEB-INF/static/" mapping="/static/**/*" />
+	<mvc:resources location="/WEB-INF/static/" mapping="/static/**/*" />
 	<mvc:resources location="/WEB-INF/css/" mapping="/css/**/*" />
 	<mvc:resources location="/WEB-INF/js/" mapping="/js/**/*" />
 	<mvc:resources location="/WEB-INF/img/" mapping="/img/**/*" />

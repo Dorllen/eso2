@@ -121,3 +121,5 @@ public abstract class BaseResultPageProcessor<T extends PullResultPageModel> ext
 		return false;
 	}
 }
+
+
