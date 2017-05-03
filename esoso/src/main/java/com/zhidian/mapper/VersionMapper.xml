@@ -38,5 +38,12 @@
 			</otherwise>
 		</choose>
 	</select>
+	
+	<select id="queryVersionsForDataInfoAdminService01SimpleVersion" resultType="Version">
+		select * from versions as v where name = #{name} and v.using = 1 and type = 'websites';
+	</select>
 
+	<select id="selectVersionsForDataInfoAdminService01ListString" resultType="string" parameterType="string">
+		select version from versions where name = #{name} and type = 'websites';
+	</select>
 </mapper>

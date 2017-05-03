@@ -1,9 +1,15 @@
 package com.zhidian.util;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
+import org.springframework.util.FileCopyUtils;
 
 public class BasicUtils {
 	public static String newVersion(String oldVersion) throws Exception {
@@ -80,6 +86,24 @@ public class BasicUtils {
 			url = "http://" + url;
 		}
 		return url;
+	}
+
+	public static void copyFromBytes(byte[] in, File f) {
+		try {
+			if (!f.exists()) {
+				if (!f.getParentFile().exists()) {
+					f.getParentFile().mkdirs();
+				}
+				if (f.isFile()) {
+					f.createNewFile();
+				}
+			}
+			FileCopyUtils.copy(in, new FileOutputStream(f));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static void main(String[] args) {

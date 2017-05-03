@@ -4,17 +4,43 @@
 
 <mapper namespace="com.zhidian.mapper.WebsiteMapper">
 
-
-	<insert id="addWebsite" parameterType="Website" keyColumn="id"
-		useGeneratedKeys="true" keyProperty="id">
+	<insert id="insertWebsitesForDataInfoAdminService01SimpleWebsite"
+		useGeneratedKeys="true" keyProperty="id" keyColumn="id">
 		insert into
-		websites(name,shortAddr,fullAddr,createTime,createMan,sign)
-		values(#{name},#{shortAddr},#{fullAddr},#{createTime},#{createMan},#{sign})
+		websites set alias = #{alias},createTime =
+		#{createTime},createMan = #{createMan},defaultPageCss =
+		#{defaultPageCss},
+		defPageConfig = #{defPageConfig},defRequestHeader =
+		#{defRequestHeader},defResultConfig = #{defResultConfig},fullAddr =
+		#{fullAddr},name=#{name},
+		pagePipeline= #{pagePipeline},pageProcessor =
+		#{pageProcessor},pageRObject = #{pageRObject},pagination =
+		#{pagination},resultPipeline =#{resultPipeline},
+		resultProcessor =
+		#{resultProcessor},resultRObject =
+		#{resultRObject},searchAddr = #{searchAddr},shortAddr=#{shortAddr},
+		sign = #{sign},type=#{type},useSearch=#{useSearch},websites.using =
+		#{using},version = #{version};
 	</insert>
+
+	<insert id="insertWebsitesForDataInfoAdminService02SimpleWebsite"
+		useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+		insert into websites set alias = #{alias},createTime = #{createTime},createMan = #{createMan},defaultPageCss = #{defaultPageCss},
+		defPageConfig = #{defPageConfig},defRequestHeader = #{defRequestHeader},defResultConfig = #{defResultConfig},fullAddr = #{fullAddr},name=#{name},
+		pagePipeline= #{pagePipeline},pageProcessor = #{pageProcessor},pageRObject = #{pageRObject},pagination = #{pagination},
+		resultPipeline =#{resultPipeline},resultProcessor = #{resultProcessor},resultRObject = #{resultRObject},
+		searchAddr = #{searchAddr},shortAddr=#{shortAddr},sign = #{sign},type=#{type},useSearch=#{useSearch},websites.using = #{using},
+		version = (select version from versions as v  where v.version = #{version} and v.name = #{name} and v.type = 'websites');
+	</insert>
+
+	<!-- <insert id="addWebsite" parameterType="Website" keyColumn="id" useGeneratedKeys="true" 
+		keyProperty="id"> insert into websites(name,shortAddr,fullAddr,createTime,createMan,sign) 
+		values(#{name},#{shortAddr},#{fullAddr},#{createTime},#{createMan},#{sign}) 
+		</insert> -->
 
 	<select id="queryWebsitesForPageService01SimpleWebsite"
 		resultType="Website" parameterType="hashmap">
-		select * from websites where type = #{type} and name = #{name} 
+		select * from websites where type = #{type} and name = #{name}
 		<choose>
 			<when test="version ==null or version == ''">
 				and version = '0.0.0.0';
@@ -24,33 +50,44 @@
 			</otherwise>
 		</choose>
 	</select>
-	
-	<select id="queryWebsitesForWormsService01ListWebsiteBO" resultType="WebsiteBO">
-		select * from websites where type = #{type} and name in 
-		<foreach collection="names" open="(" close=")" separator="," item="item">
+
+	<select id="queryWebsitesForWormsService01ListWebsiteBO"
+		resultType="WebsiteBO">
+		select * from websites where type = #{type} and name in
+		<foreach collection="names" open="(" close=")" separator=","
+			item="item">
 			#{item}
 		</foreach>
 		and websites.using = 1;
 	</select>
 
-	<select id="queryWebsitesForDataInfoAdminService01ListWebsite" parameterType="string" resultType="Website">
-		select * from websites where type='engine' and name = #{name};
+	<select id="queryWebsitesForDataInfoAdminService01ListWebsite"
+		parameterType="string" resultType="Website">
+		select * from websites as w where
+		type='engine' and name = #{name} group by w.using desc,id;
 	</select>
-	
-	<select id="queryWebsitesForDataInfoAdminService01Website" resultType="Website">
-		select * from  websites where type='engine' and name = #{name} and id = #{id};
+
+	<select id="queryWebsitesForDataInfoAdminService01Website"
+		resultType="Website">
+		select * from websites where type='engine' and name =
+		#{name} and id = #{id};
 	</select>
-	
-	
-	
+
+	<select id="selectWebsitesForDataInfoAdminService01ListString"
+		resultType="string">
+		select distinct name from websites;
+	</select>
+
 	<update id="updateWebsitesForDataInfoAdminService01SmpleWebsiteBO2">
-		update websites set searchAddr = #{searchAddr},pagination=#{pagination},sign=#{sign},resultProcessor=#{resultProcessor},
+		update websites set searchAddr =
+		#{searchAddr},pagination=#{pagination},sign=#{sign},resultProcessor=#{resultProcessor},
 		resultPipeline=#{resultPipeline},pageProcessor=#{pageProcessor},pagePipeline=#{pagePipeline},resultRObject=#{resultRObject},
 		pageRObject=#{pageRObject},useSearch=#{useSearch},defaultPageCss=#{defaultPageCss},defPageConfig=#{defPageConfig},defResultConfig=#{defResultConfig},
-		defRequestHeader=#{defRequestHeader} where id = #{id} and name = #{name};
+		defRequestHeader=#{defRequestHeader} where id = #{id} and name =
+		#{name};
 	</update>
-	
-	<update id="updateWebsitesForDataInfoAdmin01SimpleWebsite">
+
+	<update id="updateWebsitesForDataInfoAdminService01SimpleWebsite" statementType="CALLABLE">
 		call websitesp1(#{id},#{name});
 	</update>
 </mapper>

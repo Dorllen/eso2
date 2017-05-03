@@ -1,6 +1,8 @@
 
 package com.zhidian.mapper;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -25,5 +27,11 @@ public interface VersionMapper {
 	*/
 	public Version queryVersionsForPullArticleService01SimpleVersion(@Param("type") String type,
 			@Param("name") String name, @Param("version") String version);
+
+	
+	public List<String> selectVersionsForDataInfoAdminService01ListString(@Param("name") String name);
+
+	public Version queryVersionsForDataInfoAdminService01SimpleVersion(@Param("name") String name);
+
 
 }

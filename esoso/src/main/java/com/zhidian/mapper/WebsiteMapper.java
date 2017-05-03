@@ -26,9 +26,6 @@ public interface WebsiteMapper {
 	Website queryWebsitesForPageService01SimpleWebsite(@Param("type") String type,@Param("name") String name,@Param("version") String version);
 	
 	
-	// 增
-	
-	void addWebsite(Website website);
 
 
 	/**
@@ -53,14 +50,28 @@ public interface WebsiteMapper {
 
 
 	/**
-	* @Title: updateWebsitesForDataInfoAdmin01SimpleWebsite
+	* @Title: updateWebsitesForDataInfoAdminService01SimpleWebsite
 	* @Description: TODO(设置website使用的版本)
 	* @param @param id
 	* @param @param name    参数
 	* @return void    返回类型
 	* @throws
 	*/
-	void updateWebsitesForDataInfoAdmin01SimpleWebsite(@Param("id") String id,@Param("name")  String name);
+	void updateWebsitesForDataInfoAdminService01SimpleWebsite(@Param("id") String id,@Param("name")  String name);
+
+
+	List<String> selectWebsitesForDataInfoAdminService01ListString();
+
+
+
+
+	void insertWebsitesForDataInfoAdminService01SimpleWebsite(Website w);
+
+
+
+
+	void insertWebsitesForDataInfoAdminService02SimpleWebsite(Website w);
+
 
 	
 	

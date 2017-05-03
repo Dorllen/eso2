@@ -13,14 +13,13 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * @ClassName: Website
- * @Description: TODO(Worm-settings頁面的詳情正在使用該對象.)
+ * @Description: TODO(Worm-settings頁面的詳情正在使用該對象.新增对象)
  * @author dongneng
  * @date 2017-3-21 上午1:46:57
  *
  */
-public class WebsitePostModel {
+public class WebsitePostModel2 {
 	
-	@NotEmpty
 	private String id;
 	@NotEmpty
 	private String name;// segmentfault
@@ -42,6 +41,10 @@ public class WebsitePostModel {
 	@NotEmpty
 	private String pageRObject;// 数据模型接收对象。如：内容详情页的接收模型
 	private boolean useSearch; // 使用后缀？
+	private boolean check1;// 是否设置为默认
+	private boolean check2;// 是否使用默认版本的css
+	private String check2Version;// 默认的版本
+	
 	private String defaultPageCss;// json对象。css的配置 WebsiteCssConfigModel
 								// 接收。意思是：默认爬虫爬取的css的json字符串。即要爬取的css文件
 	private String defPageCss;// 系统样式的css文件。
@@ -167,5 +170,23 @@ public class WebsitePostModel {
 	}
 	public void setDefRequestHeader(String defRequestHeader) {
 		this.defRequestHeader = defRequestHeader;
+	}
+	public boolean isCheck1() {
+		return check1;
+	}
+	public void setCheck1(boolean check1) {
+		this.check1 = check1;
+	}
+	public boolean isCheck2() {
+		return check2;
+	}
+	public void setCheck2(boolean check2) {
+		this.check2 = check2;
+	}
+	public String getCheck2Version() {
+		return check2Version;
+	}
+	public void setCheck2Version(String check2Version) {
+		this.check2Version = check2Version;
 	}
 }

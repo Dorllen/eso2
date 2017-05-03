@@ -50,6 +50,7 @@ import com.zhidian.model.sys.ResultRoleBO;
 import com.zhidian.model.sys.WebsiteBO;
 import com.zhidian.service.DataInfoAdminService;
 import com.zhidian.views.WebsitePageVO;
+import com.zhidian.views.WebsitePostModel2;
 import com.zhidian.views.WormSettingsSearchResultVO;
 
 /**
@@ -406,9 +407,28 @@ public class AppTest {
 	@Test
 	public void testWebsiteProcedure(){
 //		dataService.setWebisteDefaultUsing("1","segmentfault");
-		websiteMapper.updateWebsitesForDataInfoAdmin01SimpleWebsite("1","segmentfault");
+		websiteMapper.updateWebsitesForDataInfoAdminService01SimpleWebsite("1","segmentfault");
 	}
 	
+	@Test
+	public void testInsertWebsite1(){
+		WebsitePostModel2 model = new WebsitePostModel2();
+		model.setName("segmentfault");
+		model.setSearchAddr("test");
+		model.setResultProcessor("test");
+		model.setPageProcessor("test");
+		model.setPageRObject("test");
+		model.setCheck2Version("0.0.0.0");
+//		model.setCheck2(true);
+		model.setCheck1(true);// 设置为默认版本
+		int i = 0;
+		try{
+		  i = dataService.addNewWebsite(model,"Admin");
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		System.out.println(i);
+	}
 
 	public static void main(String[] args) {
 		// User u =

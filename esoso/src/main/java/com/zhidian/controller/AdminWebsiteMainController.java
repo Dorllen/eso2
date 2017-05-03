@@ -1,5 +1,10 @@
 package com.zhidian.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -8,6 +13,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -15,11 +21,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.alibaba.fastjson.JSON;
+import com.zhidian.bases.CustomClassLoader;
 import com.zhidian.service.DataInfoAdminService;
+import com.zhidian.util.BasicUtils;
 import com.zhidian.views.ResultModel;
 import com.zhidian.views.WebsitePageVO;
 import com.zhidian.views.WebsitePostModel;
+import com.zhidian.views.WebsitePostModel2;
 import com.zhidian.views.WormSettingsSearchResultVO;
 
 @Controller
@@ -79,23 +91,260 @@ public class AdminWebsiteMainController {
 		if (error != null && error.getErrorCount() > 0) {
 			result.setMessage("检查参数!");
 		} else {
-			dataService.updateWebsiteFromPostObject(model,"Admin");
+			dataService.updateWebsiteFromPostObject(model, "Admin");
 			result.setCode("200");
 			result.setMessage("更新成功!");
 		}
 		return result;
 	}
-	
+
 	@PostMapping("/info/setDefaultWebsite")
 	@ResponseBody
-	public Object setWebsiteDefault(@RequestParam("id") String id, @RequestParam("name") String name){
+	public Object setWebsiteDefault(@RequestParam("id") String id, @RequestParam("name") String name) {
 		ResultModel result = new ResultModel();
-		if(StringUtils.isNotEmpty(id)&&StringUtils.isNotEmpty(name)){
-			dataService.setWebisteDefaultUsing(id,name);
+		if (StringUtils.isNotEmpty(id) && StringUtils.isNotEmpty(name)) {
+			dataService.setWebisteDefaultUsing(id, name);
 			result.setMessage("更新成功!");
-		}else{
+		} else {
 			result.setMessage("请求参数有误!");
 		}
 		return result;
+	}
+
+	@GetMapping("/info/getVersions")
+	@ResponseBody
+	public Object getWebsiteAllVersions(@RequestParam("name") String name) {
+		ResultModel result = new ResultModel();
+		List<String> list = dataService.getWebsiteAllVersionList(name);
+		if (list != null && list.size() > 0) {
+			result.setItems(list);
+		} else {
+			result.setMessage("请求参数有误");
+		}
+
+		return result;
+	}
+
+	@GetMapping("/info/getWebsites")
+	@ResponseBody
+	public Object getAllWebsitesName() {
+		ResultModel result = new ResultModel();
+		List<String> list = dataService.getAllWebsites();
+		if (list != null && list.size() > 0) {
+			result.setItems(list);
+		} else {
+			result.setMessage("请求有误");
+		}
+		return result;
+	}
+
+	@PostMapping("/add")
+	@ResponseBody
+	public Object addNewWebsite(@ModelAttribute @Valid WebsitePostModel2 model, MultipartHttpServletRequest request,
+			BindingResult error) {
+		ResultModel result = new ResultModel();
+		if (error.getErrorCount() > 0) {
+			result.setMessage("参数验证不通过!");
+		} else {
+			MultipartFile f1 = request.getFile("pageProcessorClass");
+			MultipartFile f2 = request.getFile("pageRObjectClass");
+			MultipartFile f3 = request.getFile("resultProcessorClass");
+			if (f1 != null && f2 != null && f3 != null) {
+				if (f1.getOriginalFilename().lastIndexOf(".class") <= 0
+						|| f2.getOriginalFilename().lastIndexOf(".class") <= 0
+						|| f3.getOriginalFilename().lastIndexOf(".class") <= 0) {
+					result.setMessage("字节码文件的格式不正确!");
+					return result;
+				} else {
+					// 校验其他的字节码文件是否上传
+					MultipartFile f4 = request.getFile("pagePipelineClass");
+					MultipartFile f5 = request.getFile("resultPipelineClass");
+					MultipartFile f6 = request.getFile("resultRObjectClass");
+					if (f4 != null) {
+						if (f4.getOriginalFilename().lastIndexOf(".class") <= 0) {
+							result.setMessage("字节码文件的格式不正确!");
+							return result;
+						}
+					}
+					if (f5 != null) {
+						if (f5.getOriginalFilename().lastIndexOf(".class") <= 0) {
+							result.setMessage("字节码文件的格式不正确!");
+							return result;
+						}
+					}
+					if (f6 != null) {
+						if (f6.getOriginalFilename().lastIndexOf(".class") <= 0) {
+							result.setMessage("字节码文件的格式不正确!");
+							return result;
+						}
+					}
+					// 所有文件上傳成功之後的操作...
+					int i = dataService.addNewWebsite(model, "Admin");
+					if (i > 0) {
+						// 开始保存文件
+						String root = System.getProperty("webapp.root");
+						String r = root + File.separator + "WEB-INF" + File.separator + "classes" + File.separator
+								+ "com" + File.separator + "zhidian" + File.separator;
+						File f = new File(
+								r + "bases" + File.separator + "worms" + File.separator + "processor" + File.separator,
+								f1.getOriginalFilename());
+						try {
+							BasicUtils.copyFromBytes(f1.getBytes(), f);// pageProcessor
+							f = new File(r + "model" + File.separator + "websites" + File.separator + "answer"
+									+ File.separator, f2.getOriginalFilename());// pageRObject
+							BasicUtils.copyFromBytes(f2.getBytes(), f);
+							f = new File(
+									r + "bases" + File.separator + "worms" + File.separator + "processor"
+											+ File.separator, // resultProcessor
+									f3.getOriginalFilename());
+							BasicUtils.copyFromBytes(f3.getBytes(), f);
+							if (f4 != null) {
+								f = new File(r + "bases" + File.separator + "worms" + File.separator + "pipeline"
+										+ File.separator, f4.getOriginalFilename());// pagePipeline
+								BasicUtils.copyFromBytes(f4.getBytes(), f);
+							}
+							if (f5 != null) {
+								f = new File(r + "bases" + File.separator + "worms" + File.separator + "pipeline"
+										+ File.separator, f5.getOriginalFilename());// resultPipeline
+								BasicUtils.copyFromBytes(f5.getBytes(), f);
+							}
+							if (f6 != null) {
+								f = new File(r + "model" + File.separator + "websites" + File.separator + "answer"
+										+ File.separator, f6.getOriginalFilename());// resultRObject
+								BasicUtils.copyFromBytes(f6.getBytes(), f);
+							}
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+						result.setMessage("新增成功!");
+					} else {
+						result.setMessage("新增失败,参数异常");
+					}
+				}
+			} else {
+				result.setMessage("字节码文件不能为空!");
+				return result;
+			}
+			System.out.println(JSON.toJSONString(model));
+			result.setMessage("验证中...");
+		}
+		return result;
+	}
+
+	@PostMapping("/upload")
+	@ResponseBody
+	public Object uploadTest(MultipartHttpServletRequest request) {
+		MultipartFile f = request.getFile("file");
+		if (f != null) {
+			System.out.println(f.getOriginalFilename());
+			System.out.println(f.getContentType());
+			System.out.println(f.getSize());
+			String root = System.getProperty("webapp.root");
+			File f1 = new File(root + "/WEB-INF/classes/com/zhidian/bases/worms/pipeline/", f.getOriginalFilename());// resultPipeline
+			try {
+				FileCopyUtils.copy(f.getBytes(), f1);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return "yes";
+		}
+		return "no!";
+	}
+
+	@GetMapping("/getInfo")
+	@ResponseBody
+	public Object uploadTest2(@RequestParam("name") String name) {
+		try {
+			System.out.println("name:" + name);
+			Class<?> clz = Class.forName("com.zhidian.bases.worms.pipeline.Result");
+			Object obj = clz.newInstance();
+			System.out.println(obj.toString());
+			return obj.toString();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@GetMapping("/getInfo2")
+	@ResponseBody
+	public Object uploadTest3(@RequestParam("name") String name) {
+		try {
+			System.out.println("name:" + name);
+			Class<?> clz = Class.forName("com.zhidian.bases.worms.pipeline.NullPipeline");
+			Object obj = clz.newInstance();
+			System.out.println(obj.toString());
+			clz = Class.forName("com.zhidian.bases.worms.pipeline.Result");
+			Object ox = clz.newInstance();
+			System.out.println(ox);
+			return obj.toString();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@SuppressWarnings("deprecation")
+	@GetMapping("/getInfo4")
+	@ResponseBody
+	public Object uploadTest4(@RequestParam("name") String name) {
+		try {
+			System.out.println("name:" + name);
+			String str = System.getProperty("webapp.root");
+			File f = new File(str + File.separator + "WEB-INF" + File.separator + "classes" + File.separator + "com"
+					+ File.separator + "zhidian" + File.separator + "bases" + File.separator + "worms" + File.separator
+					+ "pipeline");
+			URLClassLoader claz;
+			try {
+				claz = new URLClassLoader(new URL[]{f.toURL()});
+				Class<?> clz = claz.loadClass("Result");
+				Object ox = clz.newInstance();
+				System.out.println(ox);
+			} catch (MalformedURLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return "";
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	@GetMapping("/getInfo5")
+	@ResponseBody
+	public Object uploadTest5(@RequestParam("name") String name) {
+		System.out.println("name:"+name);
+		String root = System.getProperty("webapp.root");
+		CustomClassLoader claz = new CustomClassLoader(root + File.separator + "WEB-INF" + File.separator + "classes" + File.separator + "com"
+				+ File.separator + "zhidian" + File.separator + "bases" + File.separator + "worms" + File.separator
+				+ "pipeline"+File.separator+"Result.class");
+		try {
+			Class<?> clz = claz.loadClass("com.common.Result");
+			Object o = clz.newInstance();
+			System.out.println(o);
+			return o;
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 }
