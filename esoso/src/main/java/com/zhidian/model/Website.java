@@ -43,7 +43,8 @@ public class Website {
 	private String type;// 类型。AppEnumDefine.SiteService 。
 						// 如果获取Version的值，只需要知道type为engine就对应version's
 						// type是websites就可以了
-	private String version;// 版本，每个结果详情页可能需要对应的版本来管理维护数据传输。对应的是Version的version
+//	private String version;// 版本，每个结果详情页可能需要对应的版本来管理维护数据传输。(-:对应的是Version的version) version是自身的version
+	private int versionId;// 对应的是version的id。不为空
 	private int using;// 除了0.0.0.0是最终默认版，如果有using代表当前页面是默认版。1代表在使用，0代表禁用（默认）
 	private String unuseMan;// 禁用人
 	private Date unuseTime;// 禁止时间
@@ -262,14 +263,6 @@ public class Website {
 		this.useSearch = useSearch;
 	}
 
-	public String getVersion() {
-		return version;
-	}
-
-	public void setVersion(String version) {
-		this.version = version;
-	}
-
 	public String getType() {
 		return type;
 	}
@@ -340,5 +333,13 @@ public class Website {
 
 	public void setDefRequestHeader(String defRequestHeader) {
 		this.defRequestHeader = defRequestHeader;
+	}
+
+	public int getVersionId() {
+		return versionId;
+	}
+
+	public void setVersionId(int versionId) {
+		this.versionId = versionId;
 	}
 }

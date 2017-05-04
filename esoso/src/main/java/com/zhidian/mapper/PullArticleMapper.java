@@ -44,6 +44,16 @@ public interface PullArticleMapper {
 	
 	String tee(Map<String,Object> map);
 	// 删
+
+	/**
+	* @Title: selectPullArticlesForDataInfoAdminService01SimpleInt
+	* @Description: TODO(用于查找，是否pullarticle对versions表的id的version有关联)
+	* @param @param id
+	* @param @return    参数
+	* @return int    返回类型
+	* @throws
+	*/
+	int selectPullArticlesForDataInfoAdminService01SimpleInt(@Param("id") int id);
 	
 	
 	// 改

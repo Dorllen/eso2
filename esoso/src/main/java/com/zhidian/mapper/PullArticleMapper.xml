@@ -7,11 +7,11 @@
 	<insert id="insertArticlesForWormsService02ListPullArticle"
 		parameterType="PullArticle">
 		insert into
-		pullArticles(uuid,title,contents,resultContent,pagePath,cssPath,name,sign,startTime,version,url,cuuid,status)
+		pullArticles(uuid,title,contents,resultContent,pagePath,cssPath,name,sign,startTime,websiteId,url,cuuid,status,type)
 		values
 		<trim suffixOverrides=",">
 			<foreach collection="list" index="i" separator="," item="item">
-				(#{item.uuid},#{item.title},#{item.contents},#{item.resultContent},#{item.pagePath},#{item.cssPath},#{item.name},#{item.sign},#{item.startTime},#{item.version},#{item.url},#{item.cuuid},#{item.status})
+				(#{item.uuid},#{item.title},#{item.contents},#{item.resultContent},#{item.pagePath},#{item.cssPath},#{item.name},#{item.sign},#{item.startTime},#{item.websiteId},#{item.url},#{item.cuuid},#{item.status},#{item.type})
 			</foreach>
 		</trim>
 	</insert>
@@ -36,4 +36,7 @@
 		select url from pullArticles where uuid = #{uuid} and name = #{name};
 	</select>
 
+	<select id="selectPullArticlesForDataInfoAdminService01SimpleInt" resultType="int" parameterType="int">
+		select count(*) from pullArticles where websiteId = (select id from websites where id = #{id});
+	</select>
 </mapper>

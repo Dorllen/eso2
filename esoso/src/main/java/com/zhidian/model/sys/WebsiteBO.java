@@ -3,6 +3,7 @@ package com.zhidian.model.sys;
 import java.util.List;
 
 import com.alibaba.fastjson.JSON;
+import com.zhidian.model.Version;
 
 public class WebsiteBO {
 	private int id;
@@ -18,8 +19,10 @@ public class WebsiteBO {
 	private String pageRObject;// 数据模型接收对象。如：内容详情页的接收模型
 	private boolean useSearch; // 使用后缀？ 默认false,代表去除搜索结果页捕获的链接后缀，如：?..&..。
 	private String type;// 类型。AppEnumDefine.SiteService
-	private String version;// 版本，每个结果详情页可能需要对应的版本来管理维护数据传输。
+//	private String version;// 版本，每个结果详情页可能需要对应的版本来管理维护数据传输。
+	private Version version;
 	private String defaultPageCss;//
+	private String defPageCss;// 系统样式的css文件。
 	private String defPageConfig;// 默认詳情頁配置 WebsiteConfigModel
 	private String defResultConfig;// 默認結果頁爬取規則 WebsiteConfigModel
 	private String defRequestHeader;// 定义请求头 RequestHeaderModel
@@ -133,14 +136,6 @@ public class WebsiteBO {
 		this.type = type;
 	}
 
-	public String getVersion() {
-		return version;
-	}
-
-	public void setVersion(String version) {
-		this.version = version;
-	}
-
 	public List<WebsiteCssConfigModel> getPageCssLists() {
 		if (pageCssLists == null) {
 			if (defaultPageCss != null && defaultPageCss.length() > 0) {
@@ -203,6 +198,22 @@ public class WebsiteBO {
 
 	public void setDefRequestHeader(String defRequestHeader) {
 		this.defRequestHeader = defRequestHeader;
+	}
+
+	public Version getVersion() {
+		return version;
+	}
+
+	public void setVersion(Version version) {
+		this.version = version;
+	}
+
+	public String getDefPageCss() {
+		return defPageCss;
+	}
+
+	public void setDefPageCss(String defPageCss) {
+		this.defPageCss = defPageCss;
 	}
 
 }

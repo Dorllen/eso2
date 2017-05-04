@@ -78,7 +78,7 @@ public class DataInfoAdminService {
 				v.setUsing(true);
 			}
 			v.setName(w.getName());
-			v.setVersion(w.getVersion());
+			v.setVersion(""+w.getVersionId());
 			v.setSign(w.getSign());
 			v.setId(String.valueOf(w.getId()));
 			return v;
@@ -134,7 +134,7 @@ public class DataInfoAdminService {
 			}
 			v.setUseSearch(w.isUseSearch());
 			v.setUsing(w.getUsing() == 0 ? false : true);
-			v.setVersion(w.getVersion());
+			v.setVersion(""+w.getVersionId());
 			return v;
 		}
 		return null;
@@ -189,14 +189,14 @@ public class DataInfoAdminService {
 						w.setUsing(1);
 						if (model.isCheck2()) {
 							// 使用默认版的css,就不将version的defcss放入
-							w.setVersion(version.getVersion());
+							w.setVersionId(version.getId());
 							websiteMapper.insertWebsitesForDataInfoAdminService01SimpleWebsite(w);// 将其他的website制为using=0
 							if (w.getId() > 0) {
 								websiteMapper.updateWebsitesForDataInfoAdminService01SimpleWebsite("" + w.getId(),
 										w.getName());
 							}
 						} else {
-							w.setVersion(model.getCheck2Version());// 获得默认version,确定version是否存在数据库中
+							w.setVersionId(model.getCheck2Version());// 获得默认version,确定version是否存在数据库中
 							w.setDefPageCss(model.getDefPageCss());
 							websiteMapper.insertWebsitesForDataInfoAdminService02SimpleWebsite(w);// 将其他的website置为using=0,并且将model.getVersion验证
 							if (w.getId() > 0) {
@@ -208,10 +208,10 @@ public class DataInfoAdminService {
 						w.setUsing(0);// 第一次不自动使用，需再设置
 						if (model.isCheck2()) {
 							// 使用默认版的css
-							w.setVersion(version.getVersion());
+							w.setVersionId(version.getId());
 							websiteMapper.insertWebsitesForDataInfoAdminService01SimpleWebsite(w);
 						} else {
-							w.setVersion(model.getCheck2Version());// 获得默认version,确定version是否存在数据库中
+							w.setVersionId(model.getCheck2Version());// 获得默认version,确定version是否存在数据库中
 							w.setDefPageCss(model.getDefPageCss());
 							websiteMapper.insertWebsitesForDataInfoAdminService02SimpleWebsite(w);
 						}
@@ -220,7 +220,7 @@ public class DataInfoAdminService {
 				}
 			}
 		}
-		return 0;
+		return -1;
 	}
 
 	private Website createWebsiteFromWebsitePostModel2(WebsitePostModel2 m, String account) {
@@ -262,6 +262,19 @@ public class DataInfoAdminService {
 
 	public List<String> getAllWebsites() {
 		return websiteMapper.selectWebsitesForDataInfoAdminService01ListString();
+	}
+
+	public int deleteWebsiteById(int id) {
+		if(id>0){
+			// 删除之前查找，是否数据version被使用
+			int num = pullArticleMapper.selectPullArticlesForDataInfoAdminService01SimpleInt(id);
+			if(num>0){
+				return -2;
+			}else{
+				return websiteMapper.deleteWebistesForDataInfoAdminService01SimpleId(id);
+			}
+		}
+		return -1;
 	}
 
 }

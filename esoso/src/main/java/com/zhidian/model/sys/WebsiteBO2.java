@@ -16,7 +16,7 @@ public class WebsiteBO2 {
 	private String pageRObject;// 数据模型接收对象。如：内容详情页的接收模型
 	private boolean useSearch; // 使用后缀？ 默认false,代表去除搜索结果页捕获的链接后缀，如：?..&..。
 	private String type;// 类型。AppEnumDefine.SiteService
-	private String version;// 版本，每个结果详情页可能需要对应的版本来管理维护数据传输。
+//	private String version;// 版本，每个结果详情页可能需要对应的版本来管理维护数据传输。
 	private String defaultPageCss;//
 	private String defPageConfig;// 默认詳情頁配置 WebsiteConfigModel
 	private String defResultConfig;// 默認結果頁爬取規則 WebsiteConfigModel
@@ -127,14 +127,6 @@ public class WebsiteBO2 {
 
 	public void setType(String type) {
 		this.type = type;
-	}
-
-	public String getVersion() {
-		return version;
-	}
-
-	public void setVersion(String version) {
-		this.version = version;
 	}
 
 	public String getDefaultPageCss() {

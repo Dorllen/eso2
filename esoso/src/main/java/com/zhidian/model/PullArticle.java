@@ -39,14 +39,15 @@ public class PullArticle {
 	private int views;// 访问量
 	private int scores;// 热点
 	private int collets;// 收集量
-	private String version;// 内容版本，如果内容版本改变了。内容的默认css也是改变的。关联的是version表的
+//	private String version;// 内容版本，如果内容版本改变了。内容的默认css也是改变的。关联的是version表的
+	private int websiteId;
 	private Date unuseTime;
 	private String unuseMan;// 禁用人
 	private String url;// 源地址
 	private String mark;// 标记，可以管理员修改。hot,time,cviews。也可以自动。管理员修改不会触发updateManTime
 	private String cuuid;// contents的uuid值
 	private int status;// 爬虫置入的数据，如1,待处理的！，0代表已处理，可以直接访问
-	
+	private String type;// 爬虫的类型。answer|blog
 	/**
 	 * @return the id
 	 */
@@ -288,14 +289,6 @@ public class PullArticle {
 		this.resultContent = resultContent;
 	}
 
-	public String getVersion() {
-		return version;
-	}
-
-	public void setVersion(String version) {
-		this.version = version;
-	}
-
 	public Date getUnuseTime() {
 		return unuseTime;
 	}
@@ -358,6 +351,22 @@ public class PullArticle {
 
 	public void setStatus(int status) {
 		this.status = status;
+	}
+
+	public int getWebsiteId() {
+		return websiteId;
+	}
+
+	public void setWebsiteId(int websiteId) {
+		this.websiteId = websiteId;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 }

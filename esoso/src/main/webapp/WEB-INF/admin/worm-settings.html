@@ -567,6 +567,15 @@
 				$.Huimodalalert('设置失敗!', 2000);
 			})
 		}
+		var deleteWebsite = function(id){
+			$.ajax({url:"website/delete/"+id,type:"delete"}).done(function(data){
+				if(data&&data.message){
+					$.Huimodalalert(data.message, 2000);
+				}
+			}).fail(function(){
+				$.Huimodalalert('操作失敗!', 2000);
+			})
+		}
 	</script>
 
 	<!--请在下方写此页面业务相关的脚本-->
@@ -760,7 +769,7 @@
 				$
 						.ajax({
 							url : 'website/info/part',
-							data : 'name=segmentfault',
+							data : {name:keys},
 							type : 'get'
 						})
 						.done(
@@ -837,10 +846,12 @@
 																					+ v.id
 																					+ ",'"
 																					+ v.name
-																					+ "')\" /></td>");
+																					+ "')\" /> <input class='btn btn-danger radius' type='button' onclick=\"deleteWebsite("+v.id+")\" value='删除' /></td>");
 																	$tbody
 																			.append($tr);
 																})
+											}else{
+												$.Huimodalalert('未找到数据!', 2000);
 											}
 										}
 									}

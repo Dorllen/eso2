@@ -185,9 +185,9 @@ public class AppTest {
 
 	@Test
 	public void testVersion2() throws Exception {
-		Version v = versionMapper.queryVersionsForPullArticleService01SimpleVersion("websites", "segmentfault",
-				"0.0.0.0");
-		System.out.println(JSON.toJSONString(v));
+//		Version v = versionMapper.queryVersionsForPullArticleService01SimpleVersion("websites", "segmentfault",
+//				"0.0.0.0");
+//		System.out.println(JSON.toJSONString(v));
 
 	}
 
@@ -418,7 +418,7 @@ public class AppTest {
 		model.setResultProcessor("test");
 		model.setPageProcessor("test");
 		model.setPageRObject("test");
-		model.setCheck2Version("0.0.0.0");
+		model.setCheck2Version(1);
 //		model.setCheck2(true);
 		model.setCheck1(true);// 设置为默认版本
 		int i = 0;

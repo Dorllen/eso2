@@ -12,7 +12,7 @@ import java.util.List;
 public class VersionBO {
 	private int id;
 	private String name;// 站点名，websites:segmentfault,results:answer,blog
-	private String version = "0.0.0.0";// 版本号、0.0.0.1 默认版本0.0.0.0
+//	private String version = "0.0.0.0";// 版本号、0.0.0.1 默认版本0.0.0.0
 	private String type;// 类型。websites,results。
 	private List<String> defCss;// //
 								// 默认的css地址。css/websites/segmentfault/0.0.0.1/index.css,segmentfault/css/0.0.0.1/main.css
@@ -60,26 +60,11 @@ public class VersionBO {
 		this.name = name;
 	}
 
-	public String getVersion() {
-		return version;
-	}
-
-	public void setVersion(String version) {
-		this.version = version;
-	}
-
 	public String getType() {
 		return type;
 	}
 
 	public void setType(String type) {
 		this.type = type;
-	}
-
-	@Override
-	public String toString() {
-		return "\"VersionBO\":{\"id\":\"" + id + "\", \"name\":\"" + name + "\", \"version\":\"" + version
-				+ "\", \"type\":\"" + type + "\", \"defCss\":\"" + defCss + "\", \"defPage\":\"" + defPage
-				+ "\", \"defJs\":\"" + defJs + "\"}";
 	}
 }

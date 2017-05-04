@@ -39,7 +39,7 @@ public class CommonClassLoader extends ClassLoader {
 		try {
 			in = new BufferedInputStream(new FileInputStream(path));
 			byte[] b = new byte[1024];
-			int i = 0;
+			int i = -1;
 			while ((i = in.read(b)) != -1) {
 				out.write(b, 0, i);
 			}

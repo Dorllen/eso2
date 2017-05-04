@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
 import com.zhidian.bases.AppEnumDefine;
+import com.zhidian.bases.CommonClassLoader;
 import com.zhidian.bases.ResourceEnumDefine;
 import com.zhidian.bases.SearchEngineEnumDefine;
 import com.zhidian.bases.SearchEngineEnumDefine.Type;
@@ -27,8 +28,8 @@ import com.zhidian.mapper.WebsiteMapper;
 import com.zhidian.model.PaCount;
 import com.zhidian.model.PullArticle;
 import com.zhidian.model.Version;
-import com.zhidian.model.Website;
 import com.zhidian.model.sys.VersionBO;
+import com.zhidian.model.sys.WebsiteBO;
 import com.zhidian.util.RegExpUtils;
 import com.zhidian.views.FormBarDTO;
 import com.zhidian.views.IndexPageVO;
@@ -44,6 +45,9 @@ import com.zhidian.views.PullArticlePageVO;
 @Service
 public class PageService {
 	private Logger log = LoggerFactory.getLogger(getClass());
+
+	@Autowired
+	CommonClassLoader loader;
 
 	@Autowired
 	VersionMapper versionMapper;
@@ -127,18 +131,26 @@ public class PageService {
 			List<String> css = RegExpUtils.convertString2List2(article.getCssPath());
 			List<String> js = RegExpUtils.convertString2List2(article.getJsPath());
 			String page = article.getPagePath();
-			Version version = null;
+			// 从websites表去获取对象信息，进行Class装载
+			WebsiteBO web = websiteMapper.queryWebsitesForPageService01SimpleWebsiteBO(
+					AppEnumDefine.SiteService.搜索.getValue(), article.getName(), article.getWebsiteId());
+			if (web == null) {
+				return pull;
+			}
 			if (css == null || css.size() == 0 || js == null || js.size() == 0 || StringUtils.isEmpty(page)) {
 				// css为空
-				version = versionMapper.queryVersionsForPullArticleService01SimpleVersion(
-						ResourceEnumDefine.ResourceType.内容详情页.getValue(), article.getName(), article.getVersion());
+				Version version = web.getVersion();
 				if (version == null) {
 					log.warn("PullArticlePageVO无法获取，需处理异常....未找到PullArticle的版本信息，连默认版本都没有！ uuid -> {}",
 							article.getUuid());
 					return pull;
 				}
 				if (css == null || css.size() == 0) {
-					article.setCssPath(version.getDefCss());
+					if(StringUtils.isNotEmpty(web.getDefPageCss())){
+						article.setCssPath(web.getDefPageCss());
+					}else{
+						article.setCssPath(version.getDefCss());
+					}
 					css = RegExpUtils.convertString2List2(article.getCssPath());
 				}
 
@@ -155,25 +167,25 @@ public class PageService {
 			}
 			pull = new PullArticlePageVO();
 			if (StringUtils.isNotEmpty(article.getContents())) {
-				// 从websites表去获取对象信息，进行Class装载
-				Website web = websiteMapper.queryWebsitesForPageService01SimpleWebsite(
-						AppEnumDefine.SiteService.搜索.getValue(), article.getName(), article.getVersion());
-				if (web != null) {
-					String receiveObj = web.getPageRObject();
-					if (StringUtils.isNotEmpty(receiveObj)) {
+				String receiveObj = web.getPageRObject();
+				if (StringUtils.isNotEmpty(receiveObj)) {
+					try {
+						Class<?> clazz = null;
 						try {
-							Class<?> clazz = Class.forName(receiveObj);
-							if (clazz != null) {
-								log.info("Contents Object Size is : " + article.getContents().length());
-								System.out.println(article.getContents().substring(0,20));
-								Object obj = JSON.parseObject(article.getContents(), clazz);
-								System.out.println(JSON.toJSONString(obj));
-								pull.setContents(obj);
-							}
-						} catch (ClassNotFoundException e) {
-							log.info("内容详情页的接收对象装载失败.... 请检查...");
-							e.printStackTrace();
+							clazz = Class.forName(receiveObj);
+						} catch (Exception ex) {
+							clazz = Class.forName(receiveObj, true, loader);
 						}
+						if (clazz != null) {
+							log.info("Contents Object Size is : " + article.getContents().length());
+							System.out.println(article.getContents().substring(0, 20));
+							Object obj = JSON.parseObject(article.getContents(), clazz);
+							System.out.println(JSON.toJSONString(obj));
+							pull.setContents(obj);
+						}
+					} catch (ClassNotFoundException e) {
+						log.info("内容详情页的接收对象装载失败.... 请检查...");
+						e.printStackTrace();
 					}
 				}
 			}

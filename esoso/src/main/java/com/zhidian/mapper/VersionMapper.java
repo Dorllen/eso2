@@ -15,19 +15,6 @@ public interface VersionMapper {
 
 	public Version queryVersionsForPageService01SimpleVersion(@Param("type") String type, @Param("name") String name);
 
-	/**
-	* @Title: queryVersionsForPullArticleService01SimpleVersion
-	* @Description: TODO(获取条件是type与name，并且version匹配，如果不匹配返回默认0.0.0.0的Version，)
-	* @param @param type
-	* @param @param name
-	* @param @param version
-	* @param @return    参数
-	* @return Version    返回类型
-	* @throws
-	*/
-	public Version queryVersionsForPullArticleService01SimpleVersion(@Param("type") String type,
-			@Param("name") String name, @Param("version") String version);
-
 	
 	public List<String> selectVersionsForDataInfoAdminService01ListString(@Param("name") String name);
 

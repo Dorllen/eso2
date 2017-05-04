@@ -16,6 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSON;
 import com.zhidian.bases.AppEnumDefine;
+import com.zhidian.bases.ResourceEnumDefine;
+import com.zhidian.bases.SearchEngineEnumDefine;
 import com.zhidian.mapper.CssInfoMapper;
 import com.zhidian.mapper.PullArticleMapper;
 import com.zhidian.mapper.ScheduleQueueMapper;
@@ -260,7 +262,8 @@ public class WormsService {
 					ar.setTitle(a.getTitle());//
 					ar.setUrl(a.getUrl());
 					ar.setUuid(a.getUuid());
-					ar.setVersion(a.getWebsite().getVersion());// 获取默认版本
+					ar.setType(SearchEngineEnumDefine.Type.问答.getValue());// 默认answer类型
+					ar.setWebsiteId(a.getWebsite().getId());// 获取默认版本
 					articles.add(ar);
 				}
 			}

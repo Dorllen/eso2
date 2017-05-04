@@ -23,7 +23,7 @@ public class Version {
 	private int id;
 	private String name;// 站点名，websites:segmentfault,results:answer,blog。
 						// 如果是results只有一个是using状态的。0.0.0.0也是非using状态的。
-	private String version;// 版本号、0.0.0.1
+//	private String version;// 版本号、0.0.0.1
 	private Date createTime;
 	private Date unuseTime;
 	private int using;// 是否在使用 ArticleEnumDefine.UsingLevel
@@ -57,14 +57,6 @@ public class Version {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public String getVersion() {
-		return version;
-	}
-
-	public void setVersion(String version) {
-		this.version = version;
 	}
 
 	public Date getCreateTime() {

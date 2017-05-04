@@ -11,8 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,6 +28,7 @@ import com.zhidian.bases.CustomClassLoader;
 import com.zhidian.service.DataInfoAdminService;
 import com.zhidian.util.BasicUtils;
 import com.zhidian.views.ResultModel;
+import com.zhidian.views.ResultSimpleModel;
 import com.zhidian.views.WebsitePageVO;
 import com.zhidian.views.WebsitePostModel;
 import com.zhidian.views.WebsitePostModel2;
@@ -175,9 +178,11 @@ public class AdminWebsiteMainController {
 							return result;
 						}
 					}
+					// 校验上传的配置文件格式是否正确[待改进]
+
 					// 所有文件上傳成功之後的操作...
 					int i = dataService.addNewWebsite(model, "Admin");
-					if (i > 0) {
+					if (i == 1) {
 						// 开始保存文件
 						String root = System.getProperty("webapp.root");
 						String r = root + File.separator + "WEB-INF" + File.separator + "classes2" + File.separator
@@ -214,7 +219,7 @@ public class AdminWebsiteMainController {
 							e.printStackTrace();
 						}
 						result.setMessage("新增成功!");
-					} else {
+					} else if (i == -1) {
 						result.setMessage("新增失败,参数异常");
 					}
 				}
@@ -224,6 +229,23 @@ public class AdminWebsiteMainController {
 			}
 			System.out.println(JSON.toJSONString(model));
 			result.setMessage("验证中...");
+		}
+		return result;
+	}
+
+	@DeleteMapping("/delete/{id:[0-9]*}")
+	@ResponseBody
+	public Object deleteWebsiteById(@PathVariable("id") int id) {
+		ResultSimpleModel result = new ResultSimpleModel();
+		int i = dataService.deleteWebsiteById(id);
+		if (i == 1) {
+			result.setMessage("删除成功!");
+		} else if (i == 0) {
+			result.setMessage("删除失败!");
+		} else if (i == -1) {
+			result.setMessage("参数有误!");
+		} else if (i == -2) {
+			result.setMessage("不可删除!");
 		}
 		return result;
 	}
@@ -288,10 +310,10 @@ public class AdminWebsiteMainController {
 		}
 		return null;
 	}
-	
+
 	@Autowired
 	CommonClassLoader c;
-	
+
 	@GetMapping("/getInfo4")
 	@ResponseBody
 	public Object uploadTest4(@RequestParam("name") String name) {
@@ -316,11 +338,11 @@ public class AdminWebsiteMainController {
 	@GetMapping("/getInfo5")
 	@ResponseBody
 	public Object uploadTest5(@RequestParam("name") String name) {
-		System.out.println("name:"+name);
+		System.out.println("name:" + name);
 		String root = System.getProperty("webapp.root");
-		CustomClassLoader claz = new CustomClassLoader(root + File.separator + "WEB-INF" + File.separator + "classes" + File.separator + "com"
-				+ File.separator + "zhidian" + File.separator + "bases" + File.separator + "worms" + File.separator
-				+ "pipeline"+File.separator+"Result.class");
+		CustomClassLoader claz = new CustomClassLoader(root + File.separator + "WEB-INF" + File.separator + "classes"
+				+ File.separator + "com" + File.separator + "zhidian" + File.separator + "bases" + File.separator
+				+ "worms" + File.separator + "pipeline" + File.separator + "Result.class");
 		try {
 			Class<?> clz = claz.loadClass("com.common.Result");
 			Object o = clz.newInstance();

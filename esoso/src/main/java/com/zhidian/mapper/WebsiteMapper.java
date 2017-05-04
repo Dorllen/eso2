@@ -20,10 +20,10 @@ public interface WebsiteMapper {
 	* @param @param name
 	* @param @param version
 	* @param @return    参数
-	* @return Website    返回类型
+	* @return WebsiteBO    返回类型
 	* @throws
 	*/
-	Website queryWebsitesForPageService01SimpleWebsite(@Param("type") String type,@Param("name") String name,@Param("version") String version);
+	WebsiteBO queryWebsitesForPageService01SimpleWebsiteBO(@Param("type") String type,@Param("name") String name,@Param("id") int id);
 	
 	
 
@@ -81,6 +81,11 @@ public interface WebsiteMapper {
 
 
 	void insertWebsitesForDataInfoAdminService02SimpleWebsite(Website w);
+
+
+
+
+	int deleteWebistesForDataInfoAdminService01SimpleId(@Param("id") int id);
 
 
 

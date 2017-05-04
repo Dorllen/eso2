@@ -118,19 +118,17 @@ public abstract class BasePageProcessor extends BaseProcessor {
 							File f = new File(csModel.getDownloadPath());// 取当前站点在当前项目的css路径
 							while (true) {// 循环建立，直到建立成功。创建正确的版本文件目录
 								if (!f.exists()) {
-									if (!f.getParentFile().exists()) {
-										f.getParentFile().mkdirs();
-									}
+									f.mkdirs();
 									if (f.isFile()) {
 										try {
 											f.createNewFile();
 										} catch (IOException e) {
 											e.printStackTrace();
 										}
-										// 存在文件则版本+1
 									}
 									break;
 								} else {
+									// 存在文件则版本+1
 									csModel.setVersion(BasicUtils.newVersion(csModel.getVersion()));
 									String f_ = "/" + css.getWebSite() + "/" + csModel.getVersion() + "/"
 											+ css.getName() + ".css";
