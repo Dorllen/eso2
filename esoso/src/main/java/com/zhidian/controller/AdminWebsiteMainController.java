@@ -2,9 +2,6 @@ package com.zhidian.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -13,7 +10,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -25,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.alibaba.fastjson.JSON;
+import com.zhidian.bases.CommonClassLoader;
 import com.zhidian.bases.CustomClassLoader;
 import com.zhidian.service.DataInfoAdminService;
 import com.zhidian.util.BasicUtils;
@@ -183,7 +180,7 @@ public class AdminWebsiteMainController {
 					if (i > 0) {
 						// 开始保存文件
 						String root = System.getProperty("webapp.root");
-						String r = root + File.separator + "WEB-INF" + File.separator + "classes" + File.separator
+						String r = root + File.separator + "WEB-INF" + File.separator + "classes2" + File.separator
 								+ "com" + File.separator + "zhidian" + File.separator;
 						File f = new File(
 								r + "bases" + File.separator + "worms" + File.separator + "processor" + File.separator,
@@ -240,9 +237,9 @@ public class AdminWebsiteMainController {
 			System.out.println(f.getContentType());
 			System.out.println(f.getSize());
 			String root = System.getProperty("webapp.root");
-			File f1 = new File(root + "/WEB-INF/classes/com/zhidian/bases/worms/pipeline/", f.getOriginalFilename());// resultPipeline
+			File f1 = new File(root + "/WEB-INF/classes2/com/common/", f.getOriginalFilename());// resultPipeline
 			try {
-				FileCopyUtils.copy(f.getBytes(), f1);
+				BasicUtils.copyFromBytes(f.getBytes(), f1);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -270,58 +267,52 @@ public class AdminWebsiteMainController {
 		return null;
 	}
 
-	@GetMapping("/getInfo2")
+	@GetMapping("/getInfo3")
 	@ResponseBody
 	public Object uploadTest3(@RequestParam("name") String name) {
+		CommonClassLoader cl = new CommonClassLoader();
 		try {
-			System.out.println("name:" + name);
-			Class<?> clz = Class.forName("com.zhidian.bases.worms.pipeline.NullPipeline");
-			Object obj = clz.newInstance();
-			System.out.println(obj.toString());
-			clz = Class.forName("com.zhidian.bases.worms.pipeline.Result");
-			Object ox = clz.newInstance();
-			System.out.println(ox);
-			return obj.toString();
+			System.out.println(cl);
+			Class<?> claz = Class.forName("com.common.Result", true, cl);
+			Object o = claz.newInstance();
+			System.out.println(o);
 		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@Autowired
+	CommonClassLoader c;
+	
+	@GetMapping("/getInfo4")
+	@ResponseBody
+	public Object uploadTest4(@RequestParam("name") String name) {
+		try {
+			System.out.println(c);
+			Class<?> claz = Class.forName("com.common.Result", true, c);
+			Object o = claz.newInstance();
+			System.out.println(o);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
 	}
 
-	@SuppressWarnings("deprecation")
-	@GetMapping("/getInfo4")
-	@ResponseBody
-	public Object uploadTest4(@RequestParam("name") String name) {
-		try {
-			System.out.println("name:" + name);
-			String str = System.getProperty("webapp.root");
-			File f = new File(str + File.separator + "WEB-INF" + File.separator + "classes" + File.separator + "com"
-					+ File.separator + "zhidian" + File.separator + "bases" + File.separator + "worms" + File.separator
-					+ "pipeline");
-			URLClassLoader claz;
-			try {
-				claz = new URLClassLoader(new URL[]{f.toURL()});
-				Class<?> clz = claz.loadClass("Result");
-				Object ox = clz.newInstance();
-				System.out.println(ox);
-			} catch (MalformedURLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			return "";
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
 	@GetMapping("/getInfo5")
 	@ResponseBody
 	public Object uploadTest5(@RequestParam("name") String name) {

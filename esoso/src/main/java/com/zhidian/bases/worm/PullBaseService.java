@@ -15,8 +15,10 @@ import java.util.concurrent.TimeoutException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.zhidian.bases.CommonClassLoader;
 import com.zhidian.bases.worms.pipeline.BasePagePipeline;
 import com.zhidian.bases.worms.pipeline.ResultSimplePipeline;
 import com.zhidian.bases.worms.processor.BasePageProcessor;
@@ -32,6 +34,9 @@ import us.codecraft.webmagic.Spider;
 public class PullBaseService {
 	private Logger log = LoggerFactory.getLogger(getClass());
 
+	@Autowired
+	CommonClassLoader loader;
+
 	public List<PullResultPageModel> startPullPageDataFromList(List<PullResultDataTaskModel> models) {
 		if (models != null && models.size() > 0) {
 			List<PullResultPageModel> pullList = new ArrayList<PullResultPageModel>(models.size());
@@ -43,9 +48,13 @@ public class PullBaseService {
 					continue;
 				}
 				// 获得对象
-				Class<?> claz;
+				Class<?> claz = null;
 				try {
-					claz = Class.forName(model.getPageProcess());
+					try {
+						claz = Class.forName(model.getPageProcess());
+					} catch (Exception ex) {
+						claz = Class.forName(model.getPageProcess(), true, loader);
+					}
 					if (claz == null) {
 						continue;
 					}
@@ -101,8 +110,13 @@ public class PullBaseService {
 						if (model == null) {
 							return null;
 						}
-						// 获得对象
-						Class<?> claz = Class.forName(model.getPageProcess());
+
+						Class<?> claz = null;
+						try {
+							claz = Class.forName(model.getPageProcess());
+						} catch (Exception ex) {
+							claz = Class.forName(model.getPageProcess(), true, loader);
+						}
 						if (claz == null) {
 							return null;
 						}

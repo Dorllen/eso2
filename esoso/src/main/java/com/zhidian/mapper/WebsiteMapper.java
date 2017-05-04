@@ -39,6 +39,16 @@ public interface WebsiteMapper {
 	*/
 	List<WebsiteBO> queryWebsitesForWormsService01ListWebsiteBO(@Param("type") String type,@Param("names") List<String> names);
 
+	/**
+	* @Title: queryWebsitesForWormsService01SimpleWebsiteBO
+	* @Description: TODO(查找类型的为name的website。不会获取0.0.0.0，只会获取using=0)
+	* @param @param type
+	* @param @param name
+	* @param @return    参数
+	* @return WebsiteBO    返回类型
+	* @throws
+	*/
+	WebsiteBO queryWebsitesForWormsService01SimpleWebsiteBO(@Param("type") String type,@Param("name") String name);
 
 	List<Website> queryWebsitesForDataInfoAdminService01ListWebsite(@Param("name") String name);
 
@@ -71,6 +81,11 @@ public interface WebsiteMapper {
 
 
 	void insertWebsitesForDataInfoAdminService02SimpleWebsite(Website w);
+
+
+
+
+	
 
 
 	

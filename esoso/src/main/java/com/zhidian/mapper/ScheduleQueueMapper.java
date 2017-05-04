@@ -23,6 +23,18 @@ public interface ScheduleQueueMapper {
 	 */
 	List<ScheduleQueue> queryScheduleQueuesForWormsService01ListScheduleQueue();
 
+	
+	/**
+	* @Title: queryScheduleQueuesForWormsService01SimpleScheduleQueue
+	* @Description: TODO(获取的是可执行的ScheduleQueue。类别是非系统级别的。系统级别会自动处理。并且状态是1的.id是确定的)
+	* @param @param id
+	* @param @return    参数
+	* @return ScheduleQueue    返回类型
+	* @throws
+	*/
+	ScheduleQueue queryScheduleQueuesForWormsService01SimpleScheduleQueue(@Param("id") int id);
+
+	
 	/**
 	 * @Title: updateScheduleQueuesForWormsServiceListInteger @Description:
 	 * TODO(ScheduleQueues的id集合，用户下载内容详情页面之后，状态从1->2，等待管理员处理) @param @param
@@ -48,5 +60,6 @@ public interface ScheduleQueueMapper {
 	* @throws
 	*/
 	Map<String,String> selectScheduleQueuesForPullArticleService01MapObject(@Param("uuid") String uuid);
+
 
 }

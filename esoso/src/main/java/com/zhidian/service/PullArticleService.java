@@ -169,7 +169,7 @@ public class PullArticleService {
 
 	/**
 	 * @Title: filterExitScheduleNameAndUrl @Description:
-	 *         TODO(筛选不存在exitSQ的PullResultBO) @param @param
+	 *         TODO(筛选不存在exitSQ的PullResultBO。) @param @param
 	 *         noExits @param @param exitSQ @param @return 参数 @return
 	 *         List<PullResultBO> 返回类型 @throws
 	 */

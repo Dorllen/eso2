@@ -19,6 +19,7 @@ import java.util.List;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
 
+import com.alibaba.fastjson.JSON;
 import com.zhidian.bases.AppEnumDefine;
 import com.zhidian.model.sys.CssInfoModel;
 import com.zhidian.model.sys.CssObjectModel;
@@ -63,7 +64,7 @@ public abstract class BasePageProcessor extends BaseProcessor {
 		if (isCss(page.getUrl().toString())) {
 			try {
 				System.out.println("進入Css處理識別中....");
-				// cssHandler(page);
+				cssHandler(page);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -71,10 +72,11 @@ public abstract class BasePageProcessor extends BaseProcessor {
 			int i = pageHandler(page);
 			if (i == 1) {
 				// 正常执行
-				obj.setDate(new Date());
 				List<String> cssPaths = page.getHtml().xpath("//link[contains(@rel, 'stylesheet')]").$("link", "href")
 						.all();
 				cssPaths.toString();// cssPaths不調用會出錯
+				System.out.println("CSS:" + JSON.toJSONString(cssPaths));
+				System.out.println("CSS Model:" + JSON.toJSONString(this.getObj().getCssModel()));
 				if (cssPaths != null && cssPaths.size() > 0) {
 					if (this.getObj() != null && this.getObj().getCssModel() != null) {
 						List<String> temp = new ArrayList<String>(cssPaths.size());
@@ -177,7 +179,7 @@ public abstract class BasePageProcessor extends BaseProcessor {
 	 *            dbCssUrl 数据库css的url @param @return 参数 @return boolean
 	 *            返回类型 @throws
 	 */
-	public static boolean cssUrlEquals(String pageUrl, CssInfoModel dbCss) {
+	public static boolean cssUrlEquals(String pageUrl, CssInfoModel dbCss) {// dbCss可能是https://static.segmentfault.com/v-590a963a/global/css/global.css|
 		if (StringUtils.isNotEmpty(pageUrl) && pageUrl != null) {
 			if (pageUrl.equals(dbCss.getUrl())) {
 				return true;
@@ -190,12 +192,19 @@ public abstract class BasePageProcessor extends BaseProcessor {
 					}
 					if (dbCss.getUseSearch()) {
 						// 使用abc.css与abc.css?v=13文件区别
-						if (dbCss.getUrl().equals(pageUrl)) {
-							return true;
-						} else {
-							return false;
+						String[] urls = dbCss.getUrl().split("\\|");
+						if (urls != null) {
+							for (String s : urls) {
+								if (s.length() > 0) {
+									if (s.equals(pageUrl)) {
+										return true;
+									} else {
+										return false;
+									}
+								}
+							}
 						}
-					} else {
+					} else {// 不使用后缀
 						int i = pageUrl.lastIndexOf(".css");
 						if (i <= 0) {
 							return false;
@@ -203,8 +212,17 @@ public abstract class BasePageProcessor extends BaseProcessor {
 						String name_ = pageUrl.substring(pageUrl.lastIndexOf("/") + 1, i);
 						if (name_.equals(dbCss.getName())) {
 							String f1 = pageUrl.substring(0, pageUrl.lastIndexOf("/"));
-							String f2 = dbCss.getUrl().substring(0, dbCss.getUrl().lastIndexOf("/"));
-							return BasicUtils.checkUrlEquals(f1, f2);
+							String[] urls = dbCss.getUrl().split("\\|");
+							if(urls!=null){
+								for(String s : urls){
+									if(s.length()>0){
+										String f2 = s.substring(0, s.lastIndexOf("/"));
+										if(BasicUtils.checkUrlEquals(f1, f2)){
+											return true;
+										}
+									}
+								}
+							}
 						}
 					}
 				}
@@ -248,14 +266,14 @@ public abstract class BasePageProcessor extends BaseProcessor {
 			}
 		}
 		// RequestHeaderModel
-		if(this.getObj().getWebsite()!=null){
+		if (this.getObj().getWebsite() != null) {
 			WebsiteBO web = this.getObj().getWebsite();// 站點信息.用於增加請求頭。
-			if(web.getRequestHeaders()!=null&&web.getRequestHeaders().size()>0){
-				for(RequestHeaderModel r : web.getRequestHeaders()){
-					if(r!=null){
-						if(r.getType()!=null&&RequestHeaderModel.CookieType.equals(r.getType())){// 請求类型
+			if (web.getRequestHeaders() != null && web.getRequestHeaders().size() > 0) {
+				for (RequestHeaderModel r : web.getRequestHeaders()) {
+					if (r != null) {
+						if (r.getType() != null && RequestHeaderModel.CookieType.equals(r.getType())) {// 請求类型
 							site.addCookie(r.getName(), r.getValue());
-						}else{
+						} else {
 							site.addHeader(r.getName(), r.getValue());
 						}
 					}

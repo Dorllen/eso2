@@ -333,7 +333,8 @@ public class WormsService {
 
 	/**
 	 * @Title: startPullDataFromScheduleByAdminTrigger @Description:
-	 * TODO() @param @return 参数 @return List<PullPageObjectModel> 返回类型 @throws
+	 *         TODO() @param @return 参数 @return List<PullPageObjectModel>
+	 *         返回类型 @throws
 	 */
 	public List<PullPageObjectModel> startPullDataFromScheduleByAdminTrigger() {
 		List<ScheduleQueue> list = scheduleMapper.queryScheduleQueuesForWormsService01ListScheduleQueue();
@@ -353,6 +354,61 @@ public class WormsService {
 				handlerAfterPullPageData(results);
 				return results;
 			}
+		}
+		return null;
+	}
+
+	public List<PullPageObjectModel> startPullDataFromScheduleByAdminTriggerForId(int id) {
+		ScheduleQueue sche = scheduleMapper.queryScheduleQueuesForWormsService01SimpleScheduleQueue(id);
+		if (sche != null) {
+			// 开始处理
+			String name = sche.getName();
+			if (name != null && name.length() > 0) {
+				WebsiteBO websites = websiteMapper
+						.queryWebsitesForWormsService01SimpleWebsiteBO(AppEnumDefine.SiteService.搜索.getValue(), name);
+				// 获取站点的爬虫配置信息
+				// 觉得把websites转list换为map更加棒
+				String webRoot = System.getProperty("webapp.root");
+				List<PullPageDataTaskModel> models = createPullPageDataTaskModel(webRoot, sche, websites);
+				// 数据处理
+				List<PullPageObjectModel> results = pullService.startPullDataFromMapCompleteScheduleQueues(models);
+				handlerAfterPullPageData(results);
+				return results;
+			}
+		}
+		return null;
+	}
+
+	private List<PullPageDataTaskModel> createPullPageDataTaskModel(String rootPath, ScheduleQueue q, WebsiteBO web) {
+		if (q != null && web != null) {
+			List<PullPageDataTaskModel> models = new ArrayList<PullPageDataTaskModel>();
+			PullPageDataTaskModel model = null;
+			log.info("CssRootPath is -> {}", rootPath);
+			if (q != null && q.getName() != null && q.getName().length() > 0) {
+				model = new PullPageDataTaskModel(q.getName(), web.getPageProcessor(), web.getPagePipeline(),
+						q.getUrl());
+				PullPageObjectModel pom = new PullPageObjectModel();// 页面数据模型创建，从数据库获取数据
+
+				pom.setFromObj(q);// 设置来源，所有操作做完之后再抛弃
+				pom.setWebsite(web);// 设置站点信息
+				pom.setName(q.getName());
+				pom.setUrl(q.getUrl());
+				pom.setUuid(org.apache.commons.codec.digest.DigestUtils.md5Hex(q.getUrl()));
+				pom.setDownloadPath(rootPath + "WEB-INF/css/websites");// 当前css的项目的根地址.E:\esoso\eso2\esoso\src\main\webapp\WEB-INF\css\websites
+				pom.setSign(q.getSign());
+				// pom.setChanged("");
+
+				List<CssInfoModel> cLists = createCssInfoModelFromWebsiteDefaultCssConfig(pom.getDownloadPath(),
+						web.getPageCssLists());
+				pom.setCssModel(cLists);
+
+				pom.setWebsiteConfig(web.getPageConfig());
+
+				model.setPom(pom);
+
+				models.add(model);
+			}
+			return models;
 		}
 		return null;
 	}

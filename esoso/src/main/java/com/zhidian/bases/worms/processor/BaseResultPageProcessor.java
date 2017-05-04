@@ -15,6 +15,8 @@ import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.selector.Selectable;
 
 public abstract class BaseResultPageProcessor<T extends PullResultPageModel> extends BaseProcessor {
+	public int currentPage = 1;// 当前页号
+	
 	private T obj;
 
 	public BaseResultPageProcessor() {

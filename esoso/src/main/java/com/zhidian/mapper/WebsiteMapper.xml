@@ -60,6 +60,10 @@
 		</foreach>
 		and websites.using = 1;
 	</select>
+	
+	<select id="queryWebsitesForWormsService01SimpleWebsiteBO" resultType="WebsiteBO">
+		select * from websites where type = #{type} and name = #{name} and  websites.using = 1;
+	</select>
 
 	<select id="queryWebsitesForDataInfoAdminService01ListWebsite"
 		parameterType="string" resultType="Website">

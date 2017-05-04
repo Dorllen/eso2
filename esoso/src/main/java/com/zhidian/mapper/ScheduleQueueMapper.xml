@@ -29,6 +29,10 @@
 			(url = #{item.url} and name = #{item.name})
 		</foreach>
 	</select>
+	<select id="queryScheduleQueuesForWormsService01SimpleScheduleQueue" resultType="ScheduleQueue">
+		select * from scheduleQueues where status = 1 and type != 'System' and id = #{id}
+	</select>
+	
 	<select id="selectScheduleQueuesForPullArticleService01MapObject" parameterType="string"
 		resultType="hashmap">
 		select name,url from scheduleQueues where type = 'System' and type2 = 'answer' and type3 = 'websites' and status != 0 and uuid = #{uuid} limit 1

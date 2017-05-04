@@ -4,6 +4,9 @@
 http://127.0.0.1:8080/esoso/pa/4b3a7cb53124f3c40d19ed76caa50c37
 http://127.0.0.1:8080/esoso/s?q=python&t=answer&f=segmentfault&defaultWebsites=segmentfault|github|cnblog&defaults=segmentfault&d=
 127.0.0.1:8080/esoso/s?q=java&t=answer&f=segmentfault&defaultWebsites=segmentfault|github|cnblog&defaults=segmentfault&d=
+
+key: java 搜索：http://127.0.0.1:8080/esoso/s?q=java&t=answer&f=segmentfault&defaultWebsites=segmentfault%7Cgithub%7Ccnblog&defaults=segmentfault&d=
+
 http://127.0.0.1:8080/esoso/s?q=ubuntu&f=segmentfault&t=answer
 
 手动触发详情页爬取:
@@ -11,6 +14,12 @@ http://127.0.0.1:8080/esoso/admin/worm/start
 
 在綫访问跳转：
 http://127.0.0.1:8080/esoso/pa/f/b717ef7ea0b7e8fbcb83677db51a9382
+
+http://127.0.0.1:8080/esoso/admin/website/getInfo3?name=Result 測試CommonClassLoader
+
+
+
+
 
 
 Websites文件夹：放爬虫内容页模板的地方
@@ -29,4 +38,12 @@ Websites文件夹：放爬虫内容页模板的地方
 	2. 在线爬虫，结果页数据，在ScheduelQueues中的数据不重复记录
 	3. 新增规则：只有搜索会有限寻找索引服务。
 	4. 10分以内多次访问算一次
+	
+需兼容問題：
+https://static.segmentfault.com/v-590a963a/global/css/global.css
+http://segmentfault.con/static/css/qa.css
+
+
+
+
 	
