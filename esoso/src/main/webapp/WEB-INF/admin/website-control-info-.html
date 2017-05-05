@@ -1,0 +1,212 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="lib/html5shiv.js"></script>
+<script type="text/javascript" src="lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css"
+	href="static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css"
+	href="static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css"
+	href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css"
+	href="static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css"
+	href="static/h-ui.admin/css/style.css" />
+<!--[if IE 6]>
+<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<title>新增站点</title>
+<link href="lib/webuploader/0.1.5/webuploader.css" rel="stylesheet"
+	type="text/css" />
+</head>
+<body>
+	<div class="page-container">
+		<table
+			class="table table-border table-bordered table-bg mb-15 table-hover">
+			<thead>
+				<tr>
+					<th colspan="6">站点基本信息</th>
+				</tr>
+			</thead>
+			<tbody class="text-c">
+				<tr>
+					<td>站点名</td>
+					<td>segmentfault</td>
+					<td>默认版本</td>
+					<td>0.0.0.0</td>
+					<td>当前模板</td>
+					<td>0.0.0.1</td>
+				</tr>
+				<tr>
+					<td>创建时间</td>
+					<td>2017-3-28 20:14:16</td>
+					<td>创建人</td>
+					<td>Admin</td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>最近变更时间</td>
+					<td>2017-3-28 20:14:16</td>
+					<td>变更人</td>
+					<td>Admin</td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>描述</td>
+					<td colspan="5">这只是测试部分，描述有点多，有点多，有点多，有点多，有点多，有点多，有点多，有点多，有点多，有点多，有点多，有点多，有点多，有点多，有点多</td>
+				</tr>
+			</tbody>
+		</table>
+
+
+		<table
+			class="table table-border table-bordered table-bg mb-15 table-hover">
+			<thead>
+				<tr>
+					<th colspan="6">站点服务状态<a class="btn btn-primary radius"
+						style="float: right; margin-right: 10px"
+						onclick="updateSettings()" href="javascript:;"><i
+							class="Hui-iconfont">&#xe600;</i>更改</a></th>
+				</tr>
+				<tr>
+					<th class="text-c">服务名称</th>
+					<th class="text-c">开启状态</th>
+				</tr>
+			</thead>
+			<tbody class="text-c">
+				<tr>
+					<td>搜索服务</td>
+					<td>是</td>
+				</tr>
+				<tr>
+					<td>直接访问</td>
+					<td>是</td>
+				</tr>
+				<tr>
+					<td>安全访问</td>
+					<td>是</td>
+				</tr>
+				<tr>
+					<td>站点分析</td>
+					<td>是</td>
+				</tr>
+				<tr>
+					<td>排名服务</td>
+					<td>是</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div id="websiteSetting" class="modal fade" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content radius">
+				<div class="modal-header">
+					<h3 class="modal-title">服務设置</h3>
+					<a class="close" data-dismiss="modal" aria-hidden="true"
+						href="javascript:void();">×</a>
+				</div>
+				<div class="modal-body">
+					<form action="#">
+						<table class="table table-border table-bordered table-hover">
+							<thead>
+								<tr>
+									<th>服务名称</th>
+									<th>开启状态</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>搜索服务</td>
+									<td><span class="select-box"> <select
+											class="select" size="1" name="demo1">
+												<option value="0">否</option>
+												<option value="1" selected>是</option>
+										</select>
+									</span></td>
+								</tr>
+								<tr>
+									<td>直接访问</td>
+									<td><span class="select-box"> <select
+											class="select" size="1" name="demo1">
+												<option value="0">否</option>
+												<option value="1" selected>是</option>
+										</select>
+									</span></td>
+								</tr>
+								<tr>
+									<td>安全访问</td>
+									<td><span class="select-box"> <select
+											class="select" size="1" name="demo1">
+												<option value="0">否</option>
+												<option value="1" selected>是</option>
+										</select>
+									</span></td>
+								</tr>
+								<tr>
+									<td>站點分析</td>
+									<td><span class="select-box"> <select
+											class="select" size="1" name="demo1">
+												<option value="0">否</option>
+												<option value="1" selected>是</option>
+										</select>
+									</span></td>
+								</tr>
+								<tr>
+									<td>排名服務</td>
+									<td><span class="select-box"> <select
+											class="select" size="1" name="demo1">
+												<option value="0">否</option>
+												<option value="1" selected>是</option>
+										</select>
+									</span></td>
+								</tr>
+							</tbody>
+						</table>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary">确定</button>
+					<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--_footer 作为公共模版分离出去-->
+	<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
+	<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+	<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script>
+	<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script>
+	<!--/_footer /作为公共模版分离出去-->
+
+	<!--请在下方写此页面业务相关的脚本-->
+	<script type="text/javascript"
+		src="lib/jquery.validation/1.14.0/jquery.validate.js"></script>
+	<script type="text/javascript"
+		src="lib/jquery.validation/1.14.0/validate-methods.js"></script>
+	<script type="text/javascript"
+		src="lib/jquery.validation/1.14.0/messages_zh.js"></script>
+	<script type="text/javascript"
+		src="lib/webuploader/0.1.5/webuploader.min.js"></script>
+
+	<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+	<script type="text/javascript">
+		var updateSettings = function() {
+			$("#websiteSetting").modal("show")
+		}
+	</script>
+</body>
+</html>

@@ -25,9 +25,7 @@
 <script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
 <script>DD_belatedPNG.fix('*');</script>
 <![endif]-->
-<title>新增站点</title>
-<link href="lib/webuploader/0.1.5/webuploader.css" rel="stylesheet"
-	type="text/css" />
+<title>站点信息</title>
 </head>
 <body>
 	<div class="page-container">
@@ -38,153 +36,111 @@
 					<th colspan="6">站点基本信息</th>
 				</tr>
 			</thead>
-			<tbody class="text-c">
-				<tr>
+			<tbody>
+				<tr class="text-c">
+					<td>站点ID</td>
+					<td>1</td>
 					<td>站点名</td>
 					<td>segmentfault</td>
-					<td>默认版本</td>
-					<td>0.0.0.0</td>
-					<td>当前模板</td>
-					<td>0.0.0.1</td>
+					<td>依赖版本</td>
+					<td>0.0.1</td>
+
 				</tr>
-				<tr>
+				<tr class="text-c">
 					<td>创建时间</td>
 					<td>2017-3-28 20:14:16</td>
 					<td>创建人</td>
 					<td>Admin</td>
-					<td></td>
-					<td></td>
+					<td>別名</td>
+					<td>无</td>
+				</tr>
+				<tr class="text-c">
+					<td>最近更新时间</td>
+					<td>2017-3-28 20:14:16</td>
+					<td>最近更新人</td>
+					<td>Admin</td>
+					<td>是否使用后缀</td>
+					<td>否</td>
+				</tr>
+				<tr class="text-c">
+					<td>禁用时间</td>
+					<td>2017-3-28 20:14:16</td>
+					<td>禁用人</td>
+					<td>Admin</td>
+					<td>是否在用</td>
+					<td>是</td>
+				</tr>
+				<tr class="text-c">
+					<td>短地址</td>
+					<td>无</td>
+					<td>全地址</td>
+					<td>https://www.segmentfault.com</td>
+					<td>站点关联数</td>
+					<td>15</td>
+				</tr>
+				<tr class="text-c">
+					<td>搜索地址</td>
+					<td>https://segmentfault.com/search?q=</td>
+					<td>分页Url</td>
+					<td colspan="3">&page={0}</td>
 				</tr>
 				<tr>
-					<td>最近变更时间</td>
-					<td>2017-3-28 20:14:16</td>
-					<td>变更人</td>
-					<td>Admin</td>
-					<td></td>
-					<td></td>
+					<td>详情页处理器</td>
+					<td colspan="5">com.zhidian.bases.worms.processor.SegmentFaultPageProcessor</td>
+				</tr>
+				<tr>
+					<td>详情页接收器</td>
+					<td colspan="5">com.zhidian.bases.worms.pipeline.NullPipeline</td>
+				</tr>
+				<tr>
+					<td>详情页接收对象</td>
+					<td colspan="5">com.zhidian.model.websites.answer.SegmentfaultPageRObject</td>
+				</tr>
+				<tr>
+					<td>结果页处理器</td>
+					<td colspan="5">com.zhidian.bases.worms.processor.SegmentFaultResultProcessor</td>
+				</tr>
+				<tr>
+					<td>结果页接收器</td>
+					<td colspan="5">com.zhidian.bases.worms.pipeline.NullPipeline</td>
+				</tr>
+				<tr>
+					<td>结果页接收对象</td>
+					<td colspan="5">无</td>
+				</tr>
+				<tr>
+					<td>详情页Css</td>
+					<td colspan="5">无</td>
+				</tr>
+				<tr>
+					<td>Css采集规则</td>
+					<td colspan="5">[{"name":"qa.css","url":"http://segmentfault.con/static/css/qa.css|","useSearch":false,"version":"0.0.0.0","website":"segmentfault"},{"name":"qa.css","url":"http://segmentfault.con/static/css/global.css","useSearch":false,"version":"0.0.0.0","website":"segmentfault"}]</td>
+				</tr>
+				<tr>
+					<td>详情页采集配置</td>
+					<td colspan="5">无</td>
+				</tr>
+				<tr>
+					<td>结果页采集配置</td>
+					<td colspan="5">无</td>
+				</tr>
+				<tr>
+					<td>自定义请求头</td>
+					<td colspan="5">无</td>
 				</tr>
 				<tr>
 					<td>描述</td>
 					<td colspan="5">这只是测试部分，描述有点多，有点多，有点多，有点多，有点多，有点多，有点多，有点多，有点多，有点多，有点多，有点多，有点多，有点多，有点多</td>
 				</tr>
 			</tbody>
-		</table>
-
-
-		<table
-			class="table table-border table-bordered table-bg mb-15 table-hover">
-			<thead>
+			<tfoot class="text-c">
 				<tr>
-					<th colspan="6">站点服务状态<a class="btn btn-primary radius"
-						style="float: right; margin-right: 10px"
-						onclick="updateSettings()" href="javascript:;"><i
-							class="Hui-iconfont">&#xe600;</i>更改</a></th>
+					<td colspan="6"><a href="javascript:;" class="btn"
+						onclick="closePage()" class="btn btn-secondary radius mr-15">关闭</a></td>
 				</tr>
-				<tr>
-					<th class="text-c">服务名称</th>
-					<th class="text-c">开启状态</th>
-				</tr>
-			</thead>
-			<tbody class="text-c">
-				<tr>
-					<td>搜索服务</td>
-					<td>是</td>
-				</tr>
-				<tr>
-					<td>直接访问</td>
-					<td>是</td>
-				</tr>
-				<tr>
-					<td>安全访问</td>
-					<td>是</td>
-				</tr>
-				<tr>
-					<td>站点分析</td>
-					<td>是</td>
-				</tr>
-				<tr>
-					<td>排名服务</td>
-					<td>是</td>
-				</tr>
-			</tbody>
+			</tfoot>
 		</table>
 	</div>
-	<div id="websiteSetting" class="modal fade" tabindex="-1" role="dialog"
-		aria-labelledby="myModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content radius">
-				<div class="modal-header">
-					<h3 class="modal-title">服務设置</h3>
-					<a class="close" data-dismiss="modal" aria-hidden="true"
-						href="javascript:void();">×</a>
-				</div>
-				<div class="modal-body">
-					<form action="#">
-						<table class="table table-border table-bordered table-hover">
-							<thead>
-								<tr>
-									<th>服务名称</th>
-									<th>开启状态</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td>搜索服务</td>
-									<td><span class="select-box"> <select
-											class="select" size="1" name="demo1">
-												<option value="0">否</option>
-												<option value="1" selected>是</option>
-										</select>
-									</span></td>
-								</tr>
-								<tr>
-									<td>直接访问</td>
-									<td><span class="select-box"> <select
-											class="select" size="1" name="demo1">
-												<option value="0">否</option>
-												<option value="1" selected>是</option>
-										</select>
-									</span></td>
-								</tr>
-								<tr>
-									<td>安全访问</td>
-									<td><span class="select-box"> <select
-											class="select" size="1" name="demo1">
-												<option value="0">否</option>
-												<option value="1" selected>是</option>
-										</select>
-									</span></td>
-								</tr>
-								<tr>
-									<td>站點分析</td>
-									<td><span class="select-box"> <select
-											class="select" size="1" name="demo1">
-												<option value="0">否</option>
-												<option value="1" selected>是</option>
-										</select>
-									</span></td>
-								</tr>
-								<tr>
-									<td>排名服務</td>
-									<td><span class="select-box"> <select
-											class="select" size="1" name="demo1">
-												<option value="0">否</option>
-												<option value="1" selected>是</option>
-										</select>
-									</span></td>
-								</tr>
-							</tbody>
-						</table>
-					</form>
-				</div>
-				<div class="modal-footer">
-					<button class="btn btn-primary">确定</button>
-					<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
-				</div>
-			</div>
-		</div>
-	</div>
-
 	<!--_footer 作为公共模版分离出去-->
 	<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
 	<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
@@ -192,20 +148,12 @@
 	<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script>
 	<!--/_footer /作为公共模版分离出去-->
 
-	<!--请在下方写此页面业务相关的脚本-->
-	<script type="text/javascript"
-		src="lib/jquery.validation/1.14.0/jquery.validate.js"></script>
-	<script type="text/javascript"
-		src="lib/jquery.validation/1.14.0/validate-methods.js"></script>
-	<script type="text/javascript"
-		src="lib/jquery.validation/1.14.0/messages_zh.js"></script>
-	<script type="text/javascript"
-		src="lib/webuploader/0.1.5/webuploader.min.js"></script>
 
 	<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
 	<script type="text/javascript">
-		var updateSettings = function() {
-			$("#websiteSetting").modal("show")
+		var closePage = function() {
+			var index = parent.layer.getFrameIndex(window.name);
+			parent.layer.close(index);
 		}
 	</script>
 </body>

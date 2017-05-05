@@ -1,0 +1,202 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="lib/html5shiv.js"></script>
+<script type="text/javascript" src="lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css"
+	href="static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css"
+	href="static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css"
+	href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css"
+	href="static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css"
+	href="static/h-ui.admin/css/style.css" />
+<!--[if IE 6]>
+<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+
+<title>站点控制</title>
+</head>
+<body>
+	<div class="page-container" style="min-height: 500px">
+		<div class="panel panel-primary pb-30">
+			<div class="panel-header">站点控制</div>
+			<div class="panel-body">
+				<table
+					class="table table-border table-bordered table-bg mb-15 table-hover table-sort">
+					<thead class="text-c">
+						<tr>
+							<th>站点</th>
+							<th>默认版本</th>
+							<th>使用的版本</th>
+							<th>创建时间</th>
+							<th>创建人</th>
+							<th>配置最近时间</th>
+							<th>配置最近变更人</th>
+							<th>描述</th>
+							<th>站点收录数</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody class="text-c">
+						<tr>
+							<td>segmentfault</td>
+							<td>0.0.0.0</td>
+							<td>0.0.0.1</td>
+							<td>2017-3-28 20:14:16</td>
+							<td>Admin</td>
+							<td>2017-4-29 14:33:15</td>
+							<td>Admin</td>
+							<td><abbr title="超出就隐藏内容，我设置！" class="text-overflow"
+								style="width: 100px; display: inline-block">超出就隐藏内容，我设置！</abbr></td>
+							<td>384</td>
+							<td><input class="btn btn-primary radius" type="button"
+								value="詳情"
+								onclick="websiteInfo('segmentfault配置詳情','website-control-info.html')">
+								<input class="btn btn-primary radius" type="button" value="配置"
+								onclick="updateSettings()">
+								<input class="btn radius btn-warning" type="button" value="站点停用"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div id="websiteSetting" class="modal fade" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content radius">
+				<div class="modal-header">
+					<h3 class="modal-title">服務设置</h3>
+					<a class="close" data-dismiss="modal" aria-hidden="true"
+						href="javascript:void();">×</a>
+				</div>
+				<div class="modal-body">
+					<form action="#">
+						<table class="table table-border table-bordered table-hover">
+							<thead>
+								<tr>
+									<th>服务名称</th>
+									<th>开启状态</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>搜索服务</td>
+									<td><span class="select-box"> <select
+											class="select" size="1" name="demo1">
+												<option value="0">否</option>
+												<option value="1" selected>是</option>
+										</select>
+									</span></td>
+								</tr>
+								<tr>
+									<td>直接访问</td>
+									<td><span class="select-box"> <select
+											class="select" size="1" name="demo1">
+												<option value="0">否</option>
+												<option value="1" selected>是</option>
+										</select>
+									</span></td>
+								</tr>
+								<tr>
+									<td>安全访问</td>
+									<td><span class="select-box"> <select
+											class="select" size="1" name="demo1">
+												<option value="0">否</option>
+												<option value="1" selected>是</option>
+										</select>
+									</span></td>
+								</tr>
+								<tr>
+									<td>站點分析</td>
+									<td><span class="select-box"> <select
+											class="select" size="1" name="demo1">
+												<option value="0">否</option>
+												<option value="1" selected>是</option>
+										</select>
+									</span></td>
+								</tr>
+								<tr>
+									<td>排名服務</td>
+									<td><span class="select-box"> <select
+											class="select" size="1" name="demo1">
+												<option value="0">否</option>
+												<option value="1" selected>是</option>
+										</select>
+									</span></td>
+								</tr>
+							</tbody>
+						</table>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary">确定</button>
+					<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--_footer 作为公共模版分离出去-->
+	<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
+	<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+	<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script>
+	<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script>
+	<!--/_footer 作为公共模版分离出去-->
+	<!--此乃百度统计代码，请自行删除-->
+	<script>
+		/* 		var _hmt = _hmt || [];
+		 (function() {
+		 var hm = document.createElement("script");
+		 hm.src = "https://hm.baidu.com/hm.js?080836300300be57b7f34f4b3e97d911";
+		 var s = document.getElementsByTagName("script")[0];
+		 s.parentNode.insertBefore(hm, s);
+		 })(); */
+	</script>
+	<!--/此乃百度统计代码，请自行删除-->
+
+
+	<script type="text/javascript"
+		src="lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
+	<script type="text/javascript" src="lib/laypage/1.2/laypage.js"></script>
+	<script type="text/javascript">
+		$('.table-sort').dataTable({
+			"aaSorting" : [ [ 0, "desc" ] ],//默认第几个排序
+			"bStateSave" : true,//状态保存
+			"aoColumnDefs" : [
+			//{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
+			{
+				"orderable" : false,
+				"aTargets" : [ 4, 6, 7, 9 ]
+			} // 制定列不参与排序
+			]
+		});
+	</script>
+	<!--/_footer 作为公共模版分离出去-->
+	<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+	<script type="text/javascript">
+		var websiteInfo = function(title, url) {
+			var index = layer.open({
+				type : 2,
+				title : title,
+				content : url
+			});
+			layer.full(index);
+		}
+		var updateSettings = function() {
+			$("#websiteSetting").modal("show")
+		}
+	</script>
+</body>
+</html>

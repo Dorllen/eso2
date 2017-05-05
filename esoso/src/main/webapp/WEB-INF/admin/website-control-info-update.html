@@ -1,0 +1,372 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="lib/html5shiv.js"></script>
+<script type="text/javascript" src="lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css"
+	href="static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css"
+	href="static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css"
+	href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css"
+	href="static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css"
+	href="static/h-ui.admin/css/style.css" />
+<!--[if IE 6]>
+<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<title>信息变更</title>
+</head>
+<body>
+	<div class="page-container">
+	<form action="#" method="post" enctype="multipart/form-data" id="form">
+		<table
+			class="table table-border table-bordered table-bg mb-15 table-hover">
+			<thead>
+				<tr>
+					<th colspan="6">站点基本信息</th>
+				</tr>
+			</thead>
+			<tbody class="text-c">
+				<tr>
+					<td>站点ID</td>
+					<td>1</td>
+					<td>站点名</td>
+					<td>segmentfault</td>
+					<td><span class="c-red">*</span>依赖版本</td>
+					<td><span class="select-box"> <select class="select"
+							id="type" name="type">
+								<option value="0.0.0" selected>0.0.0</option>
+								<option value="0.0.1">0.0.1</option>
+						</select>
+					</span></td>
+
+				</tr>
+				<tr>
+					<td>创建时间</td>
+					<td>2017-3-28 20:14:16</td>
+					<td>创建人</td>
+					<td>Admin</td>
+					<td>別名</td>
+					<td><input type="text" class="input-text" value="segmentfault"
+						placeholder="別名，可以以','分割" id="alias" name="alias"
+						autocomplete="off" /></td>
+				</tr>
+				<tr>
+					<td>最近更新时间</td>
+					<td>2017-3-28 20:14:16</td>
+					<td>最近更新人</td>
+					<td>Admin</td>
+					<td><span class="c-red">*</span>是否使用后缀</td>
+					<td><span class="select-box"> <select class="select"
+							id="useSearch" name="useSearch">
+								<option value="0" selected>否</option>
+								<option value="1">是</option>
+						</select>
+					</span></td>
+				</tr>
+				<tr>
+					<td>禁用时间</td>
+					<td>2017-3-28 20:14:16</td>
+					<td>禁用人</td>
+					<td>Admin</td>
+					<td>是否在用</td>
+					<td>是</td>
+				</tr>
+				<tr>
+					<td>短地址</td>
+					<td><input type="text" class="input-text" value=""
+						placeholder="站点短Url,可以以','分割" id="shortAddr" name="shortAddr"
+						autocomplete="off" /></td>
+					<td>全地址</td>
+					<td><input type="text" class="input-text"
+						value="https://www.segmentfault.com" placeholder="站点全Url"
+						id="fullAddr" name="fullAddr" autocomplete="off" /></td>
+					<td>站点关联数</td>
+					<td>10</td>
+				</tr>
+				<tr>
+					<td><span class="c-red">*</span>搜索地址</td>
+					<td><input type="text" class="input-text"
+						value="https://segmentfault.com/search?q=" placeholder="搜索接口Url"
+						id="searchAddr" name="searchAddr" autocomplete="off" /></td>
+					<td>分页Url</td>
+					<td colspan="3"><input type="text" class="input-text"
+						value="&page={0}" placeholder="分页部分Url" id="pagination"
+						name="pagination" autocomplete="off" /></td>
+				</tr>
+				<tr>
+					<td><span class="c-red">*</span>详情页处理器</td>
+					<td colspan="2"><input type="text" class="input-text" value=""
+						autocomplete="off" placeholder="详情页处理器,文件路径名" id="pageProcessor"
+						name="pageProcessor" />
+					</td>
+					<td>是否修改字节码:
+					</td>
+					<td><span class="select-box"> <select
+								class="select createInputFile" autocomplete="off">
+									<option value="0" selected>否</option>
+									<option value="1">是</option>
+							</select>
+						</span></td>
+					<td colspan="1"></td>
+				</tr>
+				<tr>
+					<td>详情页接收器</td>
+					<td colspan="2"><input type="text" class="input-text" value=""
+						autocomplete="off" placeholder="详情页接收器,文件路径名" id="pagePipeline"
+						name="pagePipeline" /></td>
+										<td>是否修改字节码:
+					</td>
+					<td><span class="select-box"> <select
+								class="select createInputFile" autocomplete="off">
+									<option value="0" selected>否</option>
+									<option value="1">是</option>
+							</select>
+						</span></td>
+					<td colspan="1"></td>
+				</tr>
+				<tr>
+					<td><span class="c-red">*</span>详情页接收对象</td>
+					<td colspan="2"><input type="text" class="input-text" value=""
+						autocomplete="off" placeholder="详情页接收对象,文件路径名" id="pageRObject"
+						name="pageRObject" /></td>
+										<td>是否修改字节码:
+					</td>
+					<td><span class="select-box"> <select
+								class="select createInputFile" autocomplete="off">
+									<option value="0" selected>否</option>
+									<option value="1">是</option>
+							</select>
+						</span></td>						
+					<td colspan="1" ></td>
+				</tr>
+				<tr>
+					<td><span class="c-red">*</span>结果页处理器</td>
+					<td colspan="2"><input type="text" class="input-text" value=""
+						autocomplete="off" placeholder="结果页处理器,文件路径名" id="resultProcessor"
+						name="resultProcessor" /></td>
+					<td>是否修改字节码:
+					</td>
+					<td><span class="select-box"> <select
+								class="select createInputFile" autocomplete="off">
+									<option value="0" selected>否</option>
+									<option value="1">是</option>
+							</select>
+						</span></td>					
+					<td colspan="1"></td>
+				</tr>
+				<tr>
+					<td>结果页接收器</td>
+					<td colspan="2"><input type="text" class="input-text" value=""
+						autocomplete="off" placeholder="结果页接收器,文件路径名" id="resultPipeline"
+						name="resultPipeline" /></td>
+					<td>是否修改字节码:
+					</td>
+					<td><span class="select-box"> <select
+								class="select createInputFile" autocomplete="off">
+									<option value="0" selected>否</option>
+									<option value="1">是</option>
+							</select>
+						</span></td>				
+					<td colspan="1"></td>
+				</tr>
+				<tr>
+					<td>结果页接收对象</td>
+					<td colspan="2"><input type="text" class="input-text" value=""
+						autocomplete="off" placeholder="结果页接收对象,文件路径名" id="resultRObject"
+						name="resultRObject" /></td>
+										<td>是否修改字节码:
+					</td>
+					<td><span class="select-box"> <select
+								class="select createInputFile" autocomplete="off">
+									<option value="0" selected>否</option>
+									<option value="1">是</option>
+							</select>
+						</span></td>				
+					<td colspan="1"></td>
+				</tr>
+				<tr>
+					<td>详情页Css</td>
+					<td colspan="5"><input type="text" class="input-text" value=""
+						autocomplete="off" placeholder="用于覆盖默认版本的详情页Css" id="defPageCss"
+						name="defPageCss" /></td>
+				</tr>
+				<tr>
+					<td>Css采集规则</td>
+					<td colspan="5"><textarea rows="" cols=""
+							class="textarea radius" name="defaultPageCss" id="defaultPageCss" autocomplete="off"
+							placeholder="详情页Css采集规则。请按WebsiteCssConfigModel的JSON格式"></textarea></td>
+				</tr>
+				<tr>
+					<td>详情页采集配置</td>
+					<td colspan="5"><textarea rows="" cols=""
+							class="textarea radius" name="defPageConfig" id="defPageConfig"
+							autocomplete="off"
+							placeholder="详情页爬取配置。请按WebsiteConfigModel的JSON格式"></textarea></td>
+				</tr>
+				<tr>
+					<td>结果页采集配置</td>
+					<td colspan="5"><textarea rows="" cols=""
+							class="textarea radius" name="defResultConfig"
+							id="defResultConfig" autocomplete="off"
+							placeholder="接口爬取配置。请按WebsiteConfigModel的JSON格式"></textarea></td>
+				</tr>
+				<tr>
+					<td>自定义请求头</td>
+					<td colspan="5"><textarea rows="" cols=""
+							class="textarea radius" name="defRequestHeader"
+							id="defRequestHeader" autocomplete="off"
+							placeholder="自定义网站爬虫请求头。请按RequestHeaderModel的JSON格式"></textarea></td>
+				</tr>
+				<tr>
+					<td>描述</td>
+					<td colspan="5"><textarea rows="" cols=""
+							class="textarea radius" name="sign" id="sign" autocomplete="off"
+							placeholder="用于保存对该站点的描叙..."></textarea></td>
+				</tr>
+			</tbody>
+			<tfoot class="text-c">
+				<tr>
+					<td colspan="6">
+						<input type="submit" value="强制提交" id="forcesSub" class="btn btn-danger radius mr-15"/>
+						<input type="submit" value="提交" id="comSub" class="btn btn-success radius mr-15"/>
+						<a href="javascript:;" class="btn"  onclick ="closePage()" class="btn btn-secondary radius mr-15">关闭</a>
+					</td>
+				</tr>
+			</tfoot>
+		</table>
+		</form>
+	</div>
+
+	<!--_footer 作为公共模版分离出去-->
+	<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
+	<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+	<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script>
+	<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script>
+	<!--/_footer /作为公共模版分离出去-->
+
+	<!--请在下方写此页面业务相关的脚本-->
+	<script type="text/javascript"
+		src="lib/jquery.validation/1.14.0/jquery.validate.js"></script>
+	<script type="text/javascript"
+		src="lib/jquery.validation/1.14.0/validate-methods.js"></script>
+	<script type="text/javascript"
+		src="lib/jquery.validation/1.14.0/messages_zh.js"></script>
+	<script type="text/javascript"
+		src="lib/webuploader/0.1.5/webuploader.min.js"></script>
+
+	<script>
+		$(function(){
+			$.validator.addMethod("fileType",function(value,element,param){
+		        var fileType = value.substring(value.lastIndexOf(".") + 1).toLowerCase(); 
+		        return this.optional(element) || $.inArray(fileType, param) != -1;
+		    }, $.validator.format("文件格式不正确!"));
+			$("#form").validate({
+				rules:{
+					searchAddr:{
+						required:true,
+					},
+					email:{
+						required:true,
+						email:true,
+					},
+					type:{
+						required:true,
+					},
+					useSearch:{
+						required:true,
+					},
+					pageProcessor:{required:true},
+					pageRObject:{required:true},
+					resultProcessor:{required:true},
+					resultProcessorClass:{required:true,fileType:["class"]},
+					pageRObjectClass:{required:true,fileType:["class"]},
+					pageProcessorClass:{required:true,fileType:["class"]},
+					message:{
+						resultProcessorClass:{required:"文件不能为空!",fileType:"文件格式为字节码!"},
+						pageRObjectClass:{required:"文件不能为空!",fileType:"文件格式为字节码!"},
+						pageProcessorClass:{required:"文件不能为空!",fileType:"文件格式为字节码!"}
+					}
+				},
+				onkeyup:false,
+				focusCleanup:true,
+				success:"valid",
+				submitHandler:function(form){
+					if($(this.submitButton).is("#forcesSub")){
+						layer.confirm('强制提交会忽略所有依赖、覆盖存在的字节码文件!', {
+							  btn: ['提交','放弃'],icon:0 //按钮
+							}, function(){
+								submitForm_("website/no");
+							}, function(){
+								layer.msg('取消成功!', {
+								    time: 1000,icon:7
+								  });
+							});
+					}else if($(this.submitButton).is("#comSub")){
+						layer.confirm('确认变动吗？', {btn: ['提交','放弃'],icon:0},function(){
+							submitForm_("website/no");
+						});
+					}
+				}
+			});
+			
+			var submitForm_ = function(url){
+				$(form).ajaxSubmit({
+					type: 'post',
+					url:  url,
+					success: function(data){
+						if(data&&data.message){
+							layer.msg(data.message,{icon:1,time:1500});
+							var index = parent.layer.getFrameIndex(window.name);
+							parent.layer.close(index);
+						}
+					},
+	                error: function(XmlHttpRequest, textStatus, errorThrown){
+						layer.msg('请求失败',{icon:5,time:1000});
+					}
+				});
+			}
+		})
+	</script>
+
+	<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+	<script type="text/javascript">
+		var updateSettings = function() {
+			$("#websiteSetting").modal("show")
+		}
+		var closePage = function(){
+			var index = parent.layer.getFrameIndex(window.name);
+			parent.layer.close(index);
+		}
+	</script>
+	<script>
+		var inputFile = function(name){ 
+			var str = "<span class=\"btn-upload\"> <input class=\"input-text upload-url radius\" type=\"text\" style=\"width: 40%; margin-right: 10px\" placeholder=\".class文件\" 	readonly autocomplete=\"off\" /><a href=\"javascript:void();\"  class=\"btn btn-primary radius\"><i class=\"Hui-iconfont\">&#xe642;</i> 浏览文件</a> <input type=\"file\" id=\""+name+"\" name=\""+name+"\"	class=\"input-file\" autocomolete=\"off\" /></span>"
+			return str;
+		}
+		$(function(){
+			$("select.createInputFile").on("change",function(){
+				var t = $(this).val();
+				if(t&&t>0){
+					var name = $(this).parents("td").prev("td").prev("td").find("input").eq(0).attr("name");
+					var str = inputFile(name+"Class")
+					$(this).parents("td").next("td").append(str);
+				}else{
+					$(this).parents("td").next("td").empty();
+				}
+			})
+		})
+	</script>
+</body>
+</html>
