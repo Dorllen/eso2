@@ -18,6 +18,7 @@ import com.zhidian.mapper.WebsiteMapper;
 import com.zhidian.model.Version;
 import com.zhidian.model.Website;
 import com.zhidian.model.sys.WebsiteBO2;
+import com.zhidian.util.BasicUtils;
 import com.zhidian.views.WebsitePageVO;
 import com.zhidian.views.WebsitePostModel;
 import com.zhidian.views.WebsitePostModel2;
@@ -78,7 +79,7 @@ public class DataInfoAdminService {
 				v.setUsing(true);
 			}
 			v.setName(w.getName());
-			v.setVersion(""+w.getVersionId());
+			v.setVersion(BasicUtils.id2Version(w.getVersionId()));
 			v.setSign(w.getSign());
 			v.setId(String.valueOf(w.getId()));
 			return v;
@@ -134,7 +135,7 @@ public class DataInfoAdminService {
 			}
 			v.setUseSearch(w.isUseSearch());
 			v.setUsing(w.getUsing() == 0 ? false : true);
-			v.setVersion(""+w.getVersionId());
+			v.setVersion(BasicUtils.id2Version(w.getVersionId()));
 			return v;
 		}
 		return null;
@@ -150,13 +151,25 @@ public class DataInfoAdminService {
 	private WebsiteBO2 createWebsiteBO2FromWebsitePostModel(WebsitePostModel m, String account) {
 		if (m != null) {
 			WebsiteBO2 w = new WebsiteBO2();
-			w.setDefRequestHeader(m.getDefRequestHeader());
-			w.setDefResultConfig(m.getDefResultConfig());
 			w.setId(Integer.parseInt(m.getId()));
 			w.setName(m.getName());
-			w.setPagePipeline(m.getPagination());
-			w.setPageProcessor(m.getPageProcessor());
-			w.setPageRObject(m.getPageRObject());
+			w.setDefRequestHeader(m.getDefRequestHeader());
+			w.setDefResultConfig(m.getDefResultConfig());
+			w.setDefPageCss(m.getDefPageCss());
+			w.setDefaultPageCss(m.getDefaultPageCss());
+			w.setDefPageConfig(m.getDefPageConfig());
+			w.setAlias(m.getAlias());
+			w.setShortAddr(m.getShortAddr());
+			w.setFullAddr(m.getFullAddr());
+			
+//			w.setPagination(m.getPagination())
+//			w.setPagePipeline(m.getPagination())
+//			w.setPageProcessor(m.getPageProcessor())
+//			w.setPageRObject(m.getPageRObject())
+//			w.setResultPipeline(m.getResultPipeline())
+//			w.setResultProcessor(m.getResultProcessor())
+//			w.setResultRObject(m.getResultRObject())
+			
 			w.setSearchAddr(m.getSearchAddr());
 			w.setSign(m.getSign());
 			w.setUseSearch(m.isUseSearch());

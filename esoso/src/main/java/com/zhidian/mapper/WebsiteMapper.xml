@@ -133,11 +133,9 @@
 
 	<update id="updateWebsitesForDataInfoAdminService01SmpleWebsiteBO2">
 		update websites set searchAddr =
-		#{searchAddr},pagination=#{pagination},sign=#{sign},resultProcessor=#{resultProcessor},
-		resultPipeline=#{resultPipeline},pageProcessor=#{pageProcessor},pagePipeline=#{pagePipeline},resultRObject=#{resultRObject},
-		pageRObject=#{pageRObject},useSearch=#{useSearch},defaultPageCss=#{defaultPageCss},defPageConfig=#{defPageConfig},defResultConfig=#{defResultConfig},
-		defRequestHeader=#{defRequestHeader} where id = #{id} and name =
-		#{name};
+		#{searchAddr},pagination=#{pagination},sign=#{sign},useSearch=#{useSearch},defaultPageCss=#{defaultPageCss},defPageConfig=#{defPageConfig},
+		defResultConfig=#{defResultConfig},defRequestHeader=#{defRequestHeader},updateMan= #{updateMan},updateTime=#{updateTime},
+		defPageCss = #{defPageCss},alias = #{alias} ,shortAddr = #{shortAddr},fullAddr = #{fullAddr} where id = #{id} and name =#{name};
 	</update>
 
 	<update id="updateWebsitesForDataInfoAdminService01SimpleWebsite"

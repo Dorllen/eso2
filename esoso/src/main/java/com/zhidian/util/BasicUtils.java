@@ -15,19 +15,19 @@ public class BasicUtils {
 		if (StringUtils.isNotEmpty(oldVersion)) {
 			String[] sArr = oldVersion.split("\\.");
 			if (sArr != null && sArr.length == 4) {
-				// 9999.9999.9999
+				// 999.999.999.999
 				// 长度为4
 				int i0 = Integer.parseInt(sArr[3]);
 				int i1 = Integer.parseInt(sArr[2]);
 				int i2 = Integer.parseInt(sArr[1]);
 				int i3 = Integer.parseInt(sArr[0]);
-				if (i0 >= 9999) {
+				if (i0 >= 999) {
 					i0 = 0;
-					if (i1 >= 9999) {
+					if (i1 >= 999) {
 						i1 = 0;
-						if (i2 >= 9999) {
+						if (i2 >= 999) {
 							i2 = 0;
-							if (i3 >= 9999) {
+							if (i3 >= 999) {
 								throw new Exception("版本超出最大版本:9999.9999.9999.9999");
 							} else {
 								i3++;
@@ -49,6 +49,40 @@ public class BasicUtils {
 		} else {
 			return "0.0.0.1";// 新建一个
 		}
+	}
+
+	public static String id2Version(int id) {
+		String str = "";
+		if (id >= 999) {
+			if (id >= 999*999) {
+				if (id >= 999*999*999) {
+					return null;
+				} else {
+					str = id / (999*999) + "." + (id % (999*999)) / (999) + "."
+							+ ((id % (999*999)) % (999));
+				}
+			} else {
+				str = "0." + id / 999 + "." + id % 999;
+			}
+		} else {
+			str = "0.0." + id;
+		}
+		return str;
+	}
+	
+	public static int version2Id(String version) {
+		if (version != null && version.matches("\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}")) {
+			String[] str = version.split("\\.");
+			if (str != null && str.length == 3) {
+				int i1 = Integer.parseInt(str[0]);
+				int i2 = Integer.parseInt(str[1]);
+				int i3 = Integer.parseInt(str[2]);
+				if (i1 <= 999 && i2 <= 999 && i3 <= 999) {
+					return i1 * (999*999) + (i2 * 999) + i3;
+				}
+			}
+		}
+		return -1;
 	}
 
 	public static String urlSearchPart(String url) {
@@ -120,12 +154,22 @@ public class BasicUtils {
 		// e.printStackTrace();
 		// }
 
-		String str = "http://baidu.com?id=123&name=dongneng";
-		// System.out.println(urlSearchPart(str));
-		Matcher matcher = Pattern.compile("(?:http:\\/\\/|http://www\\.|www\\.)?.*\\?([0-9A-Za-z&!=\\-]*)")
-				.matcher(str);
-		if (matcher.find()) {
-			System.out.println(matcher.group(1));
-		}
+		// String str = "http://baidu.com?id=123&name=dongneng";
+		// // System.out.println(urlSearchPart(str));
+		// Matcher matcher =
+		// Pattern.compile("(?:http:\\/\\/|http://www\\.|www\\.)?.*\\?([0-9A-Za-z&!=\\-]*)")
+		// .matcher(str);
+		// if (matcher.find()) {
+		// System.out.println(matcher.group(1));
+		// }
+		System.out.println(id2Version(998001900));
+		System.out.println(version2Id("999.999.999"));
+		// System.out.println(999 * 999 * 999);
+		// System.out.println(998001999 / (999 * 999));
+		System.out.println(version2Id("1.0.1"));
+		System.out.println(id2Version(17));
+		System.out.println(id2Version(version2Id("1.0.2")));
+		// System.out.println(1000/1000);
+		// System.out.println("999.999.999".matches("\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}"));
 	}
 }

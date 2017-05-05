@@ -85,12 +85,13 @@
 						class="table table-border table-bordered table-bg mt-15 table-hover">
 						<thead>
 							<tr>
-								<th colspan="9" scope="col">站点：<span
+								<th colspan="10" scope="col">站点：<span
 									class="mr-10 ml-10 f-16" style="color: #f75809;"
 									id="websiteName">segmentfault</span> 版本信息
 								</th>
 							</tr>
 							<tr class="text-c">
+								<th>序号</th>
 								<th>站点名</th>
 								<th>版本名</th>
 								<th>创建时间</th>
@@ -104,6 +105,7 @@
 						</thead>
 						<tbody class="text-c">
 							<tr>
+								<td>1</td>
 								<td>segmentfault</td>
 								<td>0.0.0.0</td>
 								<td>2017-4-28 13:22</td>
@@ -409,7 +411,7 @@
 										name="fullAddr" placeholder="仅存一个，最全的地址" /></td>
 								</tr>
 								<tr>
-									<td><span class="c-red">*</span>是否在用</td>
+									<td>是否在用</td>
 									<td class="_use"></td>
 									<td>禁用时间</td>
 									<td class="_unuseTime">2017-4-29 21:35</td>
@@ -426,7 +428,7 @@
 								<tr>
 									<td>分頁符</td>
 									<td colspan="5" class="_page"><input type="text"
-										value="&page={0}" class="input-text" name=""
+										value="&page={0}" class="input-text" name="pagination"
 										placeholder="分页核心部分,如:&page={0}" /></td>
 								</tr>
 								<tr>
@@ -438,46 +440,28 @@
 									<td class="_hZ"></td>
 								</tr>
 								<tr>
-									<td><span class="c-red">*</span>详情頁處理器</td>
-									<td colspan="3" class="_c1"><input type="text"
-										class="input-text" value="" name="pageProcessor"
-										placeholder="详情页数据解析器的包名字符串,不可为空!" /></td>
-									<td colspan="2"></td>
+									<td>详情頁處理器</td>
+									<td colspan="5" class="_c1"></td>
 								</tr>
 								<tr>
 									<td>详情页接收器</td>
-									<td colspan="3" class="_c2"><input type="text"
-										class="input-text" value="" name="pagePipeline"
-										placeholder="详情页数据处理器的包名字符串,不可为空!" /></td>
-									<td colspan="2"></td>
+									<td colspan="5" class="_c2"></td>
 								</tr>
 								<tr>
-									<td><span class="c-red">*</span>详情页接收对象</td>
-									<td colspan="3" class="_c3"><input type="text"
-										class="input-text" value="" name="pageRObject"
-										placeholder="详情页传递对象的包名字符串,不可为空!" /></td>
-									<td colspan="2"></td>
+									<td>详情页接收对象</td>
+									<td colspan="5" class="_c3"></td>
 								</tr>
 								<tr>
-									<td><span class="c-red">*</span>结果页处理器</td>
-									<td colspan="3" class="_c4"><input type="text"
-										class="input-text" value="" name="resultProcessor"
-										placeholder="结果页数据解析器的包名字符串,不可为空!" /></td>
-									<td colspan="2"></td>
+									<td>结果页处理器</td>
+									<td colspan="5" class="_c4"></td>
 								</tr>
 								<tr>
 									<td>結果頁接受器</td>
-									<td colspan="3" class="_c5"><input type="text" id="resultPipeline"
-										class="input-text" value="" name="resultPipeline"
-										placeholder="结果页数据处理器的包名字符串" /></td>
-									<td colspan="2"></td>
+									<td colspan="5" class="_c5"></td>
 								</tr>
 								<tr>
 									<td>結果頁接收对象</td>
-									<td colspan="3" class="_c6"><input type="text" value=""
-										name="resultRObject" class="input-text" id="resultRObject"
-										placeholder="结果页数据传递对象(暂可为空)" /></td>
-									<td colspan="2"></td>
+									<td colspan="5" class="_c6"></td>
 								</tr>
 								<tr>
 									<td>站點默認Css</td>
@@ -487,20 +471,23 @@
 								</tr>
 								<tr>
 									<td>入口頁爬取配置</td>
-									<td colspan="5" class="_c8"><textarea rows="" cols="" id="defResultConfig"
-											class="textarea radius" name="defResultConfig"
+									<td colspan="5" class="_c8"><textarea rows="" cols=""
+											id="defResultConfig" class="textarea radius"
+											name="defResultConfig"
 											placeholder="入口爬取配置。请按WebsiteConfigModel的JSON格式"></textarea></td>
 								</tr>
 								<tr>
 									<td>详情頁爬取配置</td>
-									<td colspan="5" class="_c9"><textarea rows="" cols="" id="defPageConfig"
-											class="textarea radius" name="defPageConfig"
+									<td colspan="5" class="_c9"><textarea rows="" cols=""
+											id="defPageConfig" class="textarea radius"
+											name="defPageConfig"
 											placeholder="详情页爬取规配置。请按WebsiteConfigModel的JSON格式"></textarea></td>
 								</tr>
 								<tr>
 									<td>Css爬取設置</td>
 									<td colspan="5" class="_c10"><textarea
-											class="textarea radius" name="defaultPageCss" id="defaultPageCss"
+											class="textarea radius" name="defaultPageCss"
+											id="defaultPageCss"
 											placeholder="站点Css爬取规则。请按WebsiteCssConfigModel的JSON格式">[{"name":"qa.css","url":"http://segmentfault.con/static/css/qa.css","useSearch":false,"version":"0.0.0.0","website":"segmentfault"},{"name":"qa.css","url":"http://segmentfault.con/static/css/global.css","useSearch":false,"version":"0.0.0.0","website":"segmentfault"}]</textarea></td>
 								</tr>
 								<tr>
@@ -567,12 +554,16 @@
 				$.Huimodalalert('设置失敗!', 2000);
 			})
 		}
-		var deleteWebsite = function(id){
-			$.ajax({url:"website/delete/"+id,type:"delete"}).done(function(data){
-				if(data&&data.message){
+		var deleteWebsite = function(id) {
+			$.ajax({
+				url : "website/delete/" + id,
+				type : "delete"
+			}).done(function(data) {
+				if (data && data.message) {
+					startSearch();
 					$.Huimodalalert(data.message, 2000);
 				}
-			}).fail(function(){
+			}).fail(function() {
 				$.Huimodalalert('操作失敗!', 2000);
 			})
 		}
@@ -589,12 +580,17 @@
 			layer.full(index);
 		}
 		function website_item_add(title, url) {
-			var index = layer.open({
-				type : 2,
-				title : title,
-				content : url
-			});
-			layer.full(index);
+			var keys = trim($("#search_text").val());
+			if (keys) {
+				var index = layer.open({
+					type : 2,
+					title : title,
+					content : url
+				});
+				layer.full(index);
+			} else {
+				$.Huimodalalert('请先搜索!', 2000);
+			}
 		}
 		function addVersion(title, url) {
 			var index = layer.open({
@@ -714,14 +710,13 @@
 			$s_.append($s1_);
 			$p.find("._hZ").append($s_);
 
-			$p.find("._c1 input").val(i.pageProcessor ? i.pageProcessor : '');
-			$p.find("._c2 input").val(i.pagePipeline ? i.pagePipeline : '');
-			$p.find("._c3 input").val(i.pageRObject ? i.pageRObject : '');
-			$p.find("._c4 input").val(
-					i.resultProcessor ? i.resultProcessor : '');
+			$p.find("._c1").html(i.pageProcessor ? i.pageProcessor : '无');
+			$p.find("._c2").html(i.pagePipeline ? i.pagePipeline : '无');
+			$p.find("._c3").html(i.pageRObject ? i.pageRObject : '无');
+			$p.find("._c4").html(i.resultProcessor ? i.resultProcessor : '无');
 
-			$p.find("._c5 input").val(i.resultPipeline ? i.resultPipeline : '');
-			$p.find("._c6 input").val(i.resultRObject ? i.resultRObject : '');
+			$p.find("._c5").html(i.resultPipeline ? i.resultPipeline : '无');
+			$p.find("._c6").html(i.resultRObject ? i.resultRObject : '无');
 			$p.find("._c7 textarea").val(i.defPageCss ? i.defPageCss : '');
 			$p.find("._c8 textarea").val(
 					i.defResultConfig ? i.defResultConfig : '');
@@ -761,7 +756,7 @@
 			return false;
 		});
 
-		 var startSearch =  function() {
+		var startSearch = function() {
 			var keys = trim($("#search_text").val());
 			keys = trim(keys);
 			if (keys) {
@@ -769,7 +764,9 @@
 				$
 						.ajax({
 							url : 'website/info/part',
-							data : {name:keys},
+							data : {
+								name : keys
+							},
 							type : 'get'
 						})
 						.done(
@@ -792,6 +789,10 @@
 																data.items,
 																function(i, v) {
 																	var $tr = $("<tr></tr>")
+																	$tr
+																			.append("<td>"
+																					+ v.id
+																					+ "</td>");
 																	$tr
 																			.append("<td>"
 																					+ v.name
@@ -846,11 +847,13 @@
 																					+ v.id
 																					+ ",'"
 																					+ v.name
-																					+ "')\" /> <input class='btn btn-danger radius' type='button' onclick=\"deleteWebsite("+v.id+")\" value='删除' /></td>");
+																					+ "')\" /> <input class='btn btn-danger radius' type='button' onclick=\"deleteWebsite("
+																					+ v.id
+																					+ ")\" value='删除' /></td>");
 																	$tbody
 																			.append($tr);
 																})
-											}else{
+											} else {
 												$.Huimodalalert('未找到数据!', 2000);
 											}
 										}

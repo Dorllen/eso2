@@ -29,29 +29,25 @@
 </head>
 <body>
 	<div class="page-container">
-		<div class="cl pd-5 bg-1 bk-gray">
-			<span class="c-red">如果第一次新增站点，请添加默认版本信息！ 版本要求为:0.0.0.0</span> <span
-				class="r"> <a class="btn btn-primary radius"
-				onclick="addVersion('添加版本','version-add.html')" href="javascript:;"><i
-					class="Hui-iconfont"></i> 添加版本</a>
-			</span>
-		</div>
 
 		<form class="form form-horizontal" id="form-website-add">
 			<div class="row cl">
 				<label class="form-label col-xs-3 col-sm-2"><span
 					class="c-red">*</span>站点名称：</label>
 				<div class="formControls col-xs-8 col-sm-9">
-					<input type="text" class="input-text" value=""  autocomplete="off"
-						placeholder="站点名称" id="name"
-						name="name"/>
+					<span class="select-box"> <select class="select" id="name"
+						name="name">
+							<option value="segmentfault" selected>segmentfault</option>
+					</select>
+					</span>
 				</div>
 			</div>
 			<div class="row cl">
 				<label class="form-label col-xs-3 col-sm-2">別名：</label>
 				<div class="formControls col-xs-4 col-sm-4">
 					<input type="text" class="input-text" value=""
-						placeholder="别名.如:segmentfault网站,segment" id="alias" name="alias" autocomplete="off">
+						placeholder="别名.如:segmentfault网站,segment" id="alias" name="alias"
+						autocomplete="off">
 				</div>
 				<label class="form-label col-xs-2 col-sm-1">类型：</label>
 				<div class="formControls col-xs-3 col-sm-4">
@@ -66,70 +62,72 @@
 			<div class="row cl">
 				<label class="form-label col-xs-3 col-sm-2">短地址：</label>
 				<div class="formControls col-xs-8 col-sm-9">
-					<input type="text" class="input-text" value=""  autocomplete="off"
-						placeholder="如:segmentfault.com,www.segmentfault.com" id="shortAddr"
-						name="shortAddr"/>
+					<input type="text" class="input-text" value="" autocomplete="off"
+						placeholder="如:segmentfault.com,www.segmentfault.com"
+						id="shortAddr" name="shortAddr" />
 				</div>
 			</div>
 			<div class="row cl">
 				<label class="form-label col-xs-3 col-sm-2">全地址：</label>
 				<div class="formControls col-xs-8 col-sm-9">
-					<input type="text" class="input-text" value=""  autocomplete="off"
+					<input type="text" class="input-text" value="" autocomplete="off"
 						placeholder="唯一,全路径.http://www.segmentfault.com" id="fullAddr"
-						name="fullAddr"/>
+						name="fullAddr" />
 				</div>
 			</div>
 			<div class="row cl">
 				<label class="form-label col-xs-3 col-sm-2"><span
 					class="c-red">*</span>搜索入口：</label>
 				<div class="formControls col-xs-3 col-sm-4">
-					<input type="text" class="input-text" value=""  autocomplete="off"
+					<input type="text" class="input-text" value="" autocomplete="off"
 						placeholder="搜索接口地址.如:https://segmentfault.com/search?q="
-						id="searchAddr" name="searchAddr"/>
+						id="searchAddr" name="searchAddr" />
 				</div>
 				<label class="form-label col-xs-3 col-sm-2">分頁符設置：</label>
 				<div class="formControls col-xs-3 col-sm-3">
-					<input type="text" class="input-text" value=""  autocomplete="off"
-						placeholder="分页主体部分.如:&page={0}" id="pagination" name="pagination"/>
+					<input type="text" class="input-text" value="" autocomplete="off"
+						placeholder="分页主体部分.如:&page={0}" id="pagination" name="pagination" />
 				</div>
 			</div>
 			<div class="row cl">
 				<label class="form-label col-xs-3 col-sm-2"><span
 					class="c-red">*</span>详情頁處理器：</label>
 				<div class="formControls col-xs-3 col-sm-4">
-					<input type="text" class="input-text" value=""  autocomplete="off"
+					<input type="text" class="input-text" value="" autocomplete="off"
 						placeholder="包名+文件名.如:com.zhidian.bases.worms.processor.SegmentFaultPageProcessor"
-						id="pageProcessor" name="pageProcessor"/>
+						id="pageProcessor" name="pageProcessor" />
 				</div>
 				<label class="form-label col-xs-3 col-sm-2"><span
 					class="c-red">*</span>處理器：</label>
 				<div class="formControls col-xs-3 col-sm-4">
-					<span class="btn-upload"> <input 
+					<span class="btn-upload"> <input
 						class="input-text upload-url radius" type="text"
 						style="width: 40%; margin-right: 10px" placeholder=".class文件"
 						id="uploadfile-1" readonly autocomplete="off"><a
 						href="javascript:void();" class="btn btn-primary radius"><i
-							class="Hui-iconfont">&#xe642;</i> 浏览文件</a> <input type="file" id="pageProcessorClass"
-						name="pageProcessorClass" class="input-file"  autocomolete="off"/>
+							class="Hui-iconfont">&#xe642;</i> 浏览文件</a> <input type="file"
+						id="pageProcessorClass" name="pageProcessorClass"
+						class="input-file" autocomolete="off" />
 					</span>
 				</div>
 			</div>
 			<div class="row cl">
 				<label class="form-label col-xs-3 col-sm-2">详情页接收器：</label>
 				<div class="formControls col-xs-3 col-sm-4">
-					<input type="text" class="input-text" value=""  autocomplete="off"
+					<input type="text" class="input-text" value="" autocomplete="off"
 						placeholder="包名+文件名.如:com.zhidian.bases.worms.pipeline.NullPipeline"
-						id="pagePipeline" name="pagePipeline"/>
+						id="pagePipeline" name="pagePipeline" />
 				</div>
 				<label class="form-label col-xs-3 col-sm-2">接收器：</label>
 				<div class="formControls col-xs-3 col-sm-4">
-					<span class="btn-upload"> <input 
+					<span class="btn-upload"> <input
 						class="input-text upload-url radius" type="text"
 						style="width: 40%; margin-right: 10px" placeholder=".class文件"
-						id="uploadfile-1" readonly autocomplete="off"/><a
+						id="uploadfile-1" readonly autocomplete="off" /><a
 						href="javascript:void();" class="btn btn-primary radius"><i
-							class="Hui-iconfont">&#xe642;</i> 浏览文件</a> <input type="file" id="pagePipelineClass"
-						name="pagePipelineClass" class="input-file"  autocomolete="off"/>
+							class="Hui-iconfont">&#xe642;</i> 浏览文件</a> <input type="file"
+						id="pagePipelineClass" name="pagePipelineClass" class="input-file"
+						autocomolete="off" />
 					</span>
 				</div>
 			</div>
@@ -137,9 +135,9 @@
 				<label class="form-label col-xs-3 col-sm-2"><span
 					class="c-red">*</span>详情页接收对象：</label>
 				<div class="formControls col-xs-3 col-sm-4">
-					<input type="text" class="input-text" value=""  autocomplete="off"
+					<input type="text" class="input-text" value="" autocomplete="off"
 						placeholder="包名+文件名.如:com.zhidian.model.websites.answer.SegmentfaultPageRObject"
-						id="pageRObject" name="pageRObject"/>
+						id="pageRObject" name="pageRObject" />
 				</div>
 				<label class="form-label col-xs-3 col-sm-2"><span
 					class="c-red">*</span>接收对象：</label>
@@ -147,10 +145,11 @@
 					<span class="btn-upload"> <input
 						class="input-text upload-url radius" type="text"
 						style="width: 40%; margin-right: 10px" placeholder=".class文件"
-						id="uploadfile-1" readonly autocomplete="off"/><a
+						id="uploadfile-1" readonly autocomplete="off" /><a
 						href="javascript:void();" class="btn btn-primary radius"><i
-							class="Hui-iconfont">&#xe642;</i> 浏览文件</a> <input type="file" id="pageRObjectClass"
-						name="pageRObjectClass" class="input-file"  autocomolete="off"/>
+							class="Hui-iconfont">&#xe642;</i> 浏览文件</a> <input type="file"
+						id="pageRObjectClass" name="pageRObjectClass" class="input-file"
+						autocomolete="off" />
 					</span>
 				</div>
 			</div>
@@ -158,9 +157,9 @@
 				<label class="form-label col-xs-3 col-sm-2"><span
 					class="c-red">*</span>结果页处理器：</label>
 				<div class="formControls col-xs-3 col-sm-4">
-					<input type="text" class="input-text" value=""  autocomplete="off"
+					<input type="text" class="input-text" value="" autocomplete="off"
 						placeholder="包名+文件名.如:com.zhidian.bases.worms.processor.SegmentFaultResultProcessor"
-						id="resultProcessor" name="resultProcessor"/>
+						id="resultProcessor" name="resultProcessor" />
 				</div>
 				<label class="form-label col-xs-3 col-sm-2"><span
 					class="c-red">*</span>處理器：</label>
@@ -168,47 +167,51 @@
 					<span class="btn-upload"> <input
 						class="input-text upload-url radius" type="text"
 						style="width: 40%; margin-right: 10px" placeholder=".class文件"
-						id="uploadfile-1" readonly autocomplete="off"/><a
+						id="uploadfile-1" readonly autocomplete="off" /><a
 						href="javascript:void();" class="btn btn-primary radius"><i
-							class="Hui-iconfont">&#xe642;</i> 浏览文件</a> <input type="file" id="resultProcessorClass"
-						name="resultProcessorClass" class="input-file"  autocomolete="off"/>
+							class="Hui-iconfont">&#xe642;</i> 浏览文件</a> <input type="file"
+						id="resultProcessorClass" name="resultProcessorClass"
+						class="input-file" autocomolete="off" />
 					</span>
 				</div>
 			</div>
 			<div class="row cl">
 				<label class="form-label col-xs-3 col-sm-2">結果頁接受器：</label>
 				<div class="formControls col-xs-3 col-sm-4">
-					<input type="text" class="input-text" value=""  autocomplete="off"
+					<input type="text" class="input-text" value="" autocomplete="off"
 						placeholder="包名+文件名.如:com.zhidian.bases.worms.pipeline.NullPipeline"
-						id="resultPipeline" name="resultPipeline"/>
+						id="resultPipeline" name="resultPipeline" />
 				</div>
 				<label class="form-label col-xs-3 col-sm-2">接受器：</label>
 				<div class="formControls col-xs-3 col-sm-4">
 					<span class="btn-upload"> <input
 						class="input-text upload-url radius" type="text"
 						style="width: 40%; margin-right: 10px" placeholder=".class文件"
-						id="uploadfile-1" readonly autocomplete="off"/><a
+						id="uploadfile-1" readonly autocomplete="off" /><a
 						href="javascript:void();" class="btn btn-primary radius"><i
-							class="Hui-iconfont">&#xe642;</i> 浏览文件</a> <input type="file" id="resultPipelineClass"
-						name="resultPipelineClass" class="input-file"  autocomolete="off"/>
+							class="Hui-iconfont">&#xe642;</i> 浏览文件</a> <input type="file"
+						id="resultPipelineClass" name="resultPipelineClass"
+						class="input-file" autocomolete="off" />
 					</span>
 				</div>
 			</div>
 			<div class="row cl">
 				<label class="form-label col-xs-3 col-sm-2">結果頁接收对象：</label>
 				<div class="formControls col-xs-3 col-sm-4">
-					<input type="text" class="input-text" value=""  autocomplete="off"
-						placeholder="包名+文件名.如:com.xxx....（非必需）" id="resultRObject" name="resultRObject"/>
+					<input type="text" class="input-text" value="" autocomplete="off"
+						placeholder="包名+文件名.如:com.xxx....（非必需）" id="resultRObject"
+						name="resultRObject" />
 				</div>
 				<label class="form-label col-xs-3 col-sm-2">接收对象：</label>
 				<div class="formControls col-xs-3 col-sm-4">
 					<span class="btn-upload"> <input
 						class="input-text upload-url radius" type="text"
 						style="width: 40%; margin-right: 10px" placeholder=".class文件"
-						id="uploadfile-1" readonly autocomplete="off"/><a
+						id="uploadfile-1" readonly autocomplete="off" /><a
 						href="javascript:void();" class="btn btn-primary radius"><i
-							class="Hui-iconfont">&#xe642;</i> 浏览文件</a> <input type="file" id="resultRObjectClass"
-						name="resultRObjectClass" class="input-file" autocomolete="off"/>
+							class="Hui-iconfont">&#xe642;</i> 浏览文件</a> <input type="file"
+						id="resultRObjectClass" name="resultRObjectClass"
+						class="input-file" autocomolete="off" />
 					</span>
 				</div>
 			</div>
@@ -216,15 +219,15 @@
 				<label class="form-label col-xs-2 col-sm-2">设为默认：</label>
 				<div class="formControls col-xs-1 col-sm-1 ">
 					<div class="check-box">
-						<input type="checkbox" id="checkbox-1" name="check1" id="check1"/> <label
-							for="checkbox-1">&nbsp;</label>
+						<input type="checkbox" id="checkbox-1" name="check1" id="check1" />
+						<label for="checkbox-1">&nbsp;</label>
 					</div>
 				</div>
 				<label class="form-label col-xs-3 col-sm-3">使用默认版本Css：</label>
 				<div class="formControls col-xs-2 col-sm-1 ">
 					<div class="check-box">
-						<input type="checkbox" id="checkbox-2" autocomplete="off" checked id="check2"
-							name="check2" /> <label for="checkbox-2">&nbsp;</label>
+						<input type="checkbox" id="checkbox-2" autocomplete="off" checked
+							id="check2" name="check2" /> <label for="checkbox-2">&nbsp;</label>
 					</div>
 				</div>
 				<label class="form-label col-xs-2 col-sm-2">使用后缀：</label>
@@ -247,18 +250,19 @@
 					</select>
 					</span>
 				</div>
-				<label class="form-label col-xs-3 col-sm-2" >自定义默认Css：</label>
-				<div class="formControls col-xs-4 col-sm-4 " >
-					<input type="text" class="input-text" value="" id="defPageCss"  autocomplete="off"
+				<label class="form-label col-xs-3 col-sm-2">自定义默认Css：</label>
+				<div class="formControls col-xs-4 col-sm-4 ">
+					<input type="text" class="input-text" value="" id="defPageCss"
+						autocomplete="off"
 						placeholder="如:css/index/engine/0.0.0.0/index.css（可不填）" id=""
-						name="defPageCss"/>
+						name="defPageCss" />
 				</div>
 			</div>
 			<div class="row cl">
 				<label class="form-label col-xs-3 col-sm-2">入口爬取配置：</label>
 				<div class="formControls col-xs-8 col-sm-9">
 					<textarea rows="" cols="" class="textarea radius"
-						name="defResultConfig" id="defResultConfig"  autocomplete="off"
+						name="defResultConfig" id="defResultConfig" autocomplete="off"
 						placeholder="入口爬取配置。请按WebsiteConfigModel的JSON格式"></textarea>
 				</div>
 			</div>
@@ -266,7 +270,7 @@
 				<label class="form-label col-xs-3 col-sm-2">详情页爬取配置：</label>
 				<div class="formControls col-xs-8 col-sm-9">
 					<textarea rows="" cols="" class="textarea radius"
-						name="defPageConfig" id="defPageConfig"  autocomplete="off"
+						name="defPageConfig" id="defPageConfig" autocomplete="off"
 						placeholder="详情页爬取规配置。请按WebsiteConfigModel的JSON格式"></textarea>
 				</div>
 			</div>
@@ -282,15 +286,15 @@
 				<label class="form-label col-xs-3 col-sm-2">自定义请求头：</label>
 				<div class="formControls col-xs-8 col-sm-9">
 					<textarea rows="" cols="" class="textarea radius"
-						name="defRequestHeader" id="defRequestHeader"  autocomplete="off"
+						name="defRequestHeader" id="defRequestHeader" autocomplete="off"
 						placeholder="站点的请求头。請按RequestHeaderModel的JSON格式"></textarea>
 				</div>
 			</div>
 			<div class="row cl">
 				<label class="form-label col-xs-3 col-sm-2">描述：</label>
 				<div class="formControls col-xs-8 col-sm-9">
-					<textarea rows="" cols="" class="textarea radius" name="sign" id="sign"  autocomplete="off"
-						placeholder="对该版本进行描述"></textarea>
+					<textarea rows="" cols="" class="textarea radius" name="sign"
+						id="sign" autocomplete="off" placeholder="对该版本进行描述"></textarea>
 				</div>
 			</div>
 			<div class="row cl">
@@ -325,7 +329,7 @@
 				$("#linkVersion").hide();
 			}
 		})
-		$(function(){
+		$(function() {
 			// 清空所有input file内容
 			$("input[type='file']").val("");
 		})
@@ -346,53 +350,63 @@
 		}
 		function website_submit() {
 			// 校验内容
-			$("#form-website-add").ajaxSubmit({
-				url : "website/add",
-				type : "post",
-				success : function(data) {
-					if (data && data.message) {
-						$.Huimodalalert(data.message, 2000);
-					}
-				},
-				beforeSubmit : function() {
-					// 检查参数。
-					if (!$("#name").val()) {
-						$.Huimodalalert('站点名称不能为空!', 2000);
-						return false;
-					}
-					if (!$("#searchAddr").val()) {
-						$.Huimodalalert('搜索入口不能为空!', 2000);
-						return false;
-					}
-					if (!$("#pageProcessor").val()) {
-						$.Huimodalalert('详情頁處理器不能为空!', 2000);
-						return false;
-					}
-					if ($("#pageProcessorClass")[0].files.length==0||$("#pageProcessorClass")[0].files[0].name.lastIndexOf(".class")<0) {
-						$.Huimodalalert('字节码文件不能为空或格式不正确!', 2000);
-						return false;
-					}
-					if (!$("#pageRObject").val()) {
-						$.Huimodalalert('详情页接收对象不能为空!', 2000);
-						return false;
-					}
-					if ($("#pageRObjectClass")[0].files.length==0||$("#pageRObjectClass")[0].files[0].name.lastIndexOf(".class")<0) {
-						$.Huimodalalert('字节码文件不能为空或格式不正确!', 2000);
-						return false;
-					}
-					if (!$("#resultProcessor").val()) {
-						$.Huimodalalert('结果页处理器不能为空!', 2000);
-						return false;
-					}
-					if ($("#resultProcessorClass")[0].files.length==0||$("#resultProcessorClass")[0].files[0].name.lastIndexOf(".class")<0) {
-						$.Huimodalalert('字节码文件不能为空!', 2000);
-						return false;
-					}
-				},
-				error : function() {
-					$.Huimodalalert('联网失败!', 2000);
-				}
-			});
+			$("#form-website-add")
+					.ajaxSubmit(
+							{
+								url : "website/add",
+								type : "post",
+								success : function(data) {
+									if (data && data.message) {
+										$.Huimodalalert(data.message, 2000);
+									}
+								},
+								beforeSubmit : function() {
+									// 检查参数。
+									if (!$("#name").val()) {
+										$.Huimodalalert('站点名称不能为空!', 2000);
+										return false;
+									}
+									if (!$("#searchAddr").val()) {
+										$.Huimodalalert('搜索入口不能为空!', 2000);
+										return false;
+									}
+									if (!$("#pageProcessor").val()) {
+										$.Huimodalalert('详情頁處理器不能为空!', 2000);
+										return false;
+									}
+									if ($("#pageProcessorClass")[0].files.length == 0
+											|| $("#pageProcessorClass")[0].files[0].name
+													.lastIndexOf(".class") < 0) {
+										$.Huimodalalert('字节码文件不能为空或格式不正确!',
+												2000);
+										return false;
+									}
+									if (!$("#pageRObject").val()) {
+										$.Huimodalalert('详情页接收对象不能为空!', 2000);
+										return false;
+									}
+									if ($("#pageRObjectClass")[0].files.length == 0
+											|| $("#pageRObjectClass")[0].files[0].name
+													.lastIndexOf(".class") < 0) {
+										$.Huimodalalert('字节码文件不能为空或格式不正确!',
+												2000);
+										return false;
+									}
+									if (!$("#resultProcessor").val()) {
+										$.Huimodalalert('结果页处理器不能为空!', 2000);
+										return false;
+									}
+									if ($("#resultProcessorClass")[0].files.length == 0
+											|| $("#resultProcessorClass")[0].files[0].name
+													.lastIndexOf(".class") < 0) {
+										$.Huimodalalert('字节码文件不能为空!', 2000);
+										return false;
+									}
+								},
+								error : function() {
+									$.Huimodalalert('联网失败!', 2000);
+								}
+							});
 		}
 	</script>
 </body>

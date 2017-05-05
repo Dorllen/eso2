@@ -32,15 +32,13 @@ public class WebsitePostModel {
 	private String searchAddr;// 搜索地址 http://segmentfault.com?q=
 	private String pagination;// 分页 &page={0}
 	private String sign;// 描述
-	@NotEmpty
 	private String resultProcessor;// 文件名
 	private String resultPipeline;// 文件名.结果页是使用的是：ResultSimplePipeline
 	private String resultRObject;// 搜索结果接收对象
-	@NotEmpty
 	private String pageProcessor;
 	private String pagePipeline;// 详情页使用的是：BasePagePipeline
-	@NotEmpty
 	private String pageRObject;// 数据模型接收对象。如：内容详情页的接收模型
+	
 	private boolean useSearch; // 使用后缀？
 	private String defaultPageCss;// json对象。css的配置 WebsiteCssConfigModel
 								// 接收。意思是：默认爬虫爬取的css的json字符串。即要爬取的css文件

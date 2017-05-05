@@ -5,23 +5,30 @@ import java.util.Date;
 public class WebsiteBO2 {
 	private int id;
 	private String name;// segmentfault
+	private String alias;// 别名。存储：segmentfault,segementfault网站
+	private String shortAddr;// 短地址，segmentfault.com,
+	private String fullAddr;// 全地址
+	
 	private String searchAddr;// 搜索地址 http://segmentfault.com?q=
 	private String pagination;// 分页 &page={0}
 	private String sign;// 描述
+	
 	private String resultProcessor;// 文件名
 	private String resultPipeline;// 文件名
 	private String pageProcessor;
 	private String pagePipeline;
 	private String resultRObject;// 搜索结果接收对象
 	private String pageRObject;// 数据模型接收对象。如：内容详情页的接收模型
+	
 	private boolean useSearch; // 使用后缀？ 默认false,代表去除搜索结果页捕获的链接后缀，如：?..&..。
-	private String type;// 类型。AppEnumDefine.SiteService
 //	private String version;// 版本，每个结果详情页可能需要对应的版本来管理维护数据传输。
 	private String defaultPageCss;//
+	private String defPageCss;// 系统样式的css文件。
 	private String defPageConfig;// 默认詳情頁配置 WebsiteConfigModel
 	private String defResultConfig;// 默認結果頁爬取規則 WebsiteConfigModel
 	private String defRequestHeader;// 定义请求头 RequestHeaderModel
 
+	private String type;// 类型。AppEnumDefine.SiteService
 	private String updateMan;
 	private Date updateTime;
 
@@ -175,5 +182,37 @@ public class WebsiteBO2 {
 
 	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
+	}
+
+	public String getAlias() {
+		return alias;
+	}
+
+	public void setAlias(String alias) {
+		this.alias = alias;
+	}
+
+	public String getShortAddr() {
+		return shortAddr;
+	}
+
+	public void setShortAddr(String shortAddr) {
+		this.shortAddr = shortAddr;
+	}
+
+	public String getFullAddr() {
+		return fullAddr;
+	}
+
+	public void setFullAddr(String fullAddr) {
+		this.fullAddr = fullAddr;
+	}
+
+	public String getDefPageCss() {
+		return defPageCss;
+	}
+
+	public void setDefPageCss(String defPageCss) {
+		this.defPageCss = defPageCss;
 	}
 }
