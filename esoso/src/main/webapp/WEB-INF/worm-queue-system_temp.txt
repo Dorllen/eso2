@@ -1,0 +1,36 @@
+
+#table3:
+<tr><th>序号</th><td>1</td><th>站點名</th><td>segmentfault</td><th>依赖版本号</th><td><span class=\"select-box\"><select class=\"select\" autocomplete=\"off\" name=\"versionId\"><option value=\"0.0.1\" selected>0.0.1</option><option value=\"0.0.2\">0.0.1</option></select></span></td></tr>
+<tr><th>类型</th><td>answer</td><th>类型2</th><td>answer2</td><th>类型3</th><td>answer3</td></tr>
+<tr><th>創建時間</th><td colspan=\"2\">2017-4-29 13:02</td><th>创建者类型</th><td colspan=\"2\">System</td></tr>
+<tr><th>链接</th><td colspan=\"2\">answer3</td><th>UUID</th><td colspan=\"2\">4654678</td></tr>
+<tr><th>描叙</th><td colspan=\"5\"><textarea rows=\"\" cols=\"\" class=\"textarea radius\" name=\"sign\" id=\"sign\" autocomplete=\"off\" placeholder=\"信息的描叙...\"></textarea></td></tr>
+
+
+#table4:
+
+<tr><th>搜索地址</th><td colspan=\"5\">无</td></tr>
+<tr><th>分頁符</th><td colspan=\"2\"></td><th>使用后缀</th><td colspan=\"2\">否</td></tr>
+<tr><th>详情页处理器</th><td colspan=\"5\">无</td></tr>
+<tr><th>详情页接收器</th><td colspan=\"5\">无</td></tr>
+<tr><th>详情页接收对象</th><td colspan=\"5\">无</td></tr>
+<tr><th>结果页处理器</th><td colspan=\"5\">无</td></tr>
+<tr><th>結果頁接受器</th><td colspan=\"5\">无</td></tr>
+<tr><th>結果頁接收对象</th><td colspan=\"5\">无</td></tr>
+<tr><th>详情页Css</th><td colspan=\"5\">无</td></tr>
+<tr><th>Css采集规则</th><td colspan=\"5\">无</td></tr>
+<tr><th>详情页采集配置</th><td colspan=\"5\">无</td></tr>
+<tr><th>结果页采集配置</th><td colspan=\"5\">无</td></tr>
+<tr><th>自定义请求头</th><td colspan=\"5\">无</td></tr>
+<tr><th>描述</th><td colspan=\"5\">无</td></tr>
+
+
+#table5
+
+<tr><th>站点名</th><td>segmentfault</td><th>版本号</th><td>0.0.1</td></tr>
+<tr><th>页面地址</th><td colspan=\"3\">0.0.1</td></tr>
+<tr><th>Css地址</th><td colspan=\"3\">0.0.1</td></tr>
+<tr><th>Js地址</th><td colspan=\"3\">0.0.1</td></tr>
+
+
+

@@ -99,6 +99,33 @@
 										</span></td>
 									</tr>
 									<tr>
+										<td>在线爬虫服务</td>
+										<td><span class="select-box"> <select
+												class="select" size="1" name="onlineWormS">
+													<option value="0">否</option>
+													<option value="1" selected>是</option>
+											</select>
+										</span></td>
+									</tr>
+									<tr>
+										<td>定时爬虫服务</td>
+										<td><span class="select-box"> <select
+												class="select" size="1" name="schduleWormS">
+													<option value="0">否</option>
+													<option value="1" selected>是</option>
+											</select>
+										</span></td>
+									</tr>
+									<tr>
+										<td>自定义爬虫服务</td>
+										<td><span class="select-box"> <select
+												class="select" size="1" name="designWormS">
+													<option value="0">否</option>
+													<option value="1" selected>是</option>
+											</select>
+										</span></td>
+									</tr>
+									<tr>
 										<td>直接访问</td>
 										<td><span class="select-box"> <select
 												class="select" size="1" name="noSecS">
@@ -174,7 +201,7 @@
 					$("#websiteSetting").find("input[name='versionId']").val(
 							versionId);
 					$("#websiteSetting").find("input[name='name']").val(name);
-					$("#websiteSetting").modal("show")
+					$("#websiteSetting").modal("show");
 				} else {
 					layer.msg("参数有误!", {
 						icon : 1,
@@ -222,6 +249,13 @@
 						searchS : {
 							required : true,
 						},
+						onlineWormS:{
+							required : true
+						},schduleWormS:{
+							required : true
+						},designWormS:{
+							required : true
+						},
 						secS : {
 							required : true
 						},
@@ -256,13 +290,13 @@
 											icon : 1
 										});
 									}
+									$("#websiteSetting").modal("hide");
 								},
 								error : function() {
 									layer.msg('请求失败', {
 										icon : 5,
 										time : 1000
 									});
-
 								}
 							});
 						})
