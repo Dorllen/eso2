@@ -43,7 +43,7 @@ public class WebsitePostModel2 {
 	private boolean useSearch; // 使用后缀？
 	private boolean check1;// 是否设置为默认
 	private boolean check2;// 是否使用默认版本的css
-	private int check2Version;// 默认的版本
+	private String check2Version;// 默认的版本
 	
 	private String defaultPageCss;// json对象。css的配置 WebsiteCssConfigModel
 								// 接收。意思是：默认爬虫爬取的css的json字符串。即要爬取的css文件
@@ -183,10 +183,10 @@ public class WebsitePostModel2 {
 	public void setCheck2(boolean check2) {
 		this.check2 = check2;
 	}
-	public int getCheck2Version() {
+	public String getCheck2Version() {
 		return check2Version;
 	}
-	public void setCheck2Version(int check2Version) {
+	public void setCheck2Version(String check2Version) {
 		this.check2Version = check2Version;
 	}
 }

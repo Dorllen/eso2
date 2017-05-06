@@ -45,7 +45,7 @@
 					<td>segmentfault</td>
 					<td><span class="c-red">*</span>依赖版本</td>
 					<td><span class="select-box"> <select class="select"
-							id="type" name="type">
+							id="check2Version" name="check2Version">
 								<option value="0.0.0" selected>0.0.0</option>
 								<option value="0.0.1">0.0.1</option>
 						</select>
@@ -67,13 +67,10 @@
 					<td>2017-3-28 20:14:16</td>
 					<td>最近更新人</td>
 					<td>Admin</td>
-					<td><span class="c-red">*</span>是否使用后缀</td>
-					<td><span class="select-box"> <select class="select"
-							id="useSearch" name="useSearch">
-								<option value="0" selected>否</option>
-								<option value="1">是</option>
-						</select>
-					</span></td>
+					<td>分页Url</td>
+					<td><input type="text" class="input-text"
+						value="&page={0}" placeholder="分页部分Url" id="pagination"
+						name="pagination" autocomplete="off" /></td>
 				</tr>
 				<tr>
 					<td>禁用时间</td>
@@ -97,13 +94,16 @@
 				</tr>
 				<tr>
 					<td><span class="c-red">*</span>搜索地址</td>
-					<td><input type="text" class="input-text"
+					<td colspan="3"><input type="text" class="input-text"
 						value="https://segmentfault.com/search?q=" placeholder="搜索接口Url"
 						id="searchAddr" name="searchAddr" autocomplete="off" /></td>
-					<td>分页Url</td>
-					<td colspan="3"><input type="text" class="input-text"
-						value="&page={0}" placeholder="分页部分Url" id="pagination"
-						name="pagination" autocomplete="off" /></td>
+					<td><span class="c-red">*</span>是否使用后缀</td>
+					<td><span class="select-box"> <select class="select"
+							id="useSearch" name="useSearch">
+								<option value="0" selected>否</option>
+								<option value="1">是</option>
+						</select>
+					</span></td>
 				</tr>
 				<tr>
 					<td><span class="c-red">*</span>详情页处理器</td>
@@ -263,8 +263,6 @@
 		src="lib/jquery.validation/1.14.0/validate-methods.js"></script>
 	<script type="text/javascript"
 		src="lib/jquery.validation/1.14.0/messages_zh.js"></script>
-	<script type="text/javascript"
-		src="lib/webuploader/0.1.5/webuploader.min.js"></script>
 
 	<script>
 		$(function(){
@@ -277,11 +275,7 @@
 					searchAddr:{
 						required:true,
 					},
-					email:{
-						required:true,
-						email:true,
-					},
-					type:{
+					check2Version:{
 						required:true,
 					},
 					useSearch:{
@@ -289,14 +283,20 @@
 					},
 					pageProcessor:{required:true},
 					pageRObject:{required:true},
+					pageProcessorClass:{required:true,fileType:["class"]},
+					pageRObjectClass:{required:true,fileType:["class"]},
+					pagePipelineClass:{fileType:["class"]},
 					resultProcessor:{required:true},
 					resultProcessorClass:{required:true,fileType:["class"]},
-					pageRObjectClass:{required:true,fileType:["class"]},
-					pageProcessorClass:{required:true,fileType:["class"]},
+					resultPipelineClass:{fileType:["class"]},
+					resultRObjectClass:{fileType:["class"]},
 					message:{
 						resultProcessorClass:{required:"文件不能为空!",fileType:"文件格式为字节码!"},
 						pageRObjectClass:{required:"文件不能为空!",fileType:"文件格式为字节码!"},
-						pageProcessorClass:{required:"文件不能为空!",fileType:"文件格式为字节码!"}
+						pageProcessorClass:{required:"文件不能为空!",fileType:"文件格式为字节码!"},
+						resultPipelineClass:{fileType:"文件格式为字节码!"},
+						resultRObjectClass:{fileType:"文件格式为字节码!"},
+						pagePipelineClass:{fileType:"文件格式为字节码!"}
 					}
 				},
 				onkeyup:false,
@@ -307,7 +307,7 @@
 						layer.confirm('强制提交会忽略所有依赖、覆盖存在的字节码文件!', {
 							  btn: ['提交','放弃'],icon:0 //按钮
 							}, function(){
-								submitForm_("website/no");
+								submitForm_(form,"website/no");
 							}, function(){
 								layer.msg('取消成功!', {
 								    time: 1000,icon:7
@@ -315,13 +315,13 @@
 							});
 					}else if($(this.submitButton).is("#comSub")){
 						layer.confirm('确认变动吗？', {btn: ['提交','放弃'],icon:0},function(){
-							submitForm_("website/no");
+							submitForm_(form,"website/no");
 						});
 					}
 				}
 			});
 			
-			var submitForm_ = function(url){
+			var submitForm_ = function(form,url){
 				$(form).ajaxSubmit({
 					type: 'post',
 					url:  url,
