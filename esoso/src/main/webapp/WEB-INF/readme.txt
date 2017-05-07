@@ -20,6 +20,10 @@ http://127.0.0.1:8080/esoso/admin/website/getInfo3?name=Result 測試CommonClass
 
 
 
+2017-5-7：
+	待改进：
+	1. 爬虫队列的立即执行，是需要控制的，防止多次点击。要对数据进行标识
+
 
 
 Websites文件夹：放爬虫内容页模板的地方

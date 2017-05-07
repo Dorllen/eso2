@@ -49,6 +49,7 @@ import com.zhidian.model.sys.PullResultPageModel;
 import com.zhidian.model.sys.ResultRoleBO;
 import com.zhidian.model.sys.WebsiteBO;
 import com.zhidian.service.DataInfoAdminService;
+import com.zhidian.util.BasicUtils;
 import com.zhidian.views.WebsitePageVO;
 import com.zhidian.views.WebsitePostModel2;
 import com.zhidian.views.WormSettingsSearchResultVO;
@@ -418,7 +419,7 @@ public class AppTest {
 		model.setResultProcessor("test");
 		model.setPageProcessor("test");
 		model.setPageRObject("test");
-		model.setCheck2Version(1);
+		model.setCheck2Version(BasicUtils.id2Version(1));
 //		model.setCheck2(true);
 		model.setCheck1(true);// 设置为默认版本
 		int i = 0;

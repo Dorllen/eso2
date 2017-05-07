@@ -84,7 +84,7 @@
 					<tr>
 						<th colspan="10" scope="col"><span class="f-16 lh-20">待执行队列信息</span><span
 							class="r"><a href="javascript:;"
-								class="btn btn-warning radius" onclick=""><i
+								class="btn btn-warning radius" onclick="immeRun()"><i
 									class="Hui-iconfont">&#xe61d;</i> 立即执行</a></span></th>
 					</tr>
 					<tr class="text-c">
@@ -175,12 +175,6 @@
 									<tr>
 										<th colspan="6">站点基本信息</th>
 									</tr>
-									<tr>
-										<th>站点</th>
-										<th colspan="2">segmentfault</th>
-										<th>版本号</th>
-										<th colspan="2">0.0.1</th>
-									</tr>
 								</thead>
 								<tbody is="item4" v-bind:item="item">
 								</tbody>
@@ -213,7 +207,7 @@
 		<script type="text/javascript"
 			src="lib/My97DatePicker/4.8/WdatePicker.js"></script>
 
-		<script src="https://unpkg.com/vue/dist/vue.js"></script>
+		<script src="js/vue.js"></script>
 		<script type="text/javascript">
 			Vue.component("item2",{
 				props:['item'],
@@ -236,16 +230,36 @@
 			});
 			Vue.component("item3",{
 				props:["item"],
-				template:"<tbody class=\"text-c\"><tr><th>序号</th><td>{{item.id}}</td><th>站點名</th><td>{{item.name}}</td><th>依赖版本号</th><td><span class=\"select-box\" ><select class=\"select\" autocomplete=\"off\" name=\"versionId\" ><option  v-for='i in item.versionList' v-bind:value='i' selected>{{i}}</option></select></span></td></tr>"+
+				template:"<tbody class=\"text-c\"><tr><th>序号</th><td>{{item.id}}</td><th>站點名</th><td>{{item.name}}</td><th>依赖版本号</th><td><span class=\"select-box\" ><select class=\"select\" autocomplete=\"off\" name=\"versionId\" v-model='item.versionId' v-on:change='getNewData'><option  v-for='i in item.versionList' v-bind:value='i.value'>{{i.name}}</option></select></span></td></tr>"+
 				"<tr><th>类型</th><td>{{item.type}}</td><th>类型2</th><td>{{item.type2}}</td><th>类型3</th><td>{{item.type3}}</td></tr>"+
 				"<tr><th>創建時間</th><td colspan=\"2\">{{item.createTime}}</td><th>创建者类型</th><td >{{item.createMan}}</td><th>标识</th><td>{{item.mark}}</td></tr>"+
 				"<tr><th>链接</th><td colspan=\"2\">{{item.url}}</td><th>UUID</th><td colspan=\"2\">{{item.uuid}}</td></tr>"+
-				"<tr><th>描叙</th><td colspan=\"5\"><textarea rows=\"\" cols=\"\" class=\"textarea radius\" name=\"sign\" id=\"sign\" autocomplete=\"off\" placeholder=\"信息的描叙...\" v-model='item.sign'></textarea></td></tr></tbody>"
+				"<tr><th>描叙</th><td colspan=\"5\"><textarea  class=\"textarea radius\" name=\"sign\" id=\"sign\" autocomplete=\"off\" placeholder=\"信息的描叙...\" v-model='item.sign'></textarea></td></tr></tbody>",
+				methods:{
+					getNewData: function(){
+						var versionId = this.item.versionId;
+						var name = this.item.name;
+						// 值改变，向服务器请求新数据
+						$.get("/get",{name:name,versionId:versionId}).done(function(data){
+							if(data){
+								// 用ResultMultiModel对象
+								v4.item = data.item;
+								v5.item = data.item_;
+							}
+						}).fail(function(){
+							layer.msg('请求失败!', {
+								time : 1000,
+								icon : 5
+							});
+						})
+					}
+				}
 			});
 			
 			Vue.component("item4",{
 				props:["item"],
-				template:"<tbody class=\"text-c\"><tr><th>搜索地址</th><td colspan=\"5\">{{item.searchAddr?item.searchAddr:'未设置'}}</td></tr>"+
+				template:"<tbody class=\"text-c\"><tr><th>站点</th><th colspan=\"2\">{{item.name}}</th><th>版本号</th><th colspan=\"2\">{{item.id}}</th></tr>"+
+				"<tr><th>搜索地址</th><td colspan=\"5\">{{item.searchAddr?item.searchAddr:'未设置'}}</td></tr>"+
 				"<tr><th>分頁符</th><td colspan=\"2\">{{item.pagination?item.pagination:'未设置'}}</td><th>使用后缀</th><td colspan=\"2\">{{item.useSearch?item.useSearch:'否'}}</td></tr>"+
 				"<tr><th>详情页处理器</th><td colspan=\"5\">{{item.pageProcessor?item.pageProcessor:'未设置'}}</td></tr>"+
 				"<tr><th>详情页接收器</th><td colspan=\"5\">{{item.pagePipeline?item.pagePipeline:'未设置'}}</td></tr>"+
@@ -276,24 +290,44 @@
 				}
 			});
 			var vm3 = new Vue({
-				el:"#table3"// 待解决：下拉列表默认值，事件监听
+				el:"#table3",// 待解决：下拉列表默认值，事件监听
 				data:{
-					item:{name:'dongneng',versionId:'123231',versionList:['0.0.1','0.0.2']}
+					item:{name:'dongneng',versionId:'0.0.2',versionList:[{name:'0.0.1',value:'0.0.1'},{name:'0.0.2',value:'0.0.2'},{name:'0.0.3',value:'0.0.3',checked:true},{name:'0.0.4',value:'0.0.4'},{name:'0.0.7',value:'0.0.7'}]}
 				}
 			});
 			var vm4 = new Vue({
 				el:"#table4",
 				data:{
-					item:{name:'dongneng',versionId:'123231'}
+					item:{name:'dongneng',id:'0.0.3'}
 				}
 			});
-			var vm4 = new Vue({
+			var vm5 = new Vue({
 				el:"#table5",
 				data:{
-					item:{name:'dongneng',versionId:'123231'}
+					item:{name:'peng',versionId:'0.0.7'}
 				}
 			});
 		</script>
+		
+		<script type="text/javascript">
+			var immeRun = function(){
+				$.post("").done(function(data){
+					if(data){
+						if(data.message){
+							layer.msg(data.message,{time:2000});
+						}else{
+							layer.msg('操作成功!',{time:2000});
+						}
+					}
+				}).fail(function(){
+					layer.msg('请求失败!', {
+						time : 1000,
+						icon : 5
+					});
+				})
+			}
+		</script>
+		
 		<script type="text/javascript">
 		<!--请在下方写此页面业务相关的脚本-->
 			var hangUp = function(id, name) {

@@ -209,7 +209,7 @@ public class DataInfoAdminService {
 										w.getName());
 							}
 						} else {
-							w.setVersionId(model.getCheck2Version());// 获得默认version,确定version是否存在数据库中
+							w.setVersionId(BasicUtils.version2Id(model.getCheck2Version()));// 获得默认version,确定version是否存在数据库中
 							w.setDefPageCss(model.getDefPageCss());
 							websiteMapper.insertWebsitesForDataInfoAdminService02SimpleWebsite(w);// 将其他的website置为using=0,并且将model.getVersion验证
 							if (w.getId() > 0) {
@@ -224,7 +224,7 @@ public class DataInfoAdminService {
 							w.setVersionId(version.getId());
 							websiteMapper.insertWebsitesForDataInfoAdminService01SimpleWebsite(w);
 						} else {
-							w.setVersionId(model.getCheck2Version());// 获得默认version,确定version是否存在数据库中
+							w.setVersionId(BasicUtils.version2Id(model.getCheck2Version()));// 获得默认version,确定version是否存在数据库中
 							w.setDefPageCss(model.getDefPageCss());
 							websiteMapper.insertWebsitesForDataInfoAdminService02SimpleWebsite(w);
 						}
