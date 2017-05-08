@@ -26,31 +26,10 @@
 <script>DD_belatedPNG.fix('*');</script>
 <![endif]-->
 
-<title>站点管理</title>
+<title>页面版本管理</title>
 </head>
 <body>
 	<div class="page-container" style="min-height: 500px">
-		<div class="text-l mt-20 bk-gray pd-5">
-			<form action="#" method="get" id="searchForm">
-			站点搜索： <span class="select-box mr-10"
-				style="max-width: 150px; display: inline-block"> <select
-				class="select" id="type" name="type" autocomplete="off">
-					<option value="website" selected>站点名称</option>
-					<option value="version">版本ID搜索</option>
-			</select>
-			</span><input type="text" name="value" id="search_text" style="width: 250px"
-				class="input-text" placeholder="segmentfault|github"
-				autocomplete="off" />
-			<button name="" id="search_button" class="btn btn-success"
-				type="submit">
-				<i class="Hui-iconfont">&#xe665;</i> 搜索
-			</button>
-			<a class="btn btn-primary radius"
-				style="float: right; margin-right: 20px"
-				onclick="openPage('新增站点','website-add.html')" href="javascript:;"><i
-				class="Hui-iconfont">&#xe600;</i> 新增站点</a>
-			</form>
-		</div>
 		<table id="table1"
 			class="table table-border table-bordered table-bg mb-15 mt-20 table-hover">
 			<thead class="text-c">
@@ -90,60 +69,11 @@
 				</tr>
 			</tbody>
 		</table>
-		<table id="table2" style="display:none"
-			class="table table-border table-bordered table-bg mb-15 mt-20 table-hover">
-			<thead class="text-c">
-				<tr>
-					<th>序号</th>
-					<th>站点名</th>
-					<th>版本号</th>
-					<th>创建时间</th>
-					<th>创建人</th>
-					<th>最近变更时间</th>
-					<th>最近变更人</th>
-					<th>关闭时间</th>
-					<th>关闭人</th>
-					<th>当前版本关联数</th>
-					<th>是否在用</th>
-					<th>操作</th>
-				</tr>
-			</thead>
-			<tbody class="text-c">
-				<tr>
-					<td>1</td>
-					<td>segmentfault</td>
-					<td>0.0.1</td>
-					<td>2017-3-28 20:14:16</td>
-					<td>Admin</td>
-					<td>2017-4-29 14:33:15</td>
-					<td>Admin</td>
-					<td>2017-4-29 14:33:15</td>
-					<td>Admin</td>
-					<td>2</td>
-					<td>在用</td>
-					<td><input class="btn btn-success radius" type="button"
-						value="詳情"
-						onclick="openPage('segmentfault信息詳情','website-control-info.html')">
-						<input class="btn btn-primary radius" type="button" value="变更"
-						onclick="openPage('segmentfault信息变更','website-control-info-update.html')">
-						<input class="btn radius btn-warning" type="button" value="设为默认"
-						onclick="setDefaultWebsite(1,'segmentfault')"> <input class="btn btn-danger radius"
-						type="button" value="删除" onclick="deleteWebsite(1,'segmentfault')"></td>
-				</tr>
-			</tbody>
-			<tfoot class="text-c">
-				<tr>
-					<td colspan="12"  class="cf1_"></td>
-				</tr>
-			</tfoot>
-		</table>
 	</div>
 	<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
 	<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
 	<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script>
 	<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script>
-
-
 
 	<script type="text/javascript" src="lib/laypage/1.2/laypage.js"></script>
 
