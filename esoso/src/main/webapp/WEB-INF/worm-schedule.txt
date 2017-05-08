@@ -1,0 +1,12 @@
+item2:
+
+<tbody class="text-c"><tr><th>站點名</th><td>segmentfault</td><th>类型2</th><td>问答</td><th>类型3</th><td>内容详情页</td></tr>
+<tr><th colspan="6">采集规则</th></tr>
+<tr><td colspan="2">热度</td><th>最大</th><td></td><th>最小</th><td>15</td></tr>
+<tr><td colspan="2">访问量</td><th>最大</th><td></td><th>最小</th><td>1000</td></tr>
+<tr><td colspan="2">收藏量</td><th>最大</th><td></td><th>最小</th><td>2000</td></tr>
+<tr><td colspan="2">描述</td><td colspan="4">這是默认版本。無論是否处于关闭状态，页面解析无定义解析版本，都会指向它</td></tr></tbody>
+
+item1:
+
+<tr><th>segmentfault</th><th>问答</th><th>内容详情页</th><th><input class="btn btn-success radius" type="button" value="详情" onclick="showSettings()"/><input class="btn btn-primary radius" type="button" value="配置" onclick="updateSettings()"/> <input 	class="btn btn-warning radius" type="button" value="挂起" onclick="guaqi()"/> </th></tr>

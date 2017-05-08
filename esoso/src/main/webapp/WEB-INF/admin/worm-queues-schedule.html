@@ -26,7 +26,7 @@
 <script>DD_belatedPNG.fix('*');</script>
 <![endif]-->
 
-<title>系統爬虫队列</title>
+<title>定时爬虫队列</title>
 </head>
 <body>
 	<div class="page-container">
@@ -161,33 +161,34 @@
 					</div>
 					<form action="#" id="formUpdate">
 						<div class="modal-body">
-							<table class="table table-border table-bordered table-hover"
-								id="table3">
-								<tbody is="item3" v-bind:item="item">
-								</tbody>
-							</table>
-							<table
-								class="table table-border table-bordered table-hover mt-20 mb-20"
-								id="table4">
-								<thead class="text-c">
-									<tr>
-										<th colspan="6">站点基本信息</th>
-									</tr>
-								</thead>
-								<tbody is="item4" v-bind:item="item">
-								</tbody>
-							</table>
-							<table
-								class="table table-border table-bordered table-hover mt-20 mb-20"
-								id="table5">
-								<thead class="text-c">
-									<tr>
-										<th colspan="4">站点所对应的默认版本</th>
-									</tr>
-								</thead>
-								<tbody class="text-c" is="item5" v-bind:item="item">
-								</tbody>
-							</table>
+								<table class="table table-border table-bordered table-hover"
+									id="table3">
+									<tbody is="item3" v-bind:item="item">
+									</tbody>
+								</table>
+								<table
+									class="table table-border table-bordered table-hover mt-20 mb-20"
+									id="table4">
+									<thead class="text-c">
+										<tr>
+											<th colspan="6">站点基本信息</th>
+										</tr>
+									</thead>
+									<tbody is="item4" v-bind:item="item">
+									</tbody>
+								</table>
+								<table
+									class="table table-border table-bordered table-hover mt-20 mb-20"
+									id="table5">
+									<thead class="text-c">
+										<tr>
+											<th colspan="4">站点所对应的默认版本</th>
+										</tr>
+									</thead>
+									<tbody class="text-c" is="item5" v-bind:item="item">
+									</tbody>
+								</table>
+							
 						</div>
 						<div class="modal-footer">
 							<button class="btn btn-primary" type="submit">确定</button>
@@ -518,10 +519,10 @@
 				}else if(value === 'version'){
 					// 移除下拉列表
 					$("span#changeInput").empty();
-					$("span#changeInput").append("<input type='text' name='value' id='search_text'	style='width: 250px' class='input-text' placeholder='版本号:0.0.1' autocomplete='off'  />");
+					$("span#changeInput").append("<input type='text' name='value' 	style='width: 250px' class='input-text' placeholder='版本号:0.0.1' autocomplete='off'  />");
 				}else{
 					$("span#changeInput").empty();
-					$("span#changeInput").append("<input type='text' name='value' id='search_text'	style='width: 250px' class='input-text' placeholder='站点名:segmentfault' autocomplete='off'  />");
+					$("span#changeInput").append("<input type='text' name='value' 	style='width: 250px' class='input-text' placeholder='站点名:segmentfault' autocomplete='off'  />");
 				}
 			});
 		})

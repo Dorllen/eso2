@@ -43,6 +43,7 @@ public class Website {
 	private String type;// 类型。AppEnumDefine.SiteService 。
 						// 如果获取Version的值，只需要知道type为engine就对应version's
 						// type是websites就可以了
+	private String type2;// 2017-5-7 新增type2用户处理数据库中engine类型只对应segmentfault，为了区分是answer还是blog做了相应处理
 //	private String version;// 版本，每个结果详情页可能需要对应的版本来管理维护数据传输。(-:对应的是Version的version) version是自身的version
 	private int versionId;// 对应的是version的id。不为空
 	private int using;// 除了0.0.0.0是最终默认版，如果有using代表当前页面是默认版。1代表在使用，0代表禁用（默认）
@@ -54,7 +55,8 @@ public class Website {
 	private String defPageConfig;// 默认詳情頁配置 WebsiteConfigModel
 	private String defResultConfig;// 默認結果頁爬取規則 WebsiteConfigModel
 	private String defRequestHeader;//定义请求头 RequestHeaderModel
-
+	private int nmp;// 用于给管理员进行配置，哪些页面是可用的，无论using是否为1,nmp位0则代表被禁用。默认1。need model page
+	
 	public String getResultProcessor() {
 		return resultProcessor;
 	}
@@ -341,5 +343,21 @@ public class Website {
 
 	public void setVersionId(int versionId) {
 		this.versionId = versionId;
+	}
+
+	public int getNmp() {
+		return nmp;
+	}
+
+	public void setNmp(int nmp) {
+		this.nmp = nmp;
+	}
+
+	public String getType2() {
+		return type2;
+	}
+
+	public void setType2(String type2) {
+		this.type2 = type2;
 	}
 }

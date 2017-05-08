@@ -65,13 +65,13 @@
 							<ul class="dropDown-menu menu radius box-shadow">
 								<li><a href="javascript:;"
 									onclick="picture_add('添加资讯','picture-add.html')"><i
-										class="Hui-iconfont">&#xe613;</i> 消息</a></li>
+										class="Hui-iconfont">&#xe622;</i> 通知</a></li>
 								<li><a href="javascript:;"
 									onclick="product_add('添加资讯','product-add.html')"><i
-										class="Hui-iconfont">&#xe620;</i> 推荐</a></li>
+										class="Hui-iconfont">&#xe622;</i> 邮推</a></li>
 								<li><a href="javascript:;"
 									onclick="member_add('添加用户','member-add.html','','510')"><i
-										class="Hui-iconfont">&#xe60d;</i> 站点</a></li>
+										class="Hui-iconfont">&#xe622;</i> 联络</a></li>
 							</ul></li>
 					</ul>
 				</nav>
@@ -139,32 +139,20 @@
 					<ul>
 						<li><a data-href="worm-index.html" data-title="信息汇总"
 							href="javascript:void(0)">信息中心</a></li>
-						<li><a data-href="worm-queues.html" data-title="自定义爬虫队列"
+						<li><a data-href="worm-queues-custom.html" data-title="自定义爬虫队列"
 							href="javascript:void(0)">自定义爬虫队列</a></li>
 						<li><a data-href="worm-queues-system.html" data-title="系統爬虫队列"
 							href="javascript:void(0)">系統爬虫队列</a></li>
-						<li><a data-href="worm-queues.html" data-title="定時爬虫队列"
+						<li><a data-href="worm-queues-schedule.html" data-title="定時爬虫队列"
 							href="javascript:void(0)">定時爬虫队列</a></li>
-						<li><a data-href="worm-schedule-queues.html"
+						<li><a data-href="worm-schedule.html"
 							data-title="定时计划" href="javascript:void(0)">定时计划</a></li>
-					</ul>
-				</dd>
-			</dl>
-			<dl id="menu-worms-infos">
-				<dt>
-					<i class="Hui-iconfont">&#xe613;</i> 信息审视<i
-						class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i>
-				</dt>
-				<dd>
-					<ul>
-						<li><a data-href="worm-index.html" data-title="审核列表"
-							href="javascript:void(0)">审核列表</a></li>
-						<li><a data-href="worm-queues.html" data-title="爬虫待审核"
-							href="javascript:void(0)">爬虫待审核</a></li>
-						<li><a data-href="worm-exception.html" data-title="异常记录"
-							href="javascript:void(0)">异常记录</a></li>
-						<li><a data-href="worm-queues.html" data-title="历史记录"
-							href="javascript:void(0)">历史记录</a></li>
+						<li><a data-href="worm-wait-list.html" data-title="待审核中心"
+							href="javascript:void(0)">待审核中心</a></li>
+						<li><a data-href="worm-hisotry-list.html" data-title="历史审核管理"
+							href="javascript:void(0)">历史审核管理</a></li>
+						<li><a data-href="worm-exception-list.html" data-title="异常捕获管理"
+							href="javascript:void(0)">异常捕获管理</a></li>
 					</ul>
 				</dd>
 			</dl>
@@ -175,10 +163,10 @@
 				</dt>
 				<dd>
 					<ul>
-						<li><a data-href="website-index.html" data-title="站点中心"
-							href="javascript:;">站点中心</a></li>
-						<li><a data-href="website-control.html" data-title="站点信息"
-							href="javascript:void(0)">站点信息</a></li>
+						<li><a data-href="website-index.html" data-title="站点信息"
+							href="javascript:;">站点信息</a></li>
+						<li><a data-href="website-control.html" data-title="站点中心"
+							href="javascript:void(0)">站点中心</a></li>
 						<li><a data-href="website-service.html" data-title="服务管理"
 							href="javascript:;">服务管理</a></li>
 					</ul>
@@ -191,9 +179,7 @@
 				</dt>
 				<dd>
 					<ul>
-						<li><a data-href="website-index.html" data-title="站点中心"
-							href="javascript:;">站点中心</a></li>
-						<li><a data-href="website-control.html" data-title="收录列表"
+						<li><a data-href="website-pa-list.html" data-title="收录列表"
 							href="javascript:void(0)">收录列表</a></li>
 						<li><a data-href="website-articles-control.html"
 							data-title="版本列表" href="javascript:;">版本列表</a></li>
@@ -207,8 +193,8 @@
 				</dt>
 				<dd>
 					<ul>
-						<li><a data-href="website-index.html" data-title="站点中心"
-							href="javascript:;">站点中心</a></li>
+						<li><a data-href="website-index.html" data-title="站点版本"
+							href="javascript:;">站点版本</a></li>
 						<li><a data-href="website-control.html" data-title="页面版本"
 							href="javascript:void(0)">页面版本</a></li>
 					</ul>
@@ -360,7 +346,7 @@
 			<li id="closeall">关闭全部</li>
 		</ul>
 	</div>
-	<!--_footer 作为公共模版分离出去-->
+
 	<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"
 		th:src="@{/admin/lib/jquery/1.9.1/jquery.min.js}"></script>
 	<script type="text/javascript" src="lib/layer/2.4/layer.js"
@@ -369,9 +355,7 @@
 		th:src="@{/admin/static/h-ui/js/H-ui.min.js}"></script>
 	<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"
 		th:src="@{/admin/static/h-ui.admin/js/H-ui.admin.js}"></script>
-	<!--/_footer 作为公共模版分离出去-->
 
-	<!--请在下方写此页面业务相关的脚本-->
 	<script type="text/javascript"
 		src="lib/jquery.contextmenu/jquery.contextmenu.r2.js"
 		th:src="@{/admin/lib/jquery.contextmenu/jquery.contextmenu.r2.js}"></script>
@@ -436,17 +420,5 @@
 			layer_show(title, url, w, h);
 		}
 	</script>
-
-	<!--此乃百度统计代码，请自行删除-->
-	<!--<script>
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?080836300300be57b7f34f4b3e97d911";
-  var s = document.getElementsByTagName("script")[0]; 
-  s.parentNode.insertBefore(hm, s);
-})();
-</script>-->
-	<!--/此乃百度统计代码，请自行删除-->
 </body>
 </html>

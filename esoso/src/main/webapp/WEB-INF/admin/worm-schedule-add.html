@@ -30,7 +30,8 @@
 		position:relative;
 	}
 </style>
-<title>版本新增</title>
+
+<title>额外计划新增</title>
 </head>
 <body>
 	<div class="page-container">
@@ -39,55 +40,56 @@
 				class="table table-border table-bordered table-bg mb-15 table-hover">
 				<thead>
 					<tr>
-						<th colspan="6">版本新增面板</th>
+						<th colspan="6">额外计划新增面板</th>
 					</tr>
 				</thead>
 				<tbody class="text-c">
 					<tr>
-						<td><span class="c-red">*</span>版本类型</td>
+						<td><span class="c-red">*</span>类型2</td>
 						<td><span class="select-box"> <select class="select" id="type"
-								size="1" name="type" autocomplete="off">
-									<option value="" selected>选择类型</option>
-									<option value="websites">内容详情页</option>
-									<option value="results">搜索结果页</option>
-									<option value="engine">搜索服务</option>
-									<option value="blog">博客服务</option>
-							</select>
-						</span></td>
-					</tr>
-					<tr id="c_">
-						<td><span class="c-red">*</span>是否是第一次创建</td>
-						<td><span class="select-box"> <select class="select"
-								size="1" name="isFirst" id="isFirst"  autocomplete="off">
-									<option value="0" selected>否</option>
-									<option value="1">是</option>
+								size="1" name="type2" autocomplete="off">
+									<option value="answer" selected>问答</option>
 							</select>
 						</span></td>
 					</tr>
 					<tr>
-						<td><span class="c-red">*</span>页面地址</td>
-						<td><input type="text" class="input-text" name="defPage"
-							id="defPage" value="" placeholder=""  autocomplete="off"/></td>
+						<td><span class="c-red">*</span>类型3</td>
+						<td><span class="select-box"> <select class="select" id="type"
+								size="1" name="type3" autocomplete="off">
+									<option value="websites" selected>内容详情页</option>
+							</select>
+						</span></td>
 					</tr>
 					<tr>
-						<td><span class="c-red">*</span>Css地址</td>
-						<td><input type="text" class="input-text" name="defCss"
-							id="defCss" value="" placeholder="" /></td>
+						<td><span class="c-red">*</span>站点名</td>
+						<td><span class="select-box"> <select class="select" id="type"
+								size="1" name="name" autocomplete="off">
+									<option value="segmentfault" selected>segmentfault</option>
+							</select>
+						</span></td>
 					</tr>
 					<tr>
-						<td><span class="c-red">*</span>Js地址</td>
-						<td><input type="text" class="input-text" name="defJs"
-							id="defJs" value="" placeholder="如：" /></td>
+						<td><span class="c-red">*</span>关联内容库url</td>
+						<td><input type='text' name='url'  class='input-text' placeholder='即url，必须是内容库存在的url' autocomplete='off'  /></td>
 					</tr>
 					<tr>
-						<td >描述</td>
-						<td ><textarea  class="textarea radius" name="sign" id="sign" autocomplete="off" placeholder="信息的描叙..."></textarea></td>
+						<td><span class="c-red">*</span>级别</td>
+						<td><span class="select-box">
+							<select class="select" autocomplete="off" name="level">
+								<option value="3Day" selected>每三天</option>
+								<option value="week">每周</option>
+								<option value="month" >每月</option>
+							</select></span></td>
+					</tr>
+					<tr>
+						<td>描述</td>
+						<td><textarea  class="textarea radius" name="sign" id="sign" autocomplete="off" placeholder="信息的描叙..."></textarea></td>
 					</tr>
 				</tbody>
 				<tfoot class="text-c">
 					<tr>
 						<td colspan="2"><button type="submit"
-								class="btn btn-primary radius mr-15" type="button">
+								class="btn btn-primary radius mr-15" type="submit">
 								<i class="Hui-iconfont">&#xe600;</i> 增加
 							</button>
 							<button onClick="layer_close();" class="btn btn-default radius"
@@ -103,7 +105,7 @@
 	<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
 	<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script>
 	<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script>
-
+	
 	<script type="text/javascript"
 		src="lib/jquery.validation/1.14.0/jquery.validate.js"></script>
 	<script type="text/javascript"
@@ -114,80 +116,22 @@
 	<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
 	<script type="text/javascript">
 		$(function() {
-			var w = "";
-			var createTr1 = function(items){
-				if(items&&items.length>0){
-					var stt = "";
-					var st1 = "<tr id=\"w\"><td><span class=\"c-red\">*</span>站点名</td><td><span class=\"select-box\"> <select class=\"select\" size=\"1\" name=\"name\">";
-					$.each(items,function(i,v){
-						stt = stt + "<option value='"+v.value+"'>"+v.value+"</option>";
-					})
-					var st2 = "</select></span></td></tr>";
-					return stt1+stt+stt2;
-				}
-			}
-			var createTr2 = function(){
-				var stt2 = "<tr id=\"w_\"><td><span class=\"c-red\">*</span>站点名</td><td><input type=\"text\" class=\"input-text\" id=\"name_\"	name=\"name\" value=\"\" placeholder=\"新站点名\" /></td></tr>";
-				return stt2;
-			}
-			$("#type").on("change",function(){
-				var v = $(this).val();
-				if(v.trim()){
-					$.get({url:"",data:{type:v}}).done(function(data){
-						if(data&&data.items){
-							// 清除#w
-							$("#w").remove();
-							w = createTr1(data.items);
-							if(w&&w.trim()){
-								$(w).insertAfter("#c_");
-							}
-						}
-					}).fail(function(){
-						layer.msg('请求失败',{icon:5,time:1000});
-					})
-				}else{
-					w="";
-				}
-			})
-			$("#isFirst").on("change",function(){
-				var v_ = $("#type").val();
-				if(v_){
-					var v = $(this).val();
-					if(v.trim()==1){
-						$("#w").remove();
-						var z = createTr2();
-						$(z).insertAfter("#c_");
-					}else{
-						$("#w_").remove();
-						if(w&&w.trim()){
-							$(w).insertAfter("#c_");
-						}else{
-							layer.msg('请重新选择类型!',{time:1000});
-						}
-					}
-				}else{
-					layer.msg('请先选择类型!',{time:1000});
-				}
-				
-			});
 			$("#form").validate({
 				rules:{
-					type:{
+					type2:{
+						required:true
+					},
+					type3:{
 						required:true
 					},
 					name:{
 						required:true
 					},
-					isFirst:{
-						required:true
+					url:{
+						required:true,
+						url:true
 					},
-					defPage:{
-						required:true
-					},
-					defCss:{
-						required:true
-					},
-					defJs:{
+					level:{
 						required:true
 					}
 				},

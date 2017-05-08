@@ -1,0 +1,457 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="lib/html5shiv.js"></script>
+<script type="text/javascript" src="lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css"
+	href="static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css"
+	href="static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css"
+	href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css"
+	href="static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css"
+	href="static/h-ui.admin/css/style.css" />
+<!--[if IE 6]>
+<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+
+<title>自定义爬虫队列-待审核列表</title>
+</head>
+<body>
+	<div class="page-container">
+		<div class="HuiTab" id="settings" style="min-height: 600px">
+			<form action="#" method="get" id="searchForm">
+				<div class="text-l mt-20 bk-gray pd-5">
+					日期范围：<input type="text"
+						onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}' })"
+						id="datemin" class="input-text Wdate" style="width: 120px;" name="startTime"/>
+					- <input type="text"
+						onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d' })"
+						id="datemax" class="input-text Wdate" style="width: 120px;" name="endTime"/>
+				</div>
+				<div class="text-l mt-5 bk-gray pd-5">
+					站点搜索：<span class="select-box mr-10"
+						style="max-width: 150px; display: inline-block"> <select
+						class="select" id="type" name="type" autocomplete="off">
+							<option value="website" selected>站点名称</option>
+							<option value="version">版本ID搜索</option>
+							<option value="type2">类型3</option>
+					</select>
+					</span><span id="changeInput"><input type="text" name="value" id="search_text"
+						style="width: 250px" class="input-text"
+						placeholder="站点名:segmentfault" autocomplete="off" /></span>
+					<button name="" id="search_button" class="btn btn-success"
+						type="submit">
+						<i class="Hui-iconfont">&#xe665;</i> 搜索
+					</button>
+				</div>
+			</form>
+			<table
+				class="table table-border table-bordered table-bg mb-15 mt-15 table-hover" id="table1">
+				<thead>
+					<tr>
+						<th colspan="10" scope="col"><span class="f-16 lh-20">待审核队列信息</span><span
+							class="r"><a href="javascript:;"
+								class="btn btn-primary radius" onclick="moreSettings()"><i
+									class="Hui-iconfont">&#xe61d;</i> 批量操作</a></span></th>
+					</tr>
+					<tr class="text-c">
+						<td>序号</td>
+						<td>站点名</td>
+						<td>类型</td>
+						<td>类型2</td>
+						<td>类型3</td>
+						<td>创建时间</td>
+						<td>依赖版本号</td>
+						<td>链接</td>
+						<td>操作</td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="text-c" v-for="item in items" >
+						<td>{{item.id}}</td>
+						<td>{{item.name}}</td>
+						<td>{{item.type}}</td>
+						<td>{{item.type2}}</td>
+						<td>{{item.type3}}</td>
+						<td>{{item.createTime}}
+						</th>
+						<td>{{item.versionId}}</td>
+						<td><abbr v-bind:title="item.url"
+							class="
+								text-overflow"
+							style="width: 100px; display: inline-block"><a
+								target="_blank"
+								v-bind:href="item.url">{{item.url}}</a></abbr>
+						</td>
+						<td><a class="btn btn-success radius" :href="'admin/pa/'+item.url" target="_blank">审视</a>
+						<input class="btn btn-primary radius" type="button" value="通过"
+							@click="goodCross(item.id,item.name)"/> <input value="详情" 
+							class="btn btn-secondary radius" type="button" 
+							v-on:click="showDetails(item.id,item.name)"/> <input
+							class="btn btn-warning radius" type="button" value="重入队"
+							@click="runBack(item.id,item.name)"/> <input
+							class="btn btn-danger radius" type="button" value="刪除"
+							@click="delete_(item.id,item.name)"/></td>
+					</tr>
+				</tbody>
+				<tfoot v-if="!items || items.length==0">
+					<tr>
+						<td colspan="10" class="text-c">数据为空...</td>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
+		<div id="itemInfo" class="modal fade" tabindex="-1" role="dialog"
+			aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content radius">
+					<div class="modal-header">
+						<h3 class="modal-title">版本内容詳情</h3>
+						<a class="close" data-dismiss="modal" aria-hidden="true"
+							href="javascript:void();">×</a>
+					</div>
+					<div class="modal-body">
+						<table class="table table-border table-bordered table-hover"
+							id="table2">
+							<tbody is="item2" v-bind:item="item">
+							</tbody>
+						</table>
+					</div>
+					<div class="modal-footer">
+						<button class="btn btn-primary" data-dismiss="modal"
+							aria-hidden="true">确定</button>
+						<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="moreSettings" class="modal fade" tabindex="-1" role="dialog"
+			aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content radius">
+					<div class="modal-header">
+						<h3 class="modal-title">更多操作内容</h3>
+						<a class="close" data-dismiss="modal" aria-hidden="true"
+							href="javascript:void();">×</a>
+					</div>
+					<form aciton="#" id="formSettings">
+						<div class="modal-body">
+							<table class="table table-border table-bordered table-hover"
+								id="table3">
+								<tbody>
+									<tr>
+										<td>选择类型</td>
+										<td><span class="select-box">
+										<select class="select" autocomplete="off" name="type">
+											<option value="cross" selected>通过</option>
+											<option value="again">重入队</option>
+											<option value="delete">删除</option>
+										</select></span></td>
+									</tr>
+									<tr>
+										<td>选择方式</td>
+										<td><span class="select-box">
+										<select class="select" autocomplete="off" name="way" id="way">
+											<option value="website" selected>站点</option>
+											<option value="version">版本</option>
+										</select></span></td>
+									</tr>
+									<tr>
+										<td>详细</td>
+										<td id="changeIn"><span class='select-box mr-10' ><select name='value' class='select'><option value='segmentfault' selected>segmentfault</option></select></span></td>
+									</tr>
+									<tr>
+										<td>
+											起始时间
+										</td>
+										<td><input type="text"
+						onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}' })"	id="datemin" class="input-text Wdate" style="width: 120px;" name="startTime"></td>
+									</tr>
+									<tr>
+										<td>
+											结束时间
+										</td>
+										<td>
+											<input type="text"	onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d' })"
+						id="datemax" class="input-text Wdate" style="width: 120px;" name="endTime">
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="modal-footer">
+							<button class="btn btn-primary" type="submit">确定</button>
+							<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		
+		<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
+		<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script>
+		<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+
+		<script type="text/javascript"
+			src="lib/My97DatePicker/4.8/WdatePicker.js"></script>
+
+		<script src="js/vue.js"></script>
+		<script type="text/javascript">
+			Vue.component("item2",{
+				props:['item'],
+				template:"<tbody class=\"text-c\"><tr><th>序号</th><td>{{item.id}}</td><th>站點名</th><td>{{item.name}}</td><th>依赖版本号</th><td>{{item.versionId}}</td></tr>"+
+				"<tr><th>类型</th><td>{{item.type}}</td><th>类型2</th><td>{{item.type2}}</td><th>类型3</th><td>{{item.type3}}</td></tr>"+
+				"<tr><th>創建時間</th><td>{{item.createTime}}</td><th>创建者类型</th><td >{{item.createMan}}</td><th>标识</th><td>{{item.mark}}</td></tr>"+
+				"<tr><th>链接</th><td colspan=\"2\">{{item.url}}</td><th>UUID</th><td colspan=\"2\">{{item.uuid}}</td></tr>"+
+				"<tr><th>描叙</th><td colspan=\"5\">{{item.sign}}</td></tr></tbody>"
+			});
+			var vm1 = new Vue({
+				el:"#table1",
+				data:{
+					items:[{id:1,name:'segmentfault',versionId:'0.0.1',createTime:'2017-4-30 19:28:16',type:'管理员自增',type2:'问答',type3:'内容详情页',url:''}]
+				},
+				methods:{
+					goodCross: function(id,name){
+						goodCross(id,name);
+					},
+					showDetails:function(id,name){
+						showDetails(id,name);
+					},
+					runBack:function(id,name){
+						runBack(id,name);
+					},
+					delete_:function(id,name){
+						delete_(id,name)
+					}
+				}
+			});
+			
+			var vm2 = new Vue({
+				el:"#table2",
+				data:{
+					item:{name:'dongneng',versionId:'123231'}
+				}
+			});
+		</script>
+		
+		<script type="text/javascript">
+			var goodCross = function(id,name){
+				if (id && name) {
+					layer.confirm('确定通过这条数据？', {
+						btn : [ '确定', '放弃' ],
+						icon : 0
+					}, function() {
+						
+					});
+				} else {
+					layer.msg("参数有误!", {
+						icon : 2,
+						time : 1500
+					})
+				}
+			}
+			var runBack = function(id,name){
+				if (id && name) {
+					layer.confirm('确定重新爬取这条记录？', {
+						btn : [ '确定', '放弃' ],
+						icon : 0
+					}, function() {
+						layer.msg("进行中...");
+					});
+				} else {
+					layer.msg("参数有误!", {
+						icon : 2,
+						time : 1500
+					})
+				}
+			}
+		
+			var delete_ = function(id, name) {
+				if (id && name) {
+					layer.confirm('确定删除这条记录？', {
+						btn : [ '删除', '放弃' ],
+						icon : 0
+					}, function() {
+						layer.msg("删除中...");
+					});
+				} else {
+					layer.msg("参数有误!", {
+						icon : 2,
+						time : 1500
+					});
+				}
+			}
+			var showDetails = function(id, name) {
+				if (id && name) {
+					$("#itemInfo").modal("show");
+					$.post({
+						url : "",
+						type : "",
+						data : {
+							id : id,
+							name : name
+						}
+					}).done(function(data) {
+						if (data) {
+							if (data.item) {
+								// 数据置入
+								vm2.item = data.item;
+								$("#itemInfo").modal("show");
+							} else {
+								layer.msg('参数有误!');
+							}
+						}
+					}).fail(function() {
+						layer.msg('请求失败!', {
+							time : 1000,
+							icon : 5
+						});
+					})
+				} else {
+					layer.msg("参数有误!", {
+						icon : 2,
+						time : 1500
+					});
+				}
+			}
+		</script>
+
+		<script type="text/javascript"
+			src="lib/jquery.validation/1.14.0/jquery.validate.js"></script>
+		<script type="text/javascript"
+			src="lib/jquery.validation/1.14.0/validate-methods.js"></script>
+		<script type="text/javascript"
+			src="lib/jquery.validation/1.14.0/messages_zh.js"></script>
+		<script type="text/javascript">
+			var moreSettings = function(){
+				$("#moreSettings").modal("show");
+			}
+		</script>	
+			
+		<script type="text/javascript">
+		$(function(){
+			$("#searchForm").validate({
+				rules:{
+					value:{
+						required:true
+					},
+					type:{
+						required:true
+					},
+					type3:{
+						required:true
+					}
+				},
+				onkeyup:false,
+				focusCleanup:true,
+				success:"valid",
+				submitHandler:function(form){
+					$(form).ajaxSubmit({
+						url:"/ss",
+						type:"get",
+						success:function(data){
+						},
+						error:function(){
+							layer.msg('请求失败!', {
+								time : 1000,
+								icon : 5
+							});
+						}
+					})
+				}
+			});
+			$("#formSettings").validate({
+				rules:{
+					type:{
+						required:true
+					},
+					way:{
+						required:true
+					},
+					value:{
+						required:true
+					},
+					startTime:{
+						required:true
+					},
+					endTime:{
+						required:true
+					}
+				},
+				submitHandler:function(form){
+					layer.confirm('确定进行该项操作？', {
+						  btn: ['执行','放弃'] //按钮
+						}, function(){
+							$(form).ajaxSubmit({
+								url:"",
+								type:"delete",
+								success:function(data){
+									if(data){
+										if(data.message){
+											layer.msg(data.message, {
+												time : 1000,
+												icon : 1
+											});
+										}else{
+											layer.msg('操作成功!', {
+												time : 1000,
+												icon : 1
+											});
+										}
+									}
+								},
+								error:function(){
+									layer.msg('请求失败!', {
+										time : 1000,
+										icon : 5
+									});
+								}
+							})
+						});
+				}
+			});
+			
+			$("select#type").on("change",function(){
+				var value = $(this).val();
+				if(value === 'type2'){
+					// 移除输入框，显示下拉列表
+					$("span#changeInput").empty();
+					$("span#changeInput").append("<span class='select-box mr-10' style='max-width: 150px; display: inline-block'><select name='type3' class='select'><option value='segmentfault' selected>内容详情页</option></select></span>");
+				}else if(value === 'version'){
+					// 移除下拉列表
+					$("span#changeInput").empty();
+					$("span#changeInput").append("<input type='text' name='value' style='width: 250px' class='input-text' placeholder='版本号:0.0.1' autocomplete='off'  />");
+				}else{
+					$("span#changeInput").empty();
+					$("span#changeInput").append("<input type='text' name='value' style='width: 250px' class='input-text' placeholder='站点名:segmentfault' autocomplete='off'  />");
+				}
+			});
+			$("select#way").on("change",function(){
+				var value = $(this).val();
+				if(value === 'website'){
+					// 移除输入框，显示下拉列表
+					$("td#changeIn").empty();
+					// 加载站点列表
+					$("td#changeIn").append("<span class='select-box mr-10' ><select name='value' class='select'><option value='segmentfault' selected>segmentfault</option></select></span>");
+				}else if(value === 'version'){
+					// 移除下拉列表
+					$("td#changeIn").empty();
+					$("td#changeIn").append("<input type='text' name='value' class='input-text' placeholder='版本号:0.0.1' autocomplete='off'  />");
+				}
+			});
+		})
+		</script>
+</body>
+</html>

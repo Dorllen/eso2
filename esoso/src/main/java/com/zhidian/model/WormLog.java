@@ -13,7 +13,7 @@ public class WormLog {
 	private String fromType;// 爬虫类型。记录来自爬虫队列的类型。可能css存儲來自QueueSchedule的会用字符串拼接：如type,type2,type3
 	private String uuid;// 爬虫页面的uuid
 	private Date triggerTime;// 触发时间
-	private int status;// 代表审视的状态。0代表已处理，1代表未处理。默认1。2代表需上级处理，3代表根本无法处理
+	private int status;// 代表审视的状态。0代表已处理，1代表未处理。默认1。2代表需上级处理，3代表根本无法处理,-1代表删除
 	private String hMan;// 处理人
 	private Date hTime;// 处理时间
 	public int getId() {

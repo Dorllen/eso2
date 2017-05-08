@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSON;
 import com.zhidian.bases.AppEnumDefine;
-import com.zhidian.bases.ResourceEnumDefine;
 import com.zhidian.bases.SearchEngineEnumDefine;
 import com.zhidian.mapper.CssInfoMapper;
 import com.zhidian.mapper.PullArticleMapper;
@@ -320,7 +319,7 @@ public class WormsService {
 						w.setPropertyName(p.getName());
 						w.setStatus(2);
 						w.setTriggerTime(p.getTimes());
-						w.setType(p.getType());// css问题，还是page的问题
+						w.setType(p.getType());// css问题，还是page的问题 AppEnumDefine.WormLogType
 						w.setUrl(p.getUrl());// 如果是css的问题，请看BasePageProcessor.setWatcherForCss
 						w.setUuid(po.getUuid());// 注意page的uuid与css的uuid是一样的，都是page的url的uuid值
 						w.setWebsite(p.getWebsite());

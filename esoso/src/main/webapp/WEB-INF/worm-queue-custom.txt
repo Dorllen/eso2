@@ -1,0 +1,54 @@
+{
+    "items":{
+        "type":"",
+        "types":[
+            {
+                "name":"问答",
+                "value":"answer",
+                "type2":"",
+                "type2s":{
+                    "name":"内容详情页",
+                    "value":"websites",
+                    "website":"segmentfault",
+                    "websites":[
+                        {
+                            "name":"segmentfault",
+                            "value":"segmentfault",
+                            "versionId":"0.0.1",
+                            "versionList":[
+                                "0.0.1",
+                                "0.0.2"
+                            ]
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+}
+
+{"items":{"type":"问答","types":[{"name":"问答","value":"answer","type2":"","type2s":[{"name":"内容详情页","value":"websites","website":"segmentfault","websites":[{"name":"segmentfault","value":"segmentfault","versionId":"0.0.1","versionList":["0.0.1","0.0.2"]}]}]}]}}
+
+{"items":{"type":"answer","types":[{"name":"问答","value":"answer","type2":"websites","type2s":[{"name":"内容详情页","value":"websites","website":"segmentfault","websites":[{"name":"segmentfault","value":"segmentfault","versionId":"0.0.1","versionList":["0.0.1","0.0.2"]}]}]}]}}
+
+
+
+
+
+worm-queues-system,item2:
+"<tbody class=\"text-c\"><tr class=\"text-c\"><th>站點名</th><td>{{item.name}}</td><th>版本号</th><td>{{item.versionId}}</td><th>类型</th><td>{{item.type}}</td></tr>"+
+				"<tr class=\"text-c\"><th>使用后缀</th><td>{{item.useSearch?'是':'否'}}</td><th>創建人</th><td>{{item.createMan}}</td><th>創建時間</th><td>{{item.createTime}}</td></tr>"+
+				"<tr class=\"text-c\"><th>是否在用</th><td>{{item.using?'是':'否'}}</td><th>禁用人</th><td>{{item.unuseMan?item.unuseMan:''}}</td><th>禁用时间</th><td>{{item.unuseTime?item.unuseTime:''}}</td></tr>"+
+				"<tr class=\"text-c\"><th>搜索地址</th><td colspan=\"2\">{{item.searchAddr?item.searchAddr:'无'}}</td><th>分頁符</th><td colspan=\"2\">{{item.pagination?item.pagination:''}}</td></tr>"+
+				"<tr><th>详情页处理器</th><td colspan=\"5\">{{item.pageProcessor?item.pageProcessor:'无'}}</td></tr>"+
+				"<tr><th>详情页接收器</th><td colspan=\"5\">{{item.pagePipeline?item.pagePipeline:'无'}}</td></tr>"+
+				"<tr><th>详情页接收对象</th><td colspan=\"5\">{{item.pageRObject?item.pageRObject:'无'}}</td></tr>"+
+				"<tr><th>结果页处理器</th><td colspan=\"5\">{{item.resultProcessor?item.resultProcessor:'无'}}</td></tr>"+
+				"<tr><th>結果頁接受器</th><td colspan=\"5\">{{item.resultPipeline?item.resultPipeline:'无'}}</td></tr>"+
+				"<tr><th>結果頁接收对象</th><td colspan=\"5\">{{item.resultRObject?item.resultRObject:'无'}}</td></tr>"+
+				"<tr><th>详情页Css</th><td colspan=\"5\">{{item.defPageCss?item.defPageCss:'无'}}</td></tr>"+
+				"<tr><th>Css采集规则</th><td colspan=\"5\">{{item.defaultPageCss?item.defaultPageCss:'无'}}</td></tr>"+
+				"<tr><th>详情页采集配置</th><td colspan=\"5\">{{item.defPageConfig?item.defPageConfig:'无'}}</td></tr>"+
+				"<tr><th>结果页采集配置</th><td colspan=\"5\">{{item.defResultConfig?item.defResultConfig:'无'}}</td></tr>"+
+				"<tr><th>自定义请求头</th><td colspan=\"5\">{{item.defRequestHeader?item.defRequestHeader:'无'}}</td></tr>"+
+				"<tr><th>描述</th><td colspan=\"5\">{{item.sign?item.sign:'无'}}</td></tr></tbody>"

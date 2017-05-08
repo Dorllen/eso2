@@ -10,11 +10,17 @@ public class ScheduleQueue {
 	private String name;// 爬虫的站点名称，如:segmentfault。会去websites找对应的爬虫
 	private Date createTime;
 	private String createMan;
+	private Date startTime;// 2017-5-7其实时间
+	private Date lastTime;// 2017-5-7 创建最晚时间
+	private Date endTime;// 任务爬取成功后的时间 
+	private Date hTime;// 2017-5-8 处理时间
+	private String hMan;// 2017-5-8 处理人
 	private String sign;
-	private int status;// 1 代表未处理，0代表处理完，2代表需上级处理，3代表无法处理
+	private int status;// 1 代表未处理，0代表处理完，2代表需上级处理，3代表无法处理。-1代表删除
 	private String url;// 下载地址：http://segmentfault.con/a/45648797978。或者是http://segmentfault.com?q=ss&page=2(这一种服务暂时不提供)
 	private String uuid;// 下载地址的uuid。提供给在线获取页面
 	private int mark;// 排序级别。默认0，越大越有限执行。【待改进：执行的时候】
+	private int paId;// 2017-5-8 内容id
 	public int getId() {
 		return id;
 	}
@@ -86,5 +92,41 @@ public class ScheduleQueue {
 	}
 	public void setMark(int mark) {
 		this.mark = mark;
+	}
+	public Date getLastTime() {
+		return lastTime;
+	}
+	public void setLastTime(Date lastTime) {
+		this.lastTime = lastTime;
+	}
+	public Date getStartTime() {
+		return startTime;
+	}
+	public void setStartTime(Date startTime) {
+		this.startTime = startTime;
+	}
+	public Date getEndTime() {
+		return endTime;
+	}
+	public void setEndTime(Date endTime) {
+		this.endTime = endTime;
+	}
+	public int getPaId() {
+		return paId;
+	}
+	public void setPaId(int paId) {
+		this.paId = paId;
+	}
+	public Date gethTime() {
+		return hTime;
+	}
+	public void sethTime(Date hTime) {
+		this.hTime = hTime;
+	}
+	public String gethMan() {
+		return hMan;
+	}
+	public void sethMan(String hMan) {
+		this.hMan = hMan;
 	}
 }

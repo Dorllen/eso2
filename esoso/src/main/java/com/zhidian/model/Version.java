@@ -42,6 +42,7 @@ public class Version {
 							// js/index/engine/0.0.0.1/xx.js,js/index/engine/0.0.0.1/xx2.js
 	private String sign;// 备注
 	private String type;// 类型。websites,results。
+	private int nmp;// 同于Website的nmp，意义是一样的
 
 	public int getId() {
 		return id;
@@ -121,5 +122,13 @@ public class Version {
 
 	public void setDefJs(String defJs) {
 		this.defJs = defJs;
+	}
+
+	public int getNmp() {
+		return nmp;
+	}
+
+	public void setNmp(int nmp) {
+		this.nmp = nmp;
 	}
 }
