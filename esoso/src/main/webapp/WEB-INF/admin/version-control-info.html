@@ -43,37 +43,37 @@ table td {
 			</thead>
 			<tbody class="text-c">
 				<tr>
-					<td>name</td>
+					<th>name</th>
 					<td th:text="${Message.name}">segmentfault</td>
-					<td>是否在用</td>
+					<th>是否在用</th>
 					<td th:text="${Message.using?'是':'否'}">是</td>
 				</tr>
 				<tr>
-					<td>type</td>
+					<th>type</th>
 					<td th:text="${Message.type}">内容详情页</td>
-					<td>type2</td>
+					<th>type2</th>
 					<td th:text="${Message.type2}">answer</td>
 				</tr>
 				<tr>
-					<td>页面地址</td>
+					<th>页面地址</th>
 					<td th:text="${Message.defPage}" colspan="3"></td>
 				</tr>
 				<tr>
-					<td>Css地址</td>
+					<th>Css地址</th>
 					<td th:text="${Message.defCss}" colspan="3"></td>
 				</tr>
 				<tr>
-					<td>Js地址</td>
+					<th>Js地址</th>
 					<td th:text="${Message.defJs}" colspan="3"></td>
 				</tr>
 				<tr>
-					<td>描述</td>
+					<th>描述</th>
 					<td th:text="${Message.sign}" colspan="3"></td>
 				</tr>
 			</tbody>
 			<tfoot class="text-c">
 				<tr>
-					<td colspan="2"><button type="submit" onClick="layer_close();"
+					<td colspan="4"><button type="submit" onClick="layer_close();"
 							class="btn btn-primary radius mr-15">
 							确定
 						</button>

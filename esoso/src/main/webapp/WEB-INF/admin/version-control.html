@@ -147,17 +147,21 @@
 					btn : [ '确定', '放弃' ],
 					icon : 0
 				}, function() {
-					$.ajax({url:"version/settings/setDefault",type:"patch",data:{id:id,name:name}}).done(function(){
+					$.ajax({url:"version/settings/setDefault",type:"post",data:{id:id,name:name}}).done(function(data){
 						if(data){
 							if(data.message){
 								layer.msg(data.message, {
-								    time: 1000, icon: 1
+								    time: 1000, icon: 6
 								  });
 							}else{
-								layer.msg('获取成功!', {
+								layer.msg('操作成功!', {
 								    time: 1000, icon: 1
 								  });
 							}
+						}else{
+							layer.msg('请求失败!', {
+							    time: 1000, icon: 5
+							  });
 						}
 					}).fail(function(){
 						layer.msg('请求失败!', {
@@ -178,17 +182,21 @@
 					btn : [ '禁用', '放弃' ],
 					icon : 0
 				}, function() {
-					$.ajax({url:"version/settings/setStop",type:"patch",data:{id:id,name:name}}).done(function(){
+					$.ajax({url:"version/settings/setStop",type:"post",data:{id:id,name:name}}).done(function(data){
 						if(data){
 							if(data.message){
 								layer.msg(data.message, {
-								    time: 1000, icon: 1
+								    time: 1000, icon: 6
 								  });
 							}else{
 								layer.msg('禁用成功!', {
 								    time: 1000, icon: 1
 								  });
 							}
+						}else{
+							layer.msg('请求失败!', {
+							    time: 1000, icon: 5
+							  });
 						}
 						}).fail(function(){
 							layer.msg('请求失败!', {
@@ -224,7 +232,7 @@
 						if(data){
 							if(data.message){
 								layer.msg(data.message, {
-								    time: 1000, icon: 1
+								    time: 1000, icon: 6
 								  });
 							}else{
 								layer.msg('获取成功!', {
@@ -233,6 +241,10 @@
 							}
 							// 逻辑..
 							loadTable2(data.items);
+						}else{
+							layer.msg('请求失败!', {
+							    time: 1000, icon: 5
+							  });
 						}
 					}).fail(function(){
 						layer.msg('请求失败!', {
@@ -257,8 +269,8 @@
 						var $td = $("<tr></tr>").append("<td>"+v.id+"</td>").append("<td>"+v.name+"</td>")
 						.append("<td>"+v.versionId+"</td>").append("<td>"+v.createTime+"</td>").append("<td>"+v.using?'是':'否'+"</td>")
 						.append("<td><input class='btn btn-success radius' type='button' value='詳情'	onclick='openPage('"+v.name+"信息詳情','version-control-info.html?id="+v.versionId+"')'> "+
-								"<input class='btn btn-primary radius' type="'button' value='变更'"+
-								"onclick='openPage('"+v.name+"信息变更','version-control-info-update.html?id="+v.versionId+"')"/> "+
+								"<input class='btn btn-primary radius' type='button' value='变更'"+
+								"onclick='openPage('"+v.name+"信息变更','version-control-info-update.html?id="+v.versionId+"')/>"+
 								"<input class='btn btn-warning radius' type='button' value='设为默认'"+
 								"onclick='setDefault("+v.versionId+",'"+v.name+"')'/> <input class='btn btn-danger radius' type='button' value='禁用'"+
 								"onclick='setStop("+v.versionId+",'"+v.name+"')'/></td>");

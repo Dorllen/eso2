@@ -45,27 +45,27 @@
 				</thead>
 				<tbody class="text-c">
 					<tr>
-						<td>name</td>
+						<th>name</th>
 						<td th:text="${Message.name}">segmentfault</td>
-						<td>是否在用</td>
+						<th>是否在用</th>
 						<td th:text="${Message.using?'是':'否'}">是</td>
 					</tr>
 					<tr>
-						<td>type</td>
+						<th>type</th>
 						<td th:text="${Message.type}">内容详情页</td>
-						<td>type2</td>
+						<th>type2</th>
 						<td th:text="${Message.type2}">answer</td>
 					</tr>
 					<tr>
-						<td><span class="c-red">*</span>页面地址</td>
+						<th><span class="c-red">*</span>页面地址</th>
 						<td th:text="${Message.defPage}">xxfdsfds</td>
-						<td><span class="c-red">*</span>是否变更</td>
-						<td><span class="select-box"> <select class="select"
+						<th><span class="c-red">*</span>是否变更</th>
+						<th><span class="select-box"> <select class="select"
 								size="1" name="pageChange" id="" autocomplete="off">
 									<option value="0" selected="selected">否</option>
 									<option value="1">是</option>
 							</select>
-						</span></td>
+						</span></th>
 					</tr>
 					<tr style="display: none">
 						<td colspan="4"><span class="btn-upload"> <input
@@ -76,15 +76,15 @@
 								name="pageFile" class="input-file" autocomolete="off" /></span></td>
 					</tr>
 					<tr>
-						<td><span class="c-red">*</span>Css地址</td>
+						<th><span class="c-red">*</span>Css地址</th>
 						<td th:text="${Message.defCss}">xxfdsfds</td>
-						<td><span class="c-red">*</span>是否变更</td>
-						<td><span class="select-box"> <select class="select"
+						<th><span class="c-red">*</span>是否变更</th>
+						<th><span class="select-box"> <select class="select"
 								size="1" name="" id="" autocomplete="off">
 									<option value="0" selected="selected">否</option>
 									<option value="1">是</option>
 							</select>
-						</span></td>
+						</span></th>
 					</tr>
 					<tr style="display: none">
 						<td colspan="4"><span class="btn-upload"> <input
@@ -96,15 +96,15 @@
 								autocomolete="off" /></span></td>
 					</tr>
 					<tr>
-						<td><span class="c-red">*</span>Js地址</td>
+						<th><span class="c-red">*</span>Js地址</th>
 						<td  th:text="${Message.defJs}">xxfdsfds</td>
-						<td><span class="c-red">*</span>是否变更</td>
-						<td><span class="select-box"> <select class="select"
+						<th><span class="c-red">*</span>是否变更</th>
+						<th><span class="select-box"> <select class="select"
 								size="1" name="" id="" autocomplete="off">
 									<option value="0" selected="selected">否</option>
 									<option value="1">是</option>
 							</select>
-						</span></td>
+						</span></th>
 					</tr>
 					<tr style="display:none">
 						<td colspan="4"><span class="btn-upload"> <input
@@ -116,7 +116,7 @@
 								autocomolete="off" /></span></td>
 					</tr>
 					<tr>
-						<td>描述</td>
+						<th>描述</th>
 						<td colspan="4"><textarea class="textarea radius" name="sign" id="sign" autocomplete="off" placeholder="信息的描叙..."  th:text="${Message.sign}"></textarea></td>
 					</tr>
 				</tbody>

@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -215,7 +214,7 @@ public class VersionAdminMainController {
 		return result;
 	}
 
-	@PatchMapping("/setDefault")
+	@PostMapping("/setDefault")
 	public Object setDefaultByVersionId(@RequestParam("id") String id, @RequestParam("name") String name)
 			throws Exception {
 		ResultModel result = new ResultModel();
@@ -228,7 +227,7 @@ public class VersionAdminMainController {
 		return result;
 	}
 	
-	@PatchMapping("/setStop")
+	@PostMapping("/setStop")
 	public Object setStopByVersionId(@RequestParam("id") String id, @RequestParam("name") String name)
 			throws Exception {
 		ResultModel result = new ResultModel();
