@@ -51,6 +51,7 @@ import com.zhidian.model.sys.PullResultBO;
 import com.zhidian.model.sys.PullResultPageModel;
 import com.zhidian.model.sys.ResultRoleBO;
 import com.zhidian.model.sys.WebsiteBO;
+import com.zhidian.service.AdminMainSupportService;
 import com.zhidian.service.DataInfoAdminService;
 import com.zhidian.util.BasicUtils;
 import com.zhidian.views.WebsitePageVO;
@@ -81,6 +82,23 @@ public class AppTest {
 	// articleMapper = app.getBean(ArticleMapper.class);
 	// }
 	// }
+	
+	
+	// ###########################AdminMainSupportService##################
+	
+	@Autowired
+	AdminMainSupportService mainService;
+	
+	@Test
+	public void testService01(){
+		int id;
+		try {
+			id = mainService.setVersionDefaultUsing("0.0.4","github");
+			System.out.println(id);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
 	// ###########################Configs##################
 	
@@ -217,6 +235,22 @@ public class AppTest {
 	public void testVersion3(){
 		List<NameValueModel> list = versionMapper.queryVersionsForAdminInfoSupportService01ListVersionBO2("websites", "answer");
 		System.out.println("?:"+JSON.toJSONString(list));
+	}
+	
+	@Test
+	@Transactional
+	@Rollback
+	public void testMultiData(){
+		// 禁用
+		int id = versionMapper.updateVersionsForAdminMainSupportService01ReturnId(5, "segmentfault");
+		System.out.println(id);
+	}
+	
+	@Test
+	public void testCallProcedure(){
+//		int id = versionMapper.updateTest(4, "segmentfault");
+//		System.out.println(id);
+//		versionMapper.selectTest(5, "segmentfault");
 	}
 	
 	

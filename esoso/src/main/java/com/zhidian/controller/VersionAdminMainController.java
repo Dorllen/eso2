@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,7 +33,7 @@ import com.zhidian.views.VersionAddViewMainDTO;
 @RestController
 @RequestMapping("/admin/version/settings")
 public class VersionAdminMainController {
-//	private Logger log = LoggerFactory.getLogger(getClass());
+	// private Logger log = LoggerFactory.getLogger(getClass());
 
 	@Autowired
 	AdminInfoSupportService infoService;
@@ -48,7 +49,7 @@ public class VersionAdminMainController {
 		ResultModel result = new ResultModel();
 		if (error != null && error.getErrorCount() > 0) {
 			// 有异常
-			result.setMessage("新增失败,参数异常");
+			result.setMessage("操作失败,参数异常");
 		} else {
 			Date d = new Date();
 			String root = System.getProperty("webapp.root");
@@ -174,15 +175,15 @@ public class VersionAdminMainController {
 				}
 				result.setMessage("操作成功!");
 			} else {
-				result.setMessage("数据新增失败!");
+				result.setMessage("操作失败!");
 			}
 			// 数据清理
 			List<String> pageArr = fileTempPath.get("page");
 			if (pageArr != null && pageArr.size() > 0) {
-				for(String str : pageArr){
-					if(StringUtils.isNotEmpty(str)){
+				for (String str : pageArr) {
+					if (StringUtils.isNotEmpty(str)) {
 						File f = new File(str);
-						if(f.exists()){
+						if (f.exists()) {
 							f.deleteOnExit();
 						}
 					}
@@ -190,10 +191,10 @@ public class VersionAdminMainController {
 			}
 			List<String> cssArr = fileTempPath.get("css");
 			if (cssArr != null && cssArr.size() > 0) {
-				for(String str : cssArr){
-					if(StringUtils.isNotEmpty(str)){
+				for (String str : cssArr) {
+					if (StringUtils.isNotEmpty(str)) {
 						File f = new File(str);
-						if(f.exists()){
+						if (f.exists()) {
 							f.deleteOnExit();
 						}
 					}
@@ -201,10 +202,10 @@ public class VersionAdminMainController {
 			}
 			List<String> jsArr = fileTempPath.get("js");
 			if (jsArr != null && jsArr.size() > 0) {
-				for(String str : jsArr){
-					if(StringUtils.isNotEmpty(str)){
+				for (String str : jsArr) {
+					if (StringUtils.isNotEmpty(str)) {
 						File f = new File(str);
-						if(f.exists()){
+						if (f.exists()) {
 							f.deleteOnExit();
 						}
 					}
@@ -214,4 +215,30 @@ public class VersionAdminMainController {
 		return result;
 	}
 
+	@PatchMapping("/setDefault")
+	public Object setDefaultByVersionId(@RequestParam("id") String id, @RequestParam("name") String name)
+			throws Exception {
+		ResultModel result = new ResultModel();
+		int num = mainService.setVersionDefaultUsing(id, name);
+		if (num > 0) {
+			result.setMessage("操作成功!");
+		} else {
+			result.setMessage("操作失败!");
+		}
+		return result;
+	}
+	
+	@PatchMapping("/setStop")
+	public Object setStopByVersionId(@RequestParam("id") String id, @RequestParam("name") String name)
+			throws Exception {
+		ResultModel result = new ResultModel();
+		int num = mainService.setVersionStopUsing(id, name);
+		if (num > 0) {
+			result.setMessage("操作成功!");
+		} else {
+			result.setMessage("操作失败!");
+		}
+		return result;
+	}
+	
 }

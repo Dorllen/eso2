@@ -32,24 +32,24 @@
 	<div class="page-container" style="min-height: 500px">
 		<div class="text-l mt-20 bk-gray pd-5">
 			<form action="#" method="get" id="searchForm">
-			版本搜索： <span class="select-box mr-10"
-				style="max-width: 150px; display: inline-block"> <select
-				class="select" id="type" name="type" autocomplete="off">
-					<option value="website" selected>站点名称</option>
-					<!-- <option value="type2">类型</option> -->
-					<option value="version">版本ID搜索</option>
-			</select>
-			</span><span id="changeInput"><input type="text" name="value" id="search_text" style="width: 250px"
-				class="input-text" placeholder="segmentfault|github"
-				autocomplete="off" /></span>
-			<button name="" id="search_button" class="btn btn-success"
-				type="submit">
-				<i class="Hui-iconfont">&#xe665;</i> 搜索
-			</button>
-			<a class="btn btn-primary radius"
-				style="float: right; margin-right: 20px"
-				onclick="openPage('新增版本','version-add.html')" href="javascript:;"><i
-				class="Hui-iconfont">&#xe600;</i> 新增版本</a>
+				版本搜索： <span class="select-box mr-10"
+					style="max-width: 150px; display: inline-block"> <select
+					class="select" id="type" name="type" autocomplete="off">
+						<option value="website" selected>站点名称</option>
+						<!-- <option value="type2">类型</option> -->
+						<option value="version">版本ID搜索</option>
+				</select>
+				</span><span id="changeInput"><input type="text" name="value"
+					id="search_text" style="width: 250px" class="input-text"
+					placeholder="segmentfault|github" autocomplete="off" /></span>
+				<button name="" id="search_button" class="btn btn-success"
+					type="submit">
+					<i class="Hui-iconfont">&#xe665;</i> 搜索
+				</button>
+				<a class="btn btn-primary radius"
+					style="float: right; margin-right: 20px"
+					onclick="openPage('新增版本','version-add.html')" href="javascript:;"><i
+					class="Hui-iconfont">&#xe600;</i> 新增版本</a>
 			</form>
 		</div>
 		<table id="table1"
@@ -73,16 +73,17 @@
 					<td>在用</td>
 					<td><input class="btn btn-success radius" type="button"
 						value="詳情"
-						onclick="openPage('segmentfault信息詳情','version-control-info.html')">
+						onclick="openPage('segmentfault信息詳情','version-control-info.html?id=0.0.1')">
 						<input class="btn btn-primary radius" type="button" value="变更"
-						onclick="openPage('segmentfault信息变更','version-control-info-update.html')"/> 
+						onclick="openPage('segmentfault信息变更','version-control-info-update.html?id=0.0.1')" />
 						<input class="btn btn-warning radius" type="button" value="设为默认"
-						onclick="setDefault(1,'segmentfault')"/> <input class="btn btn-danger radius" type="button" value="禁用"
-						onclick="setWarning(1,'segmentfault')"/></td>
+						onclick="setDefault('0.0.1','segmentfault')" /> <input
+						class="btn btn-danger radius" type="button" value="禁用"
+						onclick="setStop('0.0.1','segmentfault')" /></td>
 				</tr>
 			</tbody>
 		</table>
-		<table id="table2" style="display:none"
+		<table id="table2" style="display: none"
 			class="table table-border table-bordered table-bg mb-15 mt-20 table-hover">
 			<thead class="text-c">
 				<tr>
@@ -90,12 +91,6 @@
 					<th>站点名</th>
 					<th>版本号</th>
 					<th>创建时间</th>
-					<th>创建人</th>
-					<th>最近变更时间</th>
-					<th>最近变更人</th>
-					<th>关闭时间</th>
-					<th>关闭人</th>
-					<th>当前版本关联数</th>
 					<th>是否在用</th>
 					<th>操作</th>
 				</tr>
@@ -106,26 +101,21 @@
 					<td>segmentfault</td>
 					<td>0.0.1</td>
 					<td>2017-3-28 20:14:16</td>
-					<td>Admin</td>
-					<td>2017-4-29 14:33:15</td>
-					<td>Admin</td>
-					<td>2017-4-29 14:33:15</td>
-					<td>Admin</td>
-					<td>2</td>
 					<td>在用</td>
 					<td><input class="btn btn-success radius" type="button"
 						value="詳情"
-						onclick="openPage('segmentfault信息詳情','website-control-info.html')">
+						onclick="openPage('segmentfault信息詳情','version-control-info.html?id=0.0.1')">
 						<input class="btn btn-primary radius" type="button" value="变更"
-						onclick="openPage('segmentfault信息变更','website-control-info-update.html')">
-						<input class="btn radius btn-warning" type="button" value="设为默认"
-						onclick="setDefaultWebsite(1,'segmentfault')"> <input class="btn btn-danger radius"
-						type="button" value="删除" onclick="deleteWebsite(1,'segmentfault')"></td>
+						onclick="openPage('segmentfault信息变更','version-control-info-update.html?id=0.0.1')" />
+						<input class="btn btn-warning radius" type="button" value="设为默认"
+						onclick="setDefault('0.0.1','segmentfault')" /> <input
+						class="btn btn-danger radius" type="button" value="禁用"
+						onclick="setStop('0.0.1','segmentfault')" /></td>
 				</tr>
 			</tbody>
 			<tfoot class="text-c">
 				<tr>
-					<td colspan="12"  class="cf1_"></td>
+					<td colspan="12" class="cf1_"></td>
 				</tr>
 			</tfoot>
 		</table>
@@ -157,7 +147,23 @@
 					btn : [ '确定', '放弃' ],
 					icon : 0
 				}, function() {
-					layer.msg("设置成功...");
+					$.ajax({url:"version/settings/setDefault",type:"patch",data:{id:id,name:name}}).done(function(){
+						if(data){
+							if(data.message){
+								layer.msg(data.message, {
+								    time: 1000, icon: 1
+								  });
+							}else{
+								layer.msg('获取成功!', {
+								    time: 1000, icon: 1
+								  });
+							}
+						}
+					}).fail(function(){
+						layer.msg('请求失败!', {
+						    time: 1000, icon: 5
+						  });
+					})
 				});
 	 		} else {
 				layer.msg("参数有误!", {
@@ -166,13 +172,29 @@
 				});
 			}	
 		}
-		var setWarning = function(id,name){
+		var setStop = function(id,name){
 			if (id && name) {
 				layer.confirm('请先设置默认，再禁用!', {
 					btn : [ '禁用', '放弃' ],
 					icon : 0
 				}, function() {
-					layer.msg("禁用成功...");
+					$.ajax({url:"version/settings/setStop",type:"patch",data:{id:id,name:name}}).done(function(){
+						if(data){
+							if(data.message){
+								layer.msg(data.message, {
+								    time: 1000, icon: 1
+								  });
+							}else{
+								layer.msg('禁用成功!', {
+								    time: 1000, icon: 1
+								  });
+							}
+						}
+						}).fail(function(){
+							layer.msg('请求失败!', {
+							    time: 1000, icon: 5
+							  });
+						});
 				});
 	 		} else {
 				layer.msg("参数有误!", {
@@ -182,14 +204,23 @@
 			}	
 		}
 	</script>
-	
+
 	<script type="text/javascript">
 		$(function(){
+			$("form#searchForm select").on("change",function(){
+				var v = $(this).val();
+				if(v=="website"){
+					$("form#searchForm input").attr("placholder","segmentfault|github");
+				}else if(v=="version"){
+					$("form#searchForm input").attr("placholder","版本号:0.0.1");
+				}
+			})			
+			
 			$("form#searchForm").on("submit",function(){
 				var type = $(this).find("select").val();
 				var value = $(this).find("input[type='text'][name='value']").val();
 				if(value.trim()){
-					$.ajax({url:"",type:"get",data:{type:type,value:value}}).done(function(data){
+					$.ajax({url:"version/info/getVersionInfo",type:"get",data:{type:type,value:value}}).done(function(data){
 						if(data){
 							if(data.message){
 								layer.msg(data.message, {
@@ -223,9 +254,14 @@
 					var $tb = $t.find("tbody");
 					$.each(items,function(i,v){
 						// 装载数据
-						var $td = $("<tr></tr>").append("<td>"+v.id+"</td>").append("<td></td>")
-						.append("<td></td>").append("<td></td>").append("<td></td>").append("<td></td>").append("<td></td>")
-						.append("<td></td>").append("<td></td>").append("<td></td>").append("<td></td>");
+						var $td = $("<tr></tr>").append("<td>"+v.id+"</td>").append("<td>"+v.name+"</td>")
+						.append("<td>"+v.versionId+"</td>").append("<td>"+v.createTime+"</td>").append("<td>"+v.using?'是':'否'+"</td>")
+						.append("<td><input class='btn btn-success radius' type='button' value='詳情'	onclick='openPage('"+v.name+"信息詳情','version-control-info.html?id="+v.versionId+"')'> "+
+								"<input class='btn btn-primary radius' type="'button' value='变更'"+
+								"onclick='openPage('"+v.name+"信息变更','version-control-info-update.html?id="+v.versionId+"')"/> "+
+								"<input class='btn btn-warning radius' type='button' value='设为默认'"+
+								"onclick='setDefault("+v.versionId+",'"+v.name+"')'/> <input class='btn btn-danger radius' type='button' value='禁用'"+
+								"onclick='setStop("+v.versionId+",'"+v.name+"')'/></td>");
 						$tb.append($td);
 					})
 				}else{

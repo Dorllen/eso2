@@ -27,6 +27,40 @@ public interface VersionMapper {
 	
 	public int insertVersionsForAdminMainService01SimpleId(Version version);
 
+	public List<Version> queryVersionsForAdminInfoSupportService01ListVersion(@Param("id") int id);
 
+	public List<Version> queryVersionsForAdminInfoSupportService02ListVersion(@Param("name") String name);
 
+	public Version selectVersionsByIdAndName(@Param("id") int id,@Param("name") String name);
+	
+
+	/**
+	* @Title: updateVersionsForAdminMainSupportService01SimpleVersion
+	* @Description: TODO(设置version的using为1)
+	* @param @param id
+	* @param @param name
+	* @param @param type
+	* @param @param type2    参数
+	* @return void    返回类型
+	* @throws
+	*/
+	public int updateVersionsForAdminMainSupportService01SimpleVersion(@Param("id") int id,@Param("name") String name,
+			@Param("type") String type,@Param("type2") String type2);
+
+	/**
+	* @Title: updateVersionsForAdminMainSupportService02ReturnId
+	* @Description: TODO(禁用version,该version必须是using=0)
+	* @param @param id
+	* @param @param name
+	* @param @return    参数
+	* @return int    返回类型
+	* @throws
+	*/
+	public int updateVersionsForAdminMainSupportService01ReturnId(@Param("id") int id,@Param("name") String name);
+
+	public Version queryVersionsForAdminInfoSupportService01SimpleVersion(@Param("id") int id);
+	
+	
+//	public void selectTest(@Param("id") int id,@Param("name") String name);
+//	public int updateTest(@Param("id") int id,@Param("name") String name);
 }

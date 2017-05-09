@@ -1,9 +1,9 @@
 <!DOCTYPE HTML>
-<html>
+<html th:if="${Message!=null}">
 <head>
-<meta charset="utf-8">
-<meta name="renderer" content="webkit|ie-comp|ie-stand">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta charset="utf-8"/>
+<meta name="renderer" content="webkit|ie-comp|ie-stand"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
 <meta name="viewport"
 	content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
 <meta http-equiv="Cache-Control" content="no-siteapp" />
@@ -30,79 +30,101 @@
 		position:relative;
 	}
 </style>
-<title>版本新增</title>
+<title>版本信息修改</title>
 </head>
 <body>
 	<div class="page-container">
 		<form class="form form-horizontal" id="form">
+			<input type="hidden" name="versionId" th:value="${Message.versionId}"/>
 			<table
 				class="table table-border table-bordered table-bg mb-15 table-hover">
 				<thead>
 					<tr>
-						<th colspan="6">版本新增面板</th>
+						<th colspan="6">版本详情修改</th>
 					</tr>
 				</thead>
 				<tbody class="text-c">
 					<tr>
-						<td><span class="c-red">*</span>版本类型</td>
-						<td ><span class="select-box"> <select class="select" id="type"
-								size="1" name="type" autocomplete="off">
-									<option value="" selected>选择类型</option>
-									<option value="websites">内容详情页</option>
-									<option value="results">搜索结果页</option>
-									<!-- <option value="engine_index">搜索首页</option> -->
-							</select>
-						</span></td>
+						<td>name</td>
+						<td th:text="${Message.name}">segmentfault</td>
+						<td>是否在用</td>
+						<td th:text="${Message.using?'是':'否'}">是</td>
 					</tr>
-					<tr id="c_">
-						<td><span class="c-red">*</span>是否是第一次创建</td>
-						<td ><span class="select-box"> <select class="select"
-								size="1" name="isFirst" id="isFirst"  autocomplete="off">
-									<option value="0" selected>否</option>
+					<tr>
+						<td>type</td>
+						<td th:text="${Message.type}">内容详情页</td>
+						<td>type2</td>
+						<td th:text="${Message.type2}">answer</td>
+					</tr>
+					<tr>
+						<td><span class="c-red">*</span>页面地址</td>
+						<td th:text="${Message.defPage}">xxfdsfds</td>
+						<td><span class="c-red">*</span>是否变更</td>
+						<td><span class="select-box"> <select class="select"
+								size="1" name="pageChange" id="" autocomplete="off">
+									<option value="0" selected="selected">否</option>
 									<option value="1">是</option>
 							</select>
 						</span></td>
 					</tr>
-					<tr>
-						<td><span class="c-red">*</span>页面地址</td>
-						<td><span class="btn-upload"> <input
+					<tr style="display: none">
+						<td colspan="4"><span class="btn-upload"> <input
 								class="input-text upload-url radius" type="text"
-								placeholder=".class文件"
-								readonly autocomplete="off" /><a href="javascript:void();"
-								class="btn btn-primary radius"><i class="Hui-iconfont">&#xe642;</i>
-									浏览文件</a> <input type="file" id="" name="pageFile" class="input-file"
-								autocomolete="off" /></span></td>
+								placeholder=".html文件" readonly="readonly" autocomplete="off" /><a
+								href="javascript:void();" class="btn btn-primary radius"><i
+									class="Hui-iconfont">&#xe642;</i> 浏览文件</a> <input type="file" id=""
+								name="pageFile" class="input-file" autocomolete="off" /></span></td>
 					</tr>
 					<tr>
 						<td><span class="c-red">*</span>Css地址</td>
-						<td><span class="btn-upload"> <input
+						<td th:text="${Message.defCss}">xxfdsfds</td>
+						<td><span class="c-red">*</span>是否变更</td>
+						<td><span class="select-box"> <select class="select"
+								size="1" name="" id="" autocomplete="off">
+									<option value="0" selected="selected">否</option>
+									<option value="1">是</option>
+							</select>
+						</span></td>
+					</tr>
+					<tr style="display: none">
+						<td colspan="4"><span class="btn-upload"> <input
 								class="input-text upload-url radius" type="text"
-								placeholder=".class文件"
-								readonly autocomplete="off" /><a href="javascript:void();"
-								class="btn btn-primary radius"><i class="Hui-iconfont">&#xe642;</i>
-									浏览文件</a> <input type="file" id="" name="cssFiles" class="input-file" multiple
+								placeholder=".css文件" readonly="readonly" autocomplete="off" /><a
+								href="javascript:void();" class="btn btn-primary radius"><i
+									class="Hui-iconfont">&#xe642;</i> 浏览文件</a> <input type="file" id=""
+								name="cssFiles" class="input-file" multiple="multiple"
 								autocomolete="off" /></span></td>
 					</tr>
 					<tr>
 						<td><span class="c-red">*</span>Js地址</td>
-						<td><span class="btn-upload"> <input multiple
-								class="input-text upload-url radius" type="text" 
-								placeholder=".class文件"
-								readonly autocomplete="off" /><a href="javascript:void();"
-								class="btn btn-primary radius"><i class="Hui-iconfont">&#xe642;</i>
-									浏览文件</a> <input type="file" id="" name="jsFiles" class="input-file" multiple
-								autocomolete="off" /></span></td>	
+						<td  th:text="${Message.defJs}">xxfdsfds</td>
+						<td><span class="c-red">*</span>是否变更</td>
+						<td><span class="select-box"> <select class="select"
+								size="1" name="" id="" autocomplete="off">
+									<option value="0" selected="selected">否</option>
+									<option value="1">是</option>
+							</select>
+						</span></td>
+					</tr>
+					<tr style="display:none">
+						<td colspan="4"><span class="btn-upload"> <input
+								class="input-text upload-url radius" type="text"
+								placeholder=".js文件" readonly="readonly" autocomplete="off" /><a
+								href="javascript:void();" class="btn btn-primary radius"><i
+									class="Hui-iconfont">&#xe642;</i> 浏览文件</a> <input type="file" id=""
+								name="jsFiles" class="input-file" multiple="multiple"
+								autocomolete="off" /></span></td>
 					</tr>
 					<tr>
-						<td >描述</td>
-						<td><textarea  class="textarea radius" name="sign" id="sign" autocomplete="off" placeholder="信息的描叙..."></textarea></td>
+						<td>描述</td>
+						<td colspan="4"><textarea class="textarea radius" name="sign" id="sign" autocomplete="off" placeholder="信息的描叙..."  th:text="${Message.sign}"></textarea></td>
 					</tr>
 				</tbody>
 				<tfoot class="text-c">
 					<tr>
-						<td colspan="2"><button type="submit"
-								class="btn btn-primary radius mr-15" type="button">
-								<i class="Hui-iconfont">&#xe600;</i> 增加
+						<td colspan="4"><button type="submit"
+								class="btn btn-primary radius mr-15">
+								修改
 							</button>
 							<button onClick="layer_close();" class="btn btn-default radius"
 								type="button">&nbsp;&nbsp;取消&nbsp;&nbsp;</button></td>
@@ -126,104 +148,60 @@
 		src="lib/jquery.validation/1.14.0/messages_zh.js"></script>
 
 	<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
-	<script type="text/javascript">
-		$(function() {
-			var w = "";
-			var createTr1 = function(items){
-				if(items&&items.length>0){
-					var stt = "";
-					var st1 = "<tr id=\"w\"><td><span class=\"c-red\">*</span>站点名</td><td><span class=\"select-box\"> <select class=\"select\" size=\"1\" name=\"name\">";
-					$.each(items,function(i,v){
-						stt = stt + "<option value='"+v.value+"'>"+v.value+"</option>";
-					})
-					var st2 = "</select></span></td></tr>";
-					return stt1+stt+stt2;
-				}
-			}
-			var createTr2 = function(){
-				var stt2 = "<tr id=\"w_\"><td><span class=\"c-red\">*</span>站点名</td><td><input type=\"text\" class=\"input-text\" id=\"name_\"	name=\"name\" value=\"\" placeholder=\"新站点名\" /></td></tr>";
-				return stt2;
-			}
-			$("#type").on("change",function(){
-				var v = $(this).val();
-				if(v.trim()){
-					$.get({url:"version/info/getVersionWebsites",data:{type:v}}).done(function(data){
-						if(data&&data.items){
-							// 清除#w
-							$("#w").remove();
-							w = createTr1(data.items);
-							if(w&&w.trim()){
-								$(w).insertAfter("#c_");
-							}
-						}
-					}).fail(function(){
-						layer.msg('请求失败',{icon:5,time:1000});
-					})
-				}else{
-					w="";
-				}
-			})
-			$("#isFirst").on("change",function(){
-				var v_ = $("#type").val();
-				if(v_){
+	<script th:inline="javascript" type="text/javascript">
+		//<![CDATA[
+			$(function() {
+				$("#form select").on("change",function(){
 					var v = $(this).val();
-					if(v.trim()==1){
-						$("#w").remove();
-						var z = createTr2();
-						$(z).insertAfter("#c_");
+					if(v==1){
+						$(this).parents("tr").next("tr").show();
+						$(this).parents("tr").next("tr").find("input").attr("disabled",false);
 					}else{
-						$("#w_").remove();
-						if(w&&w.trim()){
-							$(w).insertAfter("#c_");
-						}else{
-							layer.msg('请重新选择类型!',{time:1000});
+						$(this).parents("tr").next("tr").hide();
+						$(this).parents("tr").next("tr").find("input").attr("disabled",true);
+					}
+				})
+				$("#form").validate({
+					rules:{
+						type:{
+							required:true
+						},
+						name:{
+							required:true
+						},
+						isFirst:{
+							required:true
+						},
+						defPage:{
+							required:true
+						},
+						defCss:{
+							required:true
+						},
+						defJs:{
+							required:true
 						}
+					},
+					onkeyup:false,
+					focusCleanup:true,
+					success:"valid",
+					submitHandler:function(form){
+						// 判断依赖默认版本是否点击，点击需要选择版本
+						layer.confirm('确认修改吗？', {btn: ['确定','放弃'],icon:0},function(){
+							$(form).ajaxSubmit({type:"post",url:"version/settings/update",success:function(data){
+								if(data&&data.message){
+									layer.msg(data.message,{icon:1,time:2000});
+									var index = parent.layer.getFrameIndex(window.name);
+									parent.layer.close(index);
+								}
+							},error:function(){
+								layer.msg('请求失败',{icon:5,time:1000});
+							}})
+						});
 					}
-				}else{
-					layer.msg('请先选择类型!',{time:1000});
-				}
-				
+				});
 			});
-			$("#form").validate({
-				rules:{
-					type:{
-						required:true
-					},
-					name:{
-						required:true
-					},
-					isFirst:{
-						required:true
-					},
-					defPage:{
-						required:true
-					},
-					defCss:{
-						required:true
-					},
-					defJs:{
-						required:true
-					}
-				},
-				onkeyup:false,
-				focusCleanup:true,
-				success:"valid",
-				submitHandler:function(form){
-					// 判断依赖默认版本是否点击，点击需要选择版本
-					layer.confirm('确认新增吗？', {btn: ['新增','放弃'],icon:0},function(){
-						$(form).ajaxSubmit({type:"post",url:"version/settings/addNew",success:function(data){
-							if(data&&data.message){
-								layer.msg(data.message,{icon:1,time:2000});
-								var index = parent.layer.getFrameIndex(window.name);
-								parent.layer.close(index);
-							}
-						},error:function(){
-							layer.msg('请求失败',{icon:5,time:1000});
-						}})
-					});
-				}
-			});
-		});
+		//]]>
 	</script>
 </body>
 </html>

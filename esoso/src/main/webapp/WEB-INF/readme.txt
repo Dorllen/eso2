@@ -22,6 +22,7 @@ http://127.0.0.1:8080/esoso/admin/website/getInfo3?name=Result 測試CommonClass
 	1. IDNameValueModel 为通用的数据库接收模型。id,name,value值
 	2. 统一，服务返回数字到controler层的含义，0代表失败，-1代表异常，-2代表其他异常，1及更多代表成功或受影响的行
 	3. 将version的defJs、defCss、defPage的定义进行更改，只存储文件名
+	4. 不太清楚存储过程返回值是否方便，所以对于Version的默认设置采用了两条sql语句
 
 2017-5-7：
 	待改进：
