@@ -1,6 +1,13 @@
 package com.zhidian.views;
 
-public class VersionUpdateViewModel {
+/**
+* @ClassName: VersionUpdateVO
+* @Description: TODO(version-control-info.html,/admin/version-control-info-update.html页面装载模型，view层)
+* @author dongneng
+* @date 2017年5月10日 上午1:06:02
+*
+*/
+public class VersionUpdateVO {
 	private int id;
 	private String versionId;
 	private String name;

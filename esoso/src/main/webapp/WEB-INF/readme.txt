@@ -20,6 +20,15 @@ http://127.0.0.1:8080/esoso/admin/website/getInfo3?name=Result 測試CommonClass
 2017-5-10：
 	重要更新：
 	1. 去除所有的Patch方式，部分浏览器，及Jquery不支持
+	2. 对与数据库接口定义规范，增加了一种：selectVersionsByIdAndName
+	3. 对VO与DAO可以直接转换增加了一条。因为有些页面只有数据，所以将DAO -> PO(POJO) - > VO ，当然VO还是用新模型来接收，不放入Model包（即POJO）所在命名环境中
+	4. 详情页面解析，现在要去除.html后缀，现在是有后缀的
+	
+	细节更新：
+	1. 修正$.get()中参数传错的问题。非{}对象类型
+	2. 【待改进】对于表格数据进行操作之后，页面是没有更新的。现做的修正：对搜索的结果进行重新请求，对与页面访问生成的暂时忽略。原因：onclick事件没有传入this,无法找到来源
+    3. 将pullArticle的scores修改为double类型
+
 
 2017-5-9：
 	重要更新：

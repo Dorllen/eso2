@@ -240,4 +240,16 @@ public class VersionAdminMainController {
 		return result;
 	}
 	
+	@PostMapping("/setUnStop")
+	public Object setUnStopByVersionId(@RequestParam("id") String id, @RequestParam("name") String name)
+			throws Exception {
+		ResultModel result = new ResultModel();
+		int num = mainService.setVersionUnStop(id, name);
+		if (num > 0) {
+			result.setMessage("操作成功!");
+		} else {
+			result.setMessage("操作失败!");
+		}
+		return result;
+	}
 }

@@ -12,7 +12,7 @@ import com.zhidian.model.sys.NameValueModel;
 import com.zhidian.service.AdminInfoSupportService;
 import com.zhidian.views.ConfigDTO;
 import com.zhidian.views.ResultListModel;
-import com.zhidian.views.VersionControllerViewDTO;
+import com.zhidian.views.VersionControlViewDTO;
 
 @RestController
 @RequestMapping("/admin/version/info")
@@ -48,7 +48,7 @@ public class VersionAdminInfoController {
 			@RequestParam("type") String type,
 			@RequestParam("value") String value) throws Exception{
 		ResultListModel result = new ResultListModel();
-		List<VersionControllerViewDTO> list = infoService.getVersionBySearch(type,value);
+		List<VersionControlViewDTO> list = infoService.getVersionBySearch(type,value);
 		if(list!=null){
 			result.setTotal(list.size());
 			result.setItems(list);

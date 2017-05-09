@@ -11,5 +11,5 @@ import com.zhidian.model.sys.ConfigBO;
 public interface ConfigMapper {
 
 	List<ConfigBO> queryConfigsForAdminInfoSupportService01ListConfigBO();
-	
+
 }

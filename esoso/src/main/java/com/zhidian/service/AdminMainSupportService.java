@@ -46,7 +46,7 @@ public class AdminMainSupportService {
 				if(v!=null){
 					return versionMapper.updateVersionsForAdminMainSupportService01SimpleVersion(v.getId(),v.getName(),v.getType(),v.getType2());
 				}else{
-					throw new Exception("参数异常,非法参数...");
+					return -1;// 可能是参悟有问题，可能是version处于禁用状态
 				}
 			}else{
 				throw new Exception("参数有误,无法转换!");
@@ -68,5 +68,19 @@ public class AdminMainSupportService {
 			throw new Exception("参数为空..");
 		}
 	}
+	
+	public int setVersionUnStop(String versionId, String name) throws Exception {
+		if(StringUtils.isNotEmpty(versionId)&&StringUtils.isNotEmpty(name)){
+			int id = BasicUtils.version2Id(versionId);
+			if(id>0){
+				return versionMapper.updateVersionsForAdminMainSupportService02ReturnId(id, name);
+			}else{
+				throw new Exception("参数有误,无法转换!");
+			}
+		}else{
+			throw new Exception("参数为空..");
+		}
+	}
+	
 
 }

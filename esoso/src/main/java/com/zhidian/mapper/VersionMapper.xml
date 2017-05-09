@@ -43,8 +43,12 @@
 		select * from versions where name = #{name};
 	</select>
 	
+	<select id="queryVersionsForAdminInfoSupportService03ListVersion" resultType="Version">
+		select * from versions where versions.using = 1;
+	</select>
+	
 	<select id = "selectVersionsByIdAndName" resultType="Version">
-		select * from versions where id = #{id} and name = #{name};
+		select * from versions where id = #{id} and name = #{name} and versions.nmp = 1;
 	</select>
 	
 	<select id="queryVersionsForAdminInfoSupportService01SimpleVersion" resultType="Version">
@@ -62,6 +66,10 @@
 	
 	<update id="updateVersionsForAdminMainSupportService01ReturnId">
 		update versions set versions.nmp = 0 where id = #{id} and  name = #{name} and versions.using != 1;
+	</update>
+	
+	<update id="updateVersionsForAdminMainSupportService02ReturnId">
+		update versions set versions.nmp = 1 where id = #{id} and name = #{name} ;
 	</update>
 	
 <!-- 	<select id="selectTest">

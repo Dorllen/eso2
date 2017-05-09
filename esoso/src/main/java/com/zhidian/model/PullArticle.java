@@ -37,7 +37,7 @@ public class PullArticle {
 	private Date updateManTime;// 更新人时间
 	private int using;// 是否使用
 	private int views;// 访问量
-	private int scores;// 热点
+	private double scores;// 热点
 	private int collets;// 收集量
 //	private String version;// 内容版本，如果内容版本改变了。内容的默认css也是改变的。关联的是version表的
 	private int websiteId;
@@ -246,7 +246,7 @@ public class PullArticle {
 	/**
 	 * @return the scores
 	 */
-	public int getScores() {
+	public double getScores() {
 		return scores;
 	}
 
@@ -254,7 +254,7 @@ public class PullArticle {
 	 * @param scores
 	 *            the scores to set
 	 */
-	public void setScores(int scores) {
+	public void setScores(double scores) {
 		this.scores = scores;
 	}
 

@@ -1,11 +1,12 @@
 package com.zhidian.views;
 
-public class VersionControllerViewDTO {
+public class VersionControlViewDTO {
 	private int id;
 	private String versionId;
 	private String name;
 	private String createTime;
-	private int using;
+	private boolean using;
+	private boolean nmp;
 	public int getId() {
 		return id;
 	}
@@ -30,10 +31,16 @@ public class VersionControllerViewDTO {
 	public void setCreateTime(String createTime) {
 		this.createTime = createTime;
 	}
-	public int getUsing() {
+	public boolean getUsing() {
 		return using;
 	}
-	public void setUsing(int using) {
+	public void setUsing(boolean using) {
 		this.using = using;
+	}
+	public boolean isNmp() {
+		return nmp;
+	}
+	public void setNmp(boolean nmp) {
+		this.nmp = nmp;
 	}
 }

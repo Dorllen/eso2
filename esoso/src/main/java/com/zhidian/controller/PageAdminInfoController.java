@@ -1,5 +1,7 @@
 package com.zhidian.controller;
 
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,7 +11,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.zhidian.exception.PageArgumentsException;
 import com.zhidian.service.AdminInfoSupportService;
-import com.zhidian.views.VersionUpdateViewModel;
+import com.zhidian.views.VersionAddVO;
+import com.zhidian.views.VersionControlVO;
+import com.zhidian.views.VersionUpdateVO;
+import com.zhidian.views.WebsitePalistDTO;
 
 /**
  * @ClassName: PageAdminInfoController
@@ -28,7 +33,7 @@ public class PageAdminInfoController {
 	public String versionControlInfoPage(@RequestParam("id") String versionId, Model model) throws Exception {
 		// 放入数据模型
 		if (StringUtils.isNotEmpty(versionId)) {
-			VersionUpdateViewModel view = infoService.getVersionInfoByVersionId(versionId);
+			VersionUpdateVO view = infoService.getVersionInfoByVersionId(versionId);
 			model.addAttribute("Message", view);
 			return "admin/version-control-info";
 		} else {
@@ -40,11 +45,32 @@ public class PageAdminInfoController {
 	public String versionControlInfoUpdatePage(@RequestParam("id") String versionId, Model model) throws PageArgumentsException {
 		// 放入数据模型
 		if (StringUtils.isNotEmpty(versionId)) {
-			VersionUpdateViewModel view = infoService.getVersionInfoByVersionId(versionId);
+			VersionUpdateVO view = infoService.getVersionInfoByVersionId(versionId);
 			model.addAttribute("Message", view);
 			return "admin/version-control-info-update";
 		} else {
 			throw new PageArgumentsException();
 		}
+	}
+	
+	@GetMapping("/admin/version-control.html")
+	public String versionControlPage(Model model){
+		List<VersionControlVO> list = infoService.getVersionInfoUsingList();
+		model.addAttribute("Message", list);
+		return "admin/version-control";
+	}
+	
+	@GetMapping("/admin/version-add.html")
+	public String versionAddPage(Model model){
+		VersionAddVO view = infoService.getVersionAddInfoUsing();
+		model.addAttribute("Message", view);
+		return "admin/version-add";
+	}
+	
+	@GetMapping("/admin/website-pa-list.html")
+	public String websitePalistPage(Model model){
+		List<WebsitePalistDTO> list = infoService.getWebsitesPaList();
+		model.addAttribute("Message", list);
+		return "admin/website-pa-list";
 	}
 }

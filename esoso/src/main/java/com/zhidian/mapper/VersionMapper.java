@@ -31,6 +31,15 @@ public interface VersionMapper {
 
 	public List<Version> queryVersionsForAdminInfoSupportService02ListVersion(@Param("name") String name);
 
+	/**
+	* @Title: selectVersionsByIdAndName
+	* @Description: TODO(通过id，name找出非禁用的version.不管using)
+	* @param @param id
+	* @param @param name
+	* @param @return    参数
+	* @return Version    返回类型
+	* @throws
+	*/
 	public Version selectVersionsByIdAndName(@Param("id") int id,@Param("name") String name);
 	
 
@@ -59,6 +68,10 @@ public interface VersionMapper {
 	public int updateVersionsForAdminMainSupportService01ReturnId(@Param("id") int id,@Param("name") String name);
 
 	public Version queryVersionsForAdminInfoSupportService01SimpleVersion(@Param("id") int id);
+
+	public List<Version> queryVersionsForAdminInfoSupportService03ListVersion();
+
+	public int updateVersionsForAdminMainSupportService02ReturnId(@Param("id") int id,@Param("name") String name);
 	
 	
 //	public void selectTest(@Param("id") int id,@Param("name") String name);
