@@ -23,7 +23,7 @@ public class AppEnumDefine {
 	}
 
 	public enum ConfigType {
-		爬虫服务("WormSercie"), 搜索服务("EngineSercie"), 系统服务("SysService");
+		爬虫服务("WormSercie"), 搜索服务("EngineSercie"), 系统服务("SysService"), 版本控制("VersionController");
 		private String value;
 
 		private ConfigType(String value) {

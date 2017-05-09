@@ -15,7 +15,7 @@ import com.zhidian.model.sys.PullPageObjectModel;
 
 @Controller
 @RequestMapping("/admin/worm")
-public class AdminWormMainController {
+public class WormAdminInfoController {
 
 	@Autowired
 	WormsService wormsService;

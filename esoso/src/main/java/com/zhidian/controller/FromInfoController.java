@@ -26,7 +26,7 @@ import com.zhidian.bases.worm.WormsService;
  */
 //@Controller
 @RequestMapping("/from")
-public class FromMainController {
+public class FromInfoController {
 
 	@Autowired
 	WormsService wormsService;

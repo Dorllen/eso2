@@ -42,6 +42,8 @@ public class Version {
 							// js/index/engine/0.0.0.1/xx.js,js/index/engine/0.0.0.1/xx2.js
 	private String sign;// 备注
 	private String type;// 类型。websites,results。
+	private String type2;
+	// 类型2，重新定义engine的子类型分answer。用来描述一条记录是用来的类型。如type:websites type2:answer。是指该条数据是websites详情页的，但是属于answer类别 
 	private int nmp;// 同于Website的nmp，意义是一样的
 
 	public int getId() {
@@ -130,5 +132,13 @@ public class Version {
 
 	public void setNmp(int nmp) {
 		this.nmp = nmp;
+	}
+
+	public String getType2() {
+		return type2;
+	}
+
+	public void setType2(String type2) {
+		this.type2 = type2;
 	}
 }

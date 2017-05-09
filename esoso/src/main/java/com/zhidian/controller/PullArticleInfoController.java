@@ -31,7 +31,7 @@ import com.zhidian.views.PullArticlePageVO;
  *
  */
 @Controller
-public class PullArticleMainController {
+public class PullArticleInfoController {
 
 	@Autowired
 	PageService pageService;

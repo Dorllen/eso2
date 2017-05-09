@@ -13,7 +13,8 @@ public class VersionBO {
 	private int id;
 	private String name;// 站点名，websites:segmentfault,results:answer,blog
 //	private String version = "0.0.0.0";// 版本号、0.0.0.1 默认版本0.0.0.0
-	private String type;// 类型。websites,results。
+	private String type;
+	private String type2;
 	private List<String> defCss;// //
 								// 默认的css地址。css/websites/segmentfault/0.0.0.1/index.css,segmentfault/css/0.0.0.1/main.css
 	private String defPage;// 默认的page的地址。websites/segmentfault/0.0.0.1/index.html
@@ -66,5 +67,13 @@ public class VersionBO {
 
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	public String getType2() {
+		return type2;
+	}
+
+	public void setType2(String type2) {
+		this.type2 = type2;
 	}
 }

@@ -27,6 +27,7 @@ import com.zhidian.bases.CommonClassLoader;
 import com.zhidian.bases.CustomClassLoader;
 import com.zhidian.service.DataInfoAdminService;
 import com.zhidian.util.BasicUtils;
+import com.zhidian.views.ResultListModel;
 import com.zhidian.views.ResultModel;
 import com.zhidian.views.ResultSimpleModel;
 import com.zhidian.views.WebsitePageVO;
@@ -36,7 +37,7 @@ import com.zhidian.views.WormSettingsSearchResultVO;
 
 @Controller
 @RequestMapping("/admin/website")
-public class AdminWebsiteMainController {
+public class WebsiteAdminInfoController {
 
 	@Autowired
 	DataInfoAdminService dataService;
@@ -57,7 +58,7 @@ public class AdminWebsiteMainController {
 	@ResponseBody
 	public Object websiteInforPart(@RequestParam("name") String name) {
 		List<WormSettingsSearchResultVO> list = dataService.getWebsiteVersionListByName(name);
-		ResultModel result = new ResultModel();
+		ResultListModel result = new ResultListModel();
 		if (list == null || list.size() == 0) {
 			result.setMessage("未找到结果");
 		} else {
@@ -75,7 +76,6 @@ public class AdminWebsiteMainController {
 		if (page == null) {
 			result.setMessage("未找到结果");
 		} else {
-			result.setTotal(1);
 			result.setItem(page);
 		}
 		return result;
@@ -114,7 +114,7 @@ public class AdminWebsiteMainController {
 	@GetMapping("/info/getVersions")
 	@ResponseBody
 	public Object getWebsiteAllVersions(@RequestParam("name") String name) {
-		ResultModel result = new ResultModel();
+		ResultListModel result = new ResultListModel();
 		List<String> list = dataService.getWebsiteAllVersionList(name);
 		if (list != null && list.size() > 0) {
 			result.setItems(list);
@@ -128,7 +128,7 @@ public class AdminWebsiteMainController {
 	@GetMapping("/info/getWebsites")
 	@ResponseBody
 	public Object getAllWebsitesName() {
-		ResultModel result = new ResultModel();
+		ResultListModel result = new ResultListModel();
 		List<String> list = dataService.getAllWebsites();
 		if (list != null && list.size() > 0) {
 			result.setItems(list);

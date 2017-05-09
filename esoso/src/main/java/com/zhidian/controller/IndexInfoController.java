@@ -29,7 +29,7 @@ import com.zhidian.views.IndexPageVO;
  *
  */
 @Controller
-public class IndexMainController {
+public class IndexInfoController {
 	
 	@Autowired
 	PageService pageService;

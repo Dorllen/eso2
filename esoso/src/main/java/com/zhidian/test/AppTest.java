@@ -28,6 +28,7 @@ import com.zhidian.bases.AppEnumDefine;
 import com.zhidian.bases.ResourceEnumDefine;
 import com.zhidian.bases.SearchEngineEnumDefine;
 import com.zhidian.bases.worm.WormsService;
+import com.zhidian.mapper.ConfigMapper;
 import com.zhidian.mapper.GlobalInfoMapper;
 import com.zhidian.mapper.PaCountMapper;
 import com.zhidian.mapper.PullArticleMapper;
@@ -44,6 +45,8 @@ import com.zhidian.model.ScheduleQueue;
 import com.zhidian.model.User;
 import com.zhidian.model.Version;
 import com.zhidian.model.WormLog;
+import com.zhidian.model.sys.ConfigBO;
+import com.zhidian.model.sys.NameValueModel;
 import com.zhidian.model.sys.PullResultBO;
 import com.zhidian.model.sys.PullResultPageModel;
 import com.zhidian.model.sys.ResultRoleBO;
@@ -78,6 +81,24 @@ public class AppTest {
 	// articleMapper = app.getBean(ArticleMapper.class);
 	// }
 	// }
+	
+	// ###########################Configs##################
+	
+	
+	@Autowired
+	ConfigMapper configMapper;
+	
+	@Test
+	public void testQueryConfigBO(){
+		List<ConfigBO> list = configMapper.queryConfigsForAdminInfoSupportService01ListConfigBO();
+		System.out.println(JSON.toJSONString(list));
+		
+		
+	}
+	
+	
+	
+	
 
 	// ###########################其他##################
 	@Autowired
@@ -191,6 +212,14 @@ public class AppTest {
 //		System.out.println(JSON.toJSONString(v));
 
 	}
+	
+	@Test
+	public void testVersion3(){
+		List<NameValueModel> list = versionMapper.queryVersionsForAdminInfoSupportService01ListVersionBO2("websites", "answer");
+		System.out.println("?:"+JSON.toJSONString(list));
+	}
+	
+	
 
 	// ###########################PullArticle##################
 	@Autowired

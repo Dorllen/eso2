@@ -26,11 +26,63 @@
 <script>DD_belatedPNG.fix('*');</script>
 <![endif]-->
 
-<title>界面版本管理</title>
+<title>界面版本</title>
 </head>
 <body>
 	<div class="page-container" style="min-height: 500px">
+		<div class="text-l mt-20 bk-gray pd-5">
+			<form action="#" method="get" id="searchForm">
+			版本搜索： <span class="select-box mr-10"
+				style="max-width: 150px; display: inline-block"> <select
+				class="select" id="type" name="type" autocomplete="off">
+					<option value="website" selected>站点名称</option>
+					<!-- <option value="type2">类型</option> -->
+					<option value="version">版本ID搜索</option>
+			</select>
+			</span><span id="changeInput"><input type="text" name="value" id="search_text" style="width: 250px"
+				class="input-text" placeholder="segmentfault|github"
+				autocomplete="off" /></span>
+			<button name="" id="search_button" class="btn btn-success"
+				type="submit">
+				<i class="Hui-iconfont">&#xe665;</i> 搜索
+			</button>
+			<a class="btn btn-primary radius"
+				style="float: right; margin-right: 20px"
+				onclick="openPage('新增版本','version-add.html')" href="javascript:;"><i
+				class="Hui-iconfont">&#xe600;</i> 新增版本</a>
+			</form>
+		</div>
 		<table id="table1"
+			class="table table-border table-bordered table-bg mb-15 mt-20 table-hover">
+			<thead class="text-c">
+				<tr>
+					<th>序号</th>
+					<th>站点名</th>
+					<th>版本号</th>
+					<th>创建时间</th>
+					<th>是否在用</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody class="text-c">
+				<tr>
+					<td>1</td>
+					<td>segmentfault</td>
+					<td>0.0.1</td>
+					<td>2017-3-28 20:14:16</td>
+					<td>在用</td>
+					<td><input class="btn btn-success radius" type="button"
+						value="詳情"
+						onclick="openPage('segmentfault信息詳情','version-control-info.html')">
+						<input class="btn btn-primary radius" type="button" value="变更"
+						onclick="openPage('segmentfault信息变更','version-control-info-update.html')"/> 
+						<input class="btn btn-warning radius" type="button" value="设为默认"
+						onclick="setDefault(1,'segmentfault')"/> <input class="btn btn-danger radius" type="button" value="禁用"
+						onclick="setWarning(1,'segmentfault')"/></td>
+				</tr>
+			</tbody>
+		</table>
+		<table id="table2" style="display:none"
 			class="table table-border table-bordered table-bg mb-15 mt-20 table-hover">
 			<thead class="text-c">
 				<tr>
@@ -41,7 +93,8 @@
 					<th>创建人</th>
 					<th>最近变更时间</th>
 					<th>最近变更人</th>
-					<th>站点收录数</th>
+					<th>关闭时间</th>
+					<th>关闭人</th>
 					<th>当前版本关联数</th>
 					<th>是否在用</th>
 					<th>操作</th>
@@ -56,24 +109,33 @@
 					<td>Admin</td>
 					<td>2017-4-29 14:33:15</td>
 					<td>Admin</td>
-					<td>384</td>
+					<td>2017-4-29 14:33:15</td>
+					<td>Admin</td>
 					<td>2</td>
 					<td>在用</td>
 					<td><input class="btn btn-success radius" type="button"
 						value="詳情"
 						onclick="openPage('segmentfault信息詳情','website-control-info.html')">
 						<input class="btn btn-primary radius" type="button" value="变更"
-						onclick="openPage('segmentfault信息变更','website-control-info-update.html')"/> 
-						<input class="btn btn-warning radius" type="button" value="设为默认"
-						onclick="setDefault(1,'segmentfault')"/></td>
+						onclick="openPage('segmentfault信息变更','website-control-info-update.html')">
+						<input class="btn radius btn-warning" type="button" value="设为默认"
+						onclick="setDefaultWebsite(1,'segmentfault')"> <input class="btn btn-danger radius"
+						type="button" value="删除" onclick="deleteWebsite(1,'segmentfault')"></td>
 				</tr>
 			</tbody>
+			<tfoot class="text-c">
+				<tr>
+					<td colspan="12"  class="cf1_"></td>
+				</tr>
+			</tfoot>
 		</table>
 	</div>
 	<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
 	<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
 	<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script>
 	<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script>
+
+
 
 	<script type="text/javascript" src="lib/laypage/1.2/laypage.js"></script>
 
@@ -87,77 +149,6 @@
 			});
 			layer.full(index);
 		}
-		var deleteWebsite = function(id,name){
-			layer.confirm('删除站点有两种方式，请选择(强制删除,可能会造成数据依赖错误)', {
-				  btn: ['强制删除','安全删除','放弃'] //按钮
-				}, function(){
-					layer.confirm('提醒：强制删除将删除数据间依赖，删除依赖的相关文件，包括字节码!', {
-						  btn: ['删除','放弃'],icon:0 //按钮
-						}, function(){
-							$.ajax({url:"",type:"delete",data:{id:id,name:name}}).done(function(data){
-								if(data){
-									if(data.message){
-										layer.msg(data.message, {
-										    time: 1000, icon: 1
-										  });
-									}else{
-										layer.msg('删除成功!', {time: 1000, icon: 1});
-									}
-								}
-							}).fail(function(data){
-								//$.Huimodalalert('联网失败!', 2000);
-								layer.msg('请求失败!', {
-								    time: 1000, icon: 5
-								  });
-							})
-						}, function(){
-						  layer.msg('已放弃', {
-						    time: 2000,icon:7});
-						});
-				}, function(){
-					$.ajax({url:"",type:"delete",data:{id:id,name:name}}).done(function(data){
-						if(data){
-							if(data.message){
-								layer.msg(data.message, {
-								    time: 1000, icon: 1
-								  });
-							}else{
-								layer.msg('删除成功!', {
-								    time: 1000, icon: 1
-								  });
-							}
-						}
-					}).fail(function(data){
-						layer.msg('请求失败!', {
-						    time: 1000, icon: 5
-						  });
-					})
-				});
-		}
-		
-		var setDefaultWebsite = function(id,name){
-			layer.confirm('是否设为默认!', {
-				  btn: ['确定','放弃'],icon:0 //按钮
-				}, function(){
-					$.ajax({url:"",type:"patch",data:{id:id,name:name}}).done(function(data){
-						if(data){
-							if(data.message){
-								layer.msg(data.message, {
-								    time: 1000, icon: 1
-								  });
-							}else{
-								layer.msg('删除成功!', {
-								    time: 1000, icon: 1
-								  });
-							}
-						}
-					}).fail(function(data){
-						layer.msg('请求失败!', {
-						    time: 1000, icon: 5
-						  });
-					});
-				});
-		}
 	</script>
 	<script type="text/javascript">
 		var setDefault = function(id,name){
@@ -167,6 +158,21 @@
 					icon : 0
 				}, function() {
 					layer.msg("设置成功...");
+				});
+	 		} else {
+				layer.msg("参数有误!", {
+					icon : 2,
+					time : 1500
+				});
+			}	
+		}
+		var setWarning = function(id,name){
+			if (id && name) {
+				layer.confirm('请先设置默认，再禁用!', {
+					btn : [ '禁用', '放弃' ],
+					icon : 0
+				}, function() {
+					layer.msg("禁用成功...");
 				});
 	 		} else {
 				layer.msg("参数有误!", {
