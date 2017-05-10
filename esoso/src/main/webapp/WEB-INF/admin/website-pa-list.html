@@ -608,7 +608,7 @@
 		}
 	 	var showService = function(id,name){
 	 		if (id && name) {
-				$.get("",{}).done(function(){
+				$.get("website/info/getItemsService",{id:id,name:name}).done(function(){
 					
 				}).fail(function(){
 					layer.msg('请求失败!', {

@@ -44,7 +44,20 @@
 		select * from pullArticles where pullArticles.using = 1;
 	</select>
 	
+	<select id="queryPullArticlesForAdminInfoSupportServcie01SimplePullArticleBO" resultType="PullArticleBO">
+		select * from pullArticles where name = #{name} and id = #{id} and pullArticles.using =1 and status = 0;
+	</select>
+	
+	
 	<update id="updatePullArticlesForAdminMainSupportService01RetrunId" statementType="CALLABLE">
 		call pullArticlesp1(#{id},#{name})
 	</update>
+	
+	
+	
+	<delete id="deletePullArticlesForAdminMainSupportService01IdName">
+		delete from pullArticles where id = #{id} and  name = #{name} and pullArticles.using != 1 and status = 0;
+	</delete>
+	
+	
 </mapper>

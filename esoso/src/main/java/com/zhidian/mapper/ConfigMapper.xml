@@ -16,4 +16,8 @@
 		select * from configs where type = 'VersionController' and configs.using = 1
 	</select>
 
+	<select id="queryConfigsForAdminInfoSupportService02ListConfigBO" resultType="ConfigBO">
+		select * from configs where type = "WebsiteService" and configs.using = 1 and value like CONCAT('%',#{sql},'%');
+	</select>
+
 </mapper>

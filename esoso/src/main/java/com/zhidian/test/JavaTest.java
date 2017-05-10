@@ -42,6 +42,7 @@ import org.junit.Test;
 import com.alibaba.fastjson.JSON;
 import com.zhidian.model.sys.WebsiteCssConfigModel;
 import com.zhidian.model.websites.answer.SegmentfaultPageRObject;
+import com.zhidian.model.websites.config.ConfigWebsiteItemModel;
 
 /**
  * @ClassName: JavaTest
@@ -52,7 +53,14 @@ import com.zhidian.model.websites.answer.SegmentfaultPageRObject;
  */
 public class JavaTest {
 	public static void main(String[] args) {
-		randomAccessFile();
+		String str = "{\"id\":4,\"name\":\"segmentfault\",\"type\":\"answer\",\"url\":\"https://segmentfault.com/q/1010000003709420\",\"uuid\":\"4b3a7cb53124f3c40d19ed76caa50c37\"}";
+		ConfigWebsiteItemModel s = JSON.parseObject(str, ConfigWebsiteItemModel.class);
+		List<ConfigWebsiteItemModel> c = new ArrayList<ConfigWebsiteItemModel>();
+		c.add(s);
+		System.out.println(JSON.toJSONString(c));
+		
+		
+//		randomAccessFile();
 
 		// bufferedReader();
 

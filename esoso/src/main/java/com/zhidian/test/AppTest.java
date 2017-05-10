@@ -28,6 +28,7 @@ import com.zhidian.bases.AppEnumDefine;
 import com.zhidian.bases.ResourceEnumDefine;
 import com.zhidian.bases.SearchEngineEnumDefine;
 import com.zhidian.bases.worm.WormsService;
+import com.zhidian.exception.PageArgumentsException;
 import com.zhidian.mapper.ConfigMapper;
 import com.zhidian.mapper.GlobalInfoMapper;
 import com.zhidian.mapper.PaCountMapper;
@@ -51,9 +52,11 @@ import com.zhidian.model.sys.PullResultBO;
 import com.zhidian.model.sys.PullResultPageModel;
 import com.zhidian.model.sys.ResultRoleBO;
 import com.zhidian.model.sys.WebsiteBO;
+import com.zhidian.service.AdminInfoSupportService;
 import com.zhidian.service.AdminMainSupportService;
 import com.zhidian.service.DataInfoAdminService;
 import com.zhidian.util.BasicUtils;
+import com.zhidian.views.ServiceSettingsDTO;
 import com.zhidian.views.WebsitePageVO;
 import com.zhidian.views.WebsitePostModel2;
 import com.zhidian.views.WormSettingsSearchResultVO;
@@ -82,6 +85,21 @@ public class AppTest {
 	// articleMapper = app.getBean(ArticleMapper.class);
 	// }
 	// }
+	
+	// ###########################AdminInfoSupportService##################
+	@Autowired
+	AdminInfoSupportService infoService;
+	@Test
+	public void getItemsService(){
+		try {
+			List<ServiceSettingsDTO> list = infoService.getItemServiceByItemsIdAndName(4, "segmentfault");
+			System.out.println(JSON.toJSONString(list));
+		} catch (PageArgumentsException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	
 	
 	// ###########################AdminMainSupportService##################

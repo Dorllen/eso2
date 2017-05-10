@@ -16,6 +16,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.zhidian.model.PullArticle;
+import com.zhidian.model.sys.PullArticleBO;
 
 /**
  * @ClassName: ArticleMapper
@@ -67,7 +68,29 @@ public interface PullArticleMapper {
 	* @return int    返回类型
 	* @throws
 	*/
-	int updatePullArticlesForAdminMainSupportService01RetrunId(@Param("id") int id,@Param("id")  String name);
+	int updatePullArticlesForAdminMainSupportService01RetrunId(@Param("id") int id,@Param("name") String name);
+
+	/**
+	* @Title: deletePullArticlesForAdminMainSupportService01IdName
+	* @Description: TODO(可删除不为using=0，status=0的，其他的状态不允许)
+	* @param @param id
+	* @param @param name
+	* @param @return    参数
+	* @return int    返回类型
+	* @throws
+	*/
+	int deletePullArticlesForAdminMainSupportService01IdName(@Param("id") int id,@Param("name") String name);
+
+	/**
+	* @Title: queryPullArticlesForAdminInfoSupportServcie01SimplePullArticleBO
+	* @Description: TODO(在用using=1，status=0)
+	* @param @param id
+	* @param @param name
+	* @param @return    参数
+	* @return PullArticleBO    返回类型
+	* @throws
+	*/
+	PullArticleBO queryPullArticlesForAdminInfoSupportServcie01SimplePullArticleBO(@Param("id") int id,@Param("name") String name);
 
 //	PullArticle selectPullArticleByIdAndName(@Param("id") int id,@Param("id")  String name);
 	

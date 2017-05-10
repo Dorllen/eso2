@@ -3,50 +3,44 @@ package com.zhidian.controller;
 import java.io.File;
 import java.util.List;
 
-import javax.validation.Valid;
-
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.zhidian.bases.CommonClassLoader;
 import com.zhidian.bases.CustomClassLoader;
+import com.zhidian.exception.PageArgumentsException;
+import com.zhidian.service.AdminInfoSupportService;
 import com.zhidian.service.DataInfoAdminService;
 import com.zhidian.views.ResultListModel;
 import com.zhidian.views.ResultModel;
+import com.zhidian.views.ServiceSettingsDTO;
 import com.zhidian.views.WebsitePageVO;
-import com.zhidian.views.WebsitePostModel;
 import com.zhidian.views.WormSettingsSearchResultVO;
 
-@Controller
+//@Controller
+@RestController
 @RequestMapping("/admin/website/info")
 public class WebsiteAdminInfoController {
 
 	@Autowired
 	DataInfoAdminService dataService;
 
-	@GetMapping("")
-	public String index_() {
-		return "redirect:/";
-	}
+	@Autowired
+	AdminInfoSupportService infoService;
 
-	@GetMapping("/")
-	@ResponseBody
-	public String index(Model model) {
-
-		return "";
-	}
+	/*
+	 * @GetMapping("") public String index_() { return "redirect:/"; }
+	 * 
+	 * @GetMapping("/") public String index(Model model) {
+	 * 
+	 * return ""; }
+	 */
 
 	@GetMapping("/part")
-	@ResponseBody
 	public Object websiteInforPart(@RequestParam("name") String name) {
 		List<WormSettingsSearchResultVO> list = dataService.getWebsiteVersionListByName(name);
 		ResultListModel result = new ResultListModel();
@@ -60,7 +54,6 @@ public class WebsiteAdminInfoController {
 	}
 
 	@GetMapping("/detail")
-	@ResponseBody
 	public Object websiteInforDetail(@RequestParam("id") Integer id, @RequestParam("name") String name) {
 		WebsitePageVO page = dataService.getWebsiteInforDetailByNameAndId(id, name);
 		ResultModel result = new ResultModel();
@@ -72,38 +65,7 @@ public class WebsiteAdminInfoController {
 		return result;
 	}
 
-	// 提交
-
-	@PostMapping("/updateWebsite")
-	@ResponseBody
-	public Object updateWebsite(@ModelAttribute @Valid WebsitePostModel model, BindingResult error) {
-		// 可能需要接收到上传的字节码文件。
-		ResultModel result = new ResultModel();
-		if (error != null && error.getErrorCount() > 0) {
-			result.setMessage("检查参数!");
-		} else {
-			dataService.updateWebsiteFromPostObject(model, "Admin");
-			result.setCode("200");
-			result.setMessage("更新成功!");
-		}
-		return result;
-	}
-
-	@PostMapping("/setDefaultWebsite")
-	@ResponseBody
-	public Object setWebsiteDefault(@RequestParam("id") String id, @RequestParam("name") String name) {
-		ResultModel result = new ResultModel();
-		if (StringUtils.isNotEmpty(id) && StringUtils.isNotEmpty(name)) {
-			dataService.setWebisteDefaultUsing(id, name);
-			result.setMessage("更新成功!");
-		} else {
-			result.setMessage("请求参数有误!");
-		}
-		return result;
-	}
-
 	@GetMapping("/getVersions")
-	@ResponseBody
 	public Object getWebsiteAllVersions(@RequestParam("name") String name) {
 		ResultListModel result = new ResultListModel();
 		List<String> list = dataService.getWebsiteAllVersionList(name);
@@ -117,7 +79,6 @@ public class WebsiteAdminInfoController {
 	}
 
 	@GetMapping("/getWebsites")
-	@ResponseBody
 	public Object getAllWebsitesName() {
 		ResultListModel result = new ResultListModel();
 		List<String> list = dataService.getAllWebsites();
@@ -129,8 +90,19 @@ public class WebsiteAdminInfoController {
 		return result;
 	}
 
-	@GetMapping("/getInfo")
-	@ResponseBody
+	@GetMapping("/getItemService")
+	public Object getItemsService(@RequestParam("id") int id, @RequestParam("name") String name)
+			throws PageArgumentsException {
+		ResultListModel result = new ResultListModel();
+		List<ServiceSettingsDTO> dto = infoService.getItemServiceByItemsIdAndName(id, name);
+		if (dto != null) {
+			result.setItems(dto);
+			result.setTotal(dto.size());
+		}
+		return result;
+	}
+
+	@GetMapping("/getInfo") // test
 	public Object uploadTest2(@RequestParam("name") String name) {
 		try {
 			System.out.println("name:" + name);
@@ -148,7 +120,7 @@ public class WebsiteAdminInfoController {
 		return null;
 	}
 
-	@GetMapping("/getInfo3")
+	@GetMapping("/getInfo3") // test
 	@ResponseBody
 	public Object uploadTest3(@RequestParam("name") String name) {
 		CommonClassLoader cl = new CommonClassLoader();
@@ -173,7 +145,7 @@ public class WebsiteAdminInfoController {
 	@Autowired
 	CommonClassLoader c;
 
-	@GetMapping("/getInfo4")
+	@GetMapping("/getInfo4") // test
 	@ResponseBody
 	public Object uploadTest4(@RequestParam("name") String name) {
 		try {
@@ -194,7 +166,7 @@ public class WebsiteAdminInfoController {
 		return null;
 	}
 
-	@GetMapping("/getInfo5")
+	@GetMapping("/getInfo5") // test
 	@ResponseBody
 	public Object uploadTest5(@RequestParam("name") String name) {
 		System.out.println("name:" + name);

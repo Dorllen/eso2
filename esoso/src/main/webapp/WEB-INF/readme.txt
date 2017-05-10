@@ -17,6 +17,13 @@ http://127.0.0.1:8080/esoso/pa/f/b717ef7ea0b7e8fbcb83677db51a9382
 
 http://127.0.0.1:8080/esoso/admin/website/getInfo3?name=Result 測試CommonClassLoader
 
+性能介绍：
+	1. 使用了存储过程
+	2. 使用了内置函数
+	3. 对ArrayList使用定义了大小
+	4. 对数据库返回数据做了处理，并且处理都是做了再判断（即再校验)
+
+
 2017-5-10：
 	重要更新：
 	1. 去除所有的Patch方式，部分浏览器，及Jquery不支持

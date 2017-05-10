@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSON;
 import com.zhidian.bases.SearchEngineEnumDefine;
 import com.zhidian.exception.PageArgumentsException;
 import com.zhidian.mapper.ConfigMapper;
@@ -17,8 +18,11 @@ import com.zhidian.model.PullArticle;
 import com.zhidian.model.Version;
 import com.zhidian.model.sys.ConfigBO;
 import com.zhidian.model.sys.NameValueModel;
+import com.zhidian.model.sys.PullArticleBO;
+import com.zhidian.model.websites.config.ConfigWebsiteItemModel;
 import com.zhidian.util.BasicUtils;
 import com.zhidian.views.ConfigDTO;
+import com.zhidian.views.ServiceSettingsDTO;
 import com.zhidian.views.VersionAddVO;
 import com.zhidian.views.VersionControlDTO;
 import com.zhidian.views.VersionControlViewDTO;
@@ -33,7 +37,7 @@ public class AdminInfoSupportService {
 
 	@Autowired
 	VersionMapper versionMapper;
-	
+
 	@Autowired
 	PullArticleMapper pullMapper;
 
@@ -86,8 +90,8 @@ public class AdminInfoSupportService {
 					VersionControlViewDTO d = new VersionControlViewDTO();
 					d.setId(v.getId());
 					d.setName(v.getName());
-					d.setUsing(v.getUsing()>0?true:false);
-					d.setNmp(v.getNmp()>0?true:false);
+					d.setUsing(v.getUsing() > 0 ? true : false);
+					d.setNmp(v.getNmp() > 0 ? true : false);
 					if (v.getCreateTime() != null) {
 						d.setCreateTime(sdf.format(v.getCreateTime()));
 					}
@@ -147,7 +151,7 @@ public class AdminInfoSupportService {
 						vo.setCreateTime(sdf.format(v.getCreateTime()));
 					}
 					vo.setName(v.getName());
-					vo.setUsing(v.getUsing()>0?true:false);
+					vo.setUsing(v.getUsing() > 0 ? true : false);
 					vo.setId(v.getId());
 					vo.setVersionId(BasicUtils.id2Version(v.getId()));
 					vos.add(vo);
@@ -172,16 +176,16 @@ public class AdminInfoSupportService {
 	}
 
 	private List<WebsitePalistDTO> createWebsitePalistDTO(List<PullArticle> list) {
-		if(list!=null&&list.size()>0){
+		if (list != null && list.size() > 0) {
 			List<WebsitePalistDTO> dtos = new ArrayList<WebsitePalistDTO>(list.size());
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			for(PullArticle p : list){
-				if(p!=null){
+			for (PullArticle p : list) {
+				if (p != null) {
 					WebsitePalistDTO d = new WebsitePalistDTO();
 					// 装载数据
 					d.setId(p.getId());
 					d.setCollets(p.getCollets());
-					if(p.getStartTime()!=null){
+					if (p.getStartTime() != null) {
 						d.setCreateTime(sdf.format(p.getStartTime()));
 					}
 					d.setMark(p.getMark());
@@ -200,5 +204,53 @@ public class AdminInfoSupportService {
 			return dtos;
 		}
 		return null;
+	}
+
+	public List<ServiceSettingsDTO> getItemServiceByItemsIdAndName(int id, String name) throws PageArgumentsException {
+		if (id > 0) {
+			// 通过字符串模糊查询。如果有数据，则取出字符串。
+			PullArticleBO p = pullMapper.queryPullArticlesForAdminInfoSupportServcie01SimplePullArticleBO(id, name);
+			if (p != null) {
+				String sql = createSqlForWebsiteItem(p);
+				List<ConfigBO> configs = configMapper.queryConfigsForAdminInfoSupportService02ListConfigBO(sql);
+				if (configs != null && configs.size() > 0) {
+					return createServiceSettingsDTOList(configs);
+				} else {
+					return null;
+				}
+			} else {
+				throw new PageArgumentsException("参数异常，数据无该记录...");
+			}
+		} else {
+			throw new PageArgumentsException();
+		}
+	}
+
+	private List<ServiceSettingsDTO> createServiceSettingsDTOList(List<ConfigBO> configs) {
+		if (configs != null && configs.size() > 0) {
+			List<ServiceSettingsDTO> dtos = new ArrayList<ServiceSettingsDTO>(configs.size());
+			for (ConfigBO c : configs) {
+				if(c!=null){
+					ServiceSettingsDTO s = new ServiceSettingsDTO();
+					s.setId(c.getId());
+					s.setName(c.getName());
+					s.setUsing(false);
+					dtos.add(s);
+				}
+			}
+			return dtos;
+		}
+		return null;
+	}
+
+	private String createSqlForWebsiteItem(PullArticleBO p) {
+		// 强制依赖，p肯定不为空
+		ConfigWebsiteItemModel config = new ConfigWebsiteItemModel();
+		config.setId(p.getId());
+		config.setName(p.getName());
+		config.setType(p.getType());
+		config.setUrl(p.getUrl());
+		config.setUuid(p.getUuid());
+		return JSON.toJSONString(config);
 	}
 }

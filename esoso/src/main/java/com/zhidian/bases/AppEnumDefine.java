@@ -24,7 +24,7 @@ public class AppEnumDefine {
 
 	public enum ConfigType {
 		爬虫服务("WormService"), 搜索服务("EngineService"), 系统服务("SysService"), 版本控制("VersionController"), 站点服务(
-				"WebsiteService");
+				"WebsiteService"), 服务定义("ServiceType");
 		private String value;
 
 		private ConfigType(String value) {
@@ -36,15 +36,19 @@ public class AppEnumDefine {
 		}
 	}
 	
+	public enum ConfigServiceType{// 用于定义，站点有哪些服务
+		Wesbsites,Articles
+	}
+	
 	public enum ConfigWormService{
 		OnlinePullData,// 在线爬取数据禁止
 		SchedulePullData,// 定时爬取
-		CustomPullData,// 自定义爬取
+		CustomPullData// 自定义爬取
 	}
 	
 	public enum ConfigEngineService{
 		SearchService, // 能够直接搜索到。指搜数据库
-		OnlineSearchService,// 在线搜索
+		OnlineSearchService// 在线搜索
 	}
 	
 	public enum ConfigSysService{
@@ -65,7 +69,7 @@ public class AppEnumDefine {
 		WebsiteAnalysis,// 是否加入站点分析
 		SortService,// 排名服务，是否加入排名算法队列中
 		PageShot,// 页面快照
-		VersionService,// 版本服务
+		VersionService// 版本服务
 	}
 
 	public enum SysLogType {

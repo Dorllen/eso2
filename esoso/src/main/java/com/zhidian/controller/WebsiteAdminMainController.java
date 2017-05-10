@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import javax.validation.Valid;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,6 +25,7 @@ import com.zhidian.service.DataInfoAdminService;
 import com.zhidian.util.BasicUtils;
 import com.zhidian.views.ResultModel;
 import com.zhidian.views.ResultSimpleModel;
+import com.zhidian.views.WebsitePostModel;
 import com.zhidian.views.WebsitePostModel2;
 
 @RestController
@@ -165,11 +167,51 @@ public class WebsiteAdminMainController {
 		return "no!";
 	}
 	
+	@PostMapping("/updateWebsite")
+	public Object updateWebsite(@ModelAttribute @Valid WebsitePostModel model, BindingResult error) {
+		// 可能需要接收到上传的字节码文件。
+		ResultModel result = new ResultModel();
+		if (error != null && error.getErrorCount() > 0) {
+			result.setMessage("检查参数!");
+		} else {
+			dataService.updateWebsiteFromPostObject(model, "Admin");
+			result.setCode("200");
+			result.setMessage("更新成功!");
+		}
+		return result;
+	}
+
+	@PostMapping("/setDefaultWebsite")
+	public Object setWebsiteDefault(@RequestParam("id") String id, @RequestParam("name") String name) {
+		ResultModel result = new ResultModel();
+		if (StringUtils.isNotEmpty(id) && StringUtils.isNotEmpty(name)) {
+			dataService.setWebisteDefaultUsing(id, name);
+			result.setMessage("更新成功!");
+		} else {
+			result.setMessage("请求参数有误!");
+		}
+		return result;
+	}
+	
+	// 上面代码待验证
+	
 	
 	@PostMapping("/setDefault")
 	public Object setPullArticleDefaultUsing(@RequestParam("id") int id,@RequestParam("name") String name) throws PageArgumentsException{
 		ResultModel result = new ResultModel();
 		int num = mainService.setPullArticleDefaultUsing(id, name);
+		if (num > 0) {
+			result.setMessage("操作成功!");
+		} else {
+			result.setMessage("操作失败!");
+		}
+		return result;
+	}
+	
+	@PostMapping("/delete")
+	public Object setPullArticleDelete(@RequestParam("id") int id,@RequestParam("name") String name) throws PageArgumentsException{
+		ResultModel result = new ResultModel();
+		int num = mainService.setPullArticleDelete(id, name);
 		if (num > 0) {
 			result.setMessage("操作成功!");
 		} else {

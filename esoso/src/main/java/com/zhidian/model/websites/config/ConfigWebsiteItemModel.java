@@ -10,6 +10,7 @@ package com.zhidian.model.websites.config;
 public class ConfigWebsiteItemModel {
 	private int id;
 	private String name;
+	private String type;
 	private String url;
 	private String uuid;
 	public int getId() {
@@ -35,5 +36,11 @@ public class ConfigWebsiteItemModel {
 	}
 	public void setUuid(String uuid) {
 		this.uuid = uuid;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
 	}
 }

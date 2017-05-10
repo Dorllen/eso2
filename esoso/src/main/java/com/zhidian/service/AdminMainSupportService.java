@@ -93,4 +93,12 @@ public class AdminMainSupportService {
 			throw new PageArgumentsException("参数为空..");
 		}
 	}
+
+	public int setPullArticleDelete(int id, String name) throws PageArgumentsException {
+		if(id>0&&StringUtils.isNotEmpty(name)){
+			return pullArticleMapper.deletePullArticlesForAdminMainSupportService01IdName(id,name);
+		}
+		throw new PageArgumentsException("参数为空..");
+	}
+
 }
