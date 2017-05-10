@@ -61,7 +61,7 @@ public interface WebsiteMapper {
 
 	/**
 	* @Title: updateWebsitesForDataInfoAdminService01SimpleWebsite
-	* @Description: TODO(设置website使用的版本)
+	* @Description: TODO(设置website使用的版本,nmp必须为1)
 	* @param @param id
 	* @param @param name    参数
 	* @return void    返回类型
@@ -86,7 +86,6 @@ public interface WebsiteMapper {
 
 
 	int deleteWebistesForDataInfoAdminService01SimpleId(@Param("id") int id);
-
 
 
 

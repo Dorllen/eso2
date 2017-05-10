@@ -23,6 +23,12 @@ http://127.0.0.1:8080/esoso/admin/website/getInfo3?name=Result 測試CommonClass
 	2. 对与数据库接口定义规范，增加了一种：selectVersionsByIdAndName
 	3. 对VO与DAO可以直接转换增加了一条。因为有些页面只有数据，所以将DAO -> PO(POJO) - > VO ，当然VO还是用新模型来接收，不放入Model包（即POJO）所在命名环境中
 	4. 详情页面解析，现在要去除.html后缀，现在是有后缀的
+	5. 对于爬虫结果入库，需要将收集、访问量放入新数据项中
+	6. 对与PullArticle不适用versionId作为传导，直接使用id做为参数。
+	7. sql语句：select * from pullArticles where pullArticles.using = 1; 获取正在使用的数据项，是否有问题？应该获取同名同uuid的一个，不应该用using来取？【待思考】
+	8. 对与服务的描述：服务默认都是开启的，只需要指定关闭对象即可
+	9. 禁用内容详情版本访问，做不到禁用某个版本访问，只能禁用某个链接。【待改进】
+	
 	
 	细节更新：
 	1. 修正$.get()中参数传错的问题。非{}对象类型

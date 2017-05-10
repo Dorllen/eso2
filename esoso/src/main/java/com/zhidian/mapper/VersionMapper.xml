@@ -60,8 +60,8 @@
 		defCss = #{defCss},type = #{type}, type2 = #{type2}, sign = #{sign}
 	</insert>
 	
-	<update id="updateVersionsForAdminMainSupportService01SimpleVersion">
-		call versionsp1(#{id},#{name},#{type},#{type2})
+	<update id="updateVersionsForAdminMainSupportService01SimpleVersion" statementType="CALLABLE">
+		call versionsp1(#{id},#{name})
 	</update>
 	
 	<update id="updateVersionsForAdminMainSupportService01ReturnId">

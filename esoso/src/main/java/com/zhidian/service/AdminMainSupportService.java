@@ -5,7 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.zhidian.bases.SearchEngineEnumDefine;
+import com.zhidian.exception.PageArgumentsException;
+import com.zhidian.mapper.PullArticleMapper;
 import com.zhidian.mapper.VersionMapper;
+import com.zhidian.mapper.WebsiteMapper;
 import com.zhidian.model.Version;
 import com.zhidian.util.BasicUtils;
 import com.zhidian.views.VersionAddViewMainDTO;
@@ -23,6 +26,12 @@ public class AdminMainSupportService {
 	@Autowired
 	VersionMapper versionMapper;
 
+	@Autowired
+	WebsiteMapper websiteMapper;
+
+	@Autowired
+	PullArticleMapper pullArticleMapper;
+
 	public int addNewVersionByVersionViewModel(VersionAddViewMainDTO version) {
 		if (version != null) {
 			Version v = new Version();
@@ -39,48 +48,49 @@ public class AdminMainSupportService {
 	}
 
 	public int setVersionDefaultUsing(String versionId, String name) throws Exception {
-		if(StringUtils.isNotEmpty(versionId)&&StringUtils.isNotEmpty(name)){
+		if (StringUtils.isNotEmpty(versionId) && StringUtils.isNotEmpty(name)) {
 			int id = BasicUtils.version2Id(versionId);
-			if(id>0){
-				Version v = versionMapper.selectVersionsByIdAndName(id,name);
-				if(v!=null){
-					return versionMapper.updateVersionsForAdminMainSupportService01SimpleVersion(v.getId(),v.getName(),v.getType(),v.getType2());
-				}else{
-					return -1;// 可能是参悟有问题，可能是version处于禁用状态
-				}
-			}else{
+			if (id > 0) {
+				return versionMapper.updateVersionsForAdminMainSupportService01SimpleVersion(id, name);
+			} else {
 				throw new Exception("参数有误,无法转换!");
 			}
-		}else{
+		} else {
 			throw new Exception("参数为空..");
 		}
 	}
-	
-	public int setVersionStopUsing(String versionId, String name) throws Exception {
-		if(StringUtils.isNotEmpty(versionId)&&StringUtils.isNotEmpty(name)){
-			int id = BasicUtils.version2Id(versionId);
-			if(id>0){
-				return versionMapper.updateVersionsForAdminMainSupportService01ReturnId(id, name);
-			}else{
-				throw new Exception("参数有误,无法转换!");
-			}
-		}else{
-			throw new Exception("参数为空..");
-		}
-	}
-	
-	public int setVersionUnStop(String versionId, String name) throws Exception {
-		if(StringUtils.isNotEmpty(versionId)&&StringUtils.isNotEmpty(name)){
-			int id = BasicUtils.version2Id(versionId);
-			if(id>0){
-				return versionMapper.updateVersionsForAdminMainSupportService02ReturnId(id, name);
-			}else{
-				throw new Exception("参数有误,无法转换!");
-			}
-		}else{
-			throw new Exception("参数为空..");
-		}
-	}
-	
 
+	public int setVersionStopUsing(String versionId, String name) throws Exception {
+		if (StringUtils.isNotEmpty(versionId) && StringUtils.isNotEmpty(name)) {
+			int id = BasicUtils.version2Id(versionId);
+			if (id > 0) {
+				return versionMapper.updateVersionsForAdminMainSupportService01ReturnId(id, name);
+			} else {
+				throw new Exception("参数有误,无法转换!");
+			}
+		} else {
+			throw new Exception("参数为空..");
+		}
+	}
+
+	public int setVersionUnStop(String versionId, String name) throws Exception {
+		if (StringUtils.isNotEmpty(versionId) && StringUtils.isNotEmpty(name)) {
+			int id = BasicUtils.version2Id(versionId);
+			if (id > 0) {
+				return versionMapper.updateVersionsForAdminMainSupportService02ReturnId(id, name);
+			} else {
+				throw new Exception("参数有误,无法转换!");
+			}
+		} else {
+			throw new Exception("参数为空..");
+		}
+	}
+
+	public int setPullArticleDefaultUsing(int id, String name) throws PageArgumentsException {
+		if (id > 0 && StringUtils.isNotEmpty(name)) {
+			return pullArticleMapper.updatePullArticlesForAdminMainSupportService01RetrunId(id, name);
+		} else {
+			throw new PageArgumentsException("参数为空..");
+		}
+	}
 }

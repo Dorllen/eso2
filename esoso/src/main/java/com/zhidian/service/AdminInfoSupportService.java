@@ -20,7 +20,7 @@ import com.zhidian.model.sys.NameValueModel;
 import com.zhidian.util.BasicUtils;
 import com.zhidian.views.ConfigDTO;
 import com.zhidian.views.VersionAddVO;
-import com.zhidian.views.VersionControlVO;
+import com.zhidian.views.VersionControlDTO;
 import com.zhidian.views.VersionControlViewDTO;
 import com.zhidian.views.VersionUpdateVO;
 import com.zhidian.views.WebsitePalistDTO;
@@ -80,7 +80,7 @@ public class AdminInfoSupportService {
 	private List<VersionControlViewDTO> createVersionControlViewDTOList(List<Version> list) {
 		if (list != null && list.size() > 0) {
 			List<VersionControlViewDTO> ls = new ArrayList<VersionControlViewDTO>(list.size());
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd HH:mm:ss");
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			for (Version v : list) {
 				if (v != null) {
 					VersionControlViewDTO d = new VersionControlViewDTO();
@@ -131,24 +131,24 @@ public class AdminInfoSupportService {
 		return null;
 	}
 
-	public List<VersionControlVO> getVersionInfoUsingList() {
+	public List<VersionControlDTO> getVersionInfoUsingList() {
 		List<Version> list = versionMapper.queryVersionsForAdminInfoSupportService03ListVersion();
 		return createVersionControlVO(list);
 	}
 
-	private List<VersionControlVO> createVersionControlVO(List<Version> list) {
+	private List<VersionControlDTO> createVersionControlVO(List<Version> list) {
 		if (list != null && list.size() > 0) {
-			List<VersionControlVO> vos = new ArrayList<VersionControlVO>(list.size());
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd HH:mm:ss");
+			List<VersionControlDTO> vos = new ArrayList<VersionControlDTO>(list.size());
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			for (Version v : list) {
 				if (v != null) {
-					VersionControlVO vo = new VersionControlVO();
+					VersionControlDTO vo = new VersionControlDTO();
 					if (v.getCreateTime() != null) {
 						vo.setCreateTime(sdf.format(v.getCreateTime()));
 					}
-					vo.setName(vo.getName());
+					vo.setName(v.getName());
 					vo.setUsing(v.getUsing()>0?true:false);
-					vo.setId(vo.getId());
+					vo.setId(v.getId());
 					vo.setVersionId(BasicUtils.id2Version(v.getId()));
 					vos.add(vo);
 				}
@@ -174,11 +174,26 @@ public class AdminInfoSupportService {
 	private List<WebsitePalistDTO> createWebsitePalistDTO(List<PullArticle> list) {
 		if(list!=null&&list.size()>0){
 			List<WebsitePalistDTO> dtos = new ArrayList<WebsitePalistDTO>(list.size());
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			for(PullArticle p : list){
 				if(p!=null){
 					WebsitePalistDTO d = new WebsitePalistDTO();
 					// 装载数据
-					
+					d.setId(p.getId());
+					d.setCollets(p.getCollets());
+					if(p.getStartTime()!=null){
+						d.setCreateTime(sdf.format(p.getStartTime()));
+					}
+					d.setMark(p.getMark());
+					d.setName(p.getName());
+					d.setRelyVersionId(BasicUtils.id2Version(p.getWebsiteId()));
+					d.setTags(p.getTags());
+					d.setTitle(p.getTitle());
+					d.setUrl(p.getUrl());
+					d.setCollets(p.getCollets());
+					d.setScores(p.getScores());
+					d.setViews(p.getViews());
+					d.setUuid(p.getUuid());
 					dtos.add(d);
 				}
 			}

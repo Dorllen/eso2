@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.zhidian.exception.PageArgumentsException;
 import com.zhidian.service.AdminInfoSupportService;
 import com.zhidian.views.VersionAddVO;
-import com.zhidian.views.VersionControlVO;
+import com.zhidian.views.VersionControlDTO;
 import com.zhidian.views.VersionUpdateVO;
 import com.zhidian.views.WebsitePalistDTO;
 
@@ -55,7 +55,7 @@ public class PageAdminInfoController {
 	
 	@GetMapping("/admin/version-control.html")
 	public String versionControlPage(Model model){
-		List<VersionControlVO> list = infoService.getVersionInfoUsingList();
+		List<VersionControlDTO> list = infoService.getVersionInfoUsingList();
 		model.addAttribute("Message", list);
 		return "admin/version-control";
 	}

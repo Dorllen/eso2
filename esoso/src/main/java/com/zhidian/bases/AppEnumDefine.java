@@ -23,7 +23,8 @@ public class AppEnumDefine {
 	}
 
 	public enum ConfigType {
-		爬虫服务("WormSercie"), 搜索服务("EngineSercie"), 系统服务("SysService"), 版本控制("VersionController");
+		爬虫服务("WormService"), 搜索服务("EngineService"), 系统服务("SysService"), 版本控制("VersionController"), 站点服务(
+				"WebsiteService");
 		private String value;
 
 		private ConfigType(String value) {
@@ -33,6 +34,38 @@ public class AppEnumDefine {
 		public String getValue() {
 			return value;
 		}
+	}
+	
+	public enum ConfigWormService{
+		OnlinePullData,// 在线爬取数据禁止
+		SchedulePullData,// 定时爬取
+		CustomPullData,// 自定义爬取
+	}
+	
+	public enum ConfigEngineService{
+		SearchService, // 能够直接搜索到。指搜数据库
+		OnlineSearchService,// 在线搜索
+	}
+	
+	public enum ConfigSysService{
+		Visit,
+		SecVisit,
+		PageShot,// 页面快照
+		VersionService,// 版本服务，如果有设置，则只提供一个版本，最新版本
+		WebsiteAnalysis// 站点是否有过服务功能
+	}
+	
+	public enum ConfigWebsiteService{// ConfigType 的WesbitesService 用于控制单条数据. 都是黑名单，默认是通过的
+		Visit,// 直接访问黑名单
+		SecVisit,// 安全访问黑名单
+		SearchService, // 能够直接搜索到
+		OnlinePullData,// 在线爬取数据禁止
+		SchedulePullData,// 定时爬取
+		CustomPullData,// 自定义爬取
+		WebsiteAnalysis,// 是否加入站点分析
+		SortService,// 排名服务，是否加入排名算法队列中
+		PageShot,// 页面快照
+		VersionService,// 版本服务
 	}
 
 	public enum SysLogType {

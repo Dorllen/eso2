@@ -65,20 +65,26 @@
 				</tr>
 			</thead>
 			<tbody class="text-c">
-				<tr>
-					<td>1</td>
-					<td>segmentfault</td>
-					<td>0.0.1</td>
-					<td>2017-3-28 20:14:16</td>
-					<td>在用</td>
+				<tr th:each="item : ${Message}">
+					<td th:text="${item.id}">1</td>
+					<td th:text="${item.name}">segmentfault</td>
+					<td th:text="${item.versionId}">0.0.1</td>
+					<td th:text="${item.createTime}">2017-3-28 20:14:16</td>
+					<td th:text="${item.using?'在用':'否'}">在用</td>
 					<td><input class="btn btn-success radius" type="button"
 						value="詳情"
-						onclick="openPage('segmentfault信息詳情','version-control-info.html?id=0.0.1')"/>
+						onclick="openPage('segmentfault信息詳情','version-control-info.html?id=0.0.1')" 
+						th:onclick="|openPage('${item.name}信息详情','version-control-info.html?id=${item.versionId}')|"/>
 						<input class="btn btn-primary radius" type="button" value="变更"
-						onclick="openPage('segmentfault信息变更','version-control-info-update.html?id=0.0.1')" />
+						onclick="openPage('segmentfault信息变更','version-control-info-update.html?id=0.0.1')" 
+						th:onclick="|openPage('${item.name}信息变更','version-control-info-update.html?id=${item.versionId}')|"/>
 						<input class="btn btn-warning radius" type="button" value="设为默认"
-						onclick="setDefault('0.0.1','segmentfault')" /> <input
-						class="btn btn-danger radius" type="button" value="禁用" onclick="setStop('0.0.1','segmentfault')" /></td>
+						onclick="setDefault('0.0.1','segmentfault')" 
+						th:onclick="|setDefault('${item.versionId}','${item.name}')|"/> <input th:if="${item.nmp!=0}"
+						class="btn btn-danger radius" type="button" value="禁用" onclick="setStop('0.0.1','segmentfault')" 
+						th:onclick="|setStop('${item.versionId}','${item.name}')|"/> <input th:if="${item.nmp==0}"
+						class="btn btn-success radius" type="button" value="恢复" onclick="setStop('0.0.1','segmentfault')" 
+						th:onclick="|setUnStop('${item.versionId}','${item.name}')|"/></td>
 				</tr>
 			</tbody>
 		</table>

@@ -45,7 +45,7 @@ public interface VersionMapper {
 
 	/**
 	* @Title: updateVersionsForAdminMainSupportService01SimpleVersion
-	* @Description: TODO(设置version的using为1)
+	* @Description: TODO(设置version的using为1。version必须是nmp=1才可以)
 	* @param @param id
 	* @param @param name
 	* @param @param type
@@ -53,8 +53,7 @@ public interface VersionMapper {
 	* @return void    返回类型
 	* @throws
 	*/
-	public int updateVersionsForAdminMainSupportService01SimpleVersion(@Param("id") int id,@Param("name") String name,
-			@Param("type") String type,@Param("type2") String type2);
+	public int updateVersionsForAdminMainSupportService01SimpleVersion(@Param("id") int id,@Param("name") String name);
 
 	/**
 	* @Title: updateVersionsForAdminMainSupportService02ReturnId

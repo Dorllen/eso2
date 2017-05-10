@@ -14,8 +14,9 @@ public class WebsitePalistDTO {
 	private String tags;
 	private String createTime;
 	private String url;
-	private String versionId;
+//	private String versionId;//  PullArticle在数据显示是没有versionId的，直接使用id
 	private String relyVersionId;
+	private String uuid;
 	private String mark;
 	private int views;
 	private int collets;
@@ -56,12 +57,6 @@ public class WebsitePalistDTO {
 	public void setUrl(String url) {
 		this.url = url;
 	}
-	public String getVersionId() {
-		return versionId;
-	}
-	public void setVersionId(String versionId) {
-		this.versionId = versionId;
-	}
 	public String getRelyVersionId() {
 		return relyVersionId;
 	}
@@ -91,5 +86,11 @@ public class WebsitePalistDTO {
 	}
 	public void setScores(double scores) {
 		this.scores = scores;
+	}
+	public String getUuid() {
+		return uuid;
+	}
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
 	}
 }

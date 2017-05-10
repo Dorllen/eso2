@@ -39,4 +39,12 @@
 	<select id="selectPullArticlesForDataInfoAdminService01SimpleInt" resultType="int" parameterType="int">
 		select count(*) from pullArticles where websiteId = (select id from websites where id = #{id});
 	</select>
+	
+	<select id="queryPullArticlesForAdminInfoSupportServcie01ListPullArticle" resultType="PullArticle">
+		select * from pullArticles where pullArticles.using = 1;
+	</select>
+	
+	<update id="updatePullArticlesForAdminMainSupportService01RetrunId" statementType="CALLABLE">
+		call pullArticlesp1(#{id},#{name})
+	</update>
 </mapper>

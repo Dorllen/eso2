@@ -54,6 +54,22 @@ public interface PullArticleMapper {
 	* @throws
 	*/
 	int selectPullArticlesForDataInfoAdminService01SimpleInt(@Param("id") int id);
+
+	List<PullArticle> queryPullArticlesForAdminInfoSupportServcie01ListPullArticle();
+
+	/**
+	* @Title: updatePullArticlesForAdminMainSupportService01RetrunId
+	* @Description: TODO(设置pullArticle的默认使用版本。通过name，id进行确定url是类型.对于同样type的数据进行using=0，并且数据都要是status=0，代表在用。只有在用的才有)
+	* @param @param id
+	* @param @param name
+	* @param @param type
+	* @param @return    参数
+	* @return int    返回类型
+	* @throws
+	*/
+	int updatePullArticlesForAdminMainSupportService01RetrunId(@Param("id") int id,@Param("id")  String name);
+
+//	PullArticle selectPullArticleByIdAndName(@Param("id") int id,@Param("id")  String name);
 	
 	
 	// 改

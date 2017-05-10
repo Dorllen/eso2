@@ -7,7 +7,7 @@ package com.zhidian.views;
 * @date 2017年5月10日 上午1:14:43
 *
 */
-public class VersionControlVO {
+public class VersionControlDTO {
 	private int id;
 	private String name;
 	private String versionId;
