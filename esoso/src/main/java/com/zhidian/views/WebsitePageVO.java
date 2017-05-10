@@ -11,7 +11,7 @@ package com.zhidian.views;
 
 /**
  * @ClassName: Website
- * @Description: TODO(Worm-settings頁面的詳情正在使用該對象)
+ * @Description: TODO(Worm-settings頁面的詳情正在使用該對象,)
  * @author dongneng
  * @date 2017-3-21 上午1:46:57
  *

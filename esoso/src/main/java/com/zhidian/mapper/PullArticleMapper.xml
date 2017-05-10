@@ -45,9 +45,16 @@
 	</select>
 	
 	<select id="queryPullArticlesForAdminInfoSupportServcie01SimplePullArticleBO" resultType="PullArticleBO">
-		select * from pullArticles where name = #{name} and id = #{id} and pullArticles.using =1 and status = 0;
+		select * from pullArticles where name = #{name} and id = #{id} and status = 0;
 	</select>
 	
+	<select id="queryPullArticlesForAdminMainSupportServiceSimplePullArticleBO"  resultType="PullArticleBO">
+		select * from pullArticles where name = #{name} and id = #{id} and  status = 0;
+	</select>
+	
+	<select id="queryPullArticlesForAdminInfoSupportServcie01SimplePullArticle" resultType="PullArticle">
+		select * from pullArticles where name = #{name} and id = #{id} and  status = 0;
+	</select>
 	
 	<update id="updatePullArticlesForAdminMainSupportService01RetrunId" statementType="CALLABLE">
 		call pullArticlesp1(#{id},#{name})

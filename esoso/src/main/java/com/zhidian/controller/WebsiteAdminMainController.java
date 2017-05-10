@@ -2,7 +2,11 @@ package com.zhidian.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.apache.commons.lang3.StringUtils;
@@ -19,10 +23,12 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.alibaba.fastjson.JSON;
+import com.zhidian.bases.AppEnumDefine;
 import com.zhidian.exception.PageArgumentsException;
 import com.zhidian.service.AdminMainSupportService;
 import com.zhidian.service.DataInfoAdminService;
 import com.zhidian.util.BasicUtils;
+import com.zhidian.views.PullArticleUpdateModel;
 import com.zhidian.views.ResultModel;
 import com.zhidian.views.ResultSimpleModel;
 import com.zhidian.views.WebsitePostModel;
@@ -34,10 +40,10 @@ public class WebsiteAdminMainController {
 
 	@Autowired
 	DataInfoAdminService dataService;
-	
+
 	@Autowired
 	AdminMainSupportService mainService;
-	
+
 	@PostMapping("/add")
 	public Object addNewWebsite(@ModelAttribute @Valid WebsitePostModel2 model, MultipartHttpServletRequest request,
 			BindingResult error) {
@@ -166,7 +172,7 @@ public class WebsiteAdminMainController {
 		}
 		return "no!";
 	}
-	
+
 	@PostMapping("/updateWebsite")
 	public Object updateWebsite(@ModelAttribute @Valid WebsitePostModel model, BindingResult error) {
 		// 可能需要接收到上传的字节码文件。
@@ -192,12 +198,12 @@ public class WebsiteAdminMainController {
 		}
 		return result;
 	}
-	
+
 	// 上面代码待验证
-	
-	
+
 	@PostMapping("/setDefault")
-	public Object setPullArticleDefaultUsing(@RequestParam("id") int id,@RequestParam("name") String name) throws PageArgumentsException{
+	public Object setPullArticleDefaultUsing(@RequestParam("id") int id, @RequestParam("name") String name)
+			throws PageArgumentsException {
 		ResultModel result = new ResultModel();
 		int num = mainService.setPullArticleDefaultUsing(id, name);
 		if (num > 0) {
@@ -207,15 +213,72 @@ public class WebsiteAdminMainController {
 		}
 		return result;
 	}
-	
-	@PostMapping("/delete")
-	public Object setPullArticleDelete(@RequestParam("id") int id,@RequestParam("name") String name) throws PageArgumentsException{
+
+	@PostMapping("/deleteItem")
+	public Object deletePullArticle(@RequestParam("id") int id, @RequestParam("name") String name)
+			throws PageArgumentsException {
 		ResultModel result = new ResultModel();
-		int num = mainService.setPullArticleDelete(id, name);
+		int num = mainService.deletePullArticle(id, name);
 		if (num > 0) {
 			result.setMessage("操作成功!");
 		} else {
 			result.setMessage("操作失败!");
+		}
+		return result;
+	}
+
+	@PostMapping("/updateItemService")
+	public Object updatePullArticleService(@RequestParam("id") int id, @RequestParam("name") String name,
+			HttpServletRequest request) throws PageArgumentsException {
+		ResultModel result = new ResultModel();
+		Enumeration<String> map = request.getAttributeNames();
+		// 取出有效的key，value
+		if (map != null) {
+			List<String> list = new ArrayList<String>();
+			while (map.hasMoreElements()) {
+				String key = map.nextElement();
+				if (key != null && key.length() > 0) {
+					// 校验 key 是否存在 AppEnumDefine.ConfigWebsiteService
+					try {
+						if (AppEnumDefine.ConfigWebsiteService.valueOf(key) != null) {
+							// 记录key and value
+							Integer value = (Integer) request.getAttribute(key);
+							if (value != null && value == 0) {// 0代表关闭，关闭直接进入数据库
+								list.add(key);
+							}
+						}
+					} catch (Exception e) {
+						// valueOf如果不是枚举类型的值会报错！
+					}
+				}
+			}
+			if (list.size() > 0) {
+				int num = mainService.updateItemServiceByListKey(id, name, list);
+				if (num > 0) {
+					result.setMessage("操作成功!");
+				} else {
+					result.setMessage("操作失败!");
+				}
+			} else {
+				// 没有更新的，就直接告知忽略了!
+			}
+		}
+		return result;
+	}
+
+
+	@PostMapping("/updateItemInfo")
+	public Object updatePullArticle(@ModelAttribute @Valid PullArticleUpdateModel article ,BindingResult error) throws PageArgumentsException{
+		ResultModel result = new ResultModel();
+		if(error!=null&&error.getErrorCount()>0){
+			result.setMessage("参数异常!");
+		}else{
+			int num = mainService.updateItemInfo(article);
+			if (num > 0) {
+				result.setMessage("操作成功!");
+			} else {
+				result.setMessage("操作失败!");
+			}
 		}
 		return result;
 	}

@@ -55,6 +55,10 @@
 		select * from versions where id = #{id};		
 	</select>
 	
+	<select id="queryVersionsForAdminSupportService01SimpleVerionBO2" resultType="VersionBO2">
+		select * from versions where id = (select versionId from websites where id = #{id} and nmp = 1) and nmp =1;
+	</select>
+	
 	<insert id="insertVersionsForAdminMainService01SimpleId" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
 		insert into versions set createTime = CURRENT_TIMESTAMP() , name = #{name}, defPage = #{defPage} , defJs = #{defJs}, 
 		defCss = #{defCss},type = #{type}, type2 = #{type2}, sign = #{sign}

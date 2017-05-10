@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.zhidian.model.Version;
 import com.zhidian.model.sys.NameValueModel;
+import com.zhidian.model.sys.VersionBO2;
 
 @Mapper
 public interface VersionMapper {
@@ -71,6 +72,8 @@ public interface VersionMapper {
 	public List<Version> queryVersionsForAdminInfoSupportService03ListVersion();
 
 	public int updateVersionsForAdminMainSupportService02ReturnId(@Param("id") int id,@Param("name") String name);
+
+	public VersionBO2 queryVersionsForAdminSupportService01SimpleVerionBO2(@Param("id") int id);
 	
 	
 //	public void selectTest(@Param("id") int id,@Param("name") String name);

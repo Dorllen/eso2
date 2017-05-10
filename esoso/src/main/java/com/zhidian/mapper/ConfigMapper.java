@@ -23,4 +23,16 @@ public interface ConfigMapper {
 	*/
 	List<ConfigBO> queryConfigsForAdminInfoSupportService02ListConfigBO(@Param("sql") String sql);
 
+	/**
+	* @Title: queryConfigsForAdminMainSupportService01ListConfigBO
+	* @Description: TODO(找出不存有sql的属于WebsiteService的name的ConfigBO)
+	* @param @param sql
+	* @param @return    参数
+	* @return List<ConfigBO>    返回类型
+	* @throws
+	*/
+	List<ConfigBO> queryConfigsForAdminMainSupportService01ListConfigBO(@Param("sql") String sql);
+
+	int updateConfigsForAdminMainSupportService01ReturnId(@Param("configs") List<ConfigBO> configs);
+
 }

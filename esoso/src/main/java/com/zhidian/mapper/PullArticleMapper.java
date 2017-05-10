@@ -83,7 +83,7 @@ public interface PullArticleMapper {
 
 	/**
 	* @Title: queryPullArticlesForAdminInfoSupportServcie01SimplePullArticleBO
-	* @Description: TODO(在用using=1，status=0)
+	* @Description: TODO(status=0。因为using=0也可以设置，所以只关注status=0)
 	* @param @param id
 	* @param @param name
 	* @param @return    参数
@@ -91,6 +91,10 @@ public interface PullArticleMapper {
 	* @throws
 	*/
 	PullArticleBO queryPullArticlesForAdminInfoSupportServcie01SimplePullArticleBO(@Param("id") int id,@Param("name") String name);
+
+	PullArticleBO queryPullArticlesForAdminMainSupportServiceSimplePullArticleBO(@Param("id") int id,@Param("name") String name);
+
+	PullArticle queryPullArticlesForAdminInfoSupportServcie01SimplePullArticle(@Param("id") int id,@Param("name") String name);
 
 //	PullArticle selectPullArticleByIdAndName(@Param("id") int id,@Param("id")  String name);
 	

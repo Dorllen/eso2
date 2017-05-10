@@ -89,6 +89,24 @@ public interface WebsiteMapper {
 
 
 
+
+	List<Integer> selectWebsitesForAdminInfoSupport01ListId(@Param("id") int id,@Param("name") String name);
+
+
+
+
+	/**
+	* @Title: querywebsitesForAdminSupportService01SimpleWebsiteBO2
+	* @Description: TODO(nmp=1)
+	* @param @param id
+	* @param @return    参数
+	* @return WebsiteBO2    返回类型
+	* @throws
+	*/
+	WebsiteBO2 querywebsitesForAdminSupportService01SimpleWebsiteBO2(@Param("id") int id);
+
+
+
 	
 
 

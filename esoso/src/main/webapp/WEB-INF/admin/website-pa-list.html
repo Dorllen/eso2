@@ -109,7 +109,7 @@
 						<td><a class="btn btn-success radius" href="admin/pa/" th:href="@{|/admin/pa/${item.uuid}|}" target="_blank">审视</a> 
 							<input	class="btn btn-warning radius" type="button" value="服务" th:onclick="|showService(${item.id},'${item.name}')|"  onclick="showService(188,'segmentfault')" /> 
 							<input class="btn btn-primary radius" type="button"
-							value="详情" onclick="showDetails(1,'segmentfault')"/> 
+							value="详情" th:onclick="|showDetails(${item.id},'${item.name}')|"/> 
 							<input	class="btn btn-secondary radius" type="button" value="变更" th:onclick="|updateSettings(${item.id},'${item.name}')|" onclick="updateSettings(188,'segmentfault')" /> 
 							<input	class="btn btn-warning radius" type="button" value="设为默认" th:onclick="|setDefault(${item.id},'${item.name}')|" onclick="setDefault(188,'segmentfault')" /> 
 							<input class="btn btn-danger radius" type="button"
@@ -159,7 +159,7 @@
 							href="javascript:void();">×</a>
 					</div>
 					<form action="#" id="form">
-						<div class="modal-body">
+						<div class="modal-body"><input type="hidden"  name="id" value=""/><input type="hidden" name="name" value=""	/>
 							<table class="table table-border table-bordered table-hover"
 								id="">
 								<thead>
@@ -175,7 +175,7 @@
 									<tr>
 										<td>搜索服务</td>
 										<td><span class="select-box"> <select
-												class="select" size="1" name="searchS">
+												class="select" size="1" name="SearchService">
 													<option value="0">否</option>
 													<option value="1" selected="selected">是</option>
 											</select>
@@ -184,7 +184,7 @@
 									<tr>
 										<td>在线爬虫服务</td>
 										<td><span class="select-box"> <select
-												class="select" size="1" name="onlineWormS">
+												class="select" size="1" name="OnlinePullData">
 													<option value="0">否</option>
 													<option value="1" selected="selected">是</option>
 											</select>
@@ -193,7 +193,7 @@
 									<tr>
 										<td>定时爬虫服务</td>
 										<td><span class="select-box"> <select
-												class="select" size="1" name="schduleWormS">
+												class="select" size="1" name="SchedulePullData">
 													<option value="0">否</option>
 													<option value="1" selected="selected">是</option>
 											</select>
@@ -202,7 +202,7 @@
 									<tr>
 										<td>自定义爬虫服务</td>
 										<td><span class="select-box"> <select
-												class="select" size="1" name="designWormS">
+												class="select" size="1" name="CustomPullData">
 													<option value="0">否</option>
 													<option value="1" selected="selected">是</option>
 											</select>
@@ -211,7 +211,7 @@
 									<tr>
 										<td>直接访问</td>
 										<td><span class="select-box"> <select
-												class="select" size="1" name="noSecS">
+												class="select" size="1" name="Visit">
 													<option value="0">否</option>
 													<option value="1" selected="selected">是</option>
 											</select>
@@ -220,7 +220,7 @@
 									<tr>
 										<td>安全访问</td>
 										<td><span class="select-box"> <select
-												class="select" size="1" name="secS">
+												class="select" size="1" name="SecVisit">
 													<option value="0">否</option>
 													<option value="1" selected="selected">是</option>
 											</select>
@@ -229,7 +229,7 @@
 									<tr>
 										<td>站點分析</td>
 										<td><span class="select-box"> <select
-												class="select" size="1" name="webAnyS">
+												class="select" size="1" name="WebsiteAnalysis">
 													<option value="0">否</option>
 													<option value="1" selected="selected">是</option>
 											</select>
@@ -238,7 +238,7 @@
 									<tr>
 										<td>排名服務</td>
 										<td><span class="select-box"> <select
-												class="select" size="1" name="webSortS">
+												class="select" size="1" name="SortService">
 													<option value="0">否</option>
 													<option value="1" selected="selected">是</option>
 											</select>
@@ -267,79 +267,73 @@
 					</div>
 					<div class="modal-body">
 						<table class="table table-border table-bordered table-hover"
-							id="">
+							id="table2" v-if="item!=null">
 							<tbody class="text-c">
 								<tr>
 									<th>序号</th>
-									<td>12</td>
+									<td>{{item.id}}</td>
 									<th>站点名</th>
-									<td>segmentfault</td>
+									<td>{{item.name}}</td>
 									<th>依赖站点版本</th>
-									<td>0.0.1</td>
+									<td>{{item.relyVersionId}}</td>
 								</tr>
 								<tr>
 									<th>类型</th>
 									<td colspan="2">问答</td>
 									<th>是否在用</th>
-									<td colspan="2">是</td>
+									<td colspan="2">{{item.using?'是':'否'}}</td>
 								</tr>
 								<tr>
 									<th colspan="2">标题</th>
-									<td colspan="4">用vue脚手架中，在main.js中引入过vue，然后在App.vue又一次引入vue，会不会重复？</td>
+									<td colspan="4">{{item.title}}</td>
 								</tr>
 								<tr>
 									<th colspan="2">结果部分</th>
-									<td colspan="4">例如在main.js已经 import Vue from 'vue' 然后在App.vue中也 import Vue from 'vue' 两者在打包中会不会重复打包vue，造成最后体积很庞大，还是只打包一次？？ 谢谢大家了！！！</td>
+									<td colspan="4">{{item.resultContent}}</td>
 								</tr>
 								<tr>
 									<th>url</th>
-									<td colspan="2">https://segmentfault.com/q/1010000007838751</td>
+									<td colspan="2">{{item.url}}</td>
 									<th>uuid</th>
-									<td colspan="2">49dbe6b2cc584a714f4161cfe6ef1123</td>
+									<td colspan="2">{{item.uuid}}</td>
 								</tr>
 								<tr>
+									<th>访问量</th>
+									<td>{{item.views}}</td>
+									<th>收藏量</th>
+									<td>{{item.collets}}</td>
+									<th>热值</th>
+									<td>{{item.scores}}</td>
+								</tr>
+								<tr>
+									<th>创建时间</th>
+									<td>{{item.createTime}}</td>
 									<th>标签</th>
-									<td colspan="2"></td>
+									<td>{{item.tags}}</td>
 									<th>标识</th>
-									<td colspan="2">hot</td>
-								</tr>
-								<tr>
-									<th colspan="2">创建时间</th>
-									<td>2017-4-20 16:44:33</td>
-									<th colspan="2">创建人</th>
-									<td>Admin</td>
+									<td>{{item.mark}}</td>
 								</tr>
 								<tr>
 									<th colspan="2">最近更新时间</th>
-									<td>2017-4-20 16:50:33</td>
+									<td>{{item.updateTime}}</td>
 									<th colspan="2">最新更新人</th>
-									<td>Admin</td>
-								</tr>
-								<tr>
-									<th colspan="2">最近禁用时间</th>
-									<td>2017-4-20 16:50:33</td>
-									<th colspan="2">最新禁用人</th>
-									<td>Admin</td>
+									<td>{{item.updateMan}}</td>
 								</tr>
 								<tr>
 									<th colspan="2">页面地址</th>
-									<td colspan="4">默认站点地址</td>
+									<td colspan="4">{{item.pagePath?item.pagePath:'默认站点地址'}}</td>
 								</tr>
 								<tr>
 									<th colspan="2">Css地址</th>
-									<td colspan="4">默认站点地址</td>
+									<td colspan="4">{{item.cssPath?item.cssPath:'默认站点地址'}}</td>
 								</tr>
 								<tr>
 									<th colspan="2">Js地址</th>
-									<td colspan="4">默认站点地址</td>
+									<td colspan="4">{{item.jsPath?item.jsPath:'默认站点地址'}}</td>
 								</tr>
 								<tr>
 									<th colspan="2">描叙</th>
-									<td colspan="4">无</td>
-								</tr>
-								<tr>
-									<th colspan="2">核心JSON字符串</th>
-									<td colspan="4"></td>
+									<td colspan="4">{{item.sign?item.sign:'无'}}</td>
 								</tr>
 							</tbody>
 						</table>
@@ -365,86 +359,162 @@
 					<form action="#" id="updateForm">
 						<div class="modal-body">
 							<table class="table table-border table-bordered table-hover"
-									id="table3">
+									id="table3" v-if="item!=null">
 								<tbody class="text-c">
 									<tr>
 										<th>序号</th>
-										<td>12</td>
+										<td>{{item.id}}</td>
 										<th>站点名</th>
-										<td>segmentfault</td>
+										<td>{{item.name}}</td>
 										<th><span class="c-red">*</span>依赖站点版本</th>
 										<td><span class="select-box"> <select
-													class="select" size="1" name="websiteId">
-														<option value="0.0.1" selected="selected">0.0.1</option>
-														<option value="0.0.2" >0.0.2</option>
+													class="select" size="1" name="websiteId" v-model="item.relyVersionId" v-on:change="change">
+														<option value="0.0.1" v-for="i in item_">{{i}}</option>
 												</select>
 											</span></td>
 										<th>标识</th>
 										<td><span class="select-box"> <select
-													class="select" size="1" name="mark">
-														<option value="hot" selected="selected">hot</option>
+													class="select" size="1" name="mark" v-model="item.mark">
+														<option value="" selected="selected">可选择</option>
+														<option value="hot">hot</option>
 														<option value="views" >views</option>
-												</select>
+												</select><input type="hidden" name="id" v-bind:value="item.id"/><input type="hidden" name="name" v-bind:value="item.name"/>
 											</span></td>
 									</tr>
 									<tr>
 										<th colspan="2"><span class="c-red">*</span>标题</th>
-										<td colspan="6"><input type='text' name='title'  class='input-text' placeholder='标题' autocomplete='off'  value=""/></td>
+										<td colspan="6"><input type='text' name='title'  class='input-text' placeholder='标题' autocomplete='off'  value="" v-bind:value="item.title"/></td>
 									</tr>
 									<tr>
 										<th colspan="2"><span class="c-red">*</span>结果部分</th>
-										<td colspan="6"><input type='text' name='resultContent'  class='input-text' placeholder='搜索结果展示部分' autocomplete='off'  value=""/></td>
+										<td colspan="6"><input type='text' name='resultContent'  class='input-text' placeholder='搜索结果展示部分' autocomplete='off'  value="" v-bind:value="item.resultContent"/></td>
 									</tr>
 									<tr>
 										<th colspan="2"><span class="c-red">*</span>url</th>
-										<td colspan="6"><input type='text' name='url'  class='input-text' placeholder='源地址' autocomplete='off'  value=""/></td>
+										<td colspan="6"><input type='text' name='url'  class='input-text' placeholder='源地址' autocomplete='off'  value="" v-bind:value="item.url"/></td>
 									</tr>
 									<tr>
 										<th colspan="2">标签</th>
-										<td colspan="6"><input type='text' name='tags' class='input-text' placeholder="标签,以','分割" autocomplete='off'  value=""/></td>
+										<td colspan="6"><input type='text' name='tags' class='input-text' placeholder="标签,以','分割" autocomplete='off'  value="" v-bind:value="item.tags"/></td>
 									</tr>
 									<tr>
 										<th colspan="2">页面地址</th>
-										<td colspan="6"><input type='text' name='pagePath' class='input-text' placeholder='使用的版本地址,提供手动方式' autocomplete='off'  value=""/></td>
+										<td colspan="6"><input type='text' name='pagePath' class='input-text' placeholder='使用的版本地址,提供手动方式' autocomplete='off'  value="" v-bind:value="item.pagePath"/></td>
 									</tr>
 									<tr>
 										<th colspan="2">Css地址</th>
-										<td colspan="6"><input type='text' name='cssPath'  class='input-text' placeholder='css地址' autocomplete='off'  value=""/></td>
+										<td colspan="6"><input type='text' name='cssPath'  class='input-text' placeholder='css地址' autocomplete='off'  value="" v-bind:value="item.cssPath"/></td>
 									</tr>
 									<tr>
 										<th colspan="2">Js地址</th>
-										<td colspan="6"><input type='text' name='jsPath'  class='input-text' placeholder='js地址' autocomplete='off'  value=""/></td>
+										<td colspan="6"><input type='text' name='jsPath'  class='input-text' placeholder='js地址' autocomplete='off'  value="" v-bind:value="item.jsPath"/></td>
 									</tr>
 									<tr>
 										<th colspan="2">描叙</th>
-										<td colspan="6"><textarea  class="textarea radius" name="sign" autocomplete="off" placeholder="信息的描叙..." ></textarea></td>
-									</tr>
-									<tr>
-										<th colspan="2">核心JSON字符串</th>
-										<td colspan="6"><textarea  class="textarea radius" name="contents"  autocomplete="off" placeholder="内容的json字符串，请勿乱动" ></textarea></td>
+										<td colspan="6"><textarea  class="textarea radius" name="sign" autocomplete="off" placeholder="信息的描叙..." v-model="item.sign"></textarea></td>
 									</tr>
 								</tbody>
 							</table>
-							<table
-								class="table table-border table-bordered table-hover mt-20 mb-20"
-								id="table4">
+							<table id="table4" style="display:none"
+								class="table table-border table-bordered table-hover mt-20 mb-20" v-if="item!=null">
 								<thead class="text-c">
 									<tr>
 										<th colspan="6">站点基本信息</th>
 									</tr>
 								</thead>
-								<tbody is="item4" v-bind:item="item">
+								<tbody class="text-c">
+									<tr>
+										<th>站点</th>
+										<th colspan="2">{{item.name}}</th>
+										<th>版本号</th>
+										<th colspan="2">{{item.websiteId}</th>
+									</tr>
+									<tr>
+										<th>搜索地址</th>
+										<td colspan="5">{{item.searchAddr?item.searchAddr:'未设置'}}</td>
+									</tr>
+									<tr>
+										<th>分頁符</th>
+										<td colspan="2">{{item.pagination?item.pagination:'未设置'}}</td>
+										<th>使用后缀</th>
+										<td colspan="2">{{item.useSearch?'是':'否'}}</td>
+									</tr>
+									<tr>
+										<th>详情页处理器</th>
+										<td colspan="5">{{item.pageProcessor?item.pageProcessor:'未设置'}}</td>
+									</tr>
+									<tr>
+										<th>详情页接收器</th>
+										<td colspan="5">{{item.pagePipeline?item.pagePipeline:'未设置'}}</td>
+									</tr>
+									<tr>
+										<th>详情页接收对象</th>
+										<td colspan="5">{{item.resultRObject?item.resultRObject:'未设置'}}</td>
+									</tr>
+									<tr>
+										<th>结果页处理器</th>
+										<td colspan="5">{{item.resultProcessor?item.resultProcessor:'未设置'}}</td>
+									</tr>
+									<tr>
+										<th>結果頁接受器</th>
+										<td colspan="5">{{item.resultPipeline?item.resultPipeline:'未设置'}}</td>
+									</tr>
+									<tr>
+										<th>結果頁接收对象</th>
+										<td colspan="5">{{item.resultRObject?item.resultRObject:'未设置'}}</td>
+									</tr>
+									<tr>
+										<th>详情页Css</th>
+										<td colspan="5">{{item.defPageCss?item.defPageCss:'未设置'}}</td>
+									</tr>
+									<tr>
+										<th>Css采集规则</th>
+										<td colspan="5">{{item.defaultPageCss?item.defaultPageCss:'未设置'}}</td>
+									</tr>
+									<tr>
+										<th>详情页采集配置</th>
+										<td colspan="5">{{item.defPageConfig?item.defPageConfig:'未设置'}}</td>
+									</tr>
+									<tr>
+										<th>结果页采集配置</th>
+										<td colspan="5">{{item.defResultConfig?item.defResultConfig:'未设置'}}</td>
+									</tr>
+									<tr>
+										<th>自定义请求头</th>
+										<td colspan="5">{{item.defRequestHeader?item.defRequestHeader:'未设置'}}</td>
+									</tr>
+									<tr>
+										<th>描述</th>
+										<td colspan="5">{{item.sign?item.sign:'未设置'}}</td>
+									</tr>
 								</tbody>
 							</table>
-							<table
-								class="table table-border table-bordered table-hover mt-20 mb-20"
-								id="table5">
+							<table id="table5"  style="display:none"
+								class="table table-border table-bordered table-hover mt-20 mb-20" v-if="item!=null">
 								<thead class="text-c">
 									<tr>
 										<th colspan="4">站点所对应的默认版本</th>
 									</tr>
 								</thead>
-								<tbody class="text-c" is="item5" v-bind:item="item">
+								<tbody class="text-c">
+									<tr>
+										<th>站点名</th>
+										<td>{{item.name}}</td>
+										<th>版本号</th>
+										<td>{{item.versionId}}</td>
+									</tr>
+									<tr>
+										<th>页面地址</th>
+										<td colspan="3">{{item.defPage?item.defPage:'未设置'}}</td>
+									</tr>
+									<tr>
+										<th>Css地址</th>
+										<td colspan="3">{{item.defCss?item.defCss:'未设置'}}</td>
+									</tr>
+									<tr>
+										<th>Js地址</th>
+										<td colspan="3">{{item.defJs?item.defJs:'未设置'}}</td>
+									</tr>
 								</tbody>
 							</table>
 						</div>
@@ -519,7 +589,16 @@
 		var vm3 = new Vue({
 			el:"#table3",// 待解决：下拉列表默认值，事件监听
 			data:{
-				item:{name:'dongneng',versionId:'0.0.2',versionList:[{name:'0.0.1',value:'0.0.1'},{name:'0.0.2',value:'0.0.2'},{name:'0.0.3',value:'0.0.3',checked:true},{name:'0.0.4',value:'0.0.4'},{name:'0.0.7',value:'0.0.7'}]}
+				item:null,
+				item_:null
+			},
+			methods:{
+				change:function(){
+					// 只要改变就可以加载table4,table5的数据了
+					if(item){
+						change(item.id,item.name);
+					}
+				}
 			}
 		});
 		
@@ -562,43 +641,108 @@
 				item:{name:'peng',versionId:'0.0.7'}
 			}
 		});
+		
+		var vm2 = new Vue({
+			el:"#table2",
+			data:{
+				item:null
+			}
+		})
 		//]]>
 	</script>
 	<script type="text/javascript">
 		//<![CDATA[
+		var change = function(){
+			var websiteId = $("#table3").find("select[name='websiteId']").val();			
+			$.post("website/info/getWebsiteAndVersionInfo",{websiteId:websiteId}).done(function(){
+				if(data){
+					$("#table4").show();
+					$("#table5").show();
+					vm4.item = data.item;
+					vm5.item = data.item_;
+				}
+			}).fail(function(){
+				layer.msg('请求失败!', {
+				    time: 1000, icon: 5
+				  });	
+			})
+		}
+			
 		var setDefault = function(id,name){
-			layer.confirm('设置默认将只有一条相同数据使用!', {
-				btn : [ '确定', '放弃' ],
-				icon : 0
-			}, function() {
-				$.post("website/settings/setDefault",{id:id,name:name}).done(function(data){
-					
-					
-					
-				}).fail(function(){
-					layer.msg('请求失败!', {
-					    time: 1000, icon: 5
-					  });
-				})
-				layer.msg("设置成功...");
-			});
+			if(id&&name){
+				layer.confirm('设置默认将只有一条相同数据使用!', {
+					btn : [ '确定', '放弃' ],
+					icon : 0
+				}, function() {
+					$.post("website/settings/setDefault",{id:id,name:name}).done(function(data){
+						if(data){
+							if (data.message) {
+								layer.msg(data.message, {
+									time : 1000,
+									icon : 6
+								});
+							} else {
+								layer.msg('操作成功!', {
+									time : 1000,
+									icon : 1
+								});
+							}
+						}
+					}).fail(function(){
+						layer.msg('请求失败!', {
+						    time: 1000, icon: 5
+						  });
+					})
+				});
+			}else{
+				layer.msg("参数有误!", {
+					icon : 2,
+					time : 1500
+				});
+			}
 		}
 	
 		var updateSettings = function(id,name){
-			$("#itemUpdate").modal("show");
-		}
-	
-		var showDetails  = function(id,name){
 			if (id && name) {
 				// 请求参数
-				$.get("",{}).done(function(){
-					
+				$.get("website/info/getItemInfo2",{id:id,name:name}).done(function(data){
+					if(data){
+						// 填充数据
+						if(data.item){
+							vm3.item=data.item;
+							vm3.item_=data.item_;
+						}
+						$("#itemUpdate").modal("show");
+					}
 				}).fail(function(){
 					layer.msg('请求失败!', {
 					    time: 1000, icon: 5
 					  });
 				});
-				$("#itemInfo").modal("show");
+	 		} else {
+				layer.msg("参数有误!", {
+					icon : 2,
+					time : 1500
+				});
+			}	
+		}
+	
+		var showDetails  = function(id,name){
+			if (id && name) {
+				// 请求参数
+				$.get("website/info/getItemInfo",{id:id,name:name}).done(function(data){
+					if(data){
+						// 填充数据
+						if(data.item){
+							vm2.item = data.item;
+							$("#itemInfo").modal("show");
+						}
+					}
+				}).fail(function(){
+					layer.msg('请求失败!', {
+					    time: 1000, icon: 5
+					  });
+				});
 	 		} else {
 				layer.msg("参数有误!", {
 					icon : 2,
@@ -608,14 +752,29 @@
 		}
 	 	var showService = function(id,name){
 	 		if (id && name) {
-				$.get("website/info/getItemsService",{id:id,name:name}).done(function(){
-					
+				$.get("website/info/getItemService",{id:id,name:name}).done(function(data){
+					if(data&&data.items){
+						var $form = $("#form");
+						$.each(data.items,function(i,v){
+							if(v&&v.using==false){
+								var $l = $form.find("select[name='"+v.name+"']").children("option");
+								$.each($l,function(z,q){
+									var v = $(q).val();
+									if(v==0){
+										$(q).attr("selected",true);
+									}
+								})
+							}
+						})
+					}
+					$("#form").find("input[name='id']").val(id);
+					$("#form").find("input[name='name']").val(name);
+	 				$("#itemService").modal("show");
 				}).fail(function(){
 					layer.msg('请求失败!', {
 					    time: 1000, icon: 5
 					  });
 				});
-	 			$("#itemService").modal("show");
 	 		} else {
 				layer.msg("参数有误!", {
 					icon : 2,
@@ -630,7 +789,25 @@
 					btn : [ '确定', '放弃' ],
 					icon : 0
 				}, function() {
-					layer.msg("删除中...");
+					$.post("website/settings/deleteItem",{id:id,name:name}).done(function(data){
+						if(data){
+							if(data.message){
+								layer.msg(data.message, {
+									time : 1000,
+									icon : 6
+								});
+							}else{
+								layer.msg('操作成功!', {
+									time : 1000,
+									icon : 1
+								});
+							}
+						}
+					}).fail(function(){
+						layer.msg('请求失败!', {
+						    time: 1000, icon: 5
+						  });
+					});
 				});
 	 		} else {
 				layer.msg("参数有误!", {
@@ -730,13 +907,13 @@
 					icon : 0
 				}, function() {
 					$(form).ajaxSubmit({
-						url : "/add",
-						type : "patch",
+						url : "website/settings/updateItemInfo",
+						type : "post",
 						success : function(data) {
 							if (data.message) {
 								layer.msg(data.message, {
 									time : 1000,
-									icon : 1
+									icon : 6
 								});
 							} else {
 								layer.msg('修改成功!', {
@@ -758,23 +935,34 @@
 		});
 		$("#form").validate({
 			rules : {
-				searchS : {
+				name:{
+					required : true
+				},
+				id:{
+					required : true
+				},
+				SearchService : {
 					required : true,
 				},
-				onlineWormS:{
-					required : true
-				},schduleWormS:{
-					required : true
-				},designWormS:{
+				OnlinePullData:{
 					required : true
 				},
-				secS : {
+				SchedulePullData:{
 					required : true
 				},
-				webAnyS : {
+				CustomPullData:{
 					required : true
 				},
-				webSortS : {
+				Visit:{
+					required: true
+				},
+				SecVisit : {
+					required : true
+				},
+				WebsiteAnalysis : {
+					required : true
+				},
+				SortService : {
 					required : true
 				}
 			},
@@ -788,21 +976,23 @@
 					icon : 0
 				}, function() {
 					$(form).ajaxSubmit({
-						url : "/add",
-						type : "patch",
+						url : "website/settings/updateItemService",
+						type : "post",
 						success : function(data) {
-							if (data.message) {
-								layer.msg(data.message, {
-									time : 1000,
-									icon : 1
-								});
-							} else {
-								layer.msg('修改成功!', {
-									time : 1000,
-									icon : 1
-								});
+							if(data){
+								if (data.message) {
+									layer.msg(data.message, {
+										time : 1000,
+										icon : 6
+									});
+								} else {
+									layer.msg('修改成功!', {
+										time : 1000,
+										icon : 1
+									});
+								}
+								$("#itemService").modal("hide");
 							}
-							$("#itemService").modal("hide");
 						},
 						error : function() {
 							layer.msg('请求失败', {

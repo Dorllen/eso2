@@ -130,6 +130,15 @@
 		resultType="string">
 		select distinct name from websites;
 	</select>
+	
+	<select id="selectWebsitesForAdminInfoSupport01ListId" resultType="int">
+		select w.id from websites as w , websites as e where w.name = e.name and w.type= e.type and w.type2 = e.type2 and e.id = 
+		(select id from pullArticles where id = #{id} and name = #{name}) and w.nmp =1 ;
+	</select>
+	
+	<select id="querywebsitesForAdminSupportService01SimpleWebsiteBO2" resultType="WebsiteBO2">
+		select * from websites where id = #{id} and nmp = 1; 
+	</select>
 
 	<update id="updateWebsitesForDataInfoAdminService01SmpleWebsiteBO2">
 		update websites set searchAddr =

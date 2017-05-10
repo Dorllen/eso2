@@ -14,11 +14,14 @@ import com.zhidian.exception.PageArgumentsException;
 import com.zhidian.mapper.ConfigMapper;
 import com.zhidian.mapper.PullArticleMapper;
 import com.zhidian.mapper.VersionMapper;
+import com.zhidian.mapper.WebsiteMapper;
 import com.zhidian.model.PullArticle;
 import com.zhidian.model.Version;
 import com.zhidian.model.sys.ConfigBO;
 import com.zhidian.model.sys.NameValueModel;
 import com.zhidian.model.sys.PullArticleBO;
+import com.zhidian.model.sys.VersionBO2;
+import com.zhidian.model.sys.WebsiteBO2;
 import com.zhidian.model.websites.config.ConfigWebsiteItemModel;
 import com.zhidian.util.BasicUtils;
 import com.zhidian.views.ConfigDTO;
@@ -26,11 +29,15 @@ import com.zhidian.views.ServiceSettingsDTO;
 import com.zhidian.views.VersionAddVO;
 import com.zhidian.views.VersionControlDTO;
 import com.zhidian.views.VersionControlViewDTO;
+import com.zhidian.views.VersionMainDTO;
 import com.zhidian.views.VersionUpdateVO;
+import com.zhidian.views.WebsiteMainDTO;
 import com.zhidian.views.WebsitePalistDTO;
+import com.zhidian.views.WebsitePalistPullArticleDTO;
 
 @Service
 public class AdminInfoSupportService {
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 	@Autowired
 	ConfigMapper configMapper;
@@ -40,6 +47,9 @@ public class AdminInfoSupportService {
 
 	@Autowired
 	PullArticleMapper pullMapper;
+
+	@Autowired
+	WebsiteMapper websiteMapper;
 
 	public List<ConfigDTO> getConfigForVersionList() {
 		List<ConfigBO> list = configMapper.queryConfigsForAdminInfoSupportService01ListConfigBO();
@@ -84,7 +94,6 @@ public class AdminInfoSupportService {
 	private List<VersionControlViewDTO> createVersionControlViewDTOList(List<Version> list) {
 		if (list != null && list.size() > 0) {
 			List<VersionControlViewDTO> ls = new ArrayList<VersionControlViewDTO>(list.size());
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			for (Version v : list) {
 				if (v != null) {
 					VersionControlViewDTO d = new VersionControlViewDTO();
@@ -143,7 +152,6 @@ public class AdminInfoSupportService {
 	private List<VersionControlDTO> createVersionControlVO(List<Version> list) {
 		if (list != null && list.size() > 0) {
 			List<VersionControlDTO> vos = new ArrayList<VersionControlDTO>(list.size());
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			for (Version v : list) {
 				if (v != null) {
 					VersionControlDTO vo = new VersionControlDTO();
@@ -178,7 +186,6 @@ public class AdminInfoSupportService {
 	private List<WebsitePalistDTO> createWebsitePalistDTO(List<PullArticle> list) {
 		if (list != null && list.size() > 0) {
 			List<WebsitePalistDTO> dtos = new ArrayList<WebsitePalistDTO>(list.size());
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			for (PullArticle p : list) {
 				if (p != null) {
 					WebsitePalistDTO d = new WebsitePalistDTO();
@@ -207,7 +214,7 @@ public class AdminInfoSupportService {
 	}
 
 	public List<ServiceSettingsDTO> getItemServiceByItemsIdAndName(int id, String name) throws PageArgumentsException {
-		if (id > 0) {
+		if (id > 0 && StringUtils.isNotEmpty(name)) {
 			// 通过字符串模糊查询。如果有数据，则取出字符串。
 			PullArticleBO p = pullMapper.queryPullArticlesForAdminInfoSupportServcie01SimplePullArticleBO(id, name);
 			if (p != null) {
@@ -230,7 +237,7 @@ public class AdminInfoSupportService {
 		if (configs != null && configs.size() > 0) {
 			List<ServiceSettingsDTO> dtos = new ArrayList<ServiceSettingsDTO>(configs.size());
 			for (ConfigBO c : configs) {
-				if(c!=null){
+				if (c != null) {
 					ServiceSettingsDTO s = new ServiceSettingsDTO();
 					s.setId(c.getId());
 					s.setName(c.getName());
@@ -252,5 +259,143 @@ public class AdminInfoSupportService {
 		config.setUrl(p.getUrl());
 		config.setUuid(p.getUuid());
 		return JSON.toJSONString(config);
+	}
+
+	public WebsitePalistPullArticleDTO getItemInfoByItemsIdAndName(int id, String name) throws PageArgumentsException {
+		if (id > 0 && StringUtils.isNotEmpty(name)) {
+			PullArticle p = pullMapper.queryPullArticlesForAdminInfoSupportServcie01SimplePullArticle(id, name);
+			return createWebsitePalistPullArticleDTO(p);
+		} else {
+			throw new PageArgumentsException();
+		}
+	}
+
+	private WebsitePalistPullArticleDTO createWebsitePalistPullArticleDTO(PullArticle p) {
+		if (p != null) {
+			WebsitePalistPullArticleDTO dto = new WebsitePalistPullArticleDTO();
+			dto.setId(p.getId());
+			dto.setVersionId(BasicUtils.id2Version(p.getId()));
+			if (p.getStartTime() != null) {
+				dto.setCreateTime(sdf.format(p.getStartTime()));
+			}
+			dto.setCollets(p.getCollets());
+			dto.setCssPath(p.getCssPath());
+			dto.setJsPath(p.getJsPath());
+			dto.setMark(p.getMark());
+			dto.setName(p.getName());
+			dto.setPagePath(p.getPagePath());
+			if (p.getWebsiteId() > 0) {
+				dto.setRelyVersionId(BasicUtils.id2Version(p.getWebsiteId()));
+			}
+			dto.setResultContent(p.getResultContent());
+			dto.setScores(p.getScores());
+			dto.setSign(p.getSign());
+			dto.setTags(p.getTags());
+			dto.setTitle(p.getTitle());
+			dto.setType(p.getType());
+			if (p.getUpdateTime() != null) {
+				dto.setUpdateTime(sdf.format(p.getUpdateTime()));
+			}
+			dto.setUrl(p.getUrl());
+			dto.setUsing(p.getUsing() > 0 ? true : false);
+			dto.setUuid(p.getUuid());
+			dto.setViews(p.getViews());
+			return dto;
+		}
+		return null;
+	}
+
+	public List<String> getWebsitesListId(int id, String name) throws PageArgumentsException {
+		if (id > 0 && StringUtils.isNotEmpty(name)) {
+			List<Integer> list = websiteMapper.selectWebsitesForAdminInfoSupport01ListId(id, name);
+			if (list != null && list.size() > 0) {
+				return createWebsiteListId(list);
+			} else {
+				throw new PageArgumentsException();
+			}
+		} else {
+			throw new PageArgumentsException();
+		}
+	}
+
+	private List<String> createWebsiteListId(List<Integer> list) {
+		// 强依赖
+		List<String> ls = new ArrayList<String>(list.size());
+		for (Integer id : list) {
+			if (id != null && id > 0) {
+				ls.add(BasicUtils.id2Version(id));
+			}
+		}
+		return ls;
+	}
+
+	public WebsiteMainDTO getWebsiteMainDTOInfo(String websiteId) throws PageArgumentsException {
+		if (StringUtils.isNotEmpty(websiteId)) {
+			int id = BasicUtils.version2Id(websiteId);
+			if (id > 0) {
+				WebsiteBO2 website = websiteMapper.querywebsitesForAdminSupportService01SimpleWebsiteBO2(id);
+				return createWebsiteMainDTO(website);
+			} else {
+				throw new PageArgumentsException();
+			}
+		} else {
+			throw new PageArgumentsException();
+		}
+	}
+
+	private WebsiteMainDTO createWebsiteMainDTO(WebsiteBO2 website) {
+		if(website!=null){
+			WebsiteMainDTO w = new WebsiteMainDTO();
+			w.setDefaultPageCss(website.getDefaultPageCss());
+			w.setDefPageConfig(website.getDefPageConfig());
+			w.setDefPageCss(website.getDefaultPageCss());
+			w.setDefRequestHeader(website.getDefRequestHeader());
+			w.setDefResultConfig(website.getDefResultConfig());
+			w.setId(website.getId());
+			w.setName(website.getName());
+			w.setPagePipeline(website.getPagePipeline());
+			w.setPageProcessor(website.getPageProcessor());
+			w.setPageRObject(website.getPageRObject());
+			w.setPagination(website.getPagination());
+			w.setResultPipeline(website.getResultPipeline());
+			w.setResultProcessor(website.getResultProcessor());
+			w.setResultRObject(website.getResultRObject());
+			w.setSearchAddr(website.getSearchAddr());
+			w.setSign(website.getSign());
+			w.setUseSearch(website.isUseSearch());
+			w.setVersionId(BasicUtils.id2Version(website.getVersionId()));
+			w.setWebsiteId(BasicUtils.id2Version(website.getId()));
+			return w;
+		}
+		return null;
+	}
+
+	public VersionMainDTO getVersionMainDTOInfo(String websiteId) throws PageArgumentsException {
+		if (StringUtils.isNotEmpty(websiteId)) {
+			int id = BasicUtils.version2Id(websiteId);
+			if (id > 0) {
+				VersionBO2 v = versionMapper.queryVersionsForAdminSupportService01SimpleVerionBO2(id);
+				return createVersionMainDTO(v);
+			} else {
+				throw new PageArgumentsException();
+			}
+		} else {
+			throw new PageArgumentsException();
+		}
+	}
+
+	private VersionMainDTO createVersionMainDTO(VersionBO2 v) {
+		if(v!=null){
+			VersionMainDTO d = new VersionMainDTO();
+			d.setDefCss(v.getDefCss());
+			d.setDefJs(v.getDefJs());
+			d.setDefPage(v.getDefPage());
+			d.setId(v.getId());
+			d.setName(v.getName());
+			d.setSign(v.getSign());
+			d.setVersionId(BasicUtils.id2Version(v.getId()));
+			return d;
+		}
+		return null;
 	}
 }

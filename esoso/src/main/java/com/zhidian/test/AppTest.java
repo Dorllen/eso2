@@ -71,7 +71,7 @@ import com.zhidian.views.WormSettingsSearchResultVO;
 @RunWith(SpringJUnit4ClassRunner.class) // 使用junit4进行测试
 // @WebAppConfiguration
 // //http://blog.zenika.com/2013/01/21/using-thymeleaf-with-spring-mvc/
-@ContextConfiguration({ "classpath*:SpringContext.xml" })
+@ContextConfiguration({ "classpath*:SpringContext_Test.xml" })
 public class AppTest {
 	// static ApplicationContext app;
 	// static UserMapper userMapper;
@@ -109,14 +109,30 @@ public class AppTest {
 	
 	@Test
 	public void testService01(){
-		int id;
 		try {
-			id = mainService.setVersionDefaultUsing("0.0.4","github");
-			System.out.println(id);
+			int num = mainService.setVersionDefaultUsing("0.0.4","github");
+			System.out.println(num);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+	
+	@Test
+	@Transactional
+	@Rollback
+	public void testService02(){
+		try {
+			List<String> list = new ArrayList<String>();
+			list.add("SecVisit");
+			list.add("OnlinePullData");
+			int num = mainService.updateItemServiceByListKey(4,"segmentfault",list);
+			System.out.println(num);
+		} catch (PageArgumentsException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	
 	// ###########################Configs##################
 	
