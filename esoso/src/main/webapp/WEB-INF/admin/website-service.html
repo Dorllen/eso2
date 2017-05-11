@@ -1,9 +1,9 @@
 ﻿<!DOCTYPE HTML>
 <html>
 <head>
-<meta charset="utf-8">
-<meta name="renderer" content="webkit|ie-comp|ie-stand">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta charset="utf-8" />
+<meta name="renderer" content="webkit|ie-comp|ie-stand" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <meta name="viewport"
 	content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
 <meta http-equiv="Cache-Control" content="no-siteapp" />
@@ -25,7 +25,11 @@
 <script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
 <script>DD_belatedPNG.fix('*');</script>
 <![endif]-->
-
+<style type="text/css">
+table input {
+	margin: 3px auto;
+}
+</style>
 <title>站点服务</title>
 </head>
 <body>
@@ -68,102 +72,106 @@
 				</tr>
 			</tbody>
 		</table>
+
 		<div id="websiteSetting" class="modal fade" tabindex="-1"
 			role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content radius">
 					<div class="modal-header">
-						<h3 class="modal-title">服務设置</h3>
+						<h3 class="modal-title">服务詳情</h3>
 						<a class="close" data-dismiss="modal" aria-hidden="true"
 							href="javascript:void();">×</a>
 					</div>
 					<form action="#" id="form">
 						<div class="modal-body">
-							<input type="hidden" name="versionId" value="" autocomplete="off" />
-							<input type="hidden" name="name" value="" autocomplete="off" />
-							<table class="table table-border table-bordered table-hover">
+							<input type="hidden" name="id" value="" /><input type="hidden"
+								name="name" value="" />
+							<table class="table table-border table-bordered table-hover"
+								id="">
 								<thead>
 									<tr>
-										<th>服务名称</th>
-										<th>开启状态</th>
+										<th colspan="2">服务：针对同一链接地址</th>
+									</tr>
+									<tr>
+										<th>服务名</th>
+										<th>状态</th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr>
 										<td>搜索服务</td>
 										<td><span class="select-box"> <select
-												class="select" size="1" name="searchS">
+												class="select" size="1" name="SearchService">
 													<option value="0">否</option>
-													<option value="1" selected>是</option>
+													<option value="1" selected="selected">是</option>
 											</select>
 										</span></td>
 									</tr>
 									<tr>
 										<td>在线爬虫服务</td>
 										<td><span class="select-box"> <select
-												class="select" size="1" name="onlineWormS">
+												class="select" size="1" name="OnlinePullData">
 													<option value="0">否</option>
-													<option value="1" selected>是</option>
+													<option value="1" selected="selected">是</option>
 											</select>
 										</span></td>
 									</tr>
 									<tr>
 										<td>定时爬虫服务</td>
 										<td><span class="select-box"> <select
-												class="select" size="1" name="schduleWormS">
+												class="select" size="1" name="SchedulePullData">
 													<option value="0">否</option>
-													<option value="1" selected>是</option>
+													<option value="1" selected="selected">是</option>
 											</select>
 										</span></td>
 									</tr>
 									<tr>
 										<td>自定义爬虫服务</td>
 										<td><span class="select-box"> <select
-												class="select" size="1" name="designWormS">
+												class="select" size="1" name="CustomPullData">
 													<option value="0">否</option>
-													<option value="1" selected>是</option>
+													<option value="1" selected="selected">是</option>
 											</select>
 										</span></td>
 									</tr>
 									<tr>
 										<td>直接访问</td>
 										<td><span class="select-box"> <select
-												class="select" size="1" name="noSecS">
+												class="select" size="1" name="Visit">
 													<option value="0">否</option>
-													<option value="1" selected>是</option>
+													<option value="1" selected="selected">是</option>
 											</select>
 										</span></td>
 									</tr>
 									<tr>
 										<td>安全访问</td>
 										<td><span class="select-box"> <select
-												class="select" size="1" name="secS">
+												class="select" size="1" name="SecVisit">
 													<option value="0">否</option>
-													<option value="1" selected>是</option>
+													<option value="1" selected="selected">是</option>
 											</select>
 										</span></td>
 									</tr>
 									<tr>
 										<td>站點分析</td>
 										<td><span class="select-box"> <select
-												class="select" size="1" name="webAnyS">
+												class="select" size="1" name="WebsiteAnalysis">
 													<option value="0">否</option>
-													<option value="1" selected>是</option>
+													<option value="1" selected="selected">是</option>
 											</select>
 										</span></td>
 									</tr>
 									<tr>
 										<td>排名服務</td>
 										<td><span class="select-box"> <select
-												class="select" size="1" name="webSortS">
+												class="select" size="1" name="SortService">
 													<option value="0">否</option>
-													<option value="1" selected>是</option>
+													<option value="1" selected="selected">是</option>
 											</select>
 										</span></td>
 									</tr>
 								</tbody>
 							</table>
-
 						</div>
 						<div class="modal-footer">
 							<button class="btn btn-primary" type="submit">确定</button>
@@ -173,116 +181,135 @@
 				</div>
 			</div>
 		</div>
-		<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
-		<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
-		<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script>
-		<script type="text/javascript"
-			src="static/h-ui.admin/js/H-ui.admin.js"></script>
+	</div>
+	<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
+	<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+	<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script>
+	<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script>
 
-		<script type="text/javascript"
-			src="lib/jquery.validation/1.14.0/jquery.validate.js"></script>
-		<script type="text/javascript"
-			src="lib/jquery.validation/1.14.0/validate-methods.js"></script>
-		<script type="text/javascript"
-			src="lib/jquery.validation/1.14.0/messages_zh.js"></script>
+	<script type="text/javascript"
+		src="lib/jquery.validation/1.14.0/jquery.validate.js"></script>
+	<script type="text/javascript"
+		src="lib/jquery.validation/1.14.0/validate-methods.js"></script>
+	<script type="text/javascript"
+		src="lib/jquery.validation/1.14.0/messages_zh.js"></script>
 
-		<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
-		<script type="text/javascript">
-			var openPage = function(title, url) {
-				var index = layer.open({
-					type : 2,
-					title : title,
-					content : url
+	<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+	<script type="text/javascript">
+		var openPage = function(title, url) {
+			var index = layer.open({
+				type : 2,
+				title : title,
+				content : url
+			});
+			layer.full(index);
+		}
+		var updateSettings = function(versionId, name) {
+			if (versionId && name) {
+				$("#websiteSetting").find("input[name='versionId']").val(
+						versionId);
+				$("#websiteSetting").find("input[name='name']").val(name);
+				$("#websiteSetting").modal("show");
+			} else {
+				layer.msg("参数有误!", {
+					icon : 2,
+					time : 1500
 				});
-				layer.full(index);
 			}
-			var updateSettings = function(versionId, name) {
-				if (versionId && name) {
-					$("#websiteSetting").find("input[name='versionId']").val(
-							versionId);
-					$("#websiteSetting").find("input[name='name']").val(name);
-					$("#websiteSetting").modal("show");
-				} else {
-					layer.msg("参数有误!", {
-						icon : 2,
-						time : 1500
+		}
+		var stopUsing = function(versionId, name) {
+			if (versionId && name) {
+				layer.confirm('确认停用站点所有“服务”吗？', {
+					btn : [ '确定', '放弃' ],
+					icon : 0
+				}, function() {
+					$.ajax({
+						url : "",
+						type : "patch",
+						data : {
+							versionId : versionId,
+							name : name
+						}
+					}).done(function(data) {
+						if (data && data.message) {
+							layer.msg(data.message, {
+								time : 1000,
+								icon : 1
+							});
+						} else {
+							layer.msg('操作成功!', {
+								time : 1000,
+								icon : 1
+							});
+						}
+					}).fail(function() {
+						layer.msg('请求失败', {
+							icon : 5,
+							time : 1000
+						});
 					});
-				}
+				});
+			} else {
+				layer.msg("参数有误!", {
+					icon : 2,
+					time : 1500
+				});
 			}
-			var stopUsing = function(versionId, name) {
-				if (versionId && name) {
-					layer.confirm('确认停用站点所有“服务”吗？', {
+		}
+	</script>
+	<script type="text/javascript">
+		$(function() {
+			$("#form").validate({
+				rules : {
+					name : {
+						required : true
+					},
+					id : {
+						required : true
+					},
+					SearchService : {
+						required : true,
+					},
+					OnlinePullData : {
+						required : true
+					},
+					SchedulePullData : {
+						required : true
+					},
+					CustomPullData : {
+						required : true
+					},
+					Visit : {
+						required : true
+					},
+					SecVisit : {
+						required : true
+					},
+					WebsiteAnalysis : {
+						required : true
+					},
+					SortService : {
+						required : true
+					}
+				},
+				onkeyup : false,
+				focusCleanup : true,
+				success : "valid",
+				submitHandler : function(form) {
+					// 判断依赖默认版本是否点击，点击需要选择版本
+					layer.confirm('确认修改吗？', {
 						btn : [ '确定', '放弃' ],
 						icon : 0
 					}, function() {
-						$.ajax({url:"",type:"patch",data:{versionId:versionId,name:name}}).done(function(data){
-							if(data&&data.message){
-								layer.msg(data.message, {
-									time : 1000,
-									icon : 1
-								});
-							}else{
-								layer.msg('操作成功!', {
-									time : 1000,
-									icon : 1
-								});
-							}
-						}).fail(function(){
-							layer.msg('请求失败', {
-								icon : 5,
-								time : 1000
-							});
-						});
-					});
-				} else {
-					layer.msg("参数有误!", {
-						icon : 2,
-						time : 1500
-					});
-				}
-			}
-		</script>
-		<script type="text/javascript">
-			$(function() {
-				$("#form").validate({
-					rules : {
-						searchS : {
-							required : true,
-						},
-						onlineWormS:{
-							required : true
-						},schduleWormS:{
-							required : true
-						},designWormS:{
-							required : true
-						},
-						secS : {
-							required : true
-						},
-						webAnyS : {
-							required : true
-						},
-						webSortS : {
-							required : true
-						}
-					},
-					onkeyup : false,
-					focusCleanup : true,
-					success : "valid",
-					submitHandler : function(form) {
-						// 判断依赖默认版本是否点击，点击需要选择版本
-						layer.confirm('确认修改吗？', {
-							btn : [ '确定', '放弃' ],
-							icon : 0
-						}, function() {
-							$(form).ajaxSubmit({
-								url : "/add",
-								type : "patch",
-								success : function(data) {
+						$(form).ajaxSubmit({
+							url : "website/settings/updateItemService",
+							type : "post",
+							success : function(data) {
+								if (data) {
 									if (data.message) {
 										layer.msg(data.message, {
 											time : 1000,
-											icon : 1
+											icon : 6
 										});
 									} else {
 										layer.msg('修改成功!', {
@@ -291,18 +318,19 @@
 										});
 									}
 									$("#websiteSetting").modal("hide");
-								},
-								error : function() {
-									layer.msg('请求失败', {
-										icon : 5,
-										time : 1000
-									});
 								}
-							});
-						})
-					}
-				});
-			})
-		</script>
+							},
+							error : function() {
+								layer.msg('请求失败', {
+									icon : 5,
+									time : 1000
+								});
+							}
+						});
+					})
+				}
+			});
+		})
+	</script>
 </body>
 </html>

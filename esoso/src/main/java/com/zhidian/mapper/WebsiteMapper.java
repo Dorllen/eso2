@@ -103,7 +103,12 @@ public interface WebsiteMapper {
 	* @return WebsiteBO2    返回类型
 	* @throws
 	*/
-	WebsiteBO2 querywebsitesForAdminSupportService01SimpleWebsiteBO2(@Param("id") int id);
+	WebsiteBO2 queryWebsitesForAdminSupportService01SimpleWebsiteBO2(@Param("id") int id);
+
+
+
+
+	List<WebsiteBO2> queryWebsitesForAdminSupportService01ListWebsiteBO2();
 
 
 

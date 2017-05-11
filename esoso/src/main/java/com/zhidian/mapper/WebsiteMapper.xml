@@ -139,6 +139,10 @@
 	<select id="querywebsitesForAdminSupportService01SimpleWebsiteBO2" resultType="WebsiteBO2">
 		select * from websites where id = #{id} and nmp = 1; 
 	</select>
+	
+	<select id="queryWebsitesForAdminSupportService01ListWebsiteBO2" resultType="WebsiteBO2">
+		select * from websites where nmp =1 and websites.using = 1;
+	</select>
 
 	<update id="updateWebsitesForDataInfoAdminService01SmpleWebsiteBO2">
 		update websites set searchAddr =

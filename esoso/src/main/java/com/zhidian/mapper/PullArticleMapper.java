@@ -98,6 +98,10 @@ public interface PullArticleMapper {
 	List<PullArticle> queryPullArticlesForAdminInfoSupportServcie04ListPullArticle(@Param("offset") int offset,
 			@Param("size") int size);
 
+	List<PullArticle> queryPullArticlesForAdminInfoSupportServcie05ListPullArticle(@Param("uuid") String uuid);
+
+	List<PullArticle> queryPullArticlesForAdminInfoSupportServcie06ListPullArticle(@Param("url") String url);
+
 	// PullArticle selectPullArticleByIdAndName(@Param("id") int id,@Param("id")
 	// String name);
 

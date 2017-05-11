@@ -31,6 +31,9 @@
 		width: 80%;
 	}
 }
+table input{
+	margin:3px auto;
+}
 </style>
 <title>内容库版本管理</title>
 </head>
@@ -91,7 +94,7 @@
 							class="
 								text-overflow"
 							style="width: 100px; display: inline-block"  th:text="${item.sign}">我是一只小小小鸟</abbr></td>
-						<td><a class="btn btn-success radius" href="admin/pa/" th:href="@{|/admin/pa/${uuid}|}"
+						<td><a class="btn btn-success radius" href="admin/pa/" th:href="@{|/admin/pa/${item.uuid}|}"
 							target="_blank">审视</a> <input class="btn btn-primary radius"
 							type="button" value="详情" onclick="showDetails(1,'segmentfault')" th:onclick="|showDetails(${item.id},'${item.name}')|"/>
 							<input class="btn btn-secondary radius" type="button" value="变更"
@@ -720,7 +723,7 @@
 				success : "valid",
 				submitHandler : function(form) {
 					$(form).ajaxSubmit({
-						url : "website/info/pa/search",
+						url : "website/info/pa/search2",
 						type : "get",
 						success : function(data) {
 							$("#table").hide();

@@ -141,17 +141,30 @@ public class WebsiteAdminInfoController {
 	// }
 
 	@GetMapping("/pa/search")
-	public Object getWebsitePaList(@RequestParam("startTime") String startTime, @RequestParam("endTime") String endTime,
-			@RequestParam("type") String type,
-			@RequestParam("value") String value)  throws PageArgumentsException {
+	public Object getWebsitePaList(@RequestParam(value = "startTime", required = false) String startTime,
+			@RequestParam(value = "endTime", required = false) String endTime, @RequestParam("type") String type,
+			@RequestParam("value") String value) throws PageArgumentsException {
 		ResultListModel result = new ResultListModel();
-		List<WebsitePaDTO> list = infoService.getWebsitePaListList(startTime,endTime,type,value);
-		if(list!=null){
+		List<WebsitePaDTO> list = infoService.getWebsitePaListList(startTime, endTime, type, value);
+		if (list != null) {
 			result.setItems(list);
 			result.setTotal(list.size());
 		}
 		return result;
 	}
+
+	@GetMapping("/pa/search2")
+	public Object getWebsitePaList2(@RequestParam("type") String type, @RequestParam("value") String value)
+			throws PageArgumentsException {
+		ResultListModel result = new ResultListModel();
+		List<WebsitePaDTO> list = infoService.getWebsitePaListList(type, value);
+		if (list != null) {
+			result.setItems(list);
+			result.setTotal(list.size());
+		}
+		return result;
+	}
+	
 
 	// @GetMapping("/getInfo") // test
 	// public Object uploadTest2(@RequestParam("name") String name) {

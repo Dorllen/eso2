@@ -338,7 +338,7 @@ public class AdminInfoSupportService {
 		if (StringUtils.isNotEmpty(websiteId)) {
 			int id = BasicUtils.version2Id(websiteId);
 			if (id > 0) {
-				WebsiteBO2 website = websiteMapper.querywebsitesForAdminSupportService01SimpleWebsiteBO2(id);
+				WebsiteBO2 website = websiteMapper.queryWebsitesForAdminSupportService01SimpleWebsiteBO2(id);
 				return createWebsiteMainDTO(website);
 			} else {
 				throw new PageArgumentsException();
@@ -423,7 +423,8 @@ public class AdminInfoSupportService {
 					Calendar c = Calendar.getInstance();
 					c.setTime(ed);
 					c.add(Calendar.DAY_OF_MONTH, 1);// 天数+1
-					ed = c.getTime();			}
+					ed = c.getTime();
+				}
 			} catch (ParseException e) {
 			}
 		}
@@ -447,12 +448,43 @@ public class AdminInfoSupportService {
 
 	public List<WebsitePaDTO> getWebsitesPaList(Integer page) {
 		// 获取默认站点segmentfault的数据。前20条
-		if(page==null){
+		if (page == null) {
 			page = 1;
 		}
-		int size = 20;// 默认20 
-		int offset = (page-1)*20;
-		List<PullArticle> list = pullMapper.queryPullArticlesForAdminInfoSupportServcie04ListPullArticle(offset,size);
+		int size = 20;// 默认20
+		int offset = (page - 1) * 20;
+		List<PullArticle> list = pullMapper.queryPullArticlesForAdminInfoSupportServcie04ListPullArticle(offset, size);
 		return createWebsitePalistDTO(list);
+	}
+
+	public List<WebsitePaDTO> getWebsitePaListList(String type, String value) throws PageArgumentsException {
+		if (StringUtils.isNotEmpty(value) && StringUtils.isNotEmpty(value)) {
+			if("uuid".equals(type)){
+				List<PullArticle> list = pullMapper.queryPullArticlesForAdminInfoSupportServcie05ListPullArticle(value);
+				return createWebsitePalistDTO(list);
+			}else if("url".equals(type)){
+				List<PullArticle> list = pullMapper.queryPullArticlesForAdminInfoSupportServcie06ListPullArticle(value);
+				return createWebsitePalistDTO(list);
+			}else{
+				throw new PageArgumentsException();
+			}
+		} else {
+			throw new PageArgumentsException();
+		}
+	}
+
+	public List<WebsiteMainDTO> getWebsiteMainDTODefaultList() {
+		List<WebsiteBO2> webs = websiteMapper.queryWebsitesForAdminSupportService01ListWebsiteBO2();
+		if(webs!=null&&webs.size()>0){
+			List<WebsiteMainDTO> list = new ArrayList<WebsiteMainDTO>(webs.size());
+			for(WebsiteBO2 w : webs){
+				if(w!=null){
+					WebsiteMainDTO d = createWebsiteMainDTO(w);
+					list.add(d);
+				}
+			}
+			return list;
+		}
+		return null;
 	}
 }

@@ -103,6 +103,14 @@
 		parameterType="hashmap" resultType="PullArticle">
 		select * from pullArticles limit #{offset},#{size}
 	</select>
+	
+	<select id="queryPullArticlesForAdminInfoSupportServcie05ListPullArticle" resultType="PullArticle">
+		select * from pullArticles where uuid = #{uuid} and status = 0;
+	</select>
+
+	<select id="queryPullArticlesForAdminInfoSupportServcie06ListPullArticle" resultType="PullArticle">
+		select * from pullArticles where url = #{url} and status = 0;
+	</select>
 
 	<update id="updatePullArticlesForAdminMainSupportService01RetrunId"
 		statementType="CALLABLE">
