@@ -16,9 +16,10 @@ import com.zhidian.views.ResultModel;
 import com.zhidian.views.ResultMultiModel;
 import com.zhidian.views.ServiceSettingsDTO;
 import com.zhidian.views.VersionMainDTO;
+import com.zhidian.views.WebsiteDetailDTO;
 import com.zhidian.views.WebsiteMainDTO;
-import com.zhidian.views.WebsitePageVO;
 import com.zhidian.views.WebsitePaDTO;
+import com.zhidian.views.WebsitePageVO;
 import com.zhidian.views.WebsitePalistPullArticleDTO;
 import com.zhidian.views.WormSettingsSearchResultVO;
 
@@ -90,6 +91,7 @@ public class WebsiteAdminInfoController {
 		}
 		return result;
 	}
+	// 以上待验证
 
 	@GetMapping("/getItemService")
 	public Object getItemService(@RequestParam("id") int id, @RequestParam("name") String name)
@@ -164,7 +166,19 @@ public class WebsiteAdminInfoController {
 		}
 		return result;
 	}
-	
+
+	// 以下是对Website表的主要操作
+	@GetMapping("/web/search")// website-control.html
+	public Object getWebsiteInfo(@RequestParam("type") String type, @RequestParam("value") String value) 
+			throws PageArgumentsException {
+		ResultListModel result = new ResultListModel();
+		List<WebsiteDetailDTO> list = infoService.getWebsisteMainBySearch(type,value);
+		if (list != null) {
+			result.setItems(list);
+			result.setTotal(list.size());
+		}
+		return result;
+	}
 
 	// @GetMapping("/getInfo") // test
 	// public Object uploadTest2(@RequestParam("name") String name) {

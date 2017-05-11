@@ -511,7 +511,7 @@ public class AppTest {
 	@Test
 	public void testWebsiteProcedure() {
 		// dataService.setWebisteDefaultUsing("1","segmentfault");
-		websiteMapper.updateWebsitesForDataInfoAdminService01SimpleWebsite("1", "segmentfault");
+		websiteMapper.updateWebsitesForAdminMainSupportService01ReturnId(1, "segmentfault");
 	}
 
 	@Test

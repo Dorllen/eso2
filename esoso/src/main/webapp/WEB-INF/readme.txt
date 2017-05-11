@@ -27,6 +27,23 @@ http://127.0.0.1:8080/esoso/admin/website/getInfo3?name=Result 測試CommonClass
 	7. 需要思考，如果传输数据到前台。需要考虑传多个object，并且是map类型
 	8. 服务的方法命名需要设计【待处理】
 
+特色设计：
+	1. 在站点操作中传的是WebsiteId，并且操作功能是需要websiteId与name同时确定
+	2. 在站点信息查看，只需要传递websiteId
+	3. 只有爬虫数据pullArticles是不能删除的，websites，versions都是可以删除的.(2017-5-12:pullArticles可以删除数据，
+	在数据status=1，验证无用就可以删除)
+	4. 在删除站点信息时，并不会直接删除字节码文件等，而是通过定时调度器取数据库获取链接，扫描文件夹，进行清理
+	5. 定时的任务有：定时清除垃圾文件、定时更新数据库数据、定时更新索引
+
+
+使用vue良好效果的有：
+website-control.html
+
+2017-5-12:
+      重要更新：
+     1. pullArticles
+
+
 
 2017-5-10：
 	重要更新：

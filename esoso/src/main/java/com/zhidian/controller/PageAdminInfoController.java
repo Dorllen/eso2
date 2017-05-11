@@ -89,4 +89,27 @@ public class PageAdminInfoController {
 		return "admin/website-control";
 	}
 	
+	@GetMapping("/admin/website-control-info.html")
+	public String websiteControlInfoPage(@RequestParam("id") String websiteId,Model model) throws PageArgumentsException{
+		if (StringUtils.isNotEmpty(websiteId)) {
+			WebsiteDetailDTO dto = infoService.getWebsiteDetailInfo(websiteId);
+			model.addAttribute("Message", dto);
+			return "admin/website-control-info";
+		} else {
+			throw new PageArgumentsException();
+		}
+	}
+	
+	@GetMapping("/admin/website-control-info-update.html")
+	public String websiteControlInfoUpdatePage(@RequestParam("id") String websiteId,Model model)throws PageArgumentsException {
+		if (StringUtils.isNotEmpty(websiteId)) {
+			WebsiteDetailDTO dto = infoService.getWebsiteDetailInfo(websiteId);
+			List<String> list = infoService.getWebsiteRelyVersionIdList(websiteId);
+			model.addAttribute("Message", dto);
+			model.addAttribute("VersionList", list);
+			return "admin/website-control-info-update";
+		} else {
+			throw new PageArgumentsException();
+		}
+	}
 }

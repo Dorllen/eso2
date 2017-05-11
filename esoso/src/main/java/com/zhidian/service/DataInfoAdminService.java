@@ -182,7 +182,7 @@ public class DataInfoAdminService {
 
 	public void setWebisteDefaultUsing(String id, String name) {
 		if (!StringUtils.isEmpty(id) && !StringUtils.isEmpty(name)) {
-			websiteMapper.updateWebsitesForDataInfoAdminService01SimpleWebsite(id, name);
+//			websiteMapper.update(id, name);
 		}
 	}
 
@@ -205,16 +205,16 @@ public class DataInfoAdminService {
 							w.setVersionId(version.getId());
 							websiteMapper.insertWebsitesForDataInfoAdminService01SimpleWebsite(w);// 将其他的website制为using=0
 							if (w.getId() > 0) {
-								websiteMapper.updateWebsitesForDataInfoAdminService01SimpleWebsite("" + w.getId(),
-										w.getName());
+//								websiteMapper.updateWebsitesForDataInfoAdminService01SimpleWebsite("" + w.getId(),
+//										w.getName());
 							}
 						} else {
 							w.setVersionId(BasicUtils.version2Id(model.getCheck2Version()));// 获得默认version,确定version是否存在数据库中
 							w.setDefPageCss(model.getDefPageCss());
 							websiteMapper.insertWebsitesForDataInfoAdminService02SimpleWebsite(w);// 将其他的website置为using=0,并且将model.getVersion验证
 							if (w.getId() > 0) {
-								websiteMapper.updateWebsitesForDataInfoAdminService01SimpleWebsite("" + w.getId(),
-										w.getName());
+//								websiteMapper.updateWebsitesForDataInfoAdminService01SimpleWebsite("" + w.getId(),
+//										w.getName());
 							}
 						}
 					} else {

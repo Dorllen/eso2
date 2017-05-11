@@ -74,6 +74,8 @@ public interface VersionMapper {
 	public int updateVersionsForAdminMainSupportService02ReturnId(@Param("id") int id,@Param("name") String name);
 
 	public VersionBO2 queryVersionsForAdminSupportService01SimpleVerionBO2(@Param("id") int id);
+
+	public List<Integer> selectVersionsForAdminInforService01ListString(@Param("id") int id);
 	
 	
 //	public void selectTest(@Param("id") int id,@Param("name") String name);

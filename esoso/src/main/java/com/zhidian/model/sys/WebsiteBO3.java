@@ -56,7 +56,8 @@ public class WebsiteBO3 {
 	private String defResultConfig;// 默認結果頁爬取規則 WebsiteConfigModel
 	private String defRequestHeader;//定义请求头 RequestHeaderModel
 	private int nmp;// 用于给管理员进行配置，哪些页面是可用的，无论using是否为1,nmp位0则代表被禁用。默认1。need model page
-	private int nowLink;
+	private int nowLink;// 关联站点数
+	private int nowNumber;// 站点name关联收录内容数
 	
 	public String getResultProcessor() {
 		return resultProcessor;
@@ -368,5 +369,13 @@ public class WebsiteBO3 {
 
 	public void setNowLink(int nowLink) {
 		this.nowLink = nowLink;
+	}
+
+	public int getNowNumber() {
+		return nowNumber;
+	}
+
+	public void setNowNumber(int nowNumber) {
+		this.nowNumber = nowNumber;
 	}
 }

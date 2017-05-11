@@ -9,7 +9,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -187,18 +186,6 @@ public class WebsiteAdminMainController {
 		return result;
 	}
 
-	@PostMapping("/setDefaultWebsite")
-	public Object setWebsiteDefault(@RequestParam("id") String id, @RequestParam("name") String name) {
-		ResultModel result = new ResultModel();
-		if (StringUtils.isNotEmpty(id) && StringUtils.isNotEmpty(name)) {
-			dataService.setWebisteDefaultUsing(id, name);
-			result.setMessage("更新成功!");
-		} else {
-			result.setMessage("请求参数有误!");
-		}
-		return result;
-	}
-
 	// 上面代码待验证
 
 	@PostMapping("/setDefault")
@@ -266,19 +253,64 @@ public class WebsiteAdminMainController {
 		return result;
 	}
 
-
 	@PostMapping("/updateItemInfo")
-	public Object updatePullArticle(@ModelAttribute @Valid PullArticleUpdateModel article ,BindingResult error) throws PageArgumentsException{
+	public Object updatePullArticle(@ModelAttribute @Valid PullArticleUpdateModel article, BindingResult error)
+			throws PageArgumentsException {
 		ResultModel result = new ResultModel();
-		if(error!=null&&error.getErrorCount()>0){
+		if (error != null && error.getErrorCount() > 0) {
 			result.setMessage("参数异常!");
-		}else{
-			int num = mainService.updateItemInfo(article,"Admin");
+		} else {
+			int num = mainService.updateItemInfo(article, "Admin");
 			if (num > 0) {
 				result.setMessage("操作成功!");
 			} else {
 				result.setMessage("操作失败!");
 			}
+		}
+		return result;
+	}
+
+	@PostMapping("/web/deleteWebsiteForce")
+	public Object deleteWebsiteForceByWebsiteIdAndName(@RequestParam("id") String websiteId,
+			@RequestParam("name") String name) throws PageArgumentsException {
+		ResultModel result = new ResultModel();
+		int num = mainService.deleteWebsiteForceByWebsiteIdAndName(websiteId,name);
+		if(num>0){
+			result.setCode("200");
+			result.setMessage("操作成功!");
+		}else{
+			result.setCode("401");// 可能前置条件有
+			result.setMessage("操作失败!");
+		}
+		return result;
+	}
+	
+	@PostMapping("/web/deleteWebsite")
+	public Object deleteWebsiteByWebsiteIdAndName(@RequestParam("id") String websiteId,
+			@RequestParam("name") String name) throws PageArgumentsException {
+		ResultModel result = new ResultModel();
+		int num = mainService.deleteWebsiteByWebsiteIdAndName(websiteId,name);
+		if(num>0){
+			result.setCode("200");
+			result.setMessage("操作成功!");
+		}else{
+			result.setCode("401");// 可能前置条件有
+			result.setMessage("操作失败!");
+		}
+		return result;
+	}
+	
+	@PostMapping("/web/setDefaultWebsite")
+	public Object setDefaultWebsiteByWebsiteIdAndName(@RequestParam("id") String websiteId,
+			@RequestParam("name") String name) throws PageArgumentsException {
+		ResultModel result = new ResultModel();
+		int num = mainService.updateWebsiteForSetDefaultByWebsiteIdAndName(websiteId,name);
+		if(num>0){
+			result.setCode("200");
+			result.setMessage("操作成功!");
+		}else{
+			result.setCode("401");// 可能前置条件有
+			result.setMessage("操作失败!");
 		}
 		return result;
 	}

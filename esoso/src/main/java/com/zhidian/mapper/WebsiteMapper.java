@@ -60,16 +60,6 @@ public interface WebsiteMapper {
 	void updateWebsitesForDataInfoAdminService01SmpleWebsiteBO2(WebsiteBO2 w);
 
 
-	/**
-	* @Title: updateWebsitesForDataInfoAdminService01SimpleWebsite
-	* @Description: TODO(设置website使用的版本,nmp必须为1)
-	* @param @param id
-	* @param @param name    参数
-	* @return void    返回类型
-	* @throws
-	*/
-	void updateWebsitesForDataInfoAdminService01SimpleWebsite(@Param("id") String id,@Param("name")  String name);
-
 
 	List<String> selectWebsitesForDataInfoAdminService01ListString();
 
@@ -113,7 +103,60 @@ public interface WebsiteMapper {
 
 
 
-	
+
+	List<WebsiteBO3> queryWebsitesForAdminSupportService02ListWebsiteBO3(@Param("name") String name);
+
+
+
+
+	/**
+	* @Title: queryWebsitesForAdminSupportService03ListWebsiteBO3
+	* @Description: TODO(站点版本id)
+	* @param @param id
+	* @param @return    参数
+	* @return List<WebsiteBO3>    返回类型
+	* @throws
+	*/
+	List<WebsiteBO3> queryWebsitesForAdminSupportService03ListWebsiteBO3(@Param("id") int id);
+
+
+
+
+	/**
+	* @Title: queryWebsitesForAdminSupportService04ListWebsiteBO3
+	* @Description: TODO(依赖版本id，及Version表的id)
+	* @param @param id
+	* @param @return    参数
+	* @return List<WebsiteBO3>    返回类型
+	* @throws
+	*/
+	List<WebsiteBO3> queryWebsitesForAdminSupportService04ListWebsiteBO3(@Param("id") int id);
+
+
+
+
+	int deleteWebsitesForAdminMainSupportService01ReturnId(@Param("id") int id,@Param("name") String name);
+
+
+
+
+	int deleteWebsitesForAdminMainSupportService02ReturnId(@Param("id") int id,@Param("name") String name);
+
+
+	/**
+	* @Title: updateWebsitesForAdminMainSupportService01ReturnId
+	* @Description: TODO(设置website使用的版本,nmp必须为1)
+	* @param @param id
+	* @param @param name    参数
+	* @return void    返回类型
+	* @throws
+	*/
+	int updateWebsitesForAdminMainSupportService01ReturnId(@Param("id") int id,@Param("name")  String name);
+
+
+
+
+	WebsiteBO3 queryWebsitesForAdminSupportService01SimpleWebsiteBO3(@Param("id") int id);
 
 
 	

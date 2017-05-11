@@ -36,6 +36,7 @@ import com.zhidian.views.VersionControlViewDTO;
 import com.zhidian.views.VersionMainDTO;
 import com.zhidian.views.VersionUpdateVO;
 import com.zhidian.views.WebsiteDetailDTO;
+import com.zhidian.views.WebsiteDetailDTO2;
 import com.zhidian.views.WebsiteMainDTO;
 import com.zhidian.views.WebsitePaDTO;
 import com.zhidian.views.WebsitePalistPullArticleDTO;
@@ -461,13 +462,13 @@ public class AdminInfoSupportService {
 
 	public List<WebsitePaDTO> getWebsitePaListList(String type, String value) throws PageArgumentsException {
 		if (StringUtils.isNotEmpty(value) && StringUtils.isNotEmpty(value)) {
-			if("uuid".equals(type)){
+			if ("uuid".equals(type)) {
 				List<PullArticle> list = pullMapper.queryPullArticlesForAdminInfoSupportServcie05ListPullArticle(value);
 				return createWebsitePalistDTO(list);
-			}else if("url".equals(type)){
+			} else if ("url".equals(type)) {
 				List<PullArticle> list = pullMapper.queryPullArticlesForAdminInfoSupportServcie06ListPullArticle(value);
 				return createWebsitePalistDTO(list);
-			}else{
+			} else {
 				throw new PageArgumentsException();
 			}
 		} else {
@@ -477,10 +478,10 @@ public class AdminInfoSupportService {
 
 	public List<WebsiteDetailDTO> getWebsiteDetailDTODefaultList() {
 		List<WebsiteBO3> webs = websiteMapper.queryWebsitesForAdminSupportService01ListWebsiteBO3();
-		if(webs!=null&&webs.size()>0){
+		if (webs != null && webs.size() > 0) {
 			List<WebsiteDetailDTO> list = new ArrayList<WebsiteDetailDTO>(webs.size());
-			for(WebsiteBO3 w : webs){
-				if(w!=null){
+			for (WebsiteBO3 w : webs) {
+				if (w != null) {
 					WebsiteDetailDTO d = createWebsiteDetailDTO(w);
 					list.add(d);
 				}
@@ -515,14 +516,150 @@ public class AdminInfoSupportService {
 			// extra
 			w.setCreateMan(website.getCreateMan());
 			w.setUpdateMan(website.getUpdateMan());
-			if(website.getCreateTime()!=null){
+			if (website.getCreateTime() != null) {
 				w.setCreateTime(sdf.format(website.getCreateTime()));
 			}
-			if(website.getUpdateTime()!=null){
+			if (website.getUpdateTime() != null) {
 				w.setUpdateTime(sdf.format(website.getUpdateTime()));
 			}
-			w.setNowLink(w.getNowLink());
+			w.setNowLink(website.getNowLink());
+			w.setUsing(website.getUsing() > 0 ? true : false);
+			w.setNowNumber(website.getNowNumber());
 			return w;
+		}
+		return null;
+	}
+
+	public List<WebsiteDetailDTO> getWebsisteMainBySearch(String type, String value) throws PageArgumentsException {
+		if (StringUtils.isNotEmpty(type) && StringUtils.isNotEmpty(value)) {
+			if ("website".equals(type)) {
+				List<WebsiteBO3> websites = websiteMapper.queryWebsitesForAdminSupportService02ListWebsiteBO3(value);
+				return createWebsiteDetailDTOList(websites);
+			} else if ("websiteId".equals(type)) {
+				int id = BasicUtils.version2Id(value);
+				if (id > 0) {
+					List<WebsiteBO3> websites = websiteMapper.queryWebsitesForAdminSupportService03ListWebsiteBO3(id);
+					return createWebsiteDetailDTOList(websites);
+				} else {
+					throw new PageArgumentsException();
+				}
+			} else if ("versionId".equals(type)) {
+				int id = BasicUtils.version2Id(value);
+				if (id > 0) {
+					List<WebsiteBO3> websites = websiteMapper.queryWebsitesForAdminSupportService04ListWebsiteBO3(id);
+					return createWebsiteDetailDTOList(websites);
+				} else {
+					throw new PageArgumentsException();
+				}
+			} else {
+				throw new PageArgumentsException();
+			}
+		} else {
+			throw new PageArgumentsException();
+		}
+	}
+
+	private List<WebsiteDetailDTO> createWebsiteDetailDTOList(List<WebsiteBO3> websites) {
+		if (websites != null && websites.size() > 0) {
+			List<WebsiteDetailDTO> list = new ArrayList<WebsiteDetailDTO>(websites.size());
+			for (WebsiteBO3 w : websites) {
+				if (w != null) {
+					WebsiteDetailDTO d = createWebsiteDetailDTO(w);
+					if (d != null) {
+						list.add(d);
+					}
+				}
+			}
+			return list;
+		}
+		return null;
+	}
+
+	public WebsiteDetailDTO2 getWebsiteDetailInfo(String websiteId) throws PageArgumentsException {
+		if (StringUtils.isNotEmpty(websiteId)) {
+			int id = BasicUtils.version2Id(websiteId);
+			if (id > 0) {
+				WebsiteBO3 website = websiteMapper.queryWebsitesForAdminSupportService01SimpleWebsiteBO3(id);
+				return createWebsiteDetailDTO2(website);
+			} else {
+				throw new PageArgumentsException();
+			}
+		} else {
+			throw new PageArgumentsException();
+		}
+	}
+	
+	private WebsiteDetailDTO2 createWebsiteDetailDTO2(WebsiteBO3 website) {
+		if (website != null) {
+			WebsiteDetailDTO2 w = new WebsiteDetailDTO2();
+			w.setDefaultPageCss(website.getDefaultPageCss());
+			w.setDefPageConfig(website.getDefPageConfig());
+			w.setDefPageCss(website.getDefaultPageCss());
+			w.setDefRequestHeader(website.getDefRequestHeader());
+			w.setDefResultConfig(website.getDefResultConfig());
+			w.setId(website.getId());
+			w.setName(website.getName());
+			w.setPagePipeline(website.getPagePipeline());
+			w.setPageProcessor(website.getPageProcessor());
+			w.setPageRObject(website.getPageRObject());
+			w.setPagination(website.getPagination());
+			w.setResultPipeline(website.getResultPipeline());
+			w.setResultProcessor(website.getResultProcessor());
+			w.setResultRObject(website.getResultRObject());
+			w.setSearchAddr(website.getSearchAddr());
+			w.setSign(website.getSign());
+			w.setUseSearch(website.isUseSearch());
+			w.setVersionId(BasicUtils.id2Version(website.getVersionId()));
+			w.setWebsiteId(BasicUtils.id2Version(website.getId()));
+			// extra
+			w.setCreateMan(website.getCreateMan());
+			w.setUpdateMan(website.getUpdateMan());
+			if (website.getCreateTime() != null) {
+				w.setCreateTime(sdf.format(website.getCreateTime()));
+			}
+			if (website.getUpdateTime() != null) {
+				w.setUpdateTime(sdf.format(website.getUpdateTime()));
+			}
+			w.setNowLink(website.getNowLink());
+			w.setUsing(website.getUsing() > 0 ? true : false);
+			w.setNowNumber(website.getNowNumber());
+			if(website.getUnuseTime()!=null){
+				w.setUnuseTime(sdf.format(website.getUnuseTime()));
+			}
+			w.setUnuseMan(website.getUnuseMan());
+			w.setAlias(website.getAlias());
+			w.setShortAddr(website.getShortAddr());
+			w.setFullAddr(website.getFullAddr());
+			return w;
+		}
+		return null;
+	}
+
+	
+	
+	public List<String> getWebsiteRelyVersionIdList(String websiteId) throws PageArgumentsException {
+		if (StringUtils.isNotEmpty(websiteId)) {
+			int id = BasicUtils.version2Id(websiteId);
+			if (id > 0) {
+				List<Integer> list = versionMapper.selectVersionsForAdminInforService01ListString(id);
+				return createVersionIdFromListInteger(list);
+			} else {
+				throw new PageArgumentsException();
+			}
+		} else {
+			throw new PageArgumentsException();
+		}
+	}
+
+	private List<String> createVersionIdFromListInteger(List<Integer> list) {
+		if(list!=null&&list.size()>0){
+			List<String> ls = new ArrayList<String>(list.size());
+			for(Integer s : list){
+				if(s!=null&&s>0){
+					ls.add(BasicUtils.id2Version(s));
+				}
+			}
+			return ls;
 		}
 		return null;
 	}

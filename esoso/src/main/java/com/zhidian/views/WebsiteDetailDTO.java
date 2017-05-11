@@ -23,7 +23,8 @@ public class WebsiteDetailDTO {
 	private boolean useSearch; // 使用后缀？ 默认false,代表去除搜索结果页捕获的链接后缀，如：?..&..。
 	private String createTime;
 	private String createMan;
-	private int nowLink;
+	private int nowLink;// 关联站点数
+	private int nowNumber;// 站点name关联收录内容数
 	private String updateTime;
 	private String updateMan;
 	private String defaultPageCss;//
@@ -32,6 +33,7 @@ public class WebsiteDetailDTO {
 	private String defResultConfig;// 默認結果頁爬取規則 WebsiteConfigModel
 	private String defRequestHeader;// 定义请求头 RequestHeaderModel
 	private String versionId;
+	private boolean using;
 	public int getId() {
 		return id;
 	}
@@ -175,5 +177,17 @@ public class WebsiteDetailDTO {
 	}
 	public void setUpdateMan(String updateMan) {
 		this.updateMan = updateMan;
+	}
+	public boolean isUsing() {
+		return using;
+	}
+	public void setUsing(boolean using) {
+		this.using = using;
+	}
+	public int getNowNumber() {
+		return nowNumber;
+	}
+	public void setNowNumber(int nowNumber) {
+		this.nowNumber = nowNumber;
 	}
 }

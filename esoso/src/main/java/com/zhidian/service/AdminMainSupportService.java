@@ -284,4 +284,46 @@ public class AdminMainSupportService {
 		}
 		return null;
 	}
+
+	public int deleteWebsiteForceByWebsiteIdAndName(String websiteId, String name) throws PageArgumentsException {
+		// 强制删除
+		if(StringUtils.isNotEmpty(websiteId)&&StringUtils.isNotEmpty(name)){
+			int id = BasicUtils.version2Id(websiteId);
+			if(id>0){
+				return websiteMapper.deleteWebsitesForAdminMainSupportService01ReturnId(id,name);
+			}else{
+				throw new PageArgumentsException();
+			}
+		}else{
+			throw new PageArgumentsException();
+		}
+	}
+
+	public int deleteWebsiteByWebsiteIdAndName(String websiteId, String name) throws PageArgumentsException {
+		// 非强制删除
+		if(StringUtils.isNotEmpty(websiteId)&&StringUtils.isNotEmpty(name)){
+			int id = BasicUtils.version2Id(websiteId);
+			if(id>0){
+				return websiteMapper.deleteWebsitesForAdminMainSupportService02ReturnId(id,name);
+			}else{
+				throw new PageArgumentsException();
+			}
+		}else{
+			throw new PageArgumentsException();
+		}
+	}
+
+	public int updateWebsiteForSetDefaultByWebsiteIdAndName(String websiteId, String name) throws PageArgumentsException {
+		// call websitesp1(#{id},#{name});
+		if(StringUtils.isNotEmpty(websiteId)&&StringUtils.isNotEmpty(name)){
+			int id = BasicUtils.version2Id(websiteId);
+			if(id>0){
+				return websiteMapper.updateWebsitesForAdminMainSupportService01ReturnId(id,name);
+			}else{
+				throw new PageArgumentsException();
+			}
+		}else{
+			throw new PageArgumentsException();
+		}
+	}
 }

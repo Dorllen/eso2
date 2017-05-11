@@ -141,7 +141,29 @@
 	</select>
 	
 	<select id="queryWebsitesForAdminSupportService01ListWebsiteBO3" resultType="WebsiteBO3">
-		select w.*,count(b.id) as nowLink from websites as w,pullarticles as b where w.nmp = 1 and w.using = 1 and b.websiteId = w.id and b.status =0;
+		select w.*,(select count(*) from pullarticles as b where b.websiteId = w.id and b.status = 0) as nowLink,
+		(select count(*) from pullarticles as z where z.name = w.name and z.status = 0) as nowNumber
+		from websites as w where w.nmp =1 and w.using = 1  ;
+	</select>
+
+	<select id="queryWebsitesForAdminSupportService02ListWebsiteBO3" resultType="WebsiteBO3">
+		select w.*,(select count(*) from pullarticles as b where b.websiteId = w.id and b.status = 0) as nowLink 
+		from websites as w where w.nmp =1 and name = #{name} ;
+	</select>
+	
+	<select id="queryWebsitesForAdminSupportService03ListWebsiteBO3" resultType="WebsiteBO3">
+		select w.*,(select count(*) from pullarticles as b where b.websiteId = w.id and b.status = 0) as nowLink 
+		from websites as w where w.nmp =1 and id = #{id} ;
+	</select>
+	
+	<select id="queryWebsitesForAdminSupportService04ListWebsiteBO3" resultType="WebsiteBO3">
+		select w.*,(select count(*) from pullarticles as b where b.websiteId = w.id and b.status = 0) as nowLink 
+		from websites as w where w.nmp =1 and id = (select id from versions where id = #{id} and nmp = 1) ;
+	</select>
+	
+	<select id="queryWebsitesForAdminSupportService01SimpleWebsiteBO3" resultType="WebsiteBO3">
+		select w.*,(select count(*) from pullarticles as b where b.websiteId = w.id and b.status = 0) as nowLink 
+		from websites as w where w.nmp =1 and id = #{id} ;
 	</select>
 
 	<update id="updateWebsitesForDataInfoAdminService01SmpleWebsiteBO2">
@@ -151,10 +173,20 @@
 		defPageCss = #{defPageCss},alias = #{alias} ,shortAddr = #{shortAddr},fullAddr = #{fullAddr} where id = #{id} and name =#{name};
 	</update>
 
-	<update id="updateWebsitesForDataInfoAdminService01SimpleWebsite"
+	<update id="updateWebsitesForAdminMainSupportService01ReturnId"
 		statementType="CALLABLE">
 		call websitesp1(#{id},#{name});
 	</update>
+	
+	<delete id="deleteWebsitesForAdminMainSupportService01ReturnId">
+		delete from websites where id = #{id} and name = #{name}
+	</delete>
+	
+	<delete id="deleteWebsitesForAdminMainSupportService02ReturnId">
+		delete from websites where websites.id = #{id}  and websites.name = #{name}
+		and websites.using = 0 and websites.id not in (select websiteId from pullarticles as p 
+		where p.websiteId = websites.id and p.status = 0)
+	</delete>
 
 	<delete id="deleteWebistesForDataInfoAdminService01SimpleId"
 		parameterType="int">

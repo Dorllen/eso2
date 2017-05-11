@@ -40,7 +40,8 @@ table input {
 					style="max-width: 150px; display: inline-block"> <select
 					class="select" id="type" name="type" autocomplete="off">
 						<option value="website" selected="selected">站点名称</option>
-						<option value="version">版本ID搜索</option>
+						<option value="websiteId">站点版本ID搜索</option>
+						<option value="versionId">依赖版本ID搜索</option>
 				</select>
 				</span><input type="text" name="value" id="search_text"
 					style="width: 250px" class="input-text"
@@ -58,41 +59,47 @@ table input {
 		<table id="table1"
 			class="table table-border table-bordered table-bg mb-15 mt-20 table-hover">
 			<thead class="text-c">
-				<tr th:each="item in ${item}">
-					<th th:text="${item.id}">序号</th>
-					<th th:text="${item.name}">站点名</th>
-					<th th:text="${item.websiteId}">版本号</th>
-					<th th:text="${item.createTime}">创建时间</th>
-					<th th:text="${item.createMan}">创建人</th>
-					<th th:text="${item.}">最近变更时间</th>
-					<th th:text="${item.}">最近变更人</th>
-					<th th:text="${item.}">站点收录数</th>
-					<th th:text="${item.}">当前版本关联数</th>
-					<th th:text="${item.}">是否在用</th>
-					<th th:text="${item.}">操作</th>
+				<tr>
+					<th>序号</th>
+					<th>站点名</th>
+					<th>版本号</th>
+					<th>创建时间</th>
+					<th>创建人</th>
+					<th>最近变更时间</th>
+					<th>最近变更人</th>
+					<th>站点收录数</th>
+					<th>当前版本关联数</th>
+					<th>是否在用</th>
+					<th>操作</th>
 				</tr>
 			</thead>
-			<tbody class="text-c">
-				<tr>
-					<td>1</td>
-					<td>segmentfault</td>
-					<td>0.0.1</td>
-					<td>2017-3-28 20:14:16</td>
-					<td>Admin</td>
-					<td>2017-4-29 14:33:15</td>
-					<td>Admin</td>
-					<td>384</td>
-					<td>2</td>
-					<td>在用</td>
+			<tbody class="text-c" th:if="${not #lists.isEmpty(Message)}">
+				<tr th:each="item : ${Message}">
+					<td th:text="${item.id}">1</td>
+					<td th:text="${item.name}">segmentfault</td>
+					<td th:text="${item.websiteId}">0.0.1</td>
+					<td th:text="${item.createTime}">2017-3-28 20:14:16</td>
+					<td th:text="${item.createMan}">Admin</td>
+					<td th:text="${item.updateTime}">2017-4-29 14:33:15</td>
+					<td th:text="${item.updateMan}">Admin</td>
+					<td th:text="${item.nowNumber}">2</td>
+					<td th:text="${item.nowLink}">2</td>
+					<td th:text="${item.using?'在用':'否'}">在用</td>
 					<td><input class="btn btn-success radius" type="button"
 						value="詳情"
-						onclick="openPage('segmentfault信息詳情','website-control-info.html')" />
+						onclick="openPage('segmentfault信息詳情','website-control-info.html')"
+						th:onclick="|openPage('${item.name}信息詳情','website-control-info.html?id=${item.websiteId}')|" />
 						<input class="btn btn-primary radius" type="button" value="变更"
-						onclick="openPage('segmentfault信息变更','website-control-info-update.html')" />
-						<input class="btn btn-warning radius" type="button" value="设为默认"
-						onclick="setDefault(1,'segmentfault')" /></td>
+						onclick="openPage('segmentfault信息变更','website-control-info-update.html')"
+						th:onclick="|openPage('${item.name}信息变更','website-control-info-update.html?id=${item.websiteId}')|" />
+						</td>
 				</tr>
 			</tbody>
+			<tfoot class="text-c" th:if="${#lists.isEmpty(Message)}">
+				<tr>
+					<td colspan="12">未有数据记录...</td>
+				</tr>
+			</tfoot>
 		</table>
 		<table id="table2" style="display: none"
 			class="table table-border table-bordered table-bg mb-15 mt-20 table-hover">
@@ -105,40 +112,36 @@ table input {
 					<th>创建人</th>
 					<th>最近变更时间</th>
 					<th>最近变更人</th>
-					<th>关闭时间</th>
-					<th>关闭人</th>
 					<th>当前版本关联数</th>
 					<th>是否在用</th>
 					<th>操作</th>
 				</tr>
 			</thead>
-			<tbody class="text-c">
-				<tr>
-					<td>1</td>
-					<td>segmentfault</td>
-					<td>0.0.1</td>
-					<td>2017-3-28 20:14:16</td>
-					<td>Admin</td>
-					<td>2017-4-29 14:33:15</td>
-					<td>Admin</td>
-					<td>2017-4-29 14:33:15</td>
-					<td>Admin</td>
-					<td>2</td>
-					<td>在用</td>
+			<tbody class="text-c" v-if="items!=null">
+				<tr v-for="(item,index) in items" v-if="item!=null">
+					<td>{{item.id}}</td>
+					<td>{{item.name}}</td>
+					<td>{{item.websiteId}}</td>
+					<td>{{item.createTime}}</td>
+					<td>{{item.createMan}}</td>
+					<td>{{item.updateTime}}</td>
+					<td>{{item.updateMan}}</td>
+					<td>{{item.nowLink}}</td>
+					<td>{{item.using?'在用':'否'}}</td>
 					<td><input class="btn btn-success radius" type="button"
 						value="詳情"
-						onclick="openPage('segmentfault信息詳情','website-control-info.html')" />
+						v-on:click="openPage(item.name+'信息詳情','website-control-info.html?id='+item.websiteId)" />
 						<input class="btn btn-primary radius" type="button" value="变更"
-						onclick="openPage('segmentfault信息变更','website-control-info-update.html')" />
+						v-on:click="openPage(item.name+'信息变更','website-control-info-update.html?id='+item.websiteId)" />
 						<input class="btn radius btn-warning" type="button" value="设为默认"
-						onclick="setDefaultWebsite(1,'segmentfault')" /> <input
+						v-on:click="setDefault(index,item.websiteId,item.name)" /> <input
 						class="btn btn-danger radius" type="button" value="删除"
-						onclick="deleteWebsite(1,'segmentfault')"/></td>
+						v-on:click="deleteWebsite(index,item.websiteId,item.name)" /></td>
 				</tr>
 			</tbody>
-			<tfoot class="text-c">
+			<tfoot class="text-c" v-if="items==null||items.length==0">
 				<tr>
-					<td colspan="12" class="cf1_"></td>
+					<td colspan="12" class="cf1_">数据为空...</td>
 				</tr>
 			</tfoot>
 		</table>
@@ -153,6 +156,9 @@ table input {
 	<script type="text/javascript" src="lib/laypage/1.2/laypage.js"></script>
 
 	<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+
+	<script type="text/javascript" src="js/vue.js"></script>
+
 	<script type="text/javascript">
 		//<![CDATA[
 		var openPage = function(title, url) {
@@ -163,135 +169,195 @@ table input {
 			});
 			layer.full(index);
 		}
-		var deleteWebsite = function(id, name) {
-			layer.confirm('删除站点有两种方式，请选择(强制删除,可能会造成数据依赖错误)', {
-				btn : [ '强制删除', '安全删除', '放弃' ]
-			//按钮
-			}, function() {
-				layer.confirm('提醒：强制删除将删除数据间依赖，删除依赖的相关文件，包括字节码!', {
-					btn : [ '删除', '放弃' ],
-					icon : 0
-				//按钮
-				}, function() {
-					$.ajax({
-						url : "",
-						type : "delete",
-						data : {
-							id : id,
-							name : name
-						}
-					}).done(function(data) {
-						if (data) {
-							if (data.message) {
-								layer.msg(data.message, {
-									time : 1000,
-									icon : 1
-								});
-							} else {
-								layer.msg('删除成功!', {
-									time : 1000,
-									icon : 1
-								});
-							}
-						}
-					}).fail(function(data) {
-						//$.Huimodalalert('联网失败!', 2000);
-						layer.msg('请求失败!', {
-							time : 1000,
-							icon : 5
-						});
-					})
-				}, function() {
-					layer.msg('已放弃', {
-						time : 2000,
-						icon : 7
-					});
-				});
-			}, function() {
-				$.ajax({
-					url : "",
-					type : "delete",
-					data : {
-						id : id,
-						name : name
-					}
-				}).done(function(data) {
-					if (data) {
-						if (data.message) {
-							layer.msg(data.message, {
-								time : 1000,
-								icon : 1
-							});
-						} else {
-							layer.msg('删除成功!', {
-								time : 1000,
-								icon : 1
-							});
-						}
-					}
-				}).fail(function(data) {
-					layer.msg('请求失败!', {
-						time : 1000,
-						icon : 5
-					});
-				})
-			});
-		}
-
-		var setDefaultWebsite = function(id, name) {
-			layer.confirm('是否设为默认!', {
-				btn : [ '确定', '放弃' ],
-				icon : 0
-			//按钮
-			}, function() {
-				$.ajax({
-					url : "",
-					type : "patch",
-					data : {
-						id : id,
-						name : name
-					}
-				}).done(function(data) {
-					if (data) {
-						if (data.message) {
-							layer.msg(data.message, {
-								time : 1000,
-								icon : 1
-							});
-						} else {
-							layer.msg('删除成功!', {
-								time : 1000,
-								icon : 1
-							});
-						}
-					}
-				}).fail(function(data) {
-					layer.msg('请求失败!', {
-						time : 1000,
-						icon : 5
-					});
-				});
-			});
-		}
 		//]]>
 	</script>
+
+
 	<script type="text/javascript">
 		//<![CDATA[
-		var setDefault = function(id, name) {
-			if (id && name) {
-				layer.confirm('设置默认将只有一条相同数据使用!', {
-					btn : [ '确定', '放弃' ],
-					icon : 0
-				}, function() {
-					layer.msg("设置成功...");
-				});
-			} else {
-				layer.msg("参数有误!", {
-					icon : 2,
-					time : 1500
-				});
+		$(function() {
+			$("#searchForm").on("input", "input#search_text", function() {
+				var v = $(this).val();
+				if (!v) {
+					$("#table1").show();
+					$("#table2").hide();
+				}
+			})
+			$("select#type").on(
+					"change",
+					function() {
+						var value = $(this).val();
+						if (value == 'websiteId') {
+							$("input#search_text").attr("placeholder",
+									"站点版本：0.0.1");
+						} else if (value == 'versionId') {
+							$("input#search_text").attr("placeholder",
+									"依赖版本：0.0.1");
+						} else if (value == 'website') {
+							$("input#search_text").attr("placeholder",
+									"segmentfault|github");
+						}
+					});
+		})
+		//]]>
+	</script>
+	
+	<script type="text/javascript">
+		//<![CDATA[
+		var vm2 = new Vue({
+			el : "#table2",
+			data : {
+				items : null
+			},
+			methods : {
+				openPage : function(title, url) {
+					openPage(title, url);
+				},
+				setDefault : function(index,id, name) {
+					var obj =this;
+					if (id && name) {
+						layer.confirm('设置默认将只有一条相同数据使用!', {
+							btn : [ '确定', '放弃' ],
+							icon : 0
+						}, function() {
+							$.ajax({
+								url : "website/settings/web/setDefaultWebsite",
+								type : "post",
+								data : {
+									id : id,
+									name : name
+								}
+							}).done(function(data) {
+								if (data) {
+									if (data.message) {
+										layer.msg(data.message, {
+											time : 1000,
+											icon : 1
+										});
+									} else {
+										layer.msg('设置成功!', {
+											time : 1000,
+											icon : 1
+										});
+									}
+									if ("200" == data.code){
+										for(var item in obj.items){
+											if(item){
+												if(obj.items[item].name == name){
+													if(obj.items[item].using){
+														obj.items[item].using =false;
+													}
+												}
+											}
+										}
+										obj.items[index].using = true;
+									}
+								}
+							}).fail(function(data) {
+								//$.Huimodalalert('联网失败!', 2000);
+								layer.msg('请求失败!', {
+									time : 1000,
+									icon : 5
+								});
+							})
+						});
+					} else {
+						layer.msg("参数有误!", {
+							icon : 2,
+							time : 1500
+						});
+					}
+				},
+				deleteWebsite : function(index, id, name) {
+					var obj =this;
+					if (id && name) {
+						layer.confirm('删除站点有两种方式，请选择(强制删除,可能会造成数据依赖错误)', {
+							btn : [ '强制删除', '安全删除', '放弃' ]
+						//按钮
+						}, function() {
+							layer.confirm('提醒：强制删除将删除数据间依赖，删除依赖的相关文件，包括字节码!', {
+								btn : [ '删除', '放弃' ],
+								icon : 0
+							//按钮
+							}, function() {
+								$.ajax({
+									url : "website/settings/web/deleteWebsiteForce",
+									type : "post",
+									data : {
+										id : id,
+										name : name
+									}
+								}).done(function(data) {
+									if (data) {
+										if (data.message) {
+											layer.msg(data.message, {
+												time : 1000,
+												icon : 1
+											});
+										} else {
+											layer.msg('删除成功!', {
+												time : 1000,
+												icon : 1
+											});
+										}
+										if ("200" == data.code){
+											obj.items.splice(index,1,null);
+										}
+									}
+								}).fail(function(data) {
+									//$.Huimodalalert('联网失败!', 2000);
+									layer.msg('请求失败!', {
+										time : 1000,
+										icon : 5
+									});
+								})
+							}, function() {
+								layer.msg('已放弃', {
+									time : 2000,
+									icon : 7
+								});
+							});
+						}, function() {
+							$.ajax({
+								url : "website/settings/web/deleteWebsite",
+								type : "post",
+								data : {
+									id : id,
+									name : name
+								}
+							}).done(function(data) {
+								if (data) {
+									if (data.message) {
+										layer.msg(data.message, {
+											time : 1000,
+											icon : 1
+										});
+									} else {
+										layer.msg('删除成功!', {
+											time : 1000,
+											icon : 1
+										});
+									}
+									if("200" == data.code){
+										obj.items.splice(index,1,null);
+									}
+								}
+							}).fail(function(data) {
+								layer.msg('请求失败!', {
+									time : 1000,
+									icon : 5
+								});
+							})
+						});
+					} else {
+						layer.msg("参数有误!", {
+							icon : 2,
+							time : 1500
+						});
+					}
+				}
 			}
-		}
+		})
 		//]]>
 	</script>
 
@@ -306,7 +372,7 @@ table input {
 								"input[type='text'][name='value']").val();
 						if (value.trim()) {
 							$.ajax({
-								url : "",
+								url : "website/info/web/search",
 								type : "get",
 								data : {
 									type : type,
@@ -326,7 +392,10 @@ table input {
 										});
 									}
 									// 逻辑..
-									loadTable2(data.items);
+									// loadTable2(data.items); // 原始JQUERY操作DOM
+									$("#table1").hide();
+									$("#table2").show();
+									vm2.items = data.items;
 								}
 							}).fail(function() {
 								layer.msg('请求失败!', {

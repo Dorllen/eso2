@@ -59,6 +59,12 @@
 		select * from versions where id = (select versionId from websites where id = #{id} and nmp = 1) and nmp =1;
 	</select>
 	
+	<select id="selectVersionsForAdminInforService01ListString" resultType="int">
+		select v.id from versions as v,versions as v2 where v2.id = 
+		(select versionId from websites as w where w.id = #{id}) and v.type = v2.type 
+		and  v.type2 = v2.type2 and v.name = v2.name and v2.nmp = 1 and v.nmp =1;
+	</select>
+	
 	<insert id="insertVersionsForAdminMainService01SimpleId" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
 		insert into versions set createTime = CURRENT_TIMESTAMP() , name = #{name}, defPage = #{defPage} , defJs = #{defJs}, 
 		defCss = #{defCss},type = #{type}, type2 = #{type2}, sign = #{sign}
