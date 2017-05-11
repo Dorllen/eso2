@@ -13,7 +13,7 @@ import com.zhidian.model.sys.VersionBO2;
 @Mapper
 public interface VersionMapper {
 
-	public Version queryVersionsForSearchService01SimpleVersion(@Param("type") String type, @Param("name") String name);
+	public Version queryVersionsForSearchService01SimpleVersion(@Param("type") String type,@Param("type2") String type2, @Param("name") String name);
 
 	public Version queryVersionsForPageService01SimpleVersion(@Param("type") String type,@Param("type2") String type2, @Param("name") String name);
 

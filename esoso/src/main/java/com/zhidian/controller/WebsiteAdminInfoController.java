@@ -18,6 +18,7 @@ import com.zhidian.views.ServiceSettingsDTO;
 import com.zhidian.views.VersionMainDTO;
 import com.zhidian.views.WebsiteMainDTO;
 import com.zhidian.views.WebsitePageVO;
+import com.zhidian.views.WebsitePalistDTO;
 import com.zhidian.views.WebsitePalistPullArticleDTO;
 import com.zhidian.views.WormSettingsSearchResultVO;
 
@@ -131,15 +132,27 @@ public class WebsiteAdminInfoController {
 		result.setItem_(version);
 		return result;
 	}
-	
-	@GetMapping("/getDefaultItem")
-	public Object getDefaultItemList()
-			throws PageArgumentsException {
+
+	// @GetMapping("/getDefaultItem")
+	// public Object getDefaultItemList()
+	// throws PageArgumentsException {
+	// ResultListModel result = new ResultListModel();
+	// return result;
+	// }
+
+	@GetMapping("/pa/search")
+	public Object getWebsitePaList(@RequestParam("startTime") String startTime, @RequestParam("endTime") String endTime,
+			@RequestParam("type") String type,
+			@RequestParam("value") String value)  throws PageArgumentsException {
 		ResultListModel result = new ResultListModel();
+		
+		List<WebsitePalistDTO> list = infoService.getWebsitePaListList(startTime,endTime,type,value);
+		if(list!=null){
+			result.setItems(list);
+			result.setTotal(list.size());
+		}
 		return result;
 	}
-	
-	
 
 	// @GetMapping("/getInfo") // test
 	// public Object uploadTest2(@RequestParam("name") String name) {

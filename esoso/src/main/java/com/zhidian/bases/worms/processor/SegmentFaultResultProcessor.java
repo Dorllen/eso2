@@ -17,18 +17,19 @@ import us.codecraft.webmagic.selector.Selectable;
 
 public class SegmentFaultResultProcessor extends BaseResultPageProcessor<PullResultPageModel> {
 	// private Logger log = LoggerFactory.getLogger(getClass());
-	
+
 	public SegmentFaultResultProcessor(PullResultPageModel pullPageModel) {
 		super(pullPageModel);
 	}
 
-	public void process(Page page) {		// long s = System.currentTimeMillis();
+	public void process(Page page) { // long s = System.currentTimeMillis();
 		Selectable select = page.getHtml().xpath("//section[@class^='widget-question']");
-		setWatcherForProperty(select,page.getUrl().toString(),"内容主体部分","xpath(\"//section[@class^='widget-question']\")");
+		setWatcherForProperty(select, page.getUrl().toString(), "内容主体部分",
+				"xpath(\"//section[@class^='widget-question']\")");
 		List<Selectable> resultList = select.nodes();
 		Date d = new Date();
 		if (resultList != null && resultList.size() > 0) {
-			int temp = this.getObj().getPage()*this.getObj().getSize() - this.getObj().getResults().size();// 总共要取的数据
+			int temp = this.getObj().getPage() * this.getObj().getSize() - this.getObj().getResults().size();// 总共要取的数据
 			if (temp > 0) {
 				List<PullResultBO> results = this.getObj().getResults();
 				PullResultBO search;
@@ -84,30 +85,35 @@ public class SegmentFaultResultProcessor extends BaseResultPageProcessor<PullRes
 					}
 				}
 				this.getObj().setResults(results);
-				if ((this.getObj().getPage()*this.getObj().getSize()) - this.getObj().getResults().size() > 0) {// 收集数据到达几页
+				if ((this.getObj().getPage() * this.getObj().getSize()) - this.getObj().getResults().size() > 0) {// 收集数据到达几页
 					// 放入请求schedule中
 					// log.info("Again to Get Data , and want to get size ->
 					// {}",
 					// this.getObj().getSize() -
 					// this.getObj().getResults().size());
 					List<String> requests = new ArrayList<String>(1);
-					String url = this.getObj().getUrl() + this.getObj().getPagination();
-//					this.getObj().setPage(this.getObj().getPage() + 1);
-					this.currentPage++;// 当前访问页号
-					url = MessageFormat.format(url, this.currentPage);
-					if (url != null && url.length() > 0) {
-						requests.add(url);
-						page.addTargetRequests(requests);
+					if (this.getObj().getPagination() != null) {// 如果系统未设置分页符
+						String url = this.getObj().getUrl() + this.getObj().getPagination();
+						// this.getObj().setPage(this.getObj().getPage() + 1);
+						this.currentPage++;// 当前访问页号
+						url = MessageFormat.format(url, this.currentPage);
+						if (url != null && url.length() > 0) {
+							requests.add(url);
+							page.addTargetRequests(requests);
+						}
+					} else {
+						// 没有分页符，即直接结束请求
 					}
 				}
 				if (page.getTargetRequests() == null || page.getTargetRequests().size() == 0) {
 					// 筛选结果集
 					List<PullResultBO> list = this.getObj().getResults();
-					if(list!=null&&list.size()>0){
-						if(list.size()>((this.getObj().getPage()-1)*this.getObj().getSize())){// 是否获取了有当前页号的数据。
+					if (list != null && list.size() > 0) {
+						if (list.size() > ((this.getObj().getPage() - 1) * this.getObj().getSize())) {// 是否获取了有当前页号的数据。
 							// 超过了需要采取的值，则取超出的部分
-							this.getObj().setResults(list.subList((this.getObj().getPage()-1)*this.getObj().getSize()+1, list.size()));
-						}else{
+							this.getObj().setResults(list
+									.subList((this.getObj().getPage() - 1) * this.getObj().getSize() + 1, list.size()));
+						} else {
 							this.getObj().setResults(null);// 没有超出置空
 						}
 					}

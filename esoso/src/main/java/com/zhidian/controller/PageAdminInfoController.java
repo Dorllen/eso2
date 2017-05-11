@@ -28,7 +28,7 @@ public class PageAdminInfoController {
 
 	@Autowired
 	AdminInfoSupportService infoService;
-
+	
 	@GetMapping("/admin/version-control-info.html")
 	public String versionControlInfoPage(@RequestParam("id") String versionId, Model model) throws Exception {
 		// 放入数据模型

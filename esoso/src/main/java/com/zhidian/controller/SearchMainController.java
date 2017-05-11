@@ -156,7 +156,7 @@ public class SearchMainController {
 				log.info("SearchMainController mapping : s,s/; and tag is 1 , spend time is -> {}",
 						(System.currentTimeMillis() - start) / 1000);
 				return ResourceEnumDefine.ResourceType.搜索结果页.getValue() + "/"
-						+ SearchEngineEnumDefine.Type.问答.getValue() + "/0.0.0.0/index";
+						+ SearchEngineEnumDefine.Type.问答.getValue() + "/0.0.1/index";
 			} else if (SearchEngineEnumDefine.Type.博客.getValue().equals(type)) {
 				log.warn("博客搜索服务暂未开启");
 			}

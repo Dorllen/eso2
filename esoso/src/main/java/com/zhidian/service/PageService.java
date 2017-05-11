@@ -114,13 +114,18 @@ public class PageService {
 			v.setName(version.getName());
 			v.setType(version.getType());
 			if (StringUtils.isNotEmpty(version.getDefCss())) {
-				v.setDefCss(RegExpUtils.convertString2List2(version.getDefCss(),"css/"+v.getName()+"/engine/"+BasicUtils.id2Version(version.getId())+"/"));
+				v.setDefCss(RegExpUtils.convertString2List2(version.getDefCss(),
+						"css/" + version.getName() + "/" + AppEnumDefine.SiteService.搜索.getValue() + "/"
+								+ BasicUtils.id2Version(version.getId()) + "/"));
 			}
 			if (StringUtils.isNotEmpty(version.getDefJs())) {
-				v.setDefJs(RegExpUtils.convertString2List2(version.getDefJs(),"js/"+v.getName()+"/engine/"+BasicUtils.id2Version(version.getId())+"/"));
+				v.setDefJs(RegExpUtils.convertString2List2(version.getDefJs(),
+						"js/" + version.getName() + "/" + AppEnumDefine.SiteService.搜索.getValue() + "/"
+								+ BasicUtils.id2Version(version.getId()) + "/"));
 			}
-			if(StringUtils.isNotEmpty(v.getDefPage())){
-				v.setDefPage(v.getName()+"/engine/"+BasicUtils.id2Version(v.getId())+"/"+v.getDefPage());
+			if (StringUtils.isNotEmpty(version.getDefPage())) {
+				v.setDefPage(version.getName() + "/" + AppEnumDefine.SiteService.搜索.getValue() + "/"
+						+ BasicUtils.id2Version(version.getId()) + "/" + version.getDefPage());
 			}
 			System.out.println(JSON.toJSONString(v));
 			return v;
@@ -151,9 +156,9 @@ public class PageService {
 					return pull;
 				}
 				if (css == null || css.size() == 0) {
-					if(StringUtils.isNotEmpty(web.getDefPageCss())){
+					if (StringUtils.isNotEmpty(web.getDefPageCss())) {
 						article.setCssPath(web.getDefPageCss());
-					}else{
+					} else {
 						article.setCssPath(version.getDefCss());
 					}
 					css = RegExpUtils.convertString2List2(article.getCssPath());

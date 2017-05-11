@@ -15,6 +15,7 @@ import com.zhidian.model.Version;
 import com.zhidian.model.sys.ResultPageBO;
 import com.zhidian.model.sys.ResultPageBO2;
 import com.zhidian.model.sys.VersionBO;
+import com.zhidian.util.BasicUtils;
 import com.zhidian.util.RegExpUtils;
 import com.zhidian.views.ResultPageVO;
 
@@ -48,12 +49,12 @@ public class SearchService {
 
 	/**
 	 * @Title: dataHandler @Description: TODO(对数据进行再处理) @param @param
-	 * lists @param @return 参数 @return List<ResultPageBO> 返回类型 @throws
+	 *         lists @param @return 参数 @return List<ResultPageBO> 返回类型 @throws
 	 */
 	private List<ResultPageBO2> dataHandler(List<ResultPageBO> lists) {
 		if (lists != null && lists.size() > 0) {
 			List<ResultPageBO2> list = new ArrayList<ResultPageBO2>(lists.size());
-			for(ResultPageBO b :lists){
+			for (ResultPageBO b : lists) {
 				// contents
 				ResultPageBO2 r = new ResultPageBO2();
 				r.setCreateTime(b.getCreateTime());
@@ -77,16 +78,16 @@ public class SearchService {
 		return null;
 	}
 
-	public String handlerUrl(String prefix,String sort,String upOrdown){
-		if(prefix!=null&&StringUtils.isNotEmpty(sort)){
-			prefix = prefix + "&s="+sort;
-			if(StringUtils.isNotEmpty(upOrdown)){
+	public String handlerUrl(String prefix, String sort, String upOrdown) {
+		if (prefix != null && StringUtils.isNotEmpty(sort)) {
+			prefix = prefix + "&s=" + sort;
+			if (StringUtils.isNotEmpty(upOrdown)) {
 				prefix = prefix + "&s2=" + upOrdown;
 			}
 		}
 		return prefix;
 	}
-	
+
 	/**
 	 * @Title: dataHandler142 @Description: TODO(数据截取) @param @param
 	 *         contents @param @return 参数 @return String 返回类型 @throws
@@ -120,10 +121,11 @@ public class SearchService {
 		}
 		return contents;
 	}
-	
+
 	private VersionBO exchangeVersionBOfromVersion() {
 		Version version = versionMapper.queryVersionsForSearchService01SimpleVersion(
-				ResourceEnumDefine.ResourceType.搜索结果页.getValue(), SearchEngineEnumDefine.Type.问答.getValue());
+				ResourceEnumDefine.ResourceType.搜索结果页.getValue(), SearchEngineEnumDefine.Type.问答.getValue(),
+				SearchEngineEnumDefine.Type.问答.getValue());
 		if (version != null) {
 			// id,name,version,type,defCss,defPage,defJs
 			VersionBO v = new VersionBO();
@@ -132,10 +134,15 @@ public class SearchService {
 			v.setName(version.getName());
 			v.setType(version.getType());
 			if (StringUtils.isNotEmpty(version.getDefCss())) {
-				v.setDefCss(RegExpUtils.convertString2List2(version.getDefCss()));
+				// 参考PageServuce getIndexCurrentPageVersionInfo
+				v.setDefCss(RegExpUtils.convertString2List2(version.getDefCss(),
+						"css/" + ResourceEnumDefine.ResourceType.搜索结果页.getValue() + "/" + version.getName() + "/"
+								+ BasicUtils.id2Version(version.getId()) + "/"));
 			}
 			if (StringUtils.isNotEmpty(version.getDefJs())) {
-				v.setDefJs(RegExpUtils.convertString2List2(version.getDefJs()));
+				v.setDefJs(RegExpUtils.convertString2List2(version.getDefJs(),
+						"js/" + ResourceEnumDefine.ResourceType.搜索结果页.getValue() + "/" + version.getName() + "/"
+								+ BasicUtils.id2Version(version.getId()) + "/"));
 			}
 			return v;
 		}

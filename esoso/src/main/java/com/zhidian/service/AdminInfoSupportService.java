@@ -398,4 +398,14 @@ public class AdminInfoSupportService {
 		}
 		return null;
 	}
+
+	
+	
+	public List<WebsitePalistDTO> getWebsitePaListList(String startTime, String endTime, String type, String value)  throws PageArgumentsException {
+		if(StringUtils.isNotEmpty(startTime)){
+			
+		}
+		
+		return null;
+	}
 }
