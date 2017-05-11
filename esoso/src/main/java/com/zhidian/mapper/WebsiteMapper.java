@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Param;
 import com.zhidian.model.Website;
 import com.zhidian.model.sys.WebsiteBO;
 import com.zhidian.model.sys.WebsiteBO2;
+import com.zhidian.model.sys.WebsiteBO3;
 
 @Mapper
 public interface WebsiteMapper {
@@ -108,7 +109,7 @@ public interface WebsiteMapper {
 
 
 
-	List<WebsiteBO2> queryWebsitesForAdminSupportService01ListWebsiteBO2();
+	List<WebsiteBO3> queryWebsitesForAdminSupportService01ListWebsiteBO3();
 
 
 

@@ -25,6 +25,7 @@ import com.zhidian.model.sys.NameValueModel;
 import com.zhidian.model.sys.PullArticleBO;
 import com.zhidian.model.sys.VersionBO2;
 import com.zhidian.model.sys.WebsiteBO2;
+import com.zhidian.model.sys.WebsiteBO3;
 import com.zhidian.model.websites.config.ConfigWebsiteItemModel;
 import com.zhidian.util.BasicUtils;
 import com.zhidian.views.ConfigDTO;
@@ -34,6 +35,7 @@ import com.zhidian.views.VersionControlDTO;
 import com.zhidian.views.VersionControlViewDTO;
 import com.zhidian.views.VersionMainDTO;
 import com.zhidian.views.VersionUpdateVO;
+import com.zhidian.views.WebsiteDetailDTO;
 import com.zhidian.views.WebsiteMainDTO;
 import com.zhidian.views.WebsitePaDTO;
 import com.zhidian.views.WebsitePalistPullArticleDTO;
@@ -473,17 +475,54 @@ public class AdminInfoSupportService {
 		}
 	}
 
-	public List<WebsiteMainDTO> getWebsiteMainDTODefaultList() {
-		List<WebsiteBO2> webs = websiteMapper.queryWebsitesForAdminSupportService01ListWebsiteBO2();
+	public List<WebsiteDetailDTO> getWebsiteDetailDTODefaultList() {
+		List<WebsiteBO3> webs = websiteMapper.queryWebsitesForAdminSupportService01ListWebsiteBO3();
 		if(webs!=null&&webs.size()>0){
-			List<WebsiteMainDTO> list = new ArrayList<WebsiteMainDTO>(webs.size());
-			for(WebsiteBO2 w : webs){
+			List<WebsiteDetailDTO> list = new ArrayList<WebsiteDetailDTO>(webs.size());
+			for(WebsiteBO3 w : webs){
 				if(w!=null){
-					WebsiteMainDTO d = createWebsiteMainDTO(w);
+					WebsiteDetailDTO d = createWebsiteDetailDTO(w);
 					list.add(d);
 				}
 			}
 			return list;
+		}
+		return null;
+	}
+
+	private WebsiteDetailDTO createWebsiteDetailDTO(WebsiteBO3 website) {
+		if (website != null) {
+			WebsiteDetailDTO w = new WebsiteDetailDTO();
+			w.setDefaultPageCss(website.getDefaultPageCss());
+			w.setDefPageConfig(website.getDefPageConfig());
+			w.setDefPageCss(website.getDefaultPageCss());
+			w.setDefRequestHeader(website.getDefRequestHeader());
+			w.setDefResultConfig(website.getDefResultConfig());
+			w.setId(website.getId());
+			w.setName(website.getName());
+			w.setPagePipeline(website.getPagePipeline());
+			w.setPageProcessor(website.getPageProcessor());
+			w.setPageRObject(website.getPageRObject());
+			w.setPagination(website.getPagination());
+			w.setResultPipeline(website.getResultPipeline());
+			w.setResultProcessor(website.getResultProcessor());
+			w.setResultRObject(website.getResultRObject());
+			w.setSearchAddr(website.getSearchAddr());
+			w.setSign(website.getSign());
+			w.setUseSearch(website.isUseSearch());
+			w.setVersionId(BasicUtils.id2Version(website.getVersionId()));
+			w.setWebsiteId(BasicUtils.id2Version(website.getId()));
+			// extra
+			w.setCreateMan(website.getCreateMan());
+			w.setUpdateMan(website.getUpdateMan());
+			if(website.getCreateTime()!=null){
+				w.setCreateTime(sdf.format(website.getCreateTime()));
+			}
+			if(website.getUpdateTime()!=null){
+				w.setUpdateTime(sdf.format(website.getUpdateTime()));
+			}
+			w.setNowLink(0);// 这里需要从数据库中获取
+			return w;
 		}
 		return null;
 	}

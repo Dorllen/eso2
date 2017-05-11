@@ -14,7 +14,7 @@ import com.zhidian.service.AdminInfoSupportService;
 import com.zhidian.views.VersionAddVO;
 import com.zhidian.views.VersionControlDTO;
 import com.zhidian.views.VersionUpdateVO;
-import com.zhidian.views.WebsiteMainDTO;
+import com.zhidian.views.WebsiteDetailDTO;
 import com.zhidian.views.WebsitePaDTO;
 
 /**
@@ -84,7 +84,7 @@ public class PageAdminInfoController {
 	
 	@GetMapping("/admin/website-control.html")
 	public String websiteControlPage(Model model){
-		List<WebsiteMainDTO> list = infoService.getWebsiteMainDTODefaultList();
+		List<WebsiteDetailDTO> list = infoService.getWebsiteDetailDTODefaultList();
 		model.addAttribute("Message", list);
 		return "admin/website-control";
 	}

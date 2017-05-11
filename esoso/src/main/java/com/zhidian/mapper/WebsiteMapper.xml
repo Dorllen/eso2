@@ -140,8 +140,8 @@
 		select * from websites where id = #{id} and nmp = 1; 
 	</select>
 	
-	<select id="queryWebsitesForAdminSupportService01ListWebsiteBO2" resultType="WebsiteBO2">
-		select * from websites where nmp =1 and websites.using = 1;
+	<select id="queryWebsitesForAdminSupportService01ListWebsiteBO3" resultType="WebsiteBO3">
+		select w.*,count(b.id) as nowLink from websites as w,pullarticles as b where w.nmp = 1 and w.using = 1 and b.websiteId = w.id and b.status =0;
 	</select>
 
 	<update id="updateWebsitesForDataInfoAdminService01SmpleWebsiteBO2">
