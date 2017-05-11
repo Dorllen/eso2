@@ -18,7 +18,7 @@ import com.zhidian.views.ServiceSettingsDTO;
 import com.zhidian.views.VersionMainDTO;
 import com.zhidian.views.WebsiteMainDTO;
 import com.zhidian.views.WebsitePageVO;
-import com.zhidian.views.WebsitePalistDTO;
+import com.zhidian.views.WebsitePaDTO;
 import com.zhidian.views.WebsitePalistPullArticleDTO;
 import com.zhidian.views.WormSettingsSearchResultVO;
 
@@ -145,8 +145,7 @@ public class WebsiteAdminInfoController {
 			@RequestParam("type") String type,
 			@RequestParam("value") String value)  throws PageArgumentsException {
 		ResultListModel result = new ResultListModel();
-		
-		List<WebsitePalistDTO> list = infoService.getWebsitePaListList(startTime,endTime,type,value);
+		List<WebsitePaDTO> list = infoService.getWebsitePaListList(startTime,endTime,type,value);
 		if(list!=null){
 			result.setItems(list);
 			result.setTotal(list.size());

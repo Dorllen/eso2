@@ -139,7 +139,39 @@
 						<td>操作</td>
 					</tr>
 				</thead>
-				<tbody  class="text-c" is="item1" v-bind:items="items" v-if="items!=null">
+				<tbody  class="text-c"  v-if="items!=null">
+					<tr v-for="item in items">
+						<td >{{item.id}}</td>
+						<td >{{item.name}}</td>
+						<td ><abbr title="linux - ubuntu上怎么设置默认python命令是执行python3而不是python2 - SegmentFault" 
+							v-bind:title="item.title" 
+							class="text-overflow"
+							style="max-width: 150px; display: inline-block" >{{item.title}}</abbr></td>
+						<td><abbr title="python,linux" v-bind:title="item.tags"
+							class="
+								text-overflow"
+							style="max-width: 100px; display: inline-block">{{item.tags}}</abbr></td>
+						<td>{{item.createTime}}</td>
+						<td><abbr title="http://www.baidu.com"  v-bind:title="item.url" 
+							class="
+								text-overflow"
+							style="width: 100px; display: inline-block"><a
+								target="_blank"
+								href="item.url" v-bind:href="item.url">{{item.url}}</a></abbr></td>
+						<td >{{item.relyVersionId}}</td>
+						<td >{{item.mark}}</td>
+						<td >{{item.views}}</td>
+						<td >{{item.collets}}</td>
+						<td >{{item.scores}}</td>
+						<td><a class="btn btn-success radius"  v-bind:href="'pa/'+item.uuid" target="_blank">审视</a> 
+							<input class="btn btn-warning radius" type="button" value="服务" v-on:click="showService(item.id,item.name)" /> 
+							<input class="btn btn-primary radius" type="button"	value="详情" v-on:click="showDetails(item.id,item.name)" /> 
+							<input class="btn btn-secondary radius" type="button" value="变更" v-on:click="updateSettings(item.id,item.name)" /> 
+							<input class="btn btn-warning radius" type="button" value="设为默认" v-on:click="setDefault(item.id,item.name)" /> 
+							<input class="btn btn-danger radius" type="button"
+							value="删除"   v-on:click="delete_(item.id,item.name)"/>
+						</td>
+					</tr>				
 				</tbody>
 				<tfoot class="text-c" v-if="items==null||items.length==0">
 					<tr>
@@ -537,55 +569,30 @@
 	<script type="text/javascript" src="js/vue.js"></script>		
 	<script type="text/javascript">
 		//<![CDATA[
-		Vue.component("item1",{
-			props:["items"],
-			template:"<tbody><tr v-for='item in items'><td>{{item.id}}</td><td>{{item.website}}</td><td>{{item.type}}</td><td>{{item.fromType}}</td><td>{{item.name}}</td><td>{{item.xpathContent}}</td><td>{{item.triggerTime}}</td><td><abbr v-bind:title='item.url' class='text-overflow'	style='width: 100px; display: inline-block'><a	target='_blank'	v-bind:href='item.url'>{{item.url}}</a></abbr></td><td><abbr v-bind:title='item.sign' class='text-overflow'	style='width: 100px; display: inline-block'>{{item.sign}}</abbr></td><td><input class=\"btn btn-success radius\" type=\"button\" value=\"通过\" onclick=\"cross(item.id,item.name)\"/><input class=\"btn btn-warning radius\" type=\"button\" value=\"挂起\" onclick=\"guaqi(item.id,item.name)\"/> <input 	class=\"btn btn-danger radius\" type=\"button\" value=\"删除\" onclick=\"delete_(item.id,item.name)\"/> </td></tr></tbody>",
-			methods:{
-				cross:function(id,name){
-					cross(id,name);
-				},
-				delete_:function(id,name){
-					delete_(id,name);
-				},
-				guaqi:function(id,name){
-					guaqi(id,name);
-				}
-			}
-		})
 		var vm1 = new Vue({
 			el:"#table1",
 			data:{
-				items:[{name:'abd'}]
-			}
-		})
-		
-		Vue.component("item3",{
-			props:["item"],
-			template:"<tbody class=\"text-c\"><tr><th>序号</th><td>{{item.id}}</td><th>站點名</th><td>{{item.name}}</td><th>依赖版本号</th><td><span class=\"select-box\" ><select class=\"select\" autocomplete=\"off\" name=\"versionId\" v-model='item.versionId' v-on:change='getNewData'><option  v-for='i in item.versionList' v-bind:value='i.value'>{{i.name}}</option></select></span></td></tr>"+
-			"<tr><th>类型</th><td>{{item.type}}</td><th>类型2</th><td>{{item.type2}}</td><th>类型3</th><td>{{item.type3}}</td></tr>"+
-			"<tr><th>創建時間</th><td colspan=\"2\">{{item.createTime}}</td><th>创建者类型</th><td >{{item.createMan}}</td><th>标识</th><td>{{item.mark}}</td></tr>"+
-			"<tr><th>链接</th><td colspan=\"2\">{{item.url}}</td><th>UUID</th><td colspan=\"2\">{{item.uuid}}</td></tr>"+
-			"<tr><th>描叙</th><td colspan=\"5\"><textarea  class=\"textarea radius\" name=\"sign\" id=\"sign\" autocomplete=\"off\" placeholder=\"信息的描叙...\" v-model='item.sign'></textarea></td></tr></tbody>",
+				items:null
+			},
 			methods:{
-				getNewData: function(){
-					var versionId = this.item.versionId;
-					var name = this.item.name;
-					// 值改变，向服务器请求新数据
-					$.get("/get",{name:name,versionId:versionId}).done(function(data){
-						if(data){
-							// 用ResultMultiModel对象
-							v4.item = data.item;
-							v5.item = data.item_;
-						}
-					}).fail(function(){
-						layer.msg('请求失败!', {
-							time : 1000,
-							icon : 5
-						});
-					})
+				showService:function(id,name){
+					showService(id,name);
+				},
+				showDetails:function(id,name){
+					showDetails(id,name);
+				},
+				updateSettings:function(id,name){
+					updateSettings(id,name);
+				},
+				setDefault:function(id,name){
+					setDefault(id,name);
+				},
+				delete_:function(id,name){
+					delete_(id,name);
 				}
 			}
 		});
+		
 		var vm3 = new Vue({
 			el:"#table3",// 待解决：下拉列表默认值，事件监听
 			data:{
@@ -602,43 +609,17 @@
 			}
 		});
 		
-		Vue.component("item4",{
-			props:["item"],
-			template:"<tbody class=\"text-c\"><tr><th>站点</th><th colspan=\"2\">{{item.name}}</th><th>版本号</th><th colspan=\"2\">{{item.id}}</th></tr>"+
-			"<tr><th>搜索地址</th><td colspan=\"5\">{{item.searchAddr?item.searchAddr:'未设置'}}</td></tr>"+
-			"<tr><th>分頁符</th><td colspan=\"2\">{{item.pagination?item.pagination:'未设置'}}</td><th>使用后缀</th><td colspan=\"2\">{{item.useSearch?item.useSearch:'否'}}</td></tr>"+
-			"<tr><th>详情页处理器</th><td colspan=\"5\">{{item.pageProcessor?item.pageProcessor:'未设置'}}</td></tr>"+
-			"<tr><th>详情页接收器</th><td colspan=\"5\">{{item.pagePipeline?item.pagePipeline:'未设置'}}</td></tr>"+
-			"<tr><th>详情页接收对象</th><td colspan=\"5\">{{item.pageRObject?item.pageRObject:'未设置'}}</td></tr>"+
-			"<tr><th>结果页处理器</th><td colspan=\"5\">{{item.resultProcessor?item.resultProcessor:'未设置'}}</td></tr>"+
-			"<tr><th>結果頁接受器</th><td colspan=\"5\">{{item.resultPipeline?item.resultPipeline:'未设置'}}</td></tr>"+
-			"<tr><th>結果頁接收对象</th><td colspan=\"5\">{{item.resultRObject?item.resultRObject:'未设置'}}</td></tr>"+
-			"<tr><th>详情页Css</th><td colspan=\"5\">{{item.defPageCss?item.defPageCss:'未设置'}}</td></tr>"+
-			"<tr><th>Css采集规则</th><td colspan=\"5\">{{item.defaultPageCss?item.defaultPageCss:'未设置'}}</td></tr>"+
-			"<tr><th>详情页采集配置</th><td colspan=\"5\">{{item.defPageConfig?item.defPageConfig:'未设置'}}</td></tr>"+
-			"<tr><th>结果页采集配置</th><td colspan=\"5\">{{item.defResultConfig?item.defResultConfig:'未设置'}}</td></tr>"+
-			"<tr><th>自定义请求头</th><td colspan=\"5\">{{item.defRequestHeader?item.defRequestHeader:'未设置'}}</td></tr>"+
-			"<tr><th>描述</th><td colspan=\"5\">{{item.sign?item.sign:'未设置'}}</td></tr></tbody>"
-		});
 		var vm4 = new Vue({
 			el:"#table4",
 			data:{
-				item:{name:'dongneng',id:'0.0.3'}
+				item:null
 			}
 		});
-		
-		Vue.component("item5",{
-			props:["item"],
-			template:"<tbody><tr><th>站点名</th><td>{{item.name}}</td><th>版本号</th><td>{{item.id}}</td></tr>"+
-			"<tr><th>页面地址</th><td colspan=\"3\">{{item.defpage?item.defpage:'未设置'}}</td></tr>"+
-			"<tr><th>Css地址</th><td colspan=\"3\">{{item.Css?item.Css:'未设置'}}</td></tr>"+
-			"<tr><th>Js地址</th><td colspan=\"3\">{{item.defJs?item.defJs:'未设置'}}</td></tr></tbody>"
-		})
 		
 		var vm5 = new Vue({
 			el:"#table5",
 			data:{
-				item:{name:'peng',versionId:'0.0.7'}
+				item:null
 			}
 		});
 		
@@ -821,7 +802,7 @@
 	<script type="text/javascript">
 		//<![CDATA[
 		$(function(){
-				$("#searchForm").on("input","input#search_text",function(){
+			$("#searchForm").on("input","input#search_text",function(){
 				var v = $(this).val();
 				if(!v){
 					$("#table").show();
@@ -831,7 +812,6 @@
 			$("select#type").on("change",function(){
 				var value = $(this).val();
 				if(value == 'url'){
-					// 移除下拉列表
 					$("span#changeInput input").attr("placeholder","url地址");
 				}else if(value == 'website'){
 					$("span#changeInput input").attr("placeholder","站点名:segmentfault");
@@ -866,7 +846,7 @@
 					url:"website/info/pa/search",
 					type:"get",
 					success:function(data){
-						$("#table"),hide();
+						$("#table").hide();
 						$("#table1").show();
 						if(data&&data.items){
 							vm1.items = data.items;

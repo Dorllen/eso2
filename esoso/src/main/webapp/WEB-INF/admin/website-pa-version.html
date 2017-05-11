@@ -1,9 +1,9 @@
 ﻿<!DOCTYPE HTML>
 <html>
 <head>
-<meta charset="utf-8">
-<meta name="renderer" content="webkit|ie-comp|ie-stand">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta charset="utf-8" />
+<meta name="renderer" content="webkit|ie-comp|ie-stand" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <meta name="viewport"
 	content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
 <meta http-equiv="Cache-Control" content="no-siteapp" />
@@ -42,20 +42,20 @@
 					站点搜索：<span class="select-box mr-10"
 						style="max-width: 150px; display: inline-block"> <select
 						class="select" id="type" name="type" autocomplete="off">
-							<option value="uuid" selected>UUID值</option>
-							<option value="url" selected>URL地址</option>
+							<option value="uuid" selected="selected">UUID值</option>
+							<option value="url" selected="selected">URL地址</option>
 					</select>
-					</span><span id="changeInput" style="position:relative"><input type="text" name="value" id="search_text"
-						style="width: 250px" class="input-text"
-						placeholder="url地址" autocomplete="off" /></span>
-					<button name="" id="search_button" class="btn btn-success"
-						type="submit">
+					</span><span id="changeInput" style="position: relative"><input
+						type="text" name="value" id="search_text" style="width: 250px"
+						class="input-text" placeholder="url地址" autocomplete="off" /></span>
+					<button id="search_button" class="btn btn-success" type="submit">
 						<i class="Hui-iconfont">&#xe665;</i> 搜索
 					</button>
 				</div>
 			</form>
 			<table
-				class="table table-border table-bordered table-bg mb-15 table-hover" id="table">
+				class="table table-border table-bordered table-bg mb-15 table-hover"
+				id="table">
 				<thead>
 					<tr>
 						<th colspan="10" scope="col">内容库版本管理</th>
@@ -73,40 +73,39 @@
 					</tr>
 				</thead>
 				<tbody class="text-c">
-					<tr>
-						<td>1</<td>
-						<td>segmentfault</td>
-						<td>answer</td>
-						<td>2017-4-25 16:44</td>
-						<td><abbr title="http://www.baidu.com"
+					<tr th:each="item : ${Message}">
+						<td th:text="${item.id}">1</td>
+						<td th:text="${item.name}">segmentfault</td>
+						<td th:text="${item.type}">answer</td>
+						<td th:text="${item.createTime}">2017-4-25 16:44</td>
+						<td><abbr title="http://www.baidu.com"  th:title="${item.url}"
 							class="
 								text-overflow"
 							style="width: 100px; display: inline-block"><a
-								target="_blank"
-								href="">http://www.baidu.com</a></abbr></td>
-						<td><abbr title="123456489"
+								target="_blank" href=""  th:href="${item.url}" th:text="${item.url}">http://www.baidu.com</a></abbr></td>
+						<td><abbr title="123456489" class="
+								text-overflow" th:title="${item.uuid}"
+							style="width: 100px; display: inline-block">123456489</abbr></td>
+						<td th:text="${item.mark}">hot</td>
+						<td><abbr title="http://www.baidu.com"  th:title="${item.sign}"
 							class="
 								text-overflow"
-							style="width: 100px; display: inline-block"><a
-								target="_blank"
-								href="">123456489</a></abbr></td>
-						<td>hot</td>
-						<td><abbr title="http://www.baidu.com"
-							class="
-								text-overflow"
-							style="width: 100px; display: inline-block">我是一只小小小鸟</td>
-						<td><a class="btn btn-success radius" href="admin/pa/" target="_blank">审视</a> 
-							<input class="btn btn-primary radius" type="button"	value="详情" onclick="showDetails(1,'segmentfault')"/>  
-							<input	class="btn btn-secondary radius" type="button" value="变更" onclick="updateSettings(1,'segmentfault','sdfsdf')" /> 
-							<input	class="btn btn-warning radius" type="button" value="设为默认" onclick="setDefault(1,'segmentfault','sdfsdf')" /> 
-							<input class="btn btn-danger radius" type="button"
-							value="删除" onclick="delete_(1,'segmentfault')"/>
-						</td>
+							style="width: 100px; display: inline-block"  th:text="${item.sign}">我是一只小小小鸟</abbr></td>
+						<td><a class="btn btn-success radius" href="admin/pa/" th:href="@{|/admin/pa/${uuid}|}"
+							target="_blank">审视</a> <input class="btn btn-primary radius"
+							type="button" value="详情" onclick="showDetails(1,'segmentfault')" th:onclick="|showDetails(${item.id},'${item.name}')|"/>
+							<input class="btn btn-secondary radius" type="button" value="变更"
+							onclick="updateSettings(1,'segmentfault','sdfsdf')" th:onclick="|updateSettings(${item.id},'${item.name}')|"/> <input
+							class="btn btn-warning radius" type="button" value="设为默认"
+							onclick="setDefault(1,'segmentfault','sdfsdf')" th:onclick="|setDefault(${item.id},'${item.name}')|"/> <input
+							class="btn btn-danger radius" type="button" value="删除" th:onclick="|delete_(${item.id},'${item.name}')|"
+							onclick="delete_(1,'segmentfault')" /></td>
 					</tr>
 				</tbody>
 			</table>
 			<table
-				class="table table-border table-bordered table-bg mb-15 table-hover" id="table1" style="display:none">
+				class="table table-border table-bordered table-bg mb-15 table-hover"
+				id="table1" style="display: none">
 				<thead>
 					<tr>
 						<th colspan="10" scope="col">异常捕获列表</th>
@@ -115,16 +114,43 @@
 						<td>序号</td>
 						<td>站点名</td>
 						<td>类型</td>
-						<td>入队类型</td>
-						<td>属性名</td>
-						<td>解析方式</td>
 						<td>创建时间</td>
 						<td>url</td>
+						<td>uuid</td>
+						<td>标识</td>
 						<td>描叙</td>
 						<td>操作</td>
 					</tr>
 				</thead>
-				<tbody  class="text-c" is="item1" v-bind:items="items" v-if="items!=null">
+				<tbody class="text-c" v-if="items!=null">
+					<tr v-for="item in items">
+						<td>{{item.id}}</td>
+						<td>{{item.name}}</td>
+						<td>{{item.type}}</td>
+						<td>{{item.createTime}}</td>
+						<td><abbr title="http://www.baidu.com" v-bind:title="item.url"
+							class="
+								text-overflow"
+							style="width: 100px; display: inline-block"><a
+								target="_blank" href="" v-bind:href="item.url">{{item.url}}</a></abbr></td>
+						<td><abbr title="123456489" class="
+								text-overflow" v-bind:title="item.uuid"
+							style="width: 100px; display: inline-block">{{item.uuid}}</abbr></td>
+						<td>{{item.mark}}</td>
+						<td><abbr title="http://www.baidu.com" v-title="item.sign"
+							class="
+								text-overflow"
+							style="width: 100px; display: inline-block">{{item.sign}}</abbr></td>
+						<td><a class="btn btn-success radius" href="admin/pa/"
+							target="_blank" v-bind:href="'pa/'+item.uuid">审视</a> <input class="btn btn-primary radius"
+							type="button" value="详情" v-on:onclick="showDetails(item.id,item.name)" />
+							<input class="btn btn-secondary radius" type="button" value="变更"
+							v-on:onclick="updateSettings(item.id,item.name)" /> <input
+							class="btn btn-warning radius" type="button" value="设为默认"
+							v-on:onclick="setDefault(item.id,item.name)" /> <input
+							class="btn btn-danger radius" type="button" value="删除"
+							v-on:onclick="delete_(item.id,item.name)" /></td>
+					</tr>
 				</tbody>
 				<tfoot class="text-c" v-if="items==null||items.length==0">
 					<tr>
@@ -133,7 +159,7 @@
 				</tfoot>
 			</table>
 		</div>
-		
+
 		<div id="itemInfo" class="modal fade" tabindex="-1" role="dialog"
 			aria-labelledby="myModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
@@ -145,79 +171,73 @@
 					</div>
 					<div class="modal-body">
 						<table class="table table-border table-bordered table-hover"
-							id="">
+							id="table2" v-if="item!=null">
 							<tbody class="text-c">
 								<tr>
 									<th>序号</th>
-									<td>12</td>
+									<td>{{item.id}}</td>
 									<th>站点名</th>
-									<td>segmentfault</td>
+									<td>{{item.name}}</td>
 									<th>依赖站点版本</th>
-									<td>0.0.1</td>
+									<td>{{item.relyVersionId}}</td>
 								</tr>
 								<tr>
 									<th>类型</th>
 									<td colspan="2">问答</td>
 									<th>是否在用</th>
-									<td colspan="2">是</td>
+									<td colspan="2">{{item.using?'是':'否'}}</td>
 								</tr>
 								<tr>
 									<th colspan="2">标题</th>
-									<td colspan="4">用vue脚手架中，在main.js中引入过vue，然后在App.vue又一次引入vue，会不会重复？</td>
+									<td colspan="4">{{item.title}}</td>
 								</tr>
 								<tr>
 									<th colspan="2">结果部分</th>
-									<td colspan="4">例如在main.js已经 import Vue from 'vue' 然后在App.vue中也 import Vue from 'vue' 两者在打包中会不会重复打包vue，造成最后体积很庞大，还是只打包一次？？ 谢谢大家了！！！</td>
+									<td colspan="4">{{item.resultContent}}</td>
 								</tr>
 								<tr>
 									<th>url</th>
-									<td colspan="2">https://segmentfault.com/q/1010000007838751</td>
+									<td colspan="2">{{item.url}}</td>
 									<th>uuid</th>
-									<td colspan="2">49dbe6b2cc584a714f4161cfe6ef1123</td>
+									<td colspan="2">{{item.uuid}}</td>
 								</tr>
 								<tr>
+									<th>访问量</th>
+									<td>{{item.views}}</td>
+									<th>收藏量</th>
+									<td>{{item.collets}}</td>
+									<th>热值</th>
+									<td>{{item.scores}}</td>
+								</tr>
+								<tr>
+									<th>创建时间</th>
+									<td>{{item.createTime}}</td>
 									<th>标签</th>
-									<td colspan="2"></td>
+									<td>{{item.tags}}</td>
 									<th>标识</th>
-									<td colspan="2">hot</td>
-								</tr>
-								<tr>
-									<th colspan="2">创建时间</th>
-									<td>2017-4-20 16:44:33</td>
-									<th colspan="2">创建人</th>
-									<td>Admin</td>
+									<td>{{item.mark}}</td>
 								</tr>
 								<tr>
 									<th colspan="2">最近更新时间</th>
-									<td>2017-4-20 16:50:33</td>
+									<td>{{item.updateTime}}</td>
 									<th colspan="2">最新更新人</th>
-									<td>Admin</td>
-								</tr>
-								<tr>
-									<th colspan="2">最近禁用时间</th>
-									<td>2017-4-20 16:50:33</td>
-									<th colspan="2">最新禁用人</th>
-									<td>Admin</td>
+									<td>{{item.updateMan}}</td>
 								</tr>
 								<tr>
 									<th colspan="2">页面地址</th>
-									<td colspan="4">默认站点地址</td>
+									<td colspan="4">{{item.pagePath?item.pagePath:'默认站点地址'}}</td>
 								</tr>
 								<tr>
 									<th colspan="2">Css地址</th>
-									<td colspan="4">默认站点地址</td>
+									<td colspan="4">{{item.cssPath?item.cssPath:'默认站点地址'}}</td>
 								</tr>
 								<tr>
 									<th colspan="2">Js地址</th>
-									<td colspan="4">默认站点地址</td>
+									<td colspan="4">{{item.jsPath?item.jsPath:'默认站点地址'}}</td>
 								</tr>
 								<tr>
 									<th colspan="2">描叙</th>
-									<td colspan="4">无</td>
-								</tr>
-								<tr>
-									<th colspan="2">核心JSON字符串</th>
-									<td colspan="4"></td>
+									<td colspan="4">{{item.sign?item.sign:'无'}}</td>
 								</tr>
 							</tbody>
 						</table>
@@ -230,7 +250,7 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<div id="itemUpdate" class="modal fade" tabindex="-1" role="dialog"
 			aria-labelledby="myModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
@@ -243,85 +263,182 @@
 					<form action="#" id="updateForm">
 						<div class="modal-body">
 							<table class="table table-border table-bordered table-hover"
-									id="table3">
+								id="table3" v-if="item!=null">
 								<tbody class="text-c">
 									<tr>
 										<th>序号</th>
-										<td>12</td>
+										<td>{{item.id}}</td>
 										<th>站点名</th>
-										<td>segmentfault</td>
+										<td>{{item.name}}</td>
 										<th><span class="c-red">*</span>依赖站点版本</th>
 										<td><span class="select-box"> <select
-													class="select" size="1" name="websiteId">
-														<option value="0.0.1" selected>0.0.1</option>
-														<option value="0.0.2" >0.0.2</option>
-												</select>
-											</span></td>
+												class="select" size="1" name="websiteId"
+												v-model="item.relyVersionId" v-on:change="change">
+													<option value="0.0.1" v-for="i in item_">{{i}}</option>
+											</select>
+										</span></td>
 										<th>标识</th>
 										<td><span class="select-box"> <select
-													class="select" size="1" name="mark">
-														<option value="hot" selected>hot</option>
-														<option value="views" >views</option>
-												</select>
-											</span></td>
+												class="select" size="1" name="mark" v-model="item.mark">
+													<option value="" selected="selected">可选择</option>
+													<option value="hot">hot</option>
+													<option value="views">views</option>
+											</select><input type="hidden" name="id" v-bind:value="item.id" /><input
+												type="hidden" name="name" v-bind:value="item.name" />
+										</span></td>
 									</tr>
 									<tr>
 										<th colspan="2"><span class="c-red">*</span>标题</th>
-										<td colspan="6"><input type='text' name='title'  class='input-text' placeholder='标题' autocomplete='off'  value=""/></tr>
+										<td colspan="6"><input type='text' name='title'
+											class='input-text' placeholder='标题' autocomplete='off'
+											value="" v-bind:value="item.title" /></td>
+									</tr>
 									<tr>
 										<th colspan="2"><span class="c-red">*</span>结果部分</th>
-										<td colspan="6"><input type='text' name='resultContent'  class='input-text' placeholder='搜索结果展示部分' autocomplete='off'  value=""/></td>
+										<td colspan="6"><input type='text' name='resultContent'
+											class='input-text' placeholder='搜索结果展示部分' autocomplete='off'
+											value="" v-bind:value="item.resultContent" /></td>
 									</tr>
 									<tr>
 										<th colspan="2"><span class="c-red">*</span>url</th>
-										<td colspan="6"><input type='text' name='url'  class='input-text' placeholder='源地址' autocomplete='off'  value=""/></td>
+										<td colspan="6"><input type='text' name='url'
+											class='input-text' placeholder='源地址' autocomplete='off'
+											value="" v-bind:value="item.url" /></td>
 									</tr>
 									<tr>
 										<th colspan="2">标签</th>
-										<td colspan="6"><input type='text' name='tags' class='input-text' placeholder="标签,以','分割" autocomplete='off'  value=""/></td>
+										<td colspan="6"><input type='text' name='tags'
+											class='input-text' placeholder="标签,以','分割" autocomplete='off'
+											value="" v-bind:value="item.tags" /></td>
 									</tr>
 									<tr>
 										<th colspan="2">页面地址</th>
-										<td colspan="6"><input type='text' name='pagePath' class='input-text' placeholder='使用的版本地址,提供手动方式' autocomplete='off'  value=""/></td>
+										<td colspan="6"><input type='text' name='pagePath'
+											class='input-text' placeholder='使用的版本地址,提供手动方式'
+											autocomplete='off' value="" v-bind:value="item.pagePath" /></td>
 									</tr>
 									<tr>
 										<th colspan="2">Css地址</th>
-										<td colspan="6"><input type='text' name='cssPath'  class='input-text' placeholder='css地址' autocomplete='off'  value=""/></td>
+										<td colspan="6"><input type='text' name='cssPath'
+											class='input-text' placeholder='css地址' autocomplete='off'
+											value="" v-bind:value="item.cssPath" /></td>
 									</tr>
 									<tr>
 										<th colspan="2">Js地址</th>
-										<td colspan="6"><input type='text' name='jsPath'  class='input-text' placeholder='js地址' autocomplete='off'  value=""/></td>
+										<td colspan="6"><input type='text' name='jsPath'
+											class='input-text' placeholder='js地址' autocomplete='off'
+											value="" v-bind:value="item.jsPath" /></td>
 									</tr>
 									<tr>
 										<th colspan="2">描叙</th>
-										<td colspan="6"><textarea  class="textarea radius" name="sign" autocomplete="off" placeholder="信息的描叙..." ></textarea></td>
-									</tr>
-									<tr>
-										<th colspan="2">核心JSON字符串</th>
-										<td colspan="6"><textarea  class="textarea radius" name="contents"  autocomplete="off" placeholder="内容的json字符串，请勿乱动" ></textarea></td>
+										<td colspan="6"><textarea class="textarea radius"
+												name="sign" autocomplete="off" placeholder="信息的描叙..."
+												v-model="item.sign"></textarea></td>
 									</tr>
 								</tbody>
 							</table>
-							<table
+							<table id="table4" style="display: none"
 								class="table table-border table-bordered table-hover mt-20 mb-20"
-								id="table4">
+								v-if="item!=null">
 								<thead class="text-c">
 									<tr>
 										<th colspan="6">站点基本信息</th>
 									</tr>
 								</thead>
-								<tbody is="item4" v-bind:item="item">
+								<tbody class="text-c">
+									<tr>
+										<th>站点</th>
+										<th colspan="2">{{item.name}}</th>
+										<th>版本号</th>
+										<th colspan="2">{{item.websiteId}</th>
+									</tr>
+									<tr>
+										<th>搜索地址</th>
+										<td colspan="5">{{item.searchAddr?item.searchAddr:'未设置'}}</td>
+									</tr>
+									<tr>
+										<th>分頁符</th>
+										<td colspan="2">{{item.pagination?item.pagination:'未设置'}}</td>
+										<th>使用后缀</th>
+										<td colspan="2">{{item.useSearch?'是':'否'}}</td>
+									</tr>
+									<tr>
+										<th>详情页处理器</th>
+										<td colspan="5">{{item.pageProcessor?item.pageProcessor:'未设置'}}</td>
+									</tr>
+									<tr>
+										<th>详情页接收器</th>
+										<td colspan="5">{{item.pagePipeline?item.pagePipeline:'未设置'}}</td>
+									</tr>
+									<tr>
+										<th>详情页接收对象</th>
+										<td colspan="5">{{item.resultRObject?item.resultRObject:'未设置'}}</td>
+									</tr>
+									<tr>
+										<th>结果页处理器</th>
+										<td colspan="5">{{item.resultProcessor?item.resultProcessor:'未设置'}}</td>
+									</tr>
+									<tr>
+										<th>結果頁接受器</th>
+										<td colspan="5">{{item.resultPipeline?item.resultPipeline:'未设置'}}</td>
+									</tr>
+									<tr>
+										<th>結果頁接收对象</th>
+										<td colspan="5">{{item.resultRObject?item.resultRObject:'未设置'}}</td>
+									</tr>
+									<tr>
+										<th>详情页Css</th>
+										<td colspan="5">{{item.defPageCss?item.defPageCss:'未设置'}}</td>
+									</tr>
+									<tr>
+										<th>Css采集规则</th>
+										<td colspan="5">{{item.defaultPageCss?item.defaultPageCss:'未设置'}}</td>
+									</tr>
+									<tr>
+										<th>详情页采集配置</th>
+										<td colspan="5">{{item.defPageConfig?item.defPageConfig:'未设置'}}</td>
+									</tr>
+									<tr>
+										<th>结果页采集配置</th>
+										<td colspan="5">{{item.defResultConfig?item.defResultConfig:'未设置'}}</td>
+									</tr>
+									<tr>
+										<th>自定义请求头</th>
+										<td colspan="5">{{item.defRequestHeader?item.defRequestHeader:'未设置'}}</td>
+									</tr>
+									<tr>
+										<th>描述</th>
+										<td colspan="5">{{item.sign?item.sign:'未设置'}}</td>
+									</tr>
 								</tbody>
 							</table>
-							<table
+							<table id="table5" style="display: none"
 								class="table table-border table-bordered table-hover mt-20 mb-20"
-								id="table5">
+								v-if="item!=null">
 								<thead class="text-c">
 									<tr>
 										<th colspan="4">站点所对应的默认版本</th>
 									</tr>
 								</thead>
-								<tbody class="text-c" is="item5" v-bind:item="item">
+								<tbody class="text-c">
+									<tr>
+										<th>站点名</th>
+										<td>{{item.name}}</td>
+										<th>版本号</th>
+										<td>{{item.versionId}}</td>
+									</tr>
+									<tr>
+										<th>页面地址</th>
+										<td colspan="3">{{item.defPage?item.defPage:'未设置'}}</td>
+									</tr>
+									<tr>
+										<th>Css地址</th>
+										<td colspan="3">{{item.defCss?item.defCss:'未设置'}}</td>
+									</tr>
+									<tr>
+										<th>Js地址</th>
+										<td colspan="3">{{item.defJs?item.defJs:'未设置'}}</td>
+									</tr>
 								</tbody>
 							</table>
 						</div>
@@ -333,202 +450,286 @@
 				</div>
 			</div>
 		</div>
-		<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
-		<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script>
-		<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+	</div>
+	<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
+	<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script>
+	<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
 
-		<script type="text/javascript" src="js/vue.min.js"></script>		
-		<script type="text/javascript">
-			Vue.component("item1",{
-				props:["items"],
-				template:"<tbody><tr v-for='item in items'><td>{{item.id}}</td><td>{{item.website}}</td><td>{{item.type}}</td><td>{{item.fromType}}</td><td>{{item.name}}</td><td>{{item.xpathContent}}</td><td>{{item.triggerTime}}</td><td><abbr v-bind:title='item.url' class='text-overflow'	style='width: 100px; display: inline-block'><a	target='_blank'	v-bind:href='item.url'>{{item.url}}</a></abbr></td><td><abbr v-bind:title='item.sign' class='text-overflow'	style='width: 100px; display: inline-block'>{{item.sign}}</abbr></td><td><input class=\"btn btn-success radius\" type=\"button\" value=\"通过\" onclick=\"cross(item.id,item.name)\"/><input class=\"btn btn-warning radius\" type=\"button\" value=\"挂起\" onclick=\"guaqi(item.id,item.name)\"/> <input 	class=\"btn btn-danger radius\" type=\"button\" value=\"删除\" onclick=\"delete_(item.id,item.name)\"/> </td></tr></tbody>",
-				methods:{
-					cross:function(id,name){
-						cross(id,name);
-					},
-					delete_:function(id,name){
-						delete_(id,name);
-					},
-					guaqi:function(id,name){
-						guaqi(id,name);
+	<script type="text/javascript" src="js/vue.min.js"></script>
+	<script type="text/javascript">
+		//<![CDATA[
+		var vm1 = new Vue({
+			el : "#table1",
+			data : {
+				items : null
+			},
+			methods : {
+				showDetails : function(id, name) {
+					showDetails(id, name);
+				},
+				updateSettings : function(id, name) {
+					updateSettings(id, name);
+				},
+				setDefault : function(id, name) {
+					setDefault(id, name);
+				},
+				delete_ : function(id, name) {
+					delete_(id, name);
+				}
+			}
+		});
+
+		var vm3 = new Vue({
+			el : "#table3",// 待解决：下拉列表默认值，事件监听
+			data : {
+				item : null,
+				item_ : null
+			},
+			methods : {
+				change : function() {
+					// 只要改变就可以加载table4,table5的数据了
+					if (item) {
+						change(item.id, item.name);
 					}
 				}
+			}
+		});
+
+		var vm4 = new Vue({
+			el : "#table4",
+			data : {
+				item : null
+			}
+		});
+
+		var vm5 = new Vue({
+			el : "#table5",
+			data : {
+				item : null
+			}
+		});
+
+		var vm2 = new Vue({
+			el : "#table2",
+			data : {
+				item : null
+			}
+		})
+		//]]>
+	</script>
+	<script type="text/javascript">
+		//<![CDATA[
+		var change = function() {
+			var websiteId = $("#table3").find("select[name='websiteId']").val();
+			$.post("website/info/getWebsiteAndVersionInfo", {
+				websiteId : websiteId
+			}).done(function() {
+				if (data) {
+					$("#table4").show();
+					$("#table5").show();
+					vm4.item = data.item;
+					vm5.item = data.item_;
+				}
+			}).fail(function() {
+				layer.msg('请求失败!', {
+					time : 1000,
+					icon : 5
+				});
 			})
-			var vm1 = new Vue({
-				el:"#table1",
-				data:{
-					items:[{name:'abd'}]
-				}
-			})
-			
-			Vue.component("item3",{
-				props:["item"],
-				template:"<tbody class=\"text-c\"><tr><th>序号</th><td>{{item.id}}</td><th>站點名</th><td>{{item.name}}</td><th>依赖版本号</th><td><span class=\"select-box\" ><select class=\"select\" autocomplete=\"off\" name=\"versionId\" v-model='item.versionId' v-on:change='getNewData'><option  v-for='i in item.versionList' v-bind:value='i.value'>{{i.name}}</option></select></span></td></tr>"+
-				"<tr><th>类型</th><td>{{item.type}}</td><th>类型2</th><td>{{item.type2}}</td><th>类型3</th><td>{{item.type3}}</td></tr>"+
-				"<tr><th>創建時間</th><td colspan=\"2\">{{item.createTime}}</td><th>创建者类型</th><td >{{item.createMan}}</td><th>标识</th><td>{{item.mark}}</td></tr>"+
-				"<tr><th>链接</th><td colspan=\"2\">{{item.url}}</td><th>UUID</th><td colspan=\"2\">{{item.uuid}}</td></tr>"+
-				"<tr><th>描叙</th><td colspan=\"5\"><textarea  class=\"textarea radius\" name=\"sign\" id=\"sign\" autocomplete=\"off\" placeholder=\"信息的描叙...\" v-model='item.sign'></textarea></td></tr></tbody>",
-				methods:{
-					getNewData: function(){
-						var versionId = this.item.versionId;
-						var name = this.item.name;
-						// 值改变，向服务器请求新数据
-						$.get("/get",{name:name,versionId:versionId}).done(function(data){
-							if(data){
-								// 用ResultMultiModel对象
-								v4.item = data.item;
-								v5.item = data.item_;
-							}
-						}).fail(function(){
-							layer.msg('请求失败!', {
-								time : 1000,
-								icon : 5
-							});
-						})
-					}
-				}
-			});
-			var vm3 = new Vue({
-				el:"#table3",// 待解决：下拉列表默认值，事件监听
-				data:{
-					item:{name:'dongneng',versionId:'0.0.2',versionList:[{name:'0.0.1',value:'0.0.1'},{name:'0.0.2',value:'0.0.2'},{name:'0.0.3',value:'0.0.3',checked:true},{name:'0.0.4',value:'0.0.4'},{name:'0.0.7',value:'0.0.7'}]}
-				}
-			});
-			
-			Vue.component("item4",{
-				props:["item"],
-				template:"<tbody class=\"text-c\"><tr><th>站点</th><th colspan=\"2\">{{item.name}}</th><th>版本号</th><th colspan=\"2\">{{item.id}}</th></tr>"+
-				"<tr><th>搜索地址</th><td colspan=\"5\">{{item.searchAddr?item.searchAddr:'未设置'}}</td></tr>"+
-				"<tr><th>分頁符</th><td colspan=\"2\">{{item.pagination?item.pagination:'未设置'}}</td><th>使用后缀</th><td colspan=\"2\">{{item.useSearch?item.useSearch:'否'}}</td></tr>"+
-				"<tr><th>详情页处理器</th><td colspan=\"5\">{{item.pageProcessor?item.pageProcessor:'未设置'}}</td></tr>"+
-				"<tr><th>详情页接收器</th><td colspan=\"5\">{{item.pagePipeline?item.pagePipeline:'未设置'}}</td></tr>"+
-				"<tr><th>详情页接收对象</th><td colspan=\"5\">{{item.pageRObject?item.pageRObject:'未设置'}}</td></tr>"+
-				"<tr><th>结果页处理器</th><td colspan=\"5\">{{item.resultProcessor?item.resultProcessor:'未设置'}}</td></tr>"+
-				"<tr><th>結果頁接受器</th><td colspan=\"5\">{{item.resultPipeline?item.resultPipeline:'未设置'}}</td></tr>"+
-				"<tr><th>結果頁接收对象</th><td colspan=\"5\">{{item.resultRObject?item.resultRObject:'未设置'}}</td></tr>"+
-				"<tr><th>详情页Css</th><td colspan=\"5\">{{item.defPageCss?item.defPageCss:'未设置'}}</td></tr>"+
-				"<tr><th>Css采集规则</th><td colspan=\"5\">{{item.defaultPageCss?item.defaultPageCss:'未设置'}}</td></tr>"+
-				"<tr><th>详情页采集配置</th><td colspan=\"5\">{{item.defPageConfig?item.defPageConfig:'未设置'}}</td></tr>"+
-				"<tr><th>结果页采集配置</th><td colspan=\"5\">{{item.defResultConfig?item.defResultConfig:'未设置'}}</td></tr>"+
-				"<tr><th>自定义请求头</th><td colspan=\"5\">{{item.defRequestHeader?item.defRequestHeader:'未设置'}}</td></tr>"+
-				"<tr><th>描述</th><td colspan=\"5\">{{item.sign?item.sign:'未设置'}}</td></tr></tbody>"
-			});
-			var vm4 = new Vue({
-				el:"#table4",
-				data:{
-					item:{name:'dongneng',id:'0.0.3'}
-				}
-			});
-			
-			Vue.component("item5",{
-				props:["item"],
-				template:"<tbody><tr><th>站点名</th><td>{{item.name}}</td><th>版本号</th><td>{{item.id}}</td></tr>"+
-				"<tr><th>页面地址</th><td colspan=\"3\">{{item.defpage?item.defpage:'未设置'}}</td></tr>"+
-				"<tr><th>Css地址</th><td colspan=\"3\">{{item.Css?item.Css:'未设置'}}</td></tr>"+
-				"<tr><th>Js地址</th><td colspan=\"3\">{{item.defJs?item.defJs:'未设置'}}</td></tr></tbody>"
-			})
-			
-			var vm5 = new Vue({
-				el:"#table5",
-				data:{
-					item:{name:'peng',versionId:'0.0.7'}
-				}
-			});
-			
-		</script>
-		<script type="text/javascript">
-		var setDefault = function(id,name){
-			layer.confirm('设置默认将只有一条相同数据使用!', {
-				btn : [ '确定', '放弃' ],
-				icon : 0
-			}, function() {
-				layer.msg("设置成功...");
-			});
 		}
-	
-		var updateSettings = function(id,name){
-			$("#itemUpdate").modal("show");
-		}
-	
-		var showDetails  = function(id,name){
+
+		var setDefault = function(id, name) {
 			if (id && name) {
-				$("#itemInfo").modal("show");
-	 		} else {
+				layer.confirm('设置默认将只有一条相同数据使用!', {
+					btn : [ '确定', '放弃' ],
+					icon : 0
+				}, function() {
+					$.post("website/settings/setDefault", {
+						id : id,
+						name : name
+					}).done(function(data) {
+						if (data) {
+							if (data.message) {
+								layer.msg(data.message, {
+									time : 1000,
+									icon : 6
+								});
+							} else {
+								layer.msg('操作成功!', {
+									time : 1000,
+									icon : 1
+								});
+							}
+						}
+					}).fail(function() {
+						layer.msg('请求失败!', {
+							time : 1000,
+							icon : 5
+						});
+					})
+				});
+			} else {
 				layer.msg("参数有误!", {
 					icon : 2,
 					time : 1500
 				});
-			}				
+			}
 		}
-	 	var delete_ = function(id,name){
+
+		var updateSettings = function(id, name) {
 			if (id && name) {
-		 		//$("#scheduleUpdate").modal("show");
+				// 请求参数
+				$.get("website/info/getItemInfo2", {
+					id : id,
+					name : name
+				}).done(function(data) {
+					if (data) {
+						// 填充数据
+						if (data.item) {
+							vm3.item = data.item;
+							vm3.item_ = data.item_;
+						}
+						$("#itemUpdate").modal("show");
+					}
+				}).fail(function() {
+					layer.msg('请求失败!', {
+						time : 1000,
+						icon : 5
+					});
+				});
+			} else {
+				layer.msg("参数有误!", {
+					icon : 2,
+					time : 1500
+				});
+			}
+		}
+
+		var showDetails = function(id, name) {
+			if (id && name) {
+				// 请求参数
+				$.get("website/info/getItemInfo", {
+					id : id,
+					name : name
+				}).done(function(data) {
+					if (data) {
+						// 填充数据
+						if (data.item) {
+							vm2.item = data.item;
+							$("#itemInfo").modal("show");
+						}
+					}
+				}).fail(function() {
+					layer.msg('请求失败!', {
+						time : 1000,
+						icon : 5
+					});
+				});
+			} else {
+				layer.msg("参数有误!", {
+					icon : 2,
+					time : 1500
+				});
+			}
+		}
+		var delete_ = function(id, name) {
+			if (id && name) {
+				//$("#scheduleUpdate").modal("show");
 				layer.confirm('删除后数据将无法恢复，确认继续吗？', {
 					btn : [ '确定', '放弃' ],
 					icon : 0
 				}, function() {
-					layer.msg("删除中...");
+					$.post("website/settings/deleteItem", {
+						id : id,
+						name : name
+					}).done(function(data) {
+						if (data) {
+							if (data.message) {
+								layer.msg(data.message, {
+									time : 1000,
+									icon : 6
+								});
+							} else {
+								layer.msg('操作成功!', {
+									time : 1000,
+									icon : 1
+								});
+							}
+						}
+					}).fail(function() {
+						layer.msg('请求失败!', {
+							time : 1000,
+							icon : 5
+						});
+					});
 				});
-	 		} else {
+			} else {
 				layer.msg("参数有误!", {
 					icon : 2,
 					time : 1500
 				});
-			}	 		
-	 	}
-		</script>
-		<script type="text/javascript">
-			$(function(){
- 				$("#searchForm").on("input","input#search_text",function(){
-					var v = $(this).val();
-					if(!v){
-						$("#table").show();
-						$("#table1").hide();
-					}
-				})
-				$("select#type").on("change",function(){
-					var value = $(this).val();
-					if(value == 'url'){
-						// 移除下拉列表
-						$("span#changeInput input").attr("placeholder","url地址");
-					}else if(value == 'uuid'){
-						$("span#changeInput input").attr("placeholder","uuid值");
-					}
-				});
+			}
+		}
+		//]]>
+	</script>
+	<script type="text/javascript">
+		//<![CDATA[
+		$(function() {
+			$("#searchForm").on("input", "input#search_text", function() {
+				var v = $(this).val();
+				if (!v) {
+					$("#table").show();
+					$("#table1").hide();
+				}
 			})
-		</script>
-		<script type="text/javascript"
-			src="lib/jquery.validation/1.14.0/jquery.validate.js"></script>
-		<script type="text/javascript"
-			src="lib/jquery.validation/1.14.0/validate-methods.js"></script>
-		<script type="text/javascript"
-			src="lib/jquery.validation/1.14.0/messages_zh.js"></script>
-		<script type="text/javascript">
-		$(function(){
+			$("select#type").on(
+					"change",
+					function() {
+						var value = $(this).val();
+						if (value == 'url') {
+							$("span#changeInput input").attr("placeholder",
+									"url地址");
+						} else if (value == 'website') {
+							$("span#changeInput input").attr("placeholder",
+									"站点名:segmentfault");
+						}
+					});
+		})
+		//]]>
+	</script>
+	<script type="text/javascript"
+		src="lib/jquery.validation/1.14.0/jquery.validate.js"></script>
+	<script type="text/javascript"
+		src="lib/jquery.validation/1.14.0/validate-methods.js"></script>
+	<script type="text/javascript"
+		src="lib/jquery.validation/1.14.0/messages_zh.js"></script>
+	<script type="text/javascript">
+		//<![CDATA[
+		$(function() {
 			$("#searchForm").validate({
-				rules:{
-					value:{
-						required:true
+				rules : {
+					value : {
+						required : true
 					},
-					type:{
-						required:true
+					type : {
+						required : true
 					}
 				},
-				onkeyup:false,
-				focusCleanup:true,
-				success:"valid",
-				submitHandler:function(form){
+				onkeyup : false,
+				focusCleanup : true,
+				success : "valid",
+				submitHandler : function(form) {
 					$(form).ajaxSubmit({
-						url:"/ss",
-						type:"get",
-						success:function(data){
-							$("#table"),hide();
+						url : "website/info/pa/search",
+						type : "get",
+						success : function(data) {
+							$("#table").hide();
 							$("#table1").show();
-							if(data&&data.items){
+							if (data && data.items) {
 								vm1.items = data.items;
 							}
 						},
-						error:function(){
+						error : function() {
 							layer.msg('请求失败!', {
 								time : 1000,
 								icon : 5
@@ -542,15 +743,15 @@
 					websiteId : {
 						required : true,
 					},
-					title:{
+					title : {
 						required : true
 					},
-					resultContent:{
+					resultContent : {
 						required : true
 					},
 					url : {
 						required : true,
-						url:true
+						url : true
 					}
 				},
 				onkeyup : false,
@@ -563,13 +764,13 @@
 						icon : 0
 					}, function() {
 						$(form).ajaxSubmit({
-							url : "/add",
-							type : "patch",
+							url : "website/settings/updateItemInfo",
+							type : "post",
 							success : function(data) {
 								if (data.message) {
 									layer.msg(data.message, {
 										time : 1000,
-										icon : 1
+										icon : 6
 									});
 								} else {
 									layer.msg('修改成功!', {
@@ -590,6 +791,7 @@
 				}
 			});
 		})
-		</script>		
+		//]]>
+	</script>
 </body>
 </html>

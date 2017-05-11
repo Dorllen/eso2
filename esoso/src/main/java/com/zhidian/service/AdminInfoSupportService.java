@@ -1,7 +1,10 @@
 package com.zhidian.service;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -32,7 +35,7 @@ import com.zhidian.views.VersionControlViewDTO;
 import com.zhidian.views.VersionMainDTO;
 import com.zhidian.views.VersionUpdateVO;
 import com.zhidian.views.WebsiteMainDTO;
-import com.zhidian.views.WebsitePalistDTO;
+import com.zhidian.views.WebsitePaDTO;
 import com.zhidian.views.WebsitePalistPullArticleDTO;
 
 @Service
@@ -177,18 +180,18 @@ public class AdminInfoSupportService {
 		return vo;
 	}
 
-	public List<WebsitePalistDTO> getWebsitesPaList() {
+	public List<WebsitePaDTO> getWebsitesPaList() {
 		// 获取每个站点特有的一条正使用的数据，现获取最近记录入库的
 		List<PullArticle> list = pullMapper.queryPullArticlesForAdminInfoSupportServcie01ListPullArticle();
 		return createWebsitePalistDTO(list);
 	}
 
-	private List<WebsitePalistDTO> createWebsitePalistDTO(List<PullArticle> list) {
+	private List<WebsitePaDTO> createWebsitePalistDTO(List<PullArticle> list) {
 		if (list != null && list.size() > 0) {
-			List<WebsitePalistDTO> dtos = new ArrayList<WebsitePalistDTO>(list.size());
+			List<WebsitePaDTO> dtos = new ArrayList<WebsitePaDTO>(list.size());
 			for (PullArticle p : list) {
 				if (p != null) {
-					WebsitePalistDTO d = new WebsitePalistDTO();
+					WebsitePaDTO d = new WebsitePaDTO();
 					// 装载数据
 					d.setId(p.getId());
 					d.setCollets(p.getCollets());
@@ -205,6 +208,8 @@ public class AdminInfoSupportService {
 					d.setScores(p.getScores());
 					d.setViews(p.getViews());
 					d.setUuid(p.getUuid());
+					d.setType(p.getType());// 单独为website-pa-verison.html加的一条
+					d.setSign(p.getSign());// 单独为website-pa-verison.html加的一条
 					dtos.add(d);
 				}
 			}
@@ -344,7 +349,7 @@ public class AdminInfoSupportService {
 	}
 
 	private WebsiteMainDTO createWebsiteMainDTO(WebsiteBO2 website) {
-		if(website!=null){
+		if (website != null) {
 			WebsiteMainDTO w = new WebsiteMainDTO();
 			w.setDefaultPageCss(website.getDefaultPageCss());
 			w.setDefPageConfig(website.getDefPageConfig());
@@ -385,7 +390,7 @@ public class AdminInfoSupportService {
 	}
 
 	private VersionMainDTO createVersionMainDTO(VersionBO2 v) {
-		if(v!=null){
+		if (v != null) {
 			VersionMainDTO d = new VersionMainDTO();
 			d.setDefCss(v.getDefCss());
 			d.setDefJs(v.getDefJs());
@@ -399,13 +404,55 @@ public class AdminInfoSupportService {
 		return null;
 	}
 
-	
-	
-	public List<WebsitePalistDTO> getWebsitePaListList(String startTime, String endTime, String type, String value)  throws PageArgumentsException {
-		if(StringUtils.isNotEmpty(startTime)){
-			
+	public List<WebsitePaDTO> getWebsitePaListList(String startTime, String endTime, String type, String value)
+			throws PageArgumentsException {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date sd = null;
+		if (StringUtils.isNotEmpty(startTime)) {
+			try {
+				sd = sdf.parse(startTime);
+			} catch (ParseException e) {
+			}
 		}
-		
-		return null;
+		Date ed = null;
+		if (StringUtils.isNotEmpty(endTime)) {
+			try {
+				// 因为前端的问题，需要endTime+1天包括今天
+				ed = sdf.parse(endTime);
+				if (ed != null) {
+					Calendar c = Calendar.getInstance();
+					c.setTime(ed);
+					c.add(Calendar.DAY_OF_MONTH, 1);// 天数+1
+					ed = c.getTime();			}
+			} catch (ParseException e) {
+			}
+		}
+		if (StringUtils.isNotEmpty(value) && StringUtils.isNotEmpty(value)) {
+			// 时间是包括startTime这一天 包括endTime这一天
+			if ("website".equals(type)) {// 现只有两种方式.
+				List<PullArticle> list = pullMapper.queryPullArticlesForAdminInfoSupportServcie02ListPullArticle(value,
+						sd, ed);
+				return createWebsitePalistDTO(list);
+			} else if ("url".equals(type)) {
+				List<PullArticle> list = pullMapper.queryPullArticlesForAdminInfoSupportServcie03ListPullArticle(value,
+						sd, ed);
+				return createWebsitePalistDTO(list);
+			} else {
+				throw new PageArgumentsException();
+			}
+		} else {
+			throw new PageArgumentsException();
+		}
+	}
+
+	public List<WebsitePaDTO> getWebsitesPaList(Integer page) {
+		// 获取默认站点segmentfault的数据。前20条
+		if(page==null){
+			page = 1;
+		}
+		int size = 20;// 默认20 
+		int offset = (page-1)*20;
+		List<PullArticle> list = pullMapper.queryPullArticlesForAdminInfoSupportServcie04ListPullArticle(offset,size);
+		return createWebsitePalistDTO(list);
 	}
 }

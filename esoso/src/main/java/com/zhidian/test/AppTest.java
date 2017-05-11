@@ -58,6 +58,7 @@ import com.zhidian.service.DataInfoAdminService;
 import com.zhidian.util.BasicUtils;
 import com.zhidian.views.ServiceSettingsDTO;
 import com.zhidian.views.WebsitePageVO;
+import com.zhidian.views.WebsitePaDTO;
 import com.zhidian.views.WebsitePostModel2;
 import com.zhidian.views.WormSettingsSearchResultVO;
 
@@ -85,12 +86,13 @@ public class AppTest {
 	// articleMapper = app.getBean(ArticleMapper.class);
 	// }
 	// }
-	
+
 	// ###########################AdminInfoSupportService##################
 	@Autowired
 	AdminInfoSupportService infoService;
+
 	@Test
-	public void getItemsService(){
+	public void getItemsService() {
 		try {
 			List<ServiceSettingsDTO> list = infoService.getItemServiceByItemsIdAndName(4, "segmentfault");
 			System.out.println(JSON.toJSONString(list));
@@ -100,57 +102,60 @@ public class AppTest {
 		}
 	}
 	
-	
-	
+	@Test
+	public void testPullArticleSearchService(){
+		try {
+			List<WebsitePaDTO> list= infoService.getWebsitePaListList("2016-5-10", "2017-5-11", "website", "segmentfault");
+			System.out.println(list.size());
+			System.out.println(JSON.toJSONString(list));
+		} catch (PageArgumentsException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 	// ###########################AdminMainSupportService##################
-	
+
 	@Autowired
 	AdminMainSupportService mainService;
-	
+
 	@Test
-	public void testService01(){
+	public void testService01() {
 		try {
-			int num = mainService.setVersionDefaultUsing("0.0.4","github");
+			int num = mainService.setVersionDefaultUsing("0.0.4", "github");
 			System.out.println(num);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Test
 	@Transactional
 	@Rollback
-	public void testService02(){
+	public void testService02() {
 		try {
 			List<String> list = new ArrayList<String>();
 			list.add("SecVisit");
 			list.add("OnlinePullData");
-			int num = mainService.updateItemServiceByListKey(4,"segmentfault",list);
+			int num = mainService.updateItemServiceByListKey(4, "segmentfault", list);
 			System.out.println(num);
 		} catch (PageArgumentsException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
-	
+
 	// ###########################Configs##################
-	
-	
+
 	@Autowired
 	ConfigMapper configMapper;
-	
+
 	@Test
-	public void testQueryConfigBO(){
+	public void testQueryConfigBO() {
 		List<ConfigBO> list = configMapper.queryConfigsForAdminInfoSupportService01ListConfigBO();
 		System.out.println(JSON.toJSONString(list));
-		
-		
+
 	}
-	
-	
-	
-	
 
 	// ###########################其他##################
 	@Autowired
@@ -253,41 +258,42 @@ public class AppTest {
 	@Transactional
 	@Rollback
 	public void testVersions() throws Exception {
-		Version v = versionMapper.queryVersionsForSearchService01SimpleVersion("results", "answer");
+		Version v = versionMapper.queryVersionsForSearchService01SimpleVersion("results", "answer", "answer");
 		System.out.println(v);
 	}
 
 	@Test
 	public void testVersion2() throws Exception {
-//		Version v = versionMapper.queryVersionsForPullArticleService01SimpleVersion("websites", "segmentfault",
-//				"0.0.0.0");
-//		System.out.println(JSON.toJSONString(v));
+		// Version v =
+		// versionMapper.queryVersionsForPullArticleService01SimpleVersion("websites",
+		// "segmentfault",
+		// "0.0.0.0");
+		// System.out.println(JSON.toJSONString(v));
 
 	}
-	
+
 	@Test
-	public void testVersion3(){
-		List<NameValueModel> list = versionMapper.queryVersionsForAdminInfoSupportService01ListVersionBO2("websites", "answer");
-		System.out.println("?:"+JSON.toJSONString(list));
+	public void testVersion3() {
+		List<NameValueModel> list = versionMapper.queryVersionsForAdminInfoSupportService01ListVersionBO2("websites",
+				"answer");
+		System.out.println("?:" + JSON.toJSONString(list));
 	}
-	
+
 	@Test
 	@Transactional
 	@Rollback
-	public void testMultiData(){
+	public void testMultiData() {
 		// 禁用
 		int id = versionMapper.updateVersionsForAdminMainSupportService01ReturnId(5, "segmentfault");
 		System.out.println(id);
 	}
-	
+
 	@Test
-	public void testCallProcedure(){
-//		int id = versionMapper.updateTest(4, "segmentfault");
-//		System.out.println(id);
-//		versionMapper.selectTest(5, "segmentfault");
+	public void testCallProcedure() {
+		// int id = versionMapper.updateTest(4, "segmentfault");
+		// System.out.println(id);
+		// versionMapper.selectTest(5, "segmentfault");
 	}
-	
-	
 
 	// ###########################PullArticle##################
 	@Autowired
@@ -497,19 +503,19 @@ public class AppTest {
 	}
 
 	@Test
-	public void testServiceDataInfoAdminService02(){
-		WebsitePageVO page = dataService.getWebsiteInforDetailByNameAndId(1,"segmentfault");
+	public void testServiceDataInfoAdminService02() {
+		WebsitePageVO page = dataService.getWebsiteInforDetailByNameAndId(1, "segmentfault");
 		System.out.println(JSON.toJSONString(page));
 	}
-	
+
 	@Test
-	public void testWebsiteProcedure(){
-//		dataService.setWebisteDefaultUsing("1","segmentfault");
-		websiteMapper.updateWebsitesForDataInfoAdminService01SimpleWebsite("1","segmentfault");
+	public void testWebsiteProcedure() {
+		// dataService.setWebisteDefaultUsing("1","segmentfault");
+		websiteMapper.updateWebsitesForDataInfoAdminService01SimpleWebsite("1", "segmentfault");
 	}
-	
+
 	@Test
-	public void testInsertWebsite1(){
+	public void testInsertWebsite1() {
 		WebsitePostModel2 model = new WebsitePostModel2();
 		model.setName("segmentfault");
 		model.setSearchAddr("test");
@@ -517,12 +523,12 @@ public class AppTest {
 		model.setPageProcessor("test");
 		model.setPageRObject("test");
 		model.setCheck2Version(BasicUtils.id2Version(1));
-//		model.setCheck2(true);
+		// model.setCheck2(true);
 		model.setCheck1(true);// 设置为默认版本
 		int i = 0;
-		try{
-		  i = dataService.addNewWebsite(model,"Admin");
-		}catch(Exception e){
+		try {
+			i = dataService.addNewWebsite(model, "Admin");
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		System.out.println(i);

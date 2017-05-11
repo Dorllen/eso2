@@ -2,12 +2,12 @@ package com.zhidian.views;
 
 /**
 * @ClassName: WebsitePalistDTO
-* @Description: TODO(website-pa-list.html)
+* @Description: TODO(website-pa-list.html,Website-pa-version.html(add type、sign property))
 * @author dongneng
 * @date 2017年5月10日 上午3:30:16
 *
 */
-public class WebsitePalistDTO {
+public class WebsitePaDTO {
 	private int id;
 	private String name;
 	private String title;
@@ -15,6 +15,8 @@ public class WebsitePalistDTO {
 	private String createTime;
 	private String url;
 //	private String versionId;//  PullArticle在数据显示是没有versionId的，直接使用id
+	private String type;
+	private String sign;
 	private String relyVersionId;
 	private String uuid;
 	private String mark;
@@ -92,5 +94,17 @@ public class WebsitePalistDTO {
 	}
 	public void setUuid(String uuid) {
 		this.uuid = uuid;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	public String getSign() {
+		return sign;
+	}
+	public void setSign(String sign) {
+		this.sign = sign;
 	}
 }

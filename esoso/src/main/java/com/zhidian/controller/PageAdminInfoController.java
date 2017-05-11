@@ -14,7 +14,7 @@ import com.zhidian.service.AdminInfoSupportService;
 import com.zhidian.views.VersionAddVO;
 import com.zhidian.views.VersionControlDTO;
 import com.zhidian.views.VersionUpdateVO;
-import com.zhidian.views.WebsitePalistDTO;
+import com.zhidian.views.WebsitePaDTO;
 
 /**
  * @ClassName: PageAdminInfoController
@@ -68,9 +68,17 @@ public class PageAdminInfoController {
 	}
 	
 	@GetMapping("/admin/website-pa-list.html")
-	public String websitePalistPage(Model model){
-		List<WebsitePalistDTO> list = infoService.getWebsitesPaList();
+	public String websitePalistlistPage(Model model){
+		List<WebsitePaDTO> list = infoService.getWebsitesPaList();
 		model.addAttribute("Message", list);
 		return "admin/website-pa-list";
 	}
+	
+	@GetMapping("/admin/website-pa-version.html")
+	public String websitePalistVersionPage(@RequestParam(value ="page",required= false) Integer page,Model model){
+		List<WebsitePaDTO> list = infoService.getWebsitesPaList(page);
+		model.addAttribute("Message", list);
+		return "admin/website-pa-version";
+	}
+	
 }
