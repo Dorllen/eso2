@@ -521,7 +521,7 @@ public class AdminInfoSupportService {
 			if(website.getUpdateTime()!=null){
 				w.setUpdateTime(sdf.format(website.getUpdateTime()));
 			}
-			w.setNowLink(0);// 这里需要从数据库中获取
+			w.setNowLink(w.getNowLink());
 			return w;
 		}
 		return null;
