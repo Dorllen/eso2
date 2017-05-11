@@ -17,6 +17,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.zhidian.model.PullArticle;
 import com.zhidian.model.sys.PullArticleBO;
+import com.zhidian.model.sys.PullArticleBO2;
 
 /**
  * @ClassName: ArticleMapper
@@ -95,6 +96,10 @@ public interface PullArticleMapper {
 	PullArticleBO queryPullArticlesForAdminMainSupportServiceSimplePullArticleBO(@Param("id") int id,@Param("name") String name);
 
 	PullArticle queryPullArticlesForAdminInfoSupportServcie01SimplePullArticle(@Param("id") int id,@Param("name") String name);
+
+	PullArticle queryPullArticlesForAdminMainSupportServiceSimplePullArticle(@Param("id") int id,@Param("name") String name);
+
+	int updatePullArticlesForAdminMainSupportService01SimplePullArticleBO2(PullArticleBO2 p);
 
 //	PullArticle selectPullArticleByIdAndName(@Param("id") int id,@Param("id")  String name);
 	

@@ -131,6 +131,15 @@ public class WebsiteAdminInfoController {
 		result.setItem_(version);
 		return result;
 	}
+	
+	@GetMapping("/getDefaultItem")
+	public Object getDefaultItemList()
+			throws PageArgumentsException {
+		ResultListModel result = new ResultListModel();
+		return result;
+	}
+	
+	
 
 	// @GetMapping("/getInfo") // test
 	// public Object uploadTest2(@RequestParam("name") String name) {

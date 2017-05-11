@@ -273,7 +273,7 @@ public class WebsiteAdminMainController {
 		if(error!=null&&error.getErrorCount()>0){
 			result.setMessage("参数异常!");
 		}else{
-			int num = mainService.updateItemInfo(article);
+			int num = mainService.updateItemInfo(article,"Admin");
 			if (num > 0) {
 				result.setMessage("操作成功!");
 			} else {

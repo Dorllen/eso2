@@ -30,6 +30,7 @@ import com.zhidian.model.PullArticle;
 import com.zhidian.model.Version;
 import com.zhidian.model.sys.VersionBO;
 import com.zhidian.model.sys.WebsiteBO;
+import com.zhidian.util.BasicUtils;
 import com.zhidian.util.RegExpUtils;
 import com.zhidian.views.FormBarDTO;
 import com.zhidian.views.IndexPageVO;
@@ -103,7 +104,7 @@ public class PageService {
 	}
 
 	private VersionBO getIndexCurrentPageVersionInfo() {
-		Version version = versionMapper.queryVersionsForPageService01SimpleVersion(
+		Version version = versionMapper.queryVersionsForPageService01SimpleVersion("page",
 				AppEnumDefine.SiteService.搜索.getValue(), ResourceEnumDefine.ResourceType.主页.getValue());
 		if (version != null) {
 			// id,name,version,type,defCss,defPage,defJs
@@ -113,11 +114,15 @@ public class PageService {
 			v.setName(version.getName());
 			v.setType(version.getType());
 			if (StringUtils.isNotEmpty(version.getDefCss())) {
-				v.setDefCss(RegExpUtils.convertString2List2(version.getDefCss()));
+				v.setDefCss(RegExpUtils.convertString2List2(version.getDefCss(),"css/"+v.getName()+"/engine/"+BasicUtils.id2Version(version.getId())+"/"));
 			}
 			if (StringUtils.isNotEmpty(version.getDefJs())) {
-				v.setDefJs(RegExpUtils.convertString2List2(version.getDefJs()));
+				v.setDefJs(RegExpUtils.convertString2List2(version.getDefJs(),"js/"+v.getName()+"/engine/"+BasicUtils.id2Version(version.getId())+"/"));
 			}
+			if(StringUtils.isNotEmpty(v.getDefPage())){
+				v.setDefPage(v.getName()+"/engine/"+BasicUtils.id2Version(v.getId())+"/"+v.getDefPage());
+			}
+			System.out.println(JSON.toJSONString(v));
 			return v;
 		}
 		return null;

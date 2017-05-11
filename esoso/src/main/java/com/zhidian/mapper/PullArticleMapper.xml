@@ -56,15 +56,27 @@
 		select * from pullArticles where name = #{name} and id = #{id} and  status = 0;
 	</select>
 	
+	<select id="queryPullArticlesForAdminMainSupportServiceSimplePullArticle" resultType="PullArticle">
+		select * from pullArticles where name = #{name} and id = #{id} and  status = 0;
+	</select>
+	
 	<update id="updatePullArticlesForAdminMainSupportService01RetrunId" statementType="CALLABLE">
 		call pullArticlesp1(#{id},#{name})
 	</update>
 	
+	<update id="updatePullArticlesForAdminMainSupportService01SimplePullArticleBO2">
+		update pullArticles where url = #{url},uuid=#{uuid},tags=#{tags},title=#{title},resultContent=#{resultContent},pagePath=#{pagePath},jsPath=#{jsPath},
+		cssPath = #{cssPath},sign=#{sign},updateMan=#{updateMan},updateTime=#{updateTime},mark=#{mark},websiteId = #{websiteId} 
+		where id = #{id} and name = #{name};
+	</update>
 	
 	
-	<delete id="deletePullArticlesForAdminMainSupportService01IdName">
+<!-- 	<delete id="deletePullArticlesForAdminMainSupportService01IdName">
 		delete from pullArticles where id = #{id} and  name = #{name} and pullArticles.using != 1 and status = 0;
-	</delete>
+	</delete> -->
 	
+	<update id="deletePullArticlesForAdminMainSupportService01IdName">
+		update pullArticles set status = -1 where id = #{id} and  name = #{name} and pullArticles.using != 1 and status = 0;
+	</update>
 	
 </mapper>

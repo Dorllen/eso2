@@ -17,7 +17,7 @@
 		resultType="Version" parameterType="hashmap">
 		select
 		id,name,type,defCss,defPage,defJs from versions where
-		versions.type = #{type}
+		versions.type = #{type} and versions.type2 = #{type2}
 		and versions.name = #{name} and versions.using
 		= 1;
 	</select>

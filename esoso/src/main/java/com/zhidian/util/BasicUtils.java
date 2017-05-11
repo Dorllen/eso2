@@ -139,6 +139,38 @@ public class BasicUtils {
 		}
 	}
 
+	// igBlank 是代表内部有值是，是否去除两边空格，建议false
+	public static boolean compareSame(String a,String b,boolean igBlank){
+		if(a==null){
+			if(b==null){
+				return true;
+			}else{
+				if(b.trim().length()==0){
+					return true;
+				}
+			}
+		}else{
+			if(b==null){
+				if(a.trim().length()==0){
+					return true;
+				}
+			}else{
+				if(b.trim().length()==0&&a.trim().length()==0){
+					return true;
+				}else if(b.equals(a)){
+					return true;
+				}else{
+					if(igBlank){
+						if(b.trim().equals(b.trim())){
+							return true;
+						}
+					}
+				}
+			}
+		}
+		return false;
+	}
+	
 	public static void main(String[] args) {
 		// String s = "www.baidu.com/css";
 		// String s2 = "baidu.com/css";
@@ -171,5 +203,8 @@ public class BasicUtils {
 		System.out.println(id2Version(version2Id("1.0.2")));
 		// System.out.println(1000/1000);
 		// System.out.println("999.999.999".matches("\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}"));
+		
+		String str = "  ";
+		System.out.println(str.trim().length());
 	}
 }

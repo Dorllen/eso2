@@ -90,6 +90,25 @@ public class RegExpUtils {
 		return list;
 	}
 	
+	public static List<String> convertString2List2(String str,String prefix){
+		List<String> list = null;
+		if(!StringUtils.isEmpty(str)){
+			// 需要去重，去非法参数
+			String[] strArr = str.split(",");
+			if(strArr!=null&&strArr.length>0){
+				list = new ArrayList<String>();
+				for(String s : strArr){
+					if(!StringUtils.isEmpty(s)){
+						if(!list.contains(s)){
+							list.add(prefix+s);
+						}
+					}
+				}
+			}
+		}
+		return list;
+	}
+	
 	public static void main(String[] args) {
 		String str = "seg|arr";
 		System.out.println("string split:"+str.split("\\|").length);

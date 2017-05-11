@@ -1,8 +1,10 @@
 package com.zhidian.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,9 +16,11 @@ import com.zhidian.mapper.ConfigMapper;
 import com.zhidian.mapper.PullArticleMapper;
 import com.zhidian.mapper.VersionMapper;
 import com.zhidian.mapper.WebsiteMapper;
+import com.zhidian.model.PullArticle;
 import com.zhidian.model.Version;
 import com.zhidian.model.sys.ConfigBO;
 import com.zhidian.model.sys.PullArticleBO;
+import com.zhidian.model.sys.PullArticleBO2;
 import com.zhidian.model.websites.config.ConfigWebsiteItemModel;
 import com.zhidian.util.BasicUtils;
 import com.zhidian.views.PullArticleUpdateModel;
@@ -143,10 +147,10 @@ public class AdminMainSupportService {
 						}
 					}
 					// 拿到需要修改数据的ConfigBO
-					for(ConfigBO c : cofs){
+					for (ConfigBO c : cofs) {
 						// 修改数据
-						if(c!=null){
-							c.setValue(createWebsiteServiceValueString(c.getValue(),sql));
+						if (c != null) {
+							c.setValue(createWebsiteServiceValueString(c.getValue(), sql));
 						}
 					}
 					// 更新入库
@@ -164,23 +168,23 @@ public class AdminMainSupportService {
 	}
 
 	private String createWebsiteServiceValueString(String value, String sql) {
-		if(StringUtils.isNotEmpty(sql)){
-			if(value!=null&&value.trim().length()>0){
-				// 插入最后一个]之前,这里需要判断一种情况是:[]情况，或[  ]情况
+		if (StringUtils.isNotEmpty(sql)) {
+			if (value != null && value.trim().length() > 0) {
+				// 插入最后一个]之前,这里需要判断一种情况是:[]情况，或[ ]情况
 				int f = value.indexOf('[');
 				int l = value.lastIndexOf(']');
-				if(l-f==1){
-					value = "["+sql+"]";
-				}else{
-					String str = value.substring(f+1, l);
-					if(str.trim().length()>0){// 说明里面还有其他值
-						value = value.substring(0, value.length()-1)+","+sql+"]";
-					}else{
-						value = "["+sql+"]";
+				if (l - f == 1) {
+					value = "[" + sql + "]";
+				} else {
+					String str = value.substring(f + 1, l);
+					if (str.trim().length() > 0) {// 说明里面还有其他值
+						value = value.substring(0, value.length() - 1) + "," + sql + "]";
+					} else {
+						value = "[" + sql + "]";
 					}
 				}
-			}else{
-				value = "["+sql+"]";
+			} else {
+				value = "[" + sql + "]";
 			}
 		}
 		return value;
@@ -197,10 +201,87 @@ public class AdminMainSupportService {
 		return JSON.toJSONString(config);
 	}
 
-	public int updateItemInfo(PullArticleUpdateModel article) {
-		if(article!=null){
-			return pullArticleMapper.updatePullArticlesForAdminMainSupportService02RetrunId(article.getId(), article.getCssPath(),)
+	public int updateItemInfo(PullArticleUpdateModel article,String account) throws PageArgumentsException {
+		if (article != null) {
+			PullArticle pa = pullArticleMapper
+					.queryPullArticlesForAdminMainSupportServiceSimplePullArticle(article.getId(), article.getName());
+			if (pa != null) {
+				PullArticleBO2 p = createPullArticleFromUploadData(article, pa);
+				if (p == null) {
+					// 说明没有更新
+					return 1;// 说明操作成功!
+				} else {
+					p.setUpdateMan(account);
+					return pullArticleMapper.updatePullArticlesForAdminMainSupportService01SimplePullArticleBO2(p);
+				}
+			} else {
+				// 异常请求
+				throw new PageArgumentsException();
+			}
 		}
 		return 0;
+	}
+
+	private PullArticleBO2 createPullArticleFromUploadData(PullArticleUpdateModel a, PullArticle p) throws PageArgumentsException {
+		if (a != null && p!=null) {
+			int code = 0;
+			PullArticleBO2 b = new PullArticleBO2();
+			b.setId(a.getId());
+			if (!BasicUtils.compareSame(a.getCssPath(), p.getCssPath(), false)) {
+				code++;
+			}
+			b.setCssPath(a.getCssPath());
+			if (!BasicUtils.compareSame(a.getMark(), p.getMark(), false)) {
+				code++;
+			}
+			b.setMark(a.getMark());
+			if (!BasicUtils.compareSame(a.getPagePath(), p.getPagePath(), false)) {
+				code++;
+			}
+			b.setPagePath(a.getPagePath());
+			if (!BasicUtils.compareSame(a.getResultContent(), p.getResultContent(), false)) {
+				code++;
+			}
+			b.setResultContent(a.getResultContent());
+			if (!BasicUtils.compareSame(a.getSign(), p.getSign(), false)) {
+				code++;
+			}
+			b.setSign(a.getSign());
+			if (!BasicUtils.compareSame(a.getTags(), p.getTags(), false)) {
+				code++;
+			}
+			b.setTags(a.getTags());
+			if (!BasicUtils.compareSame(a.getTitle(), p.getTitle(), false)) {
+				code++;
+			}
+			b.setTitle(a.getTitle());
+			if (!BasicUtils.compareSame(a.getUrl(), p.getUrl(), false)) {
+				code++;
+				b.setUrl(a.getUrl());
+				if (a.getUrl() != null && a.getUrl().trim().length() > 0) {
+					b.setUuid(DigestUtils.md5Hex(a.getUrl()));
+				}
+			}else{
+				b.setUrl(p.getUrl());
+				b.setUuid(p.getUuid());
+			}
+			int nu = BasicUtils.version2Id(a.getWebsiteId());
+			if(nu>0){
+				if(p.getWebsiteId()!=nu){
+					code++;
+				}
+				b.setWebsiteId(nu);
+			}else{
+				throw new PageArgumentsException();
+			}
+			if (code == 0) {
+				return null;
+			} else {
+//				b.setUpdateMan("");// 放到外部更新
+				b.setUpdateTime(new Date());// 没有使用数据库内置函数了【待思考】
+				return b;
+			}
+		}
+		return null;
 	}
 }
