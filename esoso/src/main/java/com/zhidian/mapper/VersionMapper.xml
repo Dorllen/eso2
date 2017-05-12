@@ -26,11 +26,6 @@
 		select * from versions as v where name = #{name} and v.using = 1 and type = 'websites';
 	</select>
 
-	<select id="selectVersionsForDataInfoAdminService01ListString" resultType="string" parameterType="string">
-		select id from versions where name = #{name} and type = 'websites';
-	</select>
-	
-	
 	<select id="queryVersionsForAdminInfoSupportService01ListVersionBO2" resultType="IDNameValueModel">
 		select distinct type as name,name as value from versions where type = #{type} and type2 = #{type2} and nmp = 1
 	</select>
@@ -59,13 +54,25 @@
 		select * from versions where id = (select versionId from websites where id = #{id} and nmp = 1) and nmp =1;
 	</select>
 	
-	<select id="selectVersionsForAdminInforService01ListString" resultType="int">
+	<select id="selectVersionsForAdminInforSupportService01ListString" resultType="int">
 		select v.id from versions as v,versions as v2 where v2.id = 
 		(select versionId from websites as w where w.id = #{id}) and v.type = v2.type 
 		and  v.type2 = v2.type2 and v.name = v2.name and v2.nmp = 1 and v.nmp =1;
 	</select>
 	
-	<insert id="insertVersionsForAdminMainService01SimpleId" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+	<select id="selectVersionsForAdminInfoSupportService01ListString" resultType="string">
+		select distinct name from versions where nmp = 1 and type = 'websites';
+	</select>
+	
+	<select id="selectVersionsForAdminInfoSupportService02ListInteger" resultType="int" parameterType="string">
+		select id from versions where name = #{name} and type = 'websites' and nmp = 1;
+	</select>
+	
+	<select id="selectVersionsForAdminInfoSupportService02SimpleInteger" resultType="int" parameterType="string">
+		select id from versions where name = #{name} and type = 'websites' and nmp = 1 and versions.using = 1;
+	</select>
+	
+	<insert id="insertVersionsForAdminMainSupportService01SimpleId" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
 		insert into versions set createTime = CURRENT_TIMESTAMP() , name = #{name}, defPage = #{defPage} , defJs = #{defJs}, 
 		defCss = #{defCss},type = #{type}, type2 = #{type2}, sign = #{sign}
 	</insert>

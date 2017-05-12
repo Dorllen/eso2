@@ -266,12 +266,6 @@ public class DataInfoAdminService {
 
 	}
 
-	public List<String> getWebsiteAllVersionList(String name) {
-		if (StringUtils.isNotEmpty(name)) {
-			return versionMapper.selectVersionsForDataInfoAdminService01ListString(name);
-		}
-		return null;
-	}
 
 	public List<String> getAllWebsites() {
 		return websiteMapper.selectWebsitesForDataInfoAdminService01ListString();

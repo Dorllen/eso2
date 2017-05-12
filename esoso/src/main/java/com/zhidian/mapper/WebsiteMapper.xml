@@ -191,7 +191,7 @@
 	
 	<update id="updateWebsitesForAdminMainSupportService03ReturnId">
 		update websites as w inner join (select count(*) as num from pullArticles where pullArticles.websiteId = #{id} limit 1) 
-		as p set w.searchAddr = #{searchAddr},w.pagination=#{pagination},w.sign=#{sign},
+		as p et w.searchAddr = #{searchAddr},w.pagination=#{pagination},w.sign=#{sign},
 		w.useSearch=#{useSearch},w.defaultPageCss=#{defaultPageCss},w.defPageConfig=#{defPageConfig},
 		w.defResultConfig=#{defResultConfig},w.defRequestHeader=#{defRequestHeader},w.updateMan= #{updateMan},
 		w.updateTime=#{updateTime},w.defPageCss = #{defPageCss},w.alias = #{alias},w.shortAddr = #{shortAddr},

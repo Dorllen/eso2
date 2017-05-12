@@ -17,8 +17,6 @@ public interface VersionMapper {
 
 	public Version queryVersionsForPageService01SimpleVersion(@Param("type") String type,@Param("type2") String type2, @Param("name") String name);
 
-	
-	public List<String> selectVersionsForDataInfoAdminService01ListString(@Param("name") String name);
 
 	public Version queryVersionsForDataInfoAdminService01SimpleVersion(@Param("name") String name);
 
@@ -26,7 +24,7 @@ public interface VersionMapper {
 
 	
 	
-	public int insertVersionsForAdminMainService01SimpleId(Version version);
+	public int insertVersionsForAdminMainSupportService01SimpleId(Version version);
 
 	public List<Version> queryVersionsForAdminInfoSupportService01ListVersion(@Param("id") int id);
 
@@ -75,8 +73,13 @@ public interface VersionMapper {
 
 	public VersionBO2 queryVersionsForAdminSupportService01SimpleVerionBO2(@Param("id") int id);
 
-	public List<Integer> selectVersionsForAdminInforService01ListString(@Param("id") int id);
-	
+	public List<Integer> selectVersionsForAdminInforSupportService01ListString(@Param("id") int id);
+
+	public List<String> selectVersionsForAdminInfoSupportService01ListString();
+
+	public List<Integer> selectVersionsForAdminInfoSupportService02ListInteger(@Param("name") String name);
+
+	public Integer selectVersionsForAdminInfoSupportService02SimpleInteger(String name);
 	
 //	public void selectTest(@Param("id") int id,@Param("name") String name);
 //	public int updateTest(@Param("id") int id,@Param("name") String name);

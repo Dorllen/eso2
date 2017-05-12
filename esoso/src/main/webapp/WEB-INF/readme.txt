@@ -40,13 +40,19 @@ http://127.0.0.1:8080/esoso/admin/website/getInfo3?name=Result 測試CommonClass
 	1. 对页面上传的对象命名为xxxModel,页面接收局部数据的命名为:xxxxDTO,服务层传递与DAO层用xxxBO或PO模型
 
 
+
+
+严重问题：
+
+
+
 使用vue良好效果的有：
 website-control.html
 
 2017-5-12:
       重要更新：
      1. pullArticles
-
+	 2. website-add.html、website-control-info-update.html 页面模型没有使用VO，而是使用add("","")这种，所增加一个数据名
 
 
 2017-5-10：

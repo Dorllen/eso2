@@ -641,7 +641,7 @@ public class AdminInfoSupportService {
 		if (StringUtils.isNotEmpty(websiteId)) {
 			int id = BasicUtils.version2Id(websiteId);
 			if (id > 0) {
-				List<Integer> list = versionMapper.selectVersionsForAdminInforService01ListString(id);
+				List<Integer> list = versionMapper.selectVersionsForAdminInforSupportService01ListString(id);
 				return createVersionIdFromListInteger(list);
 			} else {
 				throw new PageArgumentsException();
@@ -662,5 +662,37 @@ public class AdminInfoSupportService {
 			return ls;
 		}
 		return null;
+	}
+
+	public List<String> getWebsiteNameList() {
+		// 获得站点名称列表
+		return versionMapper.selectVersionsForAdminInfoSupportService01ListString();
+	}
+
+	public List<String> getWebsiteTypeList() {
+		// 获得站点类型列表
+		return null;
+	}
+
+	public List<String> getWebsiteAllVersionList(String name) throws PageArgumentsException {
+		if (StringUtils.isNotEmpty(name)) {
+			List<Integer> list = versionMapper.selectVersionsForAdminInfoSupportService02ListInteger(name);
+			return createVersionIdFromListInteger(list);
+		} else {
+			throw new PageArgumentsException();
+		}
+	}
+
+	public String getWebsiteDefaultVersionId(String name) throws PageArgumentsException {
+		if (StringUtils.isNotEmpty(name)) {
+			Integer id = versionMapper.selectVersionsForAdminInfoSupportService02SimpleInteger(name);
+			if(id!=null&&id>0){
+				return BasicUtils.id2Version(id);
+			}else{
+				throw new PageArgumentsException();
+			}
+		} else {
+			throw new PageArgumentsException();
+		}
 	}
 }

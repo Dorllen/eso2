@@ -67,18 +67,6 @@ public class WebsiteAdminInfoController {
 		return result;
 	}
 
-	@GetMapping("/getVersions")
-	public Object getWebsiteAllVersions(@RequestParam("name") String name) {
-		ResultListModel result = new ResultListModel();
-		List<String> list = dataService.getWebsiteAllVersionList(name);
-		if (list != null && list.size() > 0) {
-			result.setItems(list);
-		} else {
-			result.setMessage("请求参数有误");
-		}
-
-		return result;
-	}
 
 	@GetMapping("/getWebsites")
 	public Object getAllWebsitesName() {
@@ -177,6 +165,21 @@ public class WebsiteAdminInfoController {
 			result.setItems(list);
 			result.setTotal(list.size());
 		}
+		return result;
+	}
+	
+	@GetMapping("/web/getVersions")
+	public Object getWebsiteAllVersions(@RequestParam("name") String name) throws PageArgumentsException {
+		ResultMultiModel result = new ResultMultiModel();
+		List<String> list = infoService.getWebsiteAllVersionList(name);
+		String checked = infoService.getWebsiteDefaultVersionId(name);
+		if (list != null && list.size() > 0) {
+			result.setItem(list);
+			result.setItem_(checked);
+		} else {
+			result.setMessage("请求参数有误");
+		}
+
 		return result;
 	}
 

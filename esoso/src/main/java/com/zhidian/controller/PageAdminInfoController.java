@@ -29,7 +29,7 @@ public class PageAdminInfoController {
 
 	@Autowired
 	AdminInfoSupportService infoService;
-	
+
 	@GetMapping("/admin/version-control-info.html")
 	public String versionControlInfoPage(@RequestParam("id") String versionId, Model model) throws Exception {
 		// 放入数据模型
@@ -43,7 +43,8 @@ public class PageAdminInfoController {
 	}
 
 	@GetMapping("/admin/version-control-info-update.html")
-	public String versionControlInfoUpdatePage(@RequestParam("id") String versionId, Model model) throws PageArgumentsException {
+	public String versionControlInfoUpdatePage(@RequestParam("id") String versionId, Model model)
+			throws PageArgumentsException {
 		// 放入数据模型
 		if (StringUtils.isNotEmpty(versionId)) {
 			VersionUpdateVO view = infoService.getVersionInfoByVersionId(versionId);
@@ -53,44 +54,45 @@ public class PageAdminInfoController {
 			throw new PageArgumentsException();
 		}
 	}
-	
+
 	@GetMapping("/admin/version-control.html")
-	public String versionControlPage(Model model){
+	public String versionControlPage(Model model) {
 		List<VersionControlDTO> list = infoService.getVersionInfoUsingList();
 		model.addAttribute("Message", list);
 		return "admin/version-control";
 	}
-	
+
 	@GetMapping("/admin/version-add.html")
-	public String versionAddPage(Model model){
+	public String versionAddPage(Model model) {
 		VersionAddVO view = infoService.getVersionAddInfoUsing();
 		model.addAttribute("Message", view);
 		return "admin/version-add";
 	}
-	
+
 	@GetMapping("/admin/website-pa-list.html")
-	public String websitePalistlistPage(Model model){
+	public String websitePalistlistPage(Model model) {
 		List<WebsitePaDTO> list = infoService.getWebsitesPaList();
 		model.addAttribute("Message", list);
 		return "admin/website-pa-list";
 	}
-	
+
 	@GetMapping("/admin/website-pa-version.html")
-	public String websitePalistVersionPage(@RequestParam(value ="page",required= false) Integer page,Model model){
+	public String websitePalistVersionPage(@RequestParam(value = "page", required = false) Integer page, Model model) {
 		List<WebsitePaDTO> list = infoService.getWebsitesPaList(page);
 		model.addAttribute("Message", list);
 		return "admin/website-pa-version";
 	}
-	
+
 	@GetMapping("/admin/website-control.html")
-	public String websiteControlPage(Model model){
+	public String websiteControlPage(Model model) {
 		List<WebsiteDetailDTO> list = infoService.getWebsiteDetailDTODefaultList();
 		model.addAttribute("Message", list);
 		return "admin/website-control";
 	}
-	
+
 	@GetMapping("/admin/website-control-info.html")
-	public String websiteControlInfoPage(@RequestParam("id") String websiteId,Model model) throws PageArgumentsException{
+	public String websiteControlInfoPage(@RequestParam("id") String websiteId, Model model)
+			throws PageArgumentsException {
 		if (StringUtils.isNotEmpty(websiteId)) {
 			WebsiteDetailDTO dto = infoService.getWebsiteDetailInfo(websiteId);
 			model.addAttribute("Message", dto);
@@ -99,9 +101,10 @@ public class PageAdminInfoController {
 			throw new PageArgumentsException();
 		}
 	}
-	
+
 	@GetMapping("/admin/website-control-info-update.html")
-	public String websiteControlInfoUpdatePage(@RequestParam("id") String websiteId,Model model)throws PageArgumentsException {
+	public String websiteControlInfoUpdatePage(@RequestParam("id") String websiteId, Model model)
+			throws PageArgumentsException {
 		if (StringUtils.isNotEmpty(websiteId)) {
 			WebsiteDetailDTO dto = infoService.getWebsiteDetailInfo(websiteId);
 			List<String> list = infoService.getWebsiteRelyVersionIdList(websiteId);
@@ -112,4 +115,14 @@ public class PageAdminInfoController {
 			throw new PageArgumentsException();
 		}
 	}
+
+	@GetMapping("admin/website-add.html")
+	public String websiteAddPage(Model model) {
+		List<String> nameList = infoService.getWebsiteNameList();
+//		List<String> typeList = infoService.getWebsiteTypeList();
+		model.addAttribute("Names", nameList);
+//		model.addAttribute("Types", typeList);
+		return "admin/website-add";
+	}
+
 }

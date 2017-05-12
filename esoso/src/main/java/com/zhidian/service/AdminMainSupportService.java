@@ -60,7 +60,7 @@ public class AdminMainSupportService {
 			v.setSign(version.getSign());
 			v.setType(version.getType());
 			v.setType2(SearchEngineEnumDefine.Type.问答.getValue());// type默认是问答，可拓展。现只提供问答搜索服务
-			return versionMapper.insertVersionsForAdminMainService01SimpleId(v);
+			return versionMapper.insertVersionsForAdminMainSupportService01SimpleId(v);
 		}
 		return 0;
 	}
@@ -331,7 +331,7 @@ public class AdminMainSupportService {
 		}
 	}
 
-	public int updateWebsiteForceForUpdataInfo(WebsiteMainUploadModel model, String account)
+	public int updateWebsiteForceForUpdateInfo(WebsiteMainUploadModel model, String account)
 			throws PageArgumentsException {
 		if (model != null) {
 			Website w = createWebsiteFromWebsiteMainUploadModel(model, account);
@@ -389,7 +389,7 @@ public class AdminMainSupportService {
 		return null;
 	}
 
-	public int updateWebsiteForUpdataInfo(WebsiteMainUploadModel model, String account) throws PageArgumentsException {
+	public int updateWebsiteForUpdateInfo(WebsiteMainUploadModel model, String account) throws PageArgumentsException {
 		if (model != null) {
 			Website w = createWebsiteFromWebsiteMainUploadModel(model, account);
 			if (w != null) {
