@@ -277,17 +277,4 @@ public class DataInfoAdminService {
 		return websiteMapper.selectWebsitesForDataInfoAdminService01ListString();
 	}
 
-	public int deleteWebsiteById(int id) {
-		if(id>0){
-			// 删除之前查找，是否数据version被使用
-			int num = pullArticleMapper.selectPullArticlesForDataInfoAdminService01SimpleInt(id);
-			if(num>0){
-				return -2;
-			}else{
-				return websiteMapper.deleteWebistesForDataInfoAdminService01SimpleId(id);
-			}
-		}
-		return -1;
-	}
-
 }

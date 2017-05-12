@@ -12,9 +12,9 @@ package com.zhidian.bases.worms.processor;
 import java.util.Date;
 
 import com.zhidian.bases.WormEnumDefine;
+import com.zhidian.bases.worms.model.SegmentfaultPageRObject;
 import com.zhidian.bases.worms.pipeline.BasePagePipeline;
 import com.zhidian.model.sys.PullPageObjectModel;
-import com.zhidian.model.websites.answer.SegmentfaultPageRObject;
 
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.selector.Selectable;

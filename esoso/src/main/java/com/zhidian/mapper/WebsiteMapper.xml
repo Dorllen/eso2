@@ -178,6 +178,29 @@
 		call websitesp1(#{id},#{name});
 	</update>
 	
+	<update id="updateWebsitesForAdminMainSupportService02ReturnId">
+		update websites set searchAddr = #{searchAddr},pagination=#{pagination},sign=#{sign},
+		useSearch=#{useSearch},defaultPageCss=#{defaultPageCss},defPageConfig=#{defPageConfig},
+		defResultConfig=#{defResultConfig},defRequestHeader=#{defRequestHeader},updateMan= #{updateMan},
+		updateTime=#{updateTime},defPageCss = #{defPageCss},alias = #{alias} ,shortAddr = #{shortAddr},
+		fullAddr = #{fullAddr},resultProcessor=#{resultProcessor}, resultPipeline=#{resultPipeline},resultRObject=#{resultRObject},
+		pageProcessor = #{pageProcessor},pagePipeline=#{pagePipeline},pageRObject=#{pageRObject},
+		versionId = (select id from versions where id = #{versionId} and nmp = 1)
+		where id = #{id}
+	</update>
+	
+	<update id="updateWebsitesForAdminMainSupportService03ReturnId">
+		update websites as w inner join (select count(*) as num from pullArticles where pullArticles.websiteId = #{id} limit 1) 
+		as p set w.searchAddr = #{searchAddr},w.pagination=#{pagination},w.sign=#{sign},
+		w.useSearch=#{useSearch},w.defaultPageCss=#{defaultPageCss},w.defPageConfig=#{defPageConfig},
+		w.defResultConfig=#{defResultConfig},w.defRequestHeader=#{defRequestHeader},w.updateMan= #{updateMan},
+		w.updateTime=#{updateTime},w.defPageCss = #{defPageCss},w.alias = #{alias},w.shortAddr = #{shortAddr},
+		w.fullAddr = #{fullAddr},w.resultProcessor=#{resultProcessor}, w.resultPipeline=#{resultPipeline},
+		w.resultRObject=#{resultRObject},w.pageProcessor = #{pageProcessor},w.pagePipeline=#{pagePipeline},
+		w.pageRObject=#{pageRObject},w.versionId = (select id from versions where id = #{versionId} and nmp = 1)
+		where w.id = #{id} and  p.num = 0
+	</update>
+	
 	<delete id="deleteWebsitesForAdminMainSupportService01ReturnId">
 		delete from websites where id = #{id} and name = #{name}
 	</delete>
@@ -186,12 +209,6 @@
 		delete from websites where websites.id = #{id}  and websites.name = #{name}
 		and websites.using = 0 and websites.id not in (select websiteId from pullarticles as p 
 		where p.websiteId = websites.id and p.status = 0)
-	</delete>
-
-	<delete id="deleteWebistesForDataInfoAdminService01SimpleId"
-		parameterType="int">
-		delete from websites where id = #{id} and websites.using
-		!= 1;
 	</delete>
 
 </mapper>

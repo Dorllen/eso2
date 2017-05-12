@@ -18,6 +18,7 @@ import com.zhidian.mapper.VersionMapper;
 import com.zhidian.mapper.WebsiteMapper;
 import com.zhidian.model.PullArticle;
 import com.zhidian.model.Version;
+import com.zhidian.model.Website;
 import com.zhidian.model.sys.ConfigBO;
 import com.zhidian.model.sys.PullArticleBO;
 import com.zhidian.model.sys.PullArticleBO2;
@@ -25,6 +26,7 @@ import com.zhidian.model.websites.config.ConfigWebsiteItemModel;
 import com.zhidian.util.BasicUtils;
 import com.zhidian.views.PullArticleUpdateModel;
 import com.zhidian.views.VersionAddViewMainDTO;
+import com.zhidian.views.WebsiteMainUploadModel;
 
 /**
  * @ClassName: AdminMainSupportService
@@ -201,7 +203,7 @@ public class AdminMainSupportService {
 		return JSON.toJSONString(config);
 	}
 
-	public int updateItemInfo(PullArticleUpdateModel article,String account) throws PageArgumentsException {
+	public int updateItemInfo(PullArticleUpdateModel article, String account) throws PageArgumentsException {
 		if (article != null) {
 			PullArticle pa = pullArticleMapper
 					.queryPullArticlesForAdminMainSupportServiceSimplePullArticle(article.getId(), article.getName());
@@ -222,8 +224,9 @@ public class AdminMainSupportService {
 		return 0;
 	}
 
-	private PullArticleBO2 createPullArticleFromUploadData(PullArticleUpdateModel a, PullArticle p) throws PageArgumentsException {
-		if (a != null && p!=null) {
+	private PullArticleBO2 createPullArticleFromUploadData(PullArticleUpdateModel a, PullArticle p)
+			throws PageArgumentsException {
+		if (a != null && p != null) {
 			int code = 0;
 			PullArticleBO2 b = new PullArticleBO2();
 			b.setId(a.getId());
@@ -261,23 +264,23 @@ public class AdminMainSupportService {
 				if (a.getUrl() != null && a.getUrl().trim().length() > 0) {
 					b.setUuid(DigestUtils.md5Hex(a.getUrl()));
 				}
-			}else{
+			} else {
 				b.setUrl(p.getUrl());
 				b.setUuid(p.getUuid());
 			}
 			int nu = BasicUtils.version2Id(a.getWebsiteId());
-			if(nu>0){
-				if(p.getWebsiteId()!=nu){
+			if (nu > 0) {
+				if (p.getWebsiteId() != nu) {
 					code++;
 				}
 				b.setWebsiteId(nu);
-			}else{
+			} else {
 				throw new PageArgumentsException();
 			}
 			if (code == 0) {
 				return null;
 			} else {
-//				b.setUpdateMan("");// 放到外部更新
+				// b.setUpdateMan("");// 放到外部更新
 				b.setUpdateTime(new Date());// 没有使用数据库内置函数了【待思考】
 				return b;
 			}
@@ -287,42 +290,118 @@ public class AdminMainSupportService {
 
 	public int deleteWebsiteForceByWebsiteIdAndName(String websiteId, String name) throws PageArgumentsException {
 		// 强制删除
-		if(StringUtils.isNotEmpty(websiteId)&&StringUtils.isNotEmpty(name)){
+		if (StringUtils.isNotEmpty(websiteId) && StringUtils.isNotEmpty(name)) {
 			int id = BasicUtils.version2Id(websiteId);
-			if(id>0){
-				return websiteMapper.deleteWebsitesForAdminMainSupportService01ReturnId(id,name);
-			}else{
+			if (id > 0) {
+				return websiteMapper.deleteWebsitesForAdminMainSupportService01ReturnId(id, name);
+			} else {
 				throw new PageArgumentsException();
 			}
-		}else{
+		} else {
 			throw new PageArgumentsException();
 		}
 	}
 
 	public int deleteWebsiteByWebsiteIdAndName(String websiteId, String name) throws PageArgumentsException {
 		// 非强制删除
-		if(StringUtils.isNotEmpty(websiteId)&&StringUtils.isNotEmpty(name)){
+		if (StringUtils.isNotEmpty(websiteId) && StringUtils.isNotEmpty(name)) {
 			int id = BasicUtils.version2Id(websiteId);
-			if(id>0){
-				return websiteMapper.deleteWebsitesForAdminMainSupportService02ReturnId(id,name);
-			}else{
+			if (id > 0) {
+				return websiteMapper.deleteWebsitesForAdminMainSupportService02ReturnId(id, name);
+			} else {
 				throw new PageArgumentsException();
 			}
-		}else{
+		} else {
 			throw new PageArgumentsException();
 		}
 	}
 
-	public int updateWebsiteForSetDefaultByWebsiteIdAndName(String websiteId, String name) throws PageArgumentsException {
+	public int updateWebsiteForSetDefaultByWebsiteIdAndName(String websiteId, String name)
+			throws PageArgumentsException {
 		// call websitesp1(#{id},#{name});
-		if(StringUtils.isNotEmpty(websiteId)&&StringUtils.isNotEmpty(name)){
+		if (StringUtils.isNotEmpty(websiteId) && StringUtils.isNotEmpty(name)) {
 			int id = BasicUtils.version2Id(websiteId);
-			if(id>0){
-				return websiteMapper.updateWebsitesForAdminMainSupportService01ReturnId(id,name);
-			}else{
+			if (id > 0) {
+				return websiteMapper.updateWebsitesForAdminMainSupportService01ReturnId(id, name);
+			} else {
 				throw new PageArgumentsException();
 			}
-		}else{
+		} else {
+			throw new PageArgumentsException();
+		}
+	}
+
+	public int updateWebsiteForceForUpdataInfo(WebsiteMainUploadModel model, String account)
+			throws PageArgumentsException {
+		if (model != null) {
+			Website w = createWebsiteFromWebsiteMainUploadModel(model, account);
+			if (w != null) {
+				try {
+					// 这里出现异常的原因就是versionId是不存在的，或者是参数错误的（nmp=0，获取versionId失败）
+					return websiteMapper.updateWebsitesForAdminMainSupportService02ReturnId(w);
+				} catch (Exception e) {
+					throw new PageArgumentsException();
+				}
+			} else {
+				throw new PageArgumentsException();
+			}
+		} else {
+			throw new PageArgumentsException();
+		}
+	}
+
+	private Website createWebsiteFromWebsiteMainUploadModel(WebsiteMainUploadModel model, String account)
+			throws PageArgumentsException {
+		if (model != null) {
+			Website w = new Website();
+			int id = BasicUtils.version2Id(model.getWebsiteId());
+			if (id <= 0) {
+				throw new PageArgumentsException();
+			}
+			w.setId(id);
+			id = BasicUtils.version2Id(model.getVersionId());
+			if (id <= 0) {
+				throw new PageArgumentsException();
+			}
+			w.setVersionId(id);
+			w.setAlias(model.getAlias());
+			w.setDefaultPageCss(model.getDefaultPageCss());
+			w.setDefPageConfig(model.getDefPageConfig());
+			w.setDefPageCss(model.getDefPageCss());
+			w.setDefRequestHeader(model.getDefRequestHeader());
+			w.setDefResultConfig(model.getDefResultConfig());
+			w.setFullAddr(model.getFullAddr());
+			w.setPagePipeline(model.getPagePipeline());
+			w.setPageProcessor(model.getPageProcessor());
+			w.setPageRObject(model.getPageRObject());
+			w.setPagination(model.getPagination());
+			w.setResultPipeline(model.getResultPipeline());
+			w.setResultProcessor(model.getResultProcessor());
+			w.setResultRObject(model.getResultRObject());
+			w.setSearchAddr(model.getSearchAddr());
+			w.setShortAddr(model.getShortAddr());
+			w.setSign(model.getSign());
+			w.setUpdateTime(new Date());
+			w.setUpdateMan(account);
+			w.setUseSearch(model.isUseSearch());
+			return w;
+		}
+		return null;
+	}
+
+	public int updateWebsiteForUpdataInfo(WebsiteMainUploadModel model, String account) throws PageArgumentsException {
+		if (model != null) {
+			Website w = createWebsiteFromWebsiteMainUploadModel(model, account);
+			if (w != null) {
+				try {
+					return websiteMapper.updateWebsitesForAdminMainSupportService03ReturnId(w);
+				} catch (Exception e) {
+					throw new PageArgumentsException();
+				}
+			} else {
+				throw new PageArgumentsException();
+			}
+		} else {
 			throw new PageArgumentsException();
 		}
 	}

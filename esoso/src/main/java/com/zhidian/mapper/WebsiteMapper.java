@@ -76,11 +76,6 @@ public interface WebsiteMapper {
 
 
 
-	int deleteWebistesForDataInfoAdminService01SimpleId(@Param("id") int id);
-
-
-
-
 	List<Integer> selectWebsitesForAdminInfoSupport01ListId(@Param("id") int id,@Param("name") String name);
 
 
@@ -157,6 +152,15 @@ public interface WebsiteMapper {
 
 
 	WebsiteBO3 queryWebsitesForAdminSupportService01SimpleWebsiteBO3(@Param("id") int id);
+
+
+
+
+	int updateWebsitesForAdminMainSupportService02ReturnId(Website w);
+
+
+
+	int updateWebsitesForAdminMainSupportService03ReturnId(Website w);
 
 
 	

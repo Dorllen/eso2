@@ -39,11 +39,6 @@
 		from pullArticles where uuid = #{uuid} and name = #{name};
 	</select>
 
-	<select id="selectPullArticlesForDataInfoAdminService01SimpleInt"
-		resultType="int" parameterType="int">
-		select count(*) from pullArticles where
-		websiteId = (select id from websites where id = #{id});
-	</select>
 
 	<select id="queryPullArticlesForAdminInfoSupportServcie01ListPullArticle"
 		resultType="PullArticle">

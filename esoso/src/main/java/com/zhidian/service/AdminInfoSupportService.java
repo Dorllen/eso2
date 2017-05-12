@@ -588,7 +588,7 @@ public class AdminInfoSupportService {
 			throw new PageArgumentsException();
 		}
 	}
-	
+
 	private WebsiteDetailDTO2 createWebsiteDetailDTO2(WebsiteBO3 website) {
 		if (website != null) {
 			WebsiteDetailDTO2 w = new WebsiteDetailDTO2();
@@ -623,8 +623,10 @@ public class AdminInfoSupportService {
 			w.setNowLink(website.getNowLink());
 			w.setUsing(website.getUsing() > 0 ? true : false);
 			w.setNowNumber(website.getNowNumber());
-			if(website.getUnuseTime()!=null){
-				w.setUnuseTime(sdf.format(website.getUnuseTime()));
+			if (!w.isUsing()) {
+				if (website.getUnuseTime() != null) {
+					w.setUnuseTime(sdf.format(website.getUnuseTime()));
+				}
 			}
 			w.setUnuseMan(website.getUnuseMan());
 			w.setAlias(website.getAlias());
@@ -635,8 +637,6 @@ public class AdminInfoSupportService {
 		return null;
 	}
 
-	
-	
 	public List<String> getWebsiteRelyVersionIdList(String websiteId) throws PageArgumentsException {
 		if (StringUtils.isNotEmpty(websiteId)) {
 			int id = BasicUtils.version2Id(websiteId);
@@ -652,10 +652,10 @@ public class AdminInfoSupportService {
 	}
 
 	private List<String> createVersionIdFromListInteger(List<Integer> list) {
-		if(list!=null&&list.size()>0){
+		if (list != null && list.size() > 0) {
 			List<String> ls = new ArrayList<String>(list.size());
-			for(Integer s : list){
-				if(s!=null&&s>0){
+			for (Integer s : list) {
+				if (s != null && s > 0) {
 					ls.add(BasicUtils.id2Version(s));
 				}
 			}

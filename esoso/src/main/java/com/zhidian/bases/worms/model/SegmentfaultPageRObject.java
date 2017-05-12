@@ -1,4 +1,4 @@
-package com.zhidian.model.websites.answer;
+package com.zhidian.bases.worms.model;
 
 /**
 * @ClassName: SegmentfaultPageRObject

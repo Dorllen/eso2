@@ -57,6 +57,7 @@ import com.zhidian.service.AdminMainSupportService;
 import com.zhidian.service.DataInfoAdminService;
 import com.zhidian.util.BasicUtils;
 import com.zhidian.views.ServiceSettingsDTO;
+import com.zhidian.views.WebsiteMainUploadModel;
 import com.zhidian.views.WebsitePageVO;
 import com.zhidian.views.WebsitePaDTO;
 import com.zhidian.views.WebsitePostModel2;
@@ -143,6 +144,30 @@ public class AppTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	@Test
+//	@Transactional
+//	@Rollback
+	public void testUpdateWebsite(){
+		WebsiteMainUploadModel model = new WebsiteMainUploadModel();
+		model.setVersionId("0.0.1");
+		model.setWebsiteId("0.0.4");
+		model.setAlias("HHH..Test");
+		String account ="TestAdmin";
+		model.setSearchAddr("https://segmentfault.com/search?q=");
+		model.setResultProcessor("");
+		model.setPageRObject("");
+		model.setResultProcessor("");
+		System.out.println("start");
+		try {
+			int num = mainService.updateWebsiteForUpdataInfo(model,account);
+			System.out.println(num);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("end");
 	}
 
 	// ###########################Configs##################
