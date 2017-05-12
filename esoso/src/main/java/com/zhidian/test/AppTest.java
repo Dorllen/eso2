@@ -46,6 +46,7 @@ import com.zhidian.model.ScheduleQueue;
 import com.zhidian.model.User;
 import com.zhidian.model.Version;
 import com.zhidian.model.WormLog;
+import com.zhidian.model.sys.AdminBO;
 import com.zhidian.model.sys.ConfigBO;
 import com.zhidian.model.sys.NameValueModel;
 import com.zhidian.model.sys.PullResultBO;
@@ -54,13 +55,14 @@ import com.zhidian.model.sys.ResultRoleBO;
 import com.zhidian.model.sys.WebsiteBO;
 import com.zhidian.service.AdminInfoSupportService;
 import com.zhidian.service.AdminMainSupportService;
+import com.zhidian.service.AdminService;
 import com.zhidian.service.DataInfoAdminService;
 import com.zhidian.util.BasicUtils;
 import com.zhidian.views.ServiceSettingsDTO;
 import com.zhidian.views.WebsiteMainAddModel;
 import com.zhidian.views.WebsiteMainUploadModel;
-import com.zhidian.views.WebsitePageVO;
 import com.zhidian.views.WebsitePaDTO;
+import com.zhidian.views.WebsitePageVO;
 import com.zhidian.views.WebsitePostModel2;
 import com.zhidian.views.WormSettingsSearchResultVO;
 
@@ -89,6 +91,21 @@ public class AppTest {
 	// }
 	// }
 
+	
+	// ###########################AdminService##################
+	
+	@Autowired
+	AdminService adminServie;
+	@Test
+	public void testAdminService(){
+		AdminBO a = adminServie.checkIsRightLogin("admin@eso.me", "123456");
+		System.out.println(a);
+		
+	}
+	
+	
+	
+	
 	// ###########################AdminInfoSupportService##################
 	@Autowired
 	AdminInfoSupportService infoService;

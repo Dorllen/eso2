@@ -66,8 +66,16 @@
 		location="/WEB-INF/" mapping="/**/*.woff" /> <mvc:resources location="/WEB-INF/" 
 		mapping="/**/*.ttf" /> <mvc:resources location="/WEB-INF/" mapping="/**/*.map" 
 		/> <mvc:resources location="/WEB-INF/" mapping="/**/*.swf" /> -->
-
-
+	
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/admin/**/*.html"/>
+			<mvc:exclude-mapping path="/admin/login"/>
+			<mvc:exclude-mapping path="/admin/up/login"/>
+			<beans:bean class="com.zhidian.interceptor.LoginInterceptor"></beans:bean>
+		</mvc:interceptor>
+	</mvc:interceptors>
+	
 	<!-- 视图解析器 -->
 	<beans:bean id="templateResolver"
 		class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">

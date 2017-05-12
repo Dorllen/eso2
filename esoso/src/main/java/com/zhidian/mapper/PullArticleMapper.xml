@@ -106,6 +106,15 @@
 	<select id="queryPullArticlesForAdminInfoSupportServcie06ListPullArticle" resultType="PullArticle">
 		select * from pullArticles where url = #{url} and status = 0;
 	</select>
+	
+	<select id="queryPullArticlesForPullArticleService01ResultPageBO" resultType="ResultPageBO">
+		select * from pullArticles where name in 
+		<foreach collection="list" close=")" open="(" separator="," item="item">
+			#{item}
+		</foreach>
+		and (resultContent like CONCAT('%',#{key},'%') or title like CONCAT('%',#{key},'%')) limit #{offset},#{size}
+	</select>
+	
 
 	<update id="updatePullArticlesForAdminMainSupportService01RetrunId"
 		statementType="CALLABLE">

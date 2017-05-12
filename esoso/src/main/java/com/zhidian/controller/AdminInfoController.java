@@ -2,15 +2,23 @@ package com.zhidian.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.zhidian.service.AdminService;
+import com.zhidian.views.RequestModel;
 
 @Controller
 @RequestMapping("/admin")
 public class AdminInfoController {
 	public final static String ADMINCODE = "ADMINCODE_2017";
 
+	@Autowired
+	AdminService adminService;
+	
 	@GetMapping("")
 	public String index_() {
 
@@ -25,6 +33,7 @@ public class AdminInfoController {
 		if (obj == null) {
 			return "redirect:login";
 		} else {
+			request.setAttribute("Admin", obj);
 			return "admin/index";
 		}
 	}
@@ -34,5 +43,12 @@ public class AdminInfoController {
 //		String code = UUID.randomUUID().toString();
 		System.out.println(" --/login controller --  ");
 		return "admin/login";
+	}
+	
+
+	@PostMapping("/loginout")
+	public String loginout(HttpServletRequest request) {
+		request.getSession().removeAttribute(ADMINCODE);
+		return "redirect:login";
 	}
 }

@@ -57,7 +57,7 @@
 					class="logo navbar-slogan f-l mr-10 hidden-xs">v1.0</span> <a
 					aria-hidden="false" class="nav-toggle Hui-iconfont visible-xs"
 					href="javascript:;">&#xe667;</a>
-				<nav class="nav navbar-nav">
+				<!-- <nav class="nav navbar-nav">
 					<ul class="cl">
 						<li class="dropDown dropDown_hover"><a href="javascript:;"
 							class="dropDown_A"><i class="Hui-iconfont">&#xe600;</i> 新增 <i
@@ -74,21 +74,22 @@
 										class="Hui-iconfont">&#xe622;</i> 联络</a></li>
 							</ul></li>
 					</ul>
-				</nav>
+				</nav> -->
 				<nav id="Hui-userbar"
 					class="nav navbar-nav navbar-userbar hidden-xs">
 					<ul class="cl">
-						<li>超级管理员</li>
+						<li th:text="${Admin.levelName}">超级管理员</li>
 						<li class="dropDown dropDown_hover"><a href="#"
-							class="dropDown_A">admin <i class="Hui-iconfont">&#xe6d5;</i></a>
+							class="dropDown_A" th:text="${Admin.name}">admin <i
+								class="Hui-iconfont">&#xe6d5;</i></a>
 							<ul class="dropDown-menu menu radius box-shadow">
-								<li><a href="javascript:;" onClick="myselfinfo()">个人信息</a></li>
-								<li><a href="#">切换账户</a></li>
-								<li><a href="#">退出</a></li>
+								<!-- <li><a href="javascript:;" onClick="myselfinfo()">个人信息</a></li> -->
+								<li><a href="#" th:href="@{/admin/login}">切换账户</a></li>
+								<li><a href="#" th:href="@{/admin/loginout}">退出</a></li>
 							</ul></li>
-						<li id="Hui-msg"><a href="#" title="消息"><span
+						<!-- <li id="Hui-msg"><a href="#" title="消息"><span
 								class="badge badge-danger">1</span><i class="Hui-iconfont"
-								style="font-size: 18px">&#xe68a;</i></a></li>
+								style="font-size: 18px">&#xe68a;</i></a></li> -->
 						<li id="Hui-skin" class="dropDown right dropDown_hover"><a
 							href="javascript:;" class="dropDown_A" title="换肤"><i
 								class="Hui-iconfont" style="font-size: 18px">&#xe62a;</i></a>
@@ -108,7 +109,7 @@
 	</header>
 	<aside class="Hui-aside">
 		<div class="menu_dropdown bk_2">
-			<dl id="menu-news">
+			<!-- <dl id="menu-news">
 				<dt>
 					<i class="Hui-iconfont">&#xe622;</i> 消息管理<i
 						class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i>
@@ -129,7 +130,7 @@
 							href="javascript:;">待处理通讯间消息</a></li>
 					</ul>
 				</dd>
-			</dl>
+			</dl> -->
 			<dl id="menu-worms">
 				<dt>
 					<i class="Hui-iconfont">&#xe63c;</i> 爬虫管理<i
@@ -137,22 +138,22 @@
 				</dt>
 				<dd>
 					<ul>
-						<li><a data-href="worm-index.html" data-title="信息汇总"
-							href="javascript:void(0)">信息中心</a></li>
-						<li><a data-href="worm-queues-custom.html" data-title="自定义爬虫队列"
-							href="javascript:void(0)">自定义爬虫队列</a></li>
-						<li><a data-href="worm-queues-system.html" data-title="系統爬虫队列"
-							href="javascript:void(0)">系統爬虫队列</a></li>
-						<li><a data-href="worm-queues-schedule.html" data-title="定時爬虫队列"
-							href="javascript:void(0)">定時爬虫队列</a></li>
-						<li><a data-href="worm-schedule.html"
-							data-title="定时计划" href="javascript:void(0)">定时计划</a></li>
+						<!-- <li><a data-href="worm-index.html" data-title="信息汇总"
+							href="javascript:void(0)">信息中心</a></li> -->
+						<li><a data-href="worm-queues-custom.html"
+							data-title="自定义爬虫队列" href="javascript:void(0)">自定义爬虫队列</a></li>
+						<li><a data-href="worm-queues-system.html"
+							data-title="系統爬虫队列" href="javascript:void(0)">系統爬虫队列</a></li>
+						<li><a data-href="worm-queues-schedule.html"
+							data-title="定時爬虫队列" href="javascript:void(0)">定時爬虫队列</a></li>
+						<li><a data-href="worm-schedule.html" data-title="定时计划"
+							href="javascript:void(0)">定时计划</a></li>
 						<li><a data-href="worm-wait-list.html" data-title="待审核中心"
 							href="javascript:void(0)">待审核中心</a></li>
 						<li><a data-href="worm-history-list.html" data-title="历史审核管理"
 							href="javascript:void(0)">历史审核管理</a></li>
-						<li><a data-href="worm-exception-list.html" data-title="异常捕获管理"
-							href="javascript:void(0)">异常捕获管理</a></li>
+						<li><a data-href="worm-exception-list.html"
+							data-title="异常捕获管理" href="javascript:void(0)">异常捕获管理</a></li>
 					</ul>
 				</dd>
 			</dl>
@@ -163,8 +164,8 @@
 				</dt>
 				<dd>
 					<ul>
-						<li><a data-href="website-index.html" data-title="站点信息"
-							href="javascript:;">站点信息</a></li>
+						<!-- <li><a data-href="website-index.html" data-title="站点信息"
+							href="javascript:;">站点信息</a></li> -->
 						<li><a data-href="website-control.html" data-title="站点中心"
 							href="javascript:void(0)">站点中心</a></li>
 						<li><a data-href="website-service.html" data-title="服务管理"
@@ -181,8 +182,8 @@
 					<ul>
 						<li><a data-href="website-pa-list.html" data-title="收录列表"
 							href="javascript:void(0)">收录列表</a></li>
-						<li><a data-href="website-pa-version.html"
-							data-title="版本列表" href="javascript:;">版本列表</a></li>
+						<li><a data-href="website-pa-version.html" data-title="版本列表"
+							href="javascript:;">版本列表</a></li>
 					</ul>
 				</dd>
 			</dl>
@@ -200,7 +201,7 @@
 					</ul>
 				</dd>
 			</dl>
-			<dl id="menu-engines">
+			<!-- <dl id="menu-engines">
 				<dt>
 					<i class="Hui-iconfont">&#xe709;</i> 搜索服务<i
 						class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i>
@@ -217,8 +218,8 @@
 							href="javascript:void(0)">其他</a></li>
 					</ul>
 				</dd>
-			</dl>
-			<dl id="menu-users">
+			</dl> -->
+			<!-- <dl id="menu-users">
 				<dt>
 					<i class="Hui-iconfont">&#xe60d;</i> 用户管理<i
 						class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i>
@@ -239,8 +240,8 @@
 							href="javascript:;">白名单</a></li>
 					</ul>
 				</dd>
-			</dl>
-			<dl id="menu-dy">
+			</dl> -->
+			<!-- <dl id="menu-dy">
 				<dt>
 					<i class="Hui-iconfont">&#xe68a;</i> 订阅号<i
 						class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i>
@@ -251,8 +252,8 @@
 						<li><a data-href="#" data-title="推送管理" href="javascript:;">推送管理</a></li>
 					</ul>
 				</dd>
-			</dl>
-			<dl id="menu-blog">
+			</dl> -->
+			<!-- <dl id="menu-blog">
 				<dt>
 					<i class="Hui-iconfont">&#xe720;</i> 博客管理<i
 						class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i>
@@ -262,8 +263,8 @@
 						<li><a data-href="#" data-title="暂无服务" href="javascript:;">暂无服务</a></li>
 					</ul>
 				</dd>
-			</dl>
-			<dl id="menu-tongji">
+			</dl> -->
+			<!-- <dl id="menu-tongji">
 				<dt>
 					<i class="Hui-iconfont">&#xe61a;</i> 系统统计<i
 						class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i>
@@ -286,7 +287,7 @@
 							href="javascript:void(0)">3D饼状图</a></li>
 					</ul>
 				</dd>
-			</dl>
+			</dl> -->
 			<dl id="menu-system">
 				<dt>
 					<i class="Hui-iconfont">&#xe62e;</i> 系统管理<i
@@ -294,7 +295,7 @@
 				</dt>
 				<dd>
 					<ul>
-						<li><a data-href="system-base.html" data-title="转换工具"
+						<!-- 						<li><a data-href="system-base.html" data-title="转换工具"
 							href="javascript:void(0)">转换工具</a></li>
 						<li><a data-href="system-base.html" data-title="系统设置"
 							href="javascript:void(0)">系统设置</a></li>
@@ -305,7 +306,13 @@
 						<li><a data-href="admin-list.html" data-title="管理员管理"
 							href="javascript:void(0)">管理员管理</a></li>
 						<li><a data-href="system-category.html" data-title="版本升级"
-							href="javascript:void(0)">版本升级</a></li>
+							href="javascript:void(0)">版本升级</a></li> -->
+						<li><a data-href="admin-role.html" data-title="角色管理"
+							href="javascript:void(0)">角色管理</a></li>
+						<li><a data-href="admin-permission.html" data-title="权限管理"
+							href="javascript:void(0)">权限管理</a></li>
+						<li><a data-href="admin-list.html" data-title="管理员列表"
+							href="javascript:void(0)">管理员列表</a></li>
 						<li><a data-href="system-log.html" data-title="系统日志"
 							href="javascript:void(0)">系统日志</a></li>
 					</ul>

@@ -1,6 +1,5 @@
 package com.zhidian.controller;
 
-import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.zhidian.bases.ResourceEnumDefine;
 import com.zhidian.bases.SearchEngineEnumDefine;
 import com.zhidian.bases.worm.WormsService;
 import com.zhidian.model.sys.PullResultPageModel;
@@ -50,7 +48,7 @@ public class SearchMainController {
 	// q代表查询内容，t代表筛选类型，o代表搜寻类型，f代表查询筛选网站，d代表用戶定义查询网站（需检查数据库）
 	public String index(@RequestParam(value = "q", required = false) String key,
 			@RequestParam(value = "t", required = false, defaultValue = "answer") String type, // 搜索类型，answer,blog..
-			@RequestParam(value = "o", required = false, defaultValue = "origin") String origin, // 从资源库or来源
+			@RequestParam(value = "o", required = false, defaultValue = "db") String origin, // 从资源库or来源
 			// @RequestParam(value = "size", required = false) Integer size, //
 			// 页数
 			@RequestParam(value = "page", required = false) Integer page, // 页号
@@ -81,41 +79,43 @@ public class SearchMainController {
 					// 没有定义筛选条件，就调用拼接器，处理数据
 					result = searchService.exchangeObjectOnlyPullPageModel(lists);
 				} else {
-					Date gTime = null;
-					try {
-						long timez = new Long(time);
-						gTime = new Date(timez);
-					} catch (Exception e) {
-						log.info("时间转换有问题，传值有误! 快照方式访问取消!");
-						e.printStackTrace();
-					}
-					// 关键词分词
-					List<String> keyLists = articleService.analyseKeyWord(key);
-					// 获取数据：从索引或数据库
-					if (gTime != null) {
-						// 用时间去数据库查找
-
-					} else {
-						lists = articleService.getResultsByIndexCache(keyLists, from, page, 20, sort, upOrdown);
-					}
-					if (lists == null || lists.size() == 0) {
-						// 当索引服务中为空，就去数据库查找
-						if (gTime != null) {
-							// 用时间去数据库查找
-						} else {
-							lists = articleService.getResultsByDBWays(keyLists, from, page, 20, sort, upOrdown);
-						}
-						if (lists != null && lists.size() > 0) {
-							result = searchService.exchangeObjectPullPageModelFromDB(lists);
-						} else {
-							// DB也没有数据。.
-							emptyMessage = "资源库未有收录站点的关键搜索，赶快切换搜索类型吧! ";
-							log.info("IndeDB and DB without data!!! key:{} from:{}", key, from);
-						}
-					} else {
-						lists = articleService.getHandlerResultsForIndexCache(lists);
-						result = searchService.exchangeObjectOnlyPullPageModelFromIndex(lists);
-					}
+					lists = articleService.getResultsByDBWays(key, from, page, 20, sort, upOrdown);
+					result = searchService.exchangeObjectPullPageModelFromDB(lists);
+//					Date gTime = null;
+//					try {
+//						long timez = new Long(time);
+//						gTime = new Date(timez);
+//					} catch (Exception e) {
+//						log.info("时间转换有问题，传值有误! 快照方式访问取消!");
+//						e.printStackTrace();
+//					}
+//					// 关键词分词
+//					List<String> keyLists = articleService.analyseKeyWord(key);
+//					// 获取数据：从索引或数据库
+//					if (gTime != null) {
+//						// 用时间去数据库查找
+//
+//					} else {
+//						lists = articleService.getResultsByIndexCache(keyLists, from, page, 20, sort, upOrdown);
+//					}
+//					if (lists == null || lists.size() == 0) {
+//						// 当索引服务中为空，就去数据库查找
+//						if (gTime != null) {
+//							// 用时间去数据库查找
+//						} else {
+//							lists = articleService.getResultsByDBWays(keyLists, from, page, 20, sort, upOrdown);
+//						}
+//						if (lists != null && lists.size() > 0) {
+//							result = searchService.exchangeObjectPullPageModelFromDB(lists);
+//						} else {
+//							// DB也没有数据。.
+//							emptyMessage = "资源库未有收录站点的关键搜索，赶快切换搜索类型吧! ";
+//							log.info("IndeDB and DB without data!!! key:{} from:{}", key, from);
+//						}
+//					} else {
+//						lists = articleService.getHandlerResultsForIndexCache(lists);
+//						result = searchService.exchangeObjectOnlyPullPageModelFromIndex(lists);
+//					}
 				}
 				if (result == null) {
 					result = new ResultPageVO();
@@ -135,16 +135,10 @@ public class SearchMainController {
 						&& SearchEngineEnumDefine.From.源地址.getValue().equals(result.getOrigin())) {
 					result.setLastPage(result.getPage() + 1);
 				}
+				
 				if (result.getResults() != null && result.getResults().size() > 0) {
 					// 制作模板，放入数据
 					model.addAttribute("Message", result);
-					String url = result.getVersion().getDefPage();
-					System.out.println("url:" + url);
-					if (StringUtils.isNotEmpty(url)) {
-						log.info("SearchMainController mapping : s,s/; and tag is 0 , spend time is -> {}",
-								(System.currentTimeMillis() - start) / 1000);
-						return url;// results/segmentfault/0.0.0.0/index
-					}
 				} else {
 					// 获取的数据是空的，告诉页面未找到结果！
 					if (StringUtils.isEmpty(emptyMessage)) {
@@ -153,10 +147,12 @@ public class SearchMainController {
 					model.addAttribute("Message", result);
 					model.addAttribute("EmptyMessage", emptyMessage);
 				}
-				log.info("SearchMainController mapping : s,s/; and tag is 1 , spend time is -> {}",
-						(System.currentTimeMillis() - start) / 1000);
-				return ResourceEnumDefine.ResourceType.搜索结果页.getValue() + "/"
-						+ SearchEngineEnumDefine.Type.问答.getValue() + "/0.0.1/index";
+				String url = result.getVersion().getDefPage();
+				if (StringUtils.isNotEmpty(url)) {
+					log.info("SearchMainController mapping : s,s/; and tag is 0 , spend time is -> {}",
+							(System.currentTimeMillis() - start) / 1000);
+					return url;// results/segmentfault/0.0.0.0/index
+				}
 			} else if (SearchEngineEnumDefine.Type.博客.getValue().equals(type)) {
 				log.warn("博客搜索服务暂未开启");
 			}

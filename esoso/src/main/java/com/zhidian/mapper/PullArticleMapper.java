@@ -19,6 +19,7 @@ import org.apache.ibatis.annotations.Param;
 import com.zhidian.model.PullArticle;
 import com.zhidian.model.sys.PullArticleBO;
 import com.zhidian.model.sys.PullArticleBO2;
+import com.zhidian.model.sys.ResultPageBO;
 
 /**
  * @ClassName: ArticleMapper
@@ -44,7 +45,6 @@ public interface PullArticleMapper {
 
 	String tee(Map<String, Object> map);
 	// 删
-
 
 	List<PullArticle> queryPullArticlesForAdminInfoSupportServcie01ListPullArticle();
 
@@ -95,6 +95,10 @@ public interface PullArticleMapper {
 	List<PullArticle> queryPullArticlesForAdminInfoSupportServcie05ListPullArticle(@Param("uuid") String uuid);
 
 	List<PullArticle> queryPullArticlesForAdminInfoSupportServcie06ListPullArticle(@Param("url") String url);
+
+	List<ResultPageBO> queryPullArticlesForPullArticleService01ResultPageBO(@Param("key") String key,
+			@Param("list") List<String> from,@Param("offset") int offset,@Param("size") int size);
+	
 
 	// PullArticle selectPullArticleByIdAndName(@Param("id") int id,@Param("id")
 	// String name);

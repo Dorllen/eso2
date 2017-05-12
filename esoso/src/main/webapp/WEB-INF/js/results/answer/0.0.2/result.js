@@ -138,10 +138,11 @@ $(function() {
 			"input",
 			function() {
 				if (this.value) {
+					var v_ = this.value;
 					$.ajax({
-						url : "siteName.json",
+						url : "searchWebsite",
 						type : "GET",
-						data : "",
+						data : {w:v_},
 						success : function(data) {
 							// 显示数据
 							$("ul.c_search_items").empty();

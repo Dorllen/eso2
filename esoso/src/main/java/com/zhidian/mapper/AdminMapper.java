@@ -4,11 +4,11 @@ package com.zhidian.mapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import com.zhidian.model.Admin;
+import com.zhidian.model.sys.AdminBO;
 
 @Mapper
 public interface AdminMapper {
 
-	Admin queryAdminsForAdminService01SimpleAdmin(@Param("account") String account, @Param("password") String password);
+	AdminBO queryAdminsForAdminService01SimpleAdminBO(@Param("account") String account, @Param("password") String password);
 
 }

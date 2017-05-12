@@ -21,6 +21,8 @@ public class ScheduleQueue {
 	private String uuid;// 下载地址的uuid。提供给在线获取页面
 	private int mark;// 排序级别。默认0，越大越有限执行。【待改进：执行的时候】
 	private int paId;// 2017-5-8 内容id
+	private int websiteId;
+	
 	public int getId() {
 		return id;
 	}
@@ -128,5 +130,11 @@ public class ScheduleQueue {
 	}
 	public void sethMan(String hMan) {
 		this.hMan = hMan;
+	}
+	public int getWebsiteId() {
+		return websiteId;
+	}
+	public void setWebsiteId(int websiteId) {
+		this.websiteId = websiteId;
 	}
 }

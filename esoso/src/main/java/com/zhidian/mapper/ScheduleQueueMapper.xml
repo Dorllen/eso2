@@ -8,11 +8,11 @@
 	<insert id="insertScheduleQueuesForPullArticleService01SimpleVoid"
 		parameterType="ScheduleQueue">
 		insert into
-		scheduleQueues(type,type2,type3,name,createTime,createMan,url,uuid)
+		scheduleQueues(type,type2,type3,name,createTime,createMan,url,uuid,websiteId)
 		values
 		<trim suffixOverrides=",">
 			<foreach collection="list" index="i" separator="," item="item">
-				(#{item.type},#{item.type2},#{item.type3},#{item.name},CURRENT_TIMESTAMP(),#{item.createMan},#{item.url},#{item.uuid})
+				(#{item.type},#{item.type2},#{item.type3},#{item.name},CURRENT_TIMESTAMP(),#{item.createMan},#{item.url},#{item.uuid},#{websiteId})
 			</foreach>
 		</trim>
 	</insert>

@@ -166,6 +166,10 @@
 		select * from websites where id = #{id} and name = #{name} and nmp = 1;
 	</select>
 	
+	<select id="queryWebsitesForPullArticle01SimpleWebsite" resultType="Website">
+		select * from websites where  name = #{name} and nmp = 1 and websites.using =1 limit 1;
+	</select>
+	
 	<update id="updateWebsitesForDataInfoAdminService01SmpleWebsiteBO2">
 		update websites set searchAddr =
 		#{searchAddr},pagination=#{pagination},sign=#{sign},useSearch=#{useSearch},defaultPageCss=#{defaultPageCss},defPageConfig=#{defPageConfig},

@@ -188,6 +188,11 @@ public interface WebsiteMapper {
 
 
 
+	Website queryWebsitesForPullArticle01SimpleWebsite(@Param("name") String name);
+
+
+
+
 
 
 

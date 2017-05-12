@@ -112,7 +112,8 @@
 	src="lib/jquery.validation/1.14.0/validate-methods.js"></script>
 <script type="text/javascript"
 	src="lib/jquery.validation/1.14.0/messages_zh.js"></script>
-
+<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script>	
+<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script>
 <script type="text/javascript">
 //<![CDATA[
 	$(function(){
@@ -133,11 +134,15 @@
 				$(form).ajaxSubmit({type:"post",url:"up/login",success:function(data){
 					if(data){
 						if(data.message){
-							layer.msg(data.message,{icon:1,time:2000});
+							if("200" == data.code){
+								layer.msg(data.message,{icon:1,time:2000});
+							}else{
+								layer.msg(data.message,{icon:2,time:2000});
+							}
 						}
 						if(data.href){
 							console.log(data.href);
-							//window.location.href=
+							window.location.href=data.href;
 						}
 					}
 				},error:function(){
@@ -157,7 +162,7 @@
 				<div class="row">
 					<div class="col-sm-8 col-sm-offset-2 text">
 						<h1>
-							<strong>易搜搜</strong>
+							<strong>易搜</strong>
 						</h1>
 						<div class="description"></div>
 					</div>

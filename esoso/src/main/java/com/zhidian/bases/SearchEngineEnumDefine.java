@@ -4,7 +4,7 @@ public class SearchEngineEnumDefine {
 
 	public enum Type {
 		// segmentfault|github
-		问答("answer", "查找关键字:python/java/ElasticSearch", "segmentfault", "segmentfault|github|cnblog"), 博客("blog", "",
+		问答("answer", "查找关键字:python/java/ElasticSearch", "segmentfault", "segmentfault"), 博客("blog", "",
 				"", "");
 		private String value;
 		private String placeHolder;

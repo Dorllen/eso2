@@ -1,18 +1,18 @@
 package com.zhidian.controller;
 
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import com.zhidian.model.Admin;
+import com.zhidian.model.sys.AdminBO;
 import com.zhidian.service.AdminService;
 import com.zhidian.views.RequestModel;
 
-@Controller
+@RestController
 @RequestMapping("/admin/up")
 public class AdminMainController {
 
@@ -20,19 +20,20 @@ public class AdminMainController {
 	AdminService adminService;
 
 	@PostMapping("/login")
-	public Object login(
-			HttpSession session,
-			@RequestParam("username") String username, @RequestParam("password") String password) {
+	public Object login(HttpServletRequest request, @RequestParam("username") String username,
+			@RequestParam("password") String password) {
 		RequestModel result = new RequestModel();
-		Admin a = adminService.checkIsRightLogin(username, password);
+		AdminBO a = adminService.checkIsRightLogin(username, password);
 		if (a != null) {
-			session.setAttribute(AdminInfoController.ADMINCODE, a);
+			request.getSession().setAttribute(AdminInfoController.ADMINCODE, a);
+			result.setCode("200");
 			result.setMessage("登陆成功!");
-			result.setHref("admin/");
+			result.setHref(request.getContextPath() + "/admin/");
 		} else {
-			result.setHref("admin/");
+			System.out.println(request.getContextPath());
 			result.setMessage("用户名或密码错误!");
 		}
 		return result;
 	}
+
 }

@@ -22,9 +22,11 @@ import com.zhidian.mapper.PullArticleMapper;
 import com.zhidian.mapper.ResultMapper;
 import com.zhidian.mapper.ScheduleQueueMapper;
 import com.zhidian.mapper.VersionMapper;
+import com.zhidian.mapper.WebsiteMapper;
 import com.zhidian.mapper.WormLogMapper;
 import com.zhidian.model.Result;
 import com.zhidian.model.ScheduleQueue;
+import com.zhidian.model.Website;
 import com.zhidian.model.WormLog;
 import com.zhidian.model.sys.PullDataWatchObject;
 import com.zhidian.model.sys.PullResultBO;
@@ -50,6 +52,9 @@ public class PullArticleService {
 	@Autowired
 	WormLogMapper wormLogMapper;
 
+	@Autowired
+	WebsiteMapper websiteMapper;
+
 	public List<String> analyseKeyWord(String key) {
 		// 分词器
 
@@ -67,57 +72,65 @@ public class PullArticleService {
 	public void analyseSearchResultDiff(List<PullResultPageModel> list) {
 		// 分析搜索结果，记录与以前差别(如果from有，需要另再设计，因为是来自筛选网站的)
 		// 与上一个分析结果不同，在于这个是要进入页面分析文章指数，如有必要更新当前文章数据（相同数据可能更新），并且是后台加入运行队列
-		Map<String, Object> map = getPullPageModelSubMapObject(list);
-		List<PullResultBO> recLists = (List<PullResultBO>) map.get("PullResultBO");
-		List<String> recFrom = (List<String>) map.get("From");
-		List<String> recUuids = (List<String>) map.get("Uuids");
-		if (recLists != null && recLists.size() > 0) {
-			List<Result> resLists = resultMapper.queryResultsForPullArticleService02ListResult(recFrom, recUuids);// 这里可以考虑从索引服务器中比较
-			if (resLists != null && resLists.size() > 0) {
-				// 取出不存在DB的数据，没有存在的代表，来源已经有更新了。马上更新！
-				List<PullResultBO> noExits = getNotExitsDB(resLists, recLists);
-				if (noExits != null && noExits.size() > 0) {
-					// 放入爬虫队列
-					// 首先比较爬虫队列有对应的数据没处理的否？如果有，则不加入.进行筛选
-					List<ScheduleQueue> exitSQ = scheduleQueueMapper
-							.queryScheduleQueuesForPullArticleService01ListScheduleQueue(noExits);
-					if (exitSQ != null && exitSQ.size() > 0) {
-						noExits = filterExitScheduleNameAndUrl(noExits, exitSQ);
+		if (list != null && list.size() > 0) {
+			Website w = websiteMapper.queryWebsitesForPullArticle01SimpleWebsite(list.get(0).getName());
+			if (w != null) {
+				Map<String, Object> map = getPullPageModelSubMapObject(list);
+				List<PullResultBO> recLists = (List<PullResultBO>) map.get("PullResultBO");
+				List<String> recFrom = (List<String>) map.get("From");
+				List<String> recUuids = (List<String>) map.get("Uuids");
+				if (recLists != null && recLists.size() > 0) {
+					List<Result> resLists = resultMapper.queryResultsForPullArticleService02ListResult(recFrom,
+							recUuids);// 这里可以考虑从索引服务器中比较
+					// 因为是在线爬虫，所以获取站点当前的id
+					if (resLists != null && resLists.size() > 0) {
+						// 取出不存在DB的数据，没有存在的代表，来源已经有更新了。马上更新！
+						List<PullResultBO> noExits = getNotExitsDB(resLists, recLists);
+						if (noExits != null && noExits.size() > 0) {
+							// 放入爬虫队列
+							// 首先比较爬虫队列有对应的数据没处理的否？如果有，则不加入.进行筛选
+							List<ScheduleQueue> exitSQ = scheduleQueueMapper
+									.queryScheduleQueuesForPullArticleService01ListScheduleQueue(noExits);
+							if (exitSQ != null && exitSQ.size() > 0) {
+								noExits = filterExitScheduleNameAndUrl(noExits, exitSQ);
+							}
+							List<ScheduleQueue> qLists = createScheduleQueueObj(noExits,w.getId());
+							if (qLists != null && qLists.size() > 0) {
+								scheduleQueueMapper.insertScheduleQueuesForPullArticleService01SimpleVoid(qLists);
+							}
+						}
+						// 比较数据的差别
+						// 分析有差别的数据? 這個比较是无效用的，所以放弃。因为结果显示页，只捕获标题，实际作用并不多。
+					} else {
+						// 数据库没有数据。搜索的结果都加入爬虫队列中
+						// 首先比较爬虫队列有对应的数据没处理的否？如果有，则不加入
+						List<ScheduleQueue> exitSQ = scheduleQueueMapper
+								.queryScheduleQueuesForPullArticleService01ListScheduleQueue(recLists);
+						if (exitSQ != null && exitSQ.size() > 0) {
+							recLists = filterExitScheduleNameAndUrl(recLists, exitSQ);
+						}
+						List<ScheduleQueue> qLists = createScheduleQueueObj(recLists,w.getId());
+						if (qLists != null && qLists.size() > 0) {
+							scheduleQueueMapper.insertScheduleQueuesForPullArticleService01SimpleVoid(qLists);
+						}
 					}
-					List<ScheduleQueue> qLists = createScheduleQueueObj(noExits);
-					if (qLists != null && qLists.size() > 0) {
-						scheduleQueueMapper.insertScheduleQueuesForPullArticleService01SimpleVoid(qLists);
+				}
+				// 分析解析错误异常！
+				List<PullDataWatchObject> watchers = (List<PullDataWatchObject>) map.get("PullDataWatchObject");// 分析顺便把解析出问题的站点记录下来！
+				if (watchers != null && watchers.size() > 0) {
+					List<WormLog> wormLogs = createWormLogsFromPullDataWatchObject(watchers);
+					if (wormLogs != null && wormLogs.size() > 0) {
+						// 从数据库检索出存在的
+						List<WormLog> exitLog = wormLogMapper
+								.selectWormLogsForPullArticleService01ListWormLog(wormLogs);
+						// 求异，将存在去除
+						if (exitLog != null && exitLog.size() > 0) {
+							wormLogs = filterExitWormLogsNameAndUrl(wormLogs, exitLog);
+						}
+						// 置入剩余的数据
+						wormLogMapper.insertWormLogsForPullArticleService01ListWormLog(wormLogs);
 					}
 				}
-				// 比较数据的差别
-				// 分析有差别的数据? 這個比较是无效用的，所以放弃。因为结果显示页，只捕获标题，实际作用并不多。
-			} else {
-				// 数据库没有数据。搜索的结果都加入爬虫队列中
-				// 首先比较爬虫队列有对应的数据没处理的否？如果有，则不加入
-				List<ScheduleQueue> exitSQ = scheduleQueueMapper
-						.queryScheduleQueuesForPullArticleService01ListScheduleQueue(recLists);
-				if (exitSQ != null && exitSQ.size() > 0) {
-					recLists = filterExitScheduleNameAndUrl(recLists, exitSQ);
-				}
-				List<ScheduleQueue> qLists = createScheduleQueueObj(recLists);
-				if (qLists != null && qLists.size() > 0) {
-					scheduleQueueMapper.insertScheduleQueuesForPullArticleService01SimpleVoid(qLists);
-				}
-			}
-		}
-		// 分析解析错误异常！
-		List<PullDataWatchObject> watchers = (List<PullDataWatchObject>) map.get("PullDataWatchObject");// 分析顺便把解析出问题的站点记录下来！
-		if (watchers != null && watchers.size() > 0) {
-			List<WormLog> wormLogs = createWormLogsFromPullDataWatchObject(watchers);
-			if (wormLogs != null && wormLogs.size() > 0) {
-				// 从数据库检索出存在的
-				List<WormLog> exitLog = wormLogMapper.selectWormLogsForPullArticleService01ListWormLog(wormLogs);
-				// 求异，将存在去除
-				if (exitLog != null && exitLog.size() > 0) {
-					wormLogs = filterExitWormLogsNameAndUrl(wormLogs, exitLog);
-				}
-				// 置入剩余的数据
-				wormLogMapper.insertWormLogsForPullArticleService01ListWormLog(wormLogs);
 			}
 		}
 	}
@@ -195,7 +208,7 @@ public class PullArticleService {
 		return noExits;
 	}
 
-	private List<ScheduleQueue> createScheduleQueueObj(List<PullResultBO> bos) {
+	private List<ScheduleQueue> createScheduleQueueObj(List<PullResultBO> bos, int websiteId) {
 		if (bos != null && bos.size() > 0) {
 			List<ScheduleQueue> queues = new ArrayList<ScheduleQueue>();
 			for (PullResultBO r : bos) {
@@ -205,11 +218,13 @@ public class PullArticleService {
 					// queue.setCreateTime(new Date());//
 					// 时间采用了数据库的入库时间，即数据库内置函数【需注意】
 					queue.setName(r.getName());
-					queue.setType(AppEnumDefine.ScheduleQueuesType.系统自增.getValue());
+					// queue.setType(AppEnumDefine.ScheduleQueuesType.系统自增.getValue());//【为了..】
+					queue.setType(AppEnumDefine.ScheduleQueuesType.管理员自增.getValue());//
 					queue.setType2(SearchEngineEnumDefine.Type.问答.getValue());// 默认是搜索引擎的answer类型
 					queue.setType3(ResourceEnumDefine.ResourceType.内容详情页.getValue());// 爬虫页面的类型
 					queue.setUrl(r.getUrl());
 					queue.setUuid(r.getUuid());
+					queue.setWebsiteId(websiteId);
 					queues.add(queue);
 				}
 			}
@@ -351,6 +366,7 @@ public class PullArticleService {
 			} else if (SearchEngineEnumDefine.UpOrDown.降序.getValue().equals(upOrdown)) {
 				// "down"
 				lists.sort(new Comparator<ResultPageBO>() {
+
 					public int compare(ResultPageBO o1, ResultPageBO o2) {
 						if (o1 != null && o2 != null) {
 							if (SearchEngineEnumDefine.Sort.时间.getValue().equals(o1.getMark())
@@ -375,6 +391,7 @@ public class PullArticleService {
 						}
 						return 0;
 					}
+
 				});
 			}
 			return lists;
@@ -450,6 +467,7 @@ public class PullArticleService {
 			} else if (SearchEngineEnumDefine.UpOrDown.降序.getValue().equals(upOrdown)) {
 				// "down"
 				lists.sort(new Comparator<ResultPageBO>() {
+
 					public int compare(ResultPageBO o1, ResultPageBO o2) {
 						if (o1 != null && o2 != null) {
 							if (SearchEngineEnumDefine.Sort.时间.getValue().equals(o1.getMark())
@@ -474,6 +492,7 @@ public class PullArticleService {
 						}
 						return 0;
 					}
+
 				});
 			}
 			return lists;
@@ -527,8 +546,26 @@ public class PullArticleService {
 
 	public List<ResultPageBO> getResultsByDBWays(List<String> keyLists, List<String> from, Integer page, Integer size,
 			String sort, String upOrdown) {
+		if (page == null || page <= 0) {
+			page = 1;
+		}
+		if (size <= 0) {
+			size = 20;
+		}
 
 		return null;
+	}
+
+	public List<ResultPageBO> getResultsByDBWays(String key, List<String> from, Integer page, int size, String sort,
+			String upOrdown) {
+		if (page == null || page <= 0) {
+			page = 1;
+		}
+		if (size <= 0) {
+			size = 20;
+		}
+		return pullArticleMapper.queryPullArticlesForPullArticleService01ResultPageBO(key,from,(page-1)*size,size);
+		 
 	}
 
 }

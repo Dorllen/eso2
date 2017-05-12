@@ -129,20 +129,21 @@ public class SearchService {
 		if (version != null) {
 			// id,name,version,type,defCss,defPage,defJs
 			VersionBO v = new VersionBO();
+			String versionId = BasicUtils.id2Version(version.getId());
 			v.setId(version.getId());
-			v.setDefPage(version.getDefPage());
+			v.setDefPage("results/" + version.getName() + "/" + versionId + "/" + version.getDefPage());
 			v.setName(version.getName());
 			v.setType(version.getType());
 			if (StringUtils.isNotEmpty(version.getDefCss())) {
 				// 参考PageServuce getIndexCurrentPageVersionInfo
 				v.setDefCss(RegExpUtils.convertString2List2(version.getDefCss(),
 						"css/" + ResourceEnumDefine.ResourceType.搜索结果页.getValue() + "/" + version.getName() + "/"
-								+ BasicUtils.id2Version(version.getId()) + "/"));
+								+ versionId + "/"));
 			}
 			if (StringUtils.isNotEmpty(version.getDefJs())) {
 				v.setDefJs(RegExpUtils.convertString2List2(version.getDefJs(),
 						"js/" + ResourceEnumDefine.ResourceType.搜索结果页.getValue() + "/" + version.getName() + "/"
-								+ BasicUtils.id2Version(version.getId()) + "/"));
+								+ versionId + "/"));
 			}
 			return v;
 		}
@@ -212,7 +213,20 @@ public class SearchService {
 	}
 
 	public ResultPageVO exchangeObjectPullPageModelFromDB(List<ResultPageBO> lists) {
-		return null;
+		ResultPageVO result = new ResultPageVO();
+		Date d = new Date();
+		result.setResults(dataHandler(lists));
+		result.setCreTime(d);
+		result.setOrigin(SearchEngineEnumDefine.From.资源库.getValue());
+		result.setFrom(getFromNameFromResultPageBO(lists));
+		result.setTags(getTagsFromResultPageBO(lists));
+		String uuid = "" + d.getTime();// 暂定时间
+		result.setId(uuid);// 当前页面的id
+		// 内容加载文件
+		result.setVersion(exchangeVersionBOfromVersion());
+		// 推荐内容，需从推荐服务中获取
+		result.setCommends(null);
+		return result;
 	}
 
 	public ResultPageVO exchangeObjectOnlyPullPageModelFromIndex(List<ResultPageBO> lists) {
