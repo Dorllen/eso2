@@ -35,4 +35,16 @@ public interface ConfigMapper {
 
 	int updateConfigsForAdminMainSupportService01ReturnId(@Param("configs") List<ConfigBO> configs);
 
+	
+	/**
+	* @Title: queryConfigsForAdminInfoSupportService03ListConfigBO
+	* @Description: TODO(查询除：VersionController,WebsiteService)
+	* @param @param sql
+	* @param @return    参数
+	* @return List<ConfigBO>    返回类型
+	* @throws
+	*/
+	List<ConfigBO> queryConfigsForAdminInfoSupportService03ListConfigBO(@Param("sql") String sql);
+
+	List<ConfigBO> queryConfigsForAdminMainSupportService02ListConfigBO(@Param("sql") String sql);
 }

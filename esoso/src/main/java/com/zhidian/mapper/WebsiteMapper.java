@@ -178,6 +178,16 @@ public interface WebsiteMapper {
 
 
 
+	Website queryWebsitesForAdminInfoSupportService01SimpleWebsite(@Param("id") int id,@Param("name")  String name);
+
+
+
+
+	Website queryWebsitesForAdminMainSupportService01SimpleWebsite(@Param("id") int id,@Param("name")  String name);
+
+
+
+
 
 
 

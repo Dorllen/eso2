@@ -23,6 +23,7 @@ public class AppEnumDefine {
 	}
 
 	public enum ConfigType {
+		// 需关注Configmapper :queryConfigsForAdminInfoSupportService03ListConfigBO，queryConfigsForAdminMainSupportService02ListConfigBO
 		爬虫服务("WormService"), 搜索服务("EngineService"), 系统服务("SysService"), 版本控制("VersionController"), 站点服务(
 				"WebsiteService"), 服务定义("ServiceType");
 		private String value;
@@ -41,7 +42,7 @@ public class AppEnumDefine {
 	}
 	
 	public enum ConfigWormService{
-		OnlinePullData,// 在线爬取数据禁止
+		OnlinePullData,// 在线爬取数据禁止 
 		SchedulePullData,// 定时爬取
 		CustomPullData// 自定义爬取
 	}

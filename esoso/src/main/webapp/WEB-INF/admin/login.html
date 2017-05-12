@@ -1,20 +1,19 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html>
 <head>
 <meta charset="UTF-8" />
 <title>后台登陆</title>
-<link rel="icon" href="favicon.ico"
-	mce_href="favicon.ico" type="image/x-icon" th:href="@{/}"/>
-<link rel="shortcut icon" href="favicon.ico"
-	mce_href="favicon.ico" type="image/x-icon"  th:href="@{/}"/>
+<link rel="icon" href="favicon.ico" mce_href="favicon.ico"
+	type="image/x-icon" th:href="@{/}" />
+<link rel="shortcut icon" href="favicon.ico" mce_href="favicon.ico"
+	type="image/x-icon" th:href="@{/}" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <!-- CSS -->
 <!--  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500"/> -->
-<link rel="stylesheet"
-	href="login/bootstrap/css/bootstrap.min.css"
+<link rel="stylesheet" href="login/bootstrap/css/bootstrap.min.css"
 	th:href="@{/admin/login/bootstrap/css/bootstrap.min.css}" />
 <link rel="stylesheet"
 	href="login/font-awesome/css/font-awesome.min.css"
@@ -23,35 +22,32 @@
 	th:href="@{/admin/login/css/form-elements.css}" />
 <link rel="stylesheet" href="login/css/style.css"
 	th:href="@{/admin/login/css/style.css}" />
-
+<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>	
 <link rel="shortcut icon" href="login/ico/favicon.png"
 	th:href="@{/admin/ico/favicon.png}" />
 <link rel="apple-touch-icon-precomposed" sizes="144x144"
-	href="login/ico/144.png"
-	th:href="@{/admin/ico/144.png}" />
+	href="login/ico/144.png" th:href="@{/admin/ico/144.png}" />
 <link rel="apple-touch-icon-precomposed" sizes="114x114"
-	href="login/ico/114.png"
-	th:href="@{/admin/ico/114.png}" />
+	href="login/ico/114.png" th:href="@{/admin/ico/114.png}" />
 <link rel="apple-touch-icon-precomposed" sizes="72x72"
 	href="login/ico/72.png" th:href="@{/admin/ico/72.png}" />
-<link rel="apple-touch-icon-precomposed"
-	href="login/ico/57.png" th:href="@{/admin/ico/57.png}" />
+<link rel="apple-touch-icon-precomposed" href="login/ico/57.png"
+	th:href="@{/admin/ico/57.png}" />
 <!-- Javascript -->
-<script src="login/js/jquery-1.11.1.min.js"
-	th:src="@{/admin/login/js/jquery-1.11.1.min.js}"></script>
 <script src="login/bootstrap/js/bootstrap.min.js"
 	th:src="@{/admin/login/bootstrap/js/bootstrap.min.js}"></script>
 <script src="login/js/jquery.backstretch.min.js"
 	th:src="@{/admin/login/js/jquery.backstretch.min.js}"></script>
-<script src="login/js/scripts.js"
-	th:src="@{/admin/login/js/scripts.js}"></script>
+<script src="login/js/scripts.js" th:src="@{/admin/login/js/scripts.js}"></script>
 <script type="text/javascript"
 	src="login/Flat-UI-master/dist/js/vendor/json2.js"
 	th:src="@{/admin/login/Flat-UI-master/dist/js/vendor/json2.js}"></script>
 <script type="text/javascript"
 	src="login/Flat-UI-master/dist/js/vendor/jquery.cookie.js"
 	th:src="@{/admin/login/Flat-UI-master/dist/js/vendor/jquery.cookie.js}"></script>
+<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
 <script type="text/javascript">
+	//<![CDATA[
 	$(function() {
 		if (navigator.userAgent.indexOf("MSIE") > 0) {
 			if (navigator.userAgent.indexOf("MSIE 6.0") > 0) {
@@ -108,8 +104,51 @@
 			});
 		}
 	}
+	//]]>
 </script>
-</style>
+<script type="text/javascript"
+	src="lib/jquery.validation/1.14.0/jquery.validate.js"></script>
+<script type="text/javascript"
+	src="lib/jquery.validation/1.14.0/validate-methods.js"></script>
+<script type="text/javascript"
+	src="lib/jquery.validation/1.14.0/messages_zh.js"></script>
+
+<script type="text/javascript">
+//<![CDATA[
+	$(function(){
+		$("#form").validate({
+			rules:{
+				username:{
+					required:true,
+					email:true
+				},
+				password:{
+					required:true
+				}
+			},
+			onkeyup:false,
+			focusCleanup:true,
+			success:"valid",
+			submitHandler:function(form){
+				$(form).ajaxSubmit({type:"post",url:"up/login",success:function(data){
+					if(data){
+						if(data.message){
+							layer.msg(data.message,{icon:1,time:2000});
+						}
+						if(data.href){
+							console.log(data.href);
+							//window.location.href=
+						}
+					}
+				},error:function(){
+					layer.msg('请求失败',{icon:5,time:1000});
+				}})
+			}
+		})
+	});
+//]]>
+</script>
+
 </head>
 <body>
 	<div class="top-content">
@@ -135,29 +174,26 @@
 							</div>
 						</div>
 						<div class="form-bottom">
-							<form action="login" method="post" role="form" class="login-form">
+							<form action="login" method="post" role="form" class="login-form" id="form">
 								<div>
 									<div class="form-group">
 										<label class="sr-only" for="form-username">Username</label> <input
 											type="text" id="username" name="username" value=""
-											placeholder="请输入用户名" id="login-name"
-											class="form-username form-control" />
+											placeholder="请输入用户名" class="form-username form-control" />
 									</div>
 
 									<div class="form-group">
 										<label class="sr-only" for="form-password">Password</label> <input
 											type="password" id="password" name="password" value=""
-											placeholder="请输入密码" id="login-pass"
-											class="form-password form-control" />
+											placeholder="请输入密码" class="form-password form-control" />
 									</div>
-									<div class="form-group" style="display:none">
+									<div class="form-group" style="display: none">
 										<label class="sr-only" for="form-yzm">验证码</label> <input
-											type="text" id="yzm" name="yzm" value=""
-											placeholder="验证码" id="login-yzm"
-											class="form-yzm form-control" style="width:55%"/>
-											<img src="" alt="yzm"/>
+											type="text" id="yzm" name="yzm" value="" placeholder="验证码"
+											class="form-yzm form-control" style="width: 55%" /> <img
+											src="" alt="yzm" />
 									</div>
-									<button type="button" class="btn" onclick="login()">登&nbsp;录</button>
+									<button type="submit" class="btn">登&nbsp;录</button>
 								</div>
 							</form>
 						</div>
@@ -165,6 +201,6 @@
 				</div>
 			</div>
 		</div>
-
 	</div>
+</body>
 </html>

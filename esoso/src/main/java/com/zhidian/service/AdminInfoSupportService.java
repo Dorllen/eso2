@@ -20,6 +20,7 @@ import com.zhidian.mapper.VersionMapper;
 import com.zhidian.mapper.WebsiteMapper;
 import com.zhidian.model.PullArticle;
 import com.zhidian.model.Version;
+import com.zhidian.model.Website;
 import com.zhidian.model.sys.ConfigBO;
 import com.zhidian.model.sys.NameValueModel;
 import com.zhidian.model.sys.PullArticleBO;
@@ -27,6 +28,7 @@ import com.zhidian.model.sys.VersionBO2;
 import com.zhidian.model.sys.WebsiteBO2;
 import com.zhidian.model.sys.WebsiteBO3;
 import com.zhidian.model.websites.config.ConfigWebsiteItemModel;
+import com.zhidian.model.websites.config.ConfigWebsiteModel;
 import com.zhidian.util.BasicUtils;
 import com.zhidian.views.ConfigDTO;
 import com.zhidian.views.ServiceSettingsDTO;
@@ -258,14 +260,13 @@ public class AdminInfoSupportService {
 		return null;
 	}
 
-	private String createSqlForWebsiteItem(PullArticleBO p) {
-		// 强制依赖，p肯定不为空
-		ConfigWebsiteItemModel config = new ConfigWebsiteItemModel();
-		config.setId(p.getId());
-		config.setName(p.getName());
-		config.setType(p.getType());
-		config.setUrl(p.getUrl());
-		config.setUuid(p.getUuid());
+	private String createSqlForWebsite(Website w) {
+		// 强制依赖，w肯定不为空
+		ConfigWebsiteModel config = new ConfigWebsiteModel();
+		config.setId(w.getId());
+		config.setName(w.getName());
+		config.setType(w.getType());
+		config.setType2(w.getType2());
 		return JSON.toJSONString(config);
 	}
 
@@ -686,13 +687,50 @@ public class AdminInfoSupportService {
 	public String getWebsiteDefaultVersionId(String name) throws PageArgumentsException {
 		if (StringUtils.isNotEmpty(name)) {
 			Integer id = versionMapper.selectVersionsForAdminInfoSupportService02SimpleInteger(name);
-			if(id!=null&&id>0){
+			if (id != null && id > 0) {
 				return BasicUtils.id2Version(id);
+			} else {
+				throw new PageArgumentsException();
+			}
+		} else {
+			throw new PageArgumentsException();
+		}
+	}
+
+	public List<ServiceSettingsDTO> getWebsiteServiceByItemsIdAndName(String websiteId, String name)
+			throws PageArgumentsException {
+		if (StringUtils.isNotEmpty(websiteId) && StringUtils.isNotEmpty(name)) {
+			// 通过字符串模糊查询。如果有数据，则取出字符串。
+			int id = BasicUtils.version2Id(websiteId);
+			if (id > 0) {
+				Website w = websiteMapper.queryWebsitesForAdminInfoSupportService01SimpleWebsite(id, name);
+				if (w != null) {
+					String sql = createSqlForWebsite(w);
+					List<ConfigBO> configs = configMapper.queryConfigsForAdminInfoSupportService03ListConfigBO(sql);
+					if (configs != null && configs.size() > 0) {
+						return createServiceSettingsDTOList(configs);
+					} else {
+						return null;
+					}
+				} else {
+					throw new PageArgumentsException("参数异常，数据无该记录...");
+				}
 			}else{
 				throw new PageArgumentsException();
 			}
 		} else {
 			throw new PageArgumentsException();
 		}
+	}
+
+	private String createSqlForWebsiteItem(PullArticleBO p) {
+		// 强制依赖，p肯定不为空
+		ConfigWebsiteItemModel config = new ConfigWebsiteItemModel();
+		config.setId(p.getId());
+		config.setName(p.getName());
+		config.setType(p.getType());
+		config.setUrl(p.getUrl());
+		config.setUuid(p.getUuid());
+		return JSON.toJSONString(config);
 	}
 }

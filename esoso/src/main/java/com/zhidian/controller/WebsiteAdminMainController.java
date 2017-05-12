@@ -244,7 +244,7 @@ public class WebsiteAdminMainController {
 			} catch (FileExistException e) {
 			}
 			try {// 内部错误需要捕获，并且清除临时文件
-				// 开始处理字节码文件.强制更新是忽略文件是否存在，而进行的直接覆盖
+					// 开始处理字节码文件.强制更新是忽略文件是否存在，而进行的直接覆盖
 				int num = mainService.updateWebsiteForceForUpdateInfo(model, "Admin");
 				if (num > 0) {
 					// 文件转移
@@ -263,7 +263,7 @@ public class WebsiteAdminMainController {
 				}
 			} catch (PageArgumentsException e) {
 				throw e;
-			}finally{
+			} finally {
 				if (tempPath != null && tempPath.size() > 0) {
 					for (String s : tempPath) {
 						FileUtils.deleteFileOnExist(
@@ -378,7 +378,7 @@ public class WebsiteAdminMainController {
 				}
 			} catch (PageArgumentsException e) {
 				throw e;
-			}finally{
+			} finally {
 				if (tempPath != null && tempPath.size() > 0) {
 					for (String s : tempPath) {
 						FileUtils.deleteFileOnExist(
@@ -451,7 +451,7 @@ public class WebsiteAdminMainController {
 				}
 			} catch (PageArgumentsException e) {
 				throw e;
-			}finally{
+			} finally {
 				if (tempPath != null && tempPath.size() > 0) {
 					for (String s : tempPath) {
 						FileUtils.deleteFileOnExist(
@@ -506,6 +506,112 @@ public class WebsiteAdminMainController {
 			model.setResultRObject(FileUtils.fileNameHandlerWithOutSuffix(name));
 		}
 		return filePath;
+	}
+
+	@PostMapping("/web/updateWebsiteService")
+	public Object updateWebsiteService(@RequestParam("id") String websiteId, @RequestParam("name") String name,
+			HttpServletRequest request) throws PageArgumentsException {
+		ResultModel result = new ResultModel();
+		Enumeration<String> map = request.getAttributeNames();
+		System.out.println(request.getAttribute("SearchService"));
+		// 取出有效的key，value
+		if (map != null) {
+			List<String> list = new ArrayList<String>();
+			while (map.hasMoreElements()) {
+				String key = map.nextElement();
+				if (key != null && key.length() > 0) {
+					// ConfigWormService ConfigEngineService ConfigSysService
+					// ConfigServiceType
+					if("OnlinePullData".equals(key)){
+						System.out.println("-----");
+					}
+					try {
+						if (AppEnumDefine.ConfigWormService.valueOf(key) != null) {
+							// 记录key and value
+							Integer value = (Integer) request.getAttribute(key);
+							if (value != null && value == 0) {
+								list.add(key);
+							}
+						}
+					} catch (Exception e) {
+					}
+					try {
+						if (AppEnumDefine.ConfigEngineService.valueOf(key) != null) {
+							Integer value = (Integer) request.getAttribute(key);
+							if (value != null && value == 0) {
+								list.add(key);
+							}
+						}
+					} catch (Exception e) {
+					}
+					try {
+						if (AppEnumDefine.ConfigSysService.valueOf(key) != null) {
+							Integer value = (Integer) request.getAttribute(key);
+							if (value != null && value == 0) {
+								list.add(key);
+							}
+						}
+					} catch (Exception e) {
+					}
+					try {
+						if (AppEnumDefine.ConfigServiceType.valueOf(key) != null) {
+							Integer value = (Integer) request.getAttribute(key);
+							if (value != null && value == 0) {
+								list.add(key);
+							}
+						}
+					} catch (Exception e) {
+					}
+
+				}
+			}
+			if (list.size() > 0) {
+				int num = mainService.updateWebsiteServiceByWebsiteIdAndName(websiteId, name, list);
+				if (num > 0) {
+					result.setMessage("操作成功!");
+				} else {
+					result.setMessage("操作失败!");
+				}
+				return result;
+			} else {
+				// 没有更新的，就直接告知忽略了!
+			}
+		}
+		return result;
+	}
+
+	@PostMapping("/web/stopWebsiteService")
+	public Object stopWebsiteAllService(@RequestParam("id") String websiteId, @RequestParam("name") String name)
+			throws PageArgumentsException {
+		ResultModel result = new ResultModel();
+		// 取出有效的key，value
+		List<String> list = new ArrayList<String>();
+		// ConfigWormService ConfigEngineService ConfigSysService
+		// ConfigServiceType
+		for(AppEnumDefine.ConfigWormService c : AppEnumDefine.ConfigWormService.values()){
+			list.add(c.name());
+		}
+		for(AppEnumDefine.ConfigEngineService c : AppEnumDefine.ConfigEngineService.values()){
+			list.add(c.name());
+		}
+		for(AppEnumDefine.ConfigSysService c : AppEnumDefine.ConfigSysService.values()){
+			list.add(c.name());
+		}
+		for(AppEnumDefine.ConfigServiceType c : AppEnumDefine.ConfigServiceType.values()){
+			list.add(c.name());
+		}
+		// 所有服务
+		if (list.size() > 0) {
+			int num = mainService.stopAllWebsiteService(websiteId, name, list);
+			if (num > 0) {
+				result.setMessage("操作成功!");
+			} else {
+				result.setMessage("操作失败!");
+			}
+			return result;
+		} else {
+			throw new PageArgumentsException("服务异常！无法获取固定服务!");
+		}
 	}
 
 }

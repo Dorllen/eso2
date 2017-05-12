@@ -419,10 +419,11 @@ table tr {
 			var i = 0;
 			$("#check2").on("ifChecked", function() {
 				// 去掉tr
-				$(this).parents("tr").next("tr#versionTr").remove();
+				$("tr#versionTr").hide();
 			});
 			$("#check2").on("ifUnchecked", function() {
 				// 显示tr
+				$("tr#versionTr").show();
 				var name = $("select[name='name']").val();
 				if (checked_ != name || i == 0) {
 					$.get("website/info/web/getVersions", {

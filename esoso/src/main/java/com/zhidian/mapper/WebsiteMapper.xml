@@ -52,7 +52,7 @@
 		insert into	websites set alias = #{alias},createTime =	#{createTime},createMan =#{createMan},
 		defaultPageCss = #{defaultPageCss},	defPageConfig =	#{defPageConfig},defPageCss = #{defPageCss},
 		defRequestHeader =#{defRequestHeader},defResultConfig = #{defResultConfig},fullAddr =#{fullAddr},
-		name=#{name},pagePipeline= #{pagePipeline},pageProcessor =#{pageProcessor},pageRObject = #{pageRObject},
+		pagePipeline= #{pagePipeline},pageProcessor =#{pageProcessor},pageRObject = #{pageRObject},
 		pagination =#{pagination},resultPipeline =#{resultPipeline},resultProcessor = #{resultProcessor},
 		resultRObject =	#{resultRObject},searchAddr =#{searchAddr},shortAddr=#{shortAddr},sign =#{sign},
 		type=#{type},useSearch=#{useSearch},websites.using = #{using},versionId = #{versionId},type2 =#{type2},
@@ -157,7 +157,15 @@
 		select w.*,(select count(*) from pullarticles as b where b.websiteId = w.id and b.status = 0) as nowLink 
 		from websites as w where w.nmp =1 and id = #{id} ;
 	</select>
-
+	
+	<select id="queryWebsitesForAdminInfoSupportService01SimpleWebsite" resultType="Website">
+		select * from websites where id = #{id} and name = #{name} and nmp = 1;
+	</select>
+	
+	<select id="queryWebsitesForAdminMainSupportService01SimpleWebsite" resultType="Website">
+		select * from websites where id = #{id} and name = #{name} and nmp = 1;
+	</select>
+	
 	<update id="updateWebsitesForDataInfoAdminService01SmpleWebsiteBO2">
 		update websites set searchAddr =
 		#{searchAddr},pagination=#{pagination},sign=#{sign},useSearch=#{useSearch},defaultPageCss=#{defaultPageCss},defPageConfig=#{defPageConfig},

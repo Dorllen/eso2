@@ -25,6 +25,15 @@
 		(select name from configs as z where z.type = "WebsiteService" and z.value like CONCAT('%',#{sql},'%') ) and c.using = 1;
 	</select>
 
+	<select id="queryConfigsForAdminMainSupportService02ListConfigBO" resultType="ConfigBO">
+		select * from configs as c where c.type not in ("WebsiteService","VersionController") and c.name not in 
+		(select name from configs as z where z.type not in ("WebsiteService","VersionController") and z.value like CONCAT('%',#{sql},'%') ) and c.using = 1;
+	</select>
+		
+	<select id="queryConfigsForAdminInfoSupportService03ListConfigBO" resultType="ConfigBO">
+		select * from configs where type not in ("WebsiteService","VersionController") and configs.using = 1 and value like CONCAT('%',#{sql},'%');
+	</select>
+
 	<update id="updateConfigsForAdminMainSupportService01ReturnId" >
 		<foreach collection="configs" item="item" separator=";">
 			update configs set value = #{item.value} where id = #{item.id} and type = #{item.type}

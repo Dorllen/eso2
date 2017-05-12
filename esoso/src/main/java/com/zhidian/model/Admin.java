@@ -2,7 +2,7 @@ package com.zhidian.model;
 
 import java.util.Date;
 
-public class Admins {
+public class Admin {
 	private int id;
 	private String name;
 	private String account;// 必须以邮箱格式xxx@esoso.me

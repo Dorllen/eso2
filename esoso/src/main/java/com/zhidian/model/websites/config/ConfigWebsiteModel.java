@@ -12,7 +12,6 @@ public class ConfigWebsiteModel {
 	private String name;
 	private String type;
 	private String type2;
-	private String versionId;
 	public int getId() {
 		return id;
 	}
@@ -36,11 +35,5 @@ public class ConfigWebsiteModel {
 	}
 	public void setType2(String type2) {
 		this.type2 = type2;
-	}
-	public String getVersionId() {
-		return versionId;
-	}
-	public void setVersionId(String versionId) {
-		this.versionId = versionId;
 	}
 }

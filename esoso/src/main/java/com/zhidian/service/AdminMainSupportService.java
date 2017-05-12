@@ -24,6 +24,7 @@ import com.zhidian.model.sys.ConfigBO;
 import com.zhidian.model.sys.PullArticleBO;
 import com.zhidian.model.sys.PullArticleBO2;
 import com.zhidian.model.websites.config.ConfigWebsiteItemModel;
+import com.zhidian.model.websites.config.ConfigWebsiteModel;
 import com.zhidian.util.BasicUtils;
 import com.zhidian.views.PullArticleUpdateModel;
 import com.zhidian.views.VersionAddViewMainDTO;
@@ -173,6 +174,7 @@ public class AdminMainSupportService {
 
 	private String createWebsiteServiceValueString(String value, String sql) {
 		if (StringUtils.isNotEmpty(sql)) {
+			// 有就删除，没就增加
 			if (value != null && value.trim().length() > 0) {
 				// 插入最后一个]之前,这里需要判断一种情况是:[]情况，或[ ]情况
 				int f = value.indexOf('[');
@@ -180,11 +182,17 @@ public class AdminMainSupportService {
 				if (l - f == 1) {
 					value = "[" + sql + "]";
 				} else {
-					String str = value.substring(f + 1, l);
-					if (str.trim().length() > 0) {// 说明里面还有其他值
-						value = value.substring(0, value.length() - 1) + "," + sql + "]";
+					int sl = value.indexOf(sql);
+					if (sl >= 0) {
+						// 不为空，数据存在,则删除存在的数据
+						value = value.substring(0, sl) + value.substring(sl + sql.length(), value.length());
 					} else {
-						value = "[" + sql + "]";
+						String str = value.substring(f + 1, l);
+						if (str.trim().length() > 0) {// 说明里面还有其他值
+							value = value.substring(0, value.length() - 1) + "," + sql + "]";
+						} else {
+							value = "[" + sql + "]";
+						}
 					}
 				}
 			} else {
@@ -420,24 +428,26 @@ public class AdminMainSupportService {
 					if (model.isCheck2()) {
 						// 使用默认版的css,就不将version的defcss放入
 						w.setVersionId(version.getId());
-						System.out.println("1:"+version.getId());
+						System.out.println("1:" + version.getId());
 						websiteMapper.insertWebsitesForDataInfoAdminService01SimpleWebsite(w);// 将其他的website制为using=0
 						if (w.getId() > 0) {
-							return websiteMapper.updateWebsitesForAdminMainSupportService01ReturnId(w.getId(), w.getName());
-						}else{
+							return websiteMapper.updateWebsitesForAdminMainSupportService01ReturnId(w.getId(),
+									w.getName());
+						} else {
 							throw new PageArgumentsException();
 						}
 					} else {
 						int id = BasicUtils.version2Id(model.getVersionId());
-						System.out.println("2:"+id);
+						System.out.println("2:" + id);
 						if (id <= 0) {
 							throw new PageArgumentsException();
 						}
 						w.setVersionId(id);// 获得默认version,确定version是否存在数据库中
 						websiteMapper.insertWebsitesForDataInfoAdminService02SimpleWebsite(w);// 将其他的website置为using=0,并且将model.getVersion验证
 						if (w.getId() > 0) {
-							return websiteMapper.updateWebsitesForAdminMainSupportService01ReturnId(w.getId(), w.getName());
-						}else{
+							return websiteMapper.updateWebsitesForAdminMainSupportService01ReturnId(w.getId(),
+									w.getName());
+						} else {
 							throw new PageArgumentsException();
 						}
 					}
@@ -445,12 +455,12 @@ public class AdminMainSupportService {
 					w.setUsing(0);// 第一次不自动使用，需再设置
 					if (model.isCheck2()) {
 						// 使用默认版的css
-						System.out.println("3:"+version.getId());
+						System.out.println("3:" + version.getId());
 						w.setVersionId(version.getId());
 						return websiteMapper.insertWebsitesForDataInfoAdminService01SimpleWebsite(w);
 					} else {
 						int id = BasicUtils.version2Id(model.getVersionId());
-						System.out.println("4:"+id);
+						System.out.println("4:" + id);
 						if (id <= 0) {
 							throw new PageArgumentsException();
 						}
@@ -500,5 +510,71 @@ public class AdminMainSupportService {
 			return w;
 		}
 		return null;
+	}
+
+	public int updateWebsiteServiceByWebsiteIdAndName(String websiteId, String name, List<String> list)
+			throws PageArgumentsException {
+		if (StringUtils.isNotEmpty(websiteId) && StringUtils.isNotEmpty(name)) {
+			int id = BasicUtils.version2Id(websiteId);
+			if (id > 0) {
+				Website w = websiteMapper.queryWebsitesForAdminMainSupportService01SimpleWebsite(id, name);
+				if (w != null) {
+					String sql = createSqlForWebsiteItem(w);
+					List<ConfigBO> configs = configMapper.queryConfigsForAdminMainSupportService02ListConfigBO(sql);
+					if (configs != null && configs.size() > 0) {
+						// 找出与list中同name的configBo
+						List<ConfigBO> cofs = new ArrayList<ConfigBO>(configs.size());
+						for (ConfigBO c : configs) {
+							if (c != null) {
+								for (String s : list) {
+									if (StringUtils.isNotEmpty(s)) {
+										if (s.equals(c.getName())) {
+											// 入队、等待改正
+											if (cofs.contains(c)) {
+												continue;
+											} else {
+												cofs.add(c);
+											}
+										}
+									}
+								}
+							}
+						}
+						// 拿到需要修改数据的ConfigBO
+						for (ConfigBO c : cofs) {
+							// 修改数据
+							if (c != null) {
+								c.setValue(createWebsiteServiceValueString(c.getValue(), sql));
+							}
+						}
+						// 更新入库
+						return configMapper.updateConfigsForAdminMainSupportService01ReturnId(cofs);
+					} else {
+						// 说明数据库不存在，可以直接拒绝此次操作
+						return 1;// 告知操作成功
+					}
+				} else {
+					throw new PageArgumentsException();
+				}
+			} else {
+				throw new PageArgumentsException();
+			}
+		} else {
+			throw new PageArgumentsException();
+		}
+	}
+
+	private String createSqlForWebsiteItem(Website w) {
+		// 强制依赖，p肯定不为空
+		ConfigWebsiteModel config = new ConfigWebsiteModel();
+		config.setId(w.getId());
+		config.setName(w.getName());
+		config.setType(w.getType());
+		config.setType2(w.getType2());
+		return JSON.toJSONString(config);
+	}
+
+	public int stopAllWebsiteService(String websiteId, String name, List<String> list) throws PageArgumentsException {
+		return this.updateWebsiteServiceByWebsiteIdAndName(websiteId, name, list);
 	}
 }

@@ -182,6 +182,18 @@ public class WebsiteAdminInfoController {
 
 		return result;
 	}
+	
+	@GetMapping("/web/getWebsiteService")
+	public Object getWebsiteAllService(@RequestParam("id") String websiteId,
+			@RequestParam("name") String name)throws PageArgumentsException{
+		ResultListModel result = new ResultListModel();
+		List<ServiceSettingsDTO> dto = infoService.getWebsiteServiceByItemsIdAndName(websiteId, name);
+		if (dto != null) {
+			result.setItems(dto);
+			result.setTotal(dto.size());
+		}
+		return result;
+	}
 
 	// @GetMapping("/getInfo") // test
 	// public Object uploadTest2(@RequestParam("name") String name) {

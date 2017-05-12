@@ -125,4 +125,10 @@ public class PageAdminInfoController {
 		return "admin/website-add";
 	}
 
+	@GetMapping("admin/website-service.html")
+	public String websiteServicePage(Model model) {
+		List<WebsiteDetailDTO> list = infoService.getWebsiteDetailDTODefaultList();
+		model.addAttribute("Message", list);
+		return "admin/website-service";
+	}
 }
