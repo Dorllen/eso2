@@ -8,6 +8,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSON;
 import com.zhidian.bases.SearchEngineEnumDefine;
@@ -26,6 +27,7 @@ import com.zhidian.model.websites.config.ConfigWebsiteItemModel;
 import com.zhidian.util.BasicUtils;
 import com.zhidian.views.PullArticleUpdateModel;
 import com.zhidian.views.VersionAddViewMainDTO;
+import com.zhidian.views.WebsiteMainAddModel;
 import com.zhidian.views.WebsiteMainUploadModel;
 
 /**
@@ -404,5 +406,99 @@ public class AdminMainSupportService {
 		} else {
 			throw new PageArgumentsException();
 		}
+	}
+
+	@Transactional
+	public int addWebsiteInfo(WebsiteMainAddModel model, String account) throws PageArgumentsException {
+		if (model != null) {
+			Version version = versionMapper.queryVersionsForDataInfoAdminService01SimpleVersion(model.getName());
+			Website w = createWebsiteFromWebsiteMainAddModel(model, account);
+			if (w != null && version != null) {
+				if (model.isCheck1()) {
+					// 设置为默认版本.即当前站点默认使用版本
+					w.setUsing(1);
+					if (model.isCheck2()) {
+						// 使用默认版的css,就不将version的defcss放入
+						w.setVersionId(version.getId());
+						System.out.println("1:"+version.getId());
+						websiteMapper.insertWebsitesForDataInfoAdminService01SimpleWebsite(w);// 将其他的website制为using=0
+						if (w.getId() > 0) {
+							return websiteMapper.updateWebsitesForAdminMainSupportService01ReturnId(w.getId(), w.getName());
+						}else{
+							throw new PageArgumentsException();
+						}
+					} else {
+						int id = BasicUtils.version2Id(model.getVersionId());
+						System.out.println("2:"+id);
+						if (id <= 0) {
+							throw new PageArgumentsException();
+						}
+						w.setVersionId(id);// 获得默认version,确定version是否存在数据库中
+						websiteMapper.insertWebsitesForDataInfoAdminService02SimpleWebsite(w);// 将其他的website置为using=0,并且将model.getVersion验证
+						if (w.getId() > 0) {
+							return websiteMapper.updateWebsitesForAdminMainSupportService01ReturnId(w.getId(), w.getName());
+						}else{
+							throw new PageArgumentsException();
+						}
+					}
+				} else {
+					w.setUsing(0);// 第一次不自动使用，需再设置
+					if (model.isCheck2()) {
+						// 使用默认版的css
+						System.out.println("3:"+version.getId());
+						w.setVersionId(version.getId());
+						return websiteMapper.insertWebsitesForDataInfoAdminService01SimpleWebsite(w);
+					} else {
+						int id = BasicUtils.version2Id(model.getVersionId());
+						System.out.println("4:"+id);
+						if (id <= 0) {
+							throw new PageArgumentsException();
+						}
+						w.setVersionId(id);// 获得默认version,确定version是否存在数据库中
+						return websiteMapper.insertWebsitesForDataInfoAdminService02SimpleWebsite(w);
+					}
+				}
+			} else {
+				// 这里出现异常的原因就是versionId是不存在的，或者是参数错误的（nmp=0，获取versionId失败）
+				throw new PageArgumentsException();
+			}
+		} else {
+			throw new PageArgumentsException();
+		}
+	}
+
+	private Website createWebsiteFromWebsiteMainAddModel(WebsiteMainAddModel model, String account)
+			throws PageArgumentsException {
+		if (model != null) {
+			Website w = new Website();
+			w.setAlias(model.getAlias());
+			w.setDefaultPageCss(model.getDefaultPageCss());
+			w.setDefPageConfig(model.getDefPageConfig());
+			w.setDefPageCss(model.getDefPageCss());
+			w.setDefRequestHeader(model.getDefRequestHeader());
+			w.setDefResultConfig(model.getDefResultConfig());
+			w.setFullAddr(model.getFullAddr());
+			w.setPagePipeline(model.getPagePipeline());
+			w.setPageProcessor(model.getPageProcessor());
+			w.setPageRObject(model.getPageRObject());
+			w.setPagination(model.getPagination());
+			w.setResultPipeline(model.getResultPipeline());
+			w.setResultProcessor(model.getResultProcessor());
+			w.setResultRObject(model.getResultRObject());
+			w.setSearchAddr(model.getSearchAddr());
+			w.setShortAddr(model.getShortAddr());
+			w.setSign(model.getSign());
+			w.setUseSearch(model.isUseSearch());
+
+			w.setCreateTime(new Date());
+			w.setCreateMan(account);
+			w.setNmp(1);
+			w.setName(model.getName());
+			// 设置类型 type type2
+			w.setType("engine");// 写死
+			w.setType2("answer");// 默认answer
+			return w;
+		}
+		return null;
 	}
 }

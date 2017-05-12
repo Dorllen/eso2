@@ -54,6 +54,9 @@ website-control.html
      1. pullArticles
 	 2. website-add.html、website-control-info-update.html 页面模型没有使用VO，而是使用add("","")这种，所增加一个数据名
 
+	待改进：
+	1. WebsiteMainAddModel WebsiteMainUploadModel 在上传中，是否可以是继承关系？在更新站点与上传站点
+	2. 站点上传需要讨论type2是否存在，answer.需要思考设计。现在是默认engine ,anwer.都写死，但是需要考虑
 
 2017-5-10：
 	重要更新：

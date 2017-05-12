@@ -57,6 +57,7 @@ import com.zhidian.service.AdminMainSupportService;
 import com.zhidian.service.DataInfoAdminService;
 import com.zhidian.util.BasicUtils;
 import com.zhidian.views.ServiceSettingsDTO;
+import com.zhidian.views.WebsiteMainAddModel;
 import com.zhidian.views.WebsiteMainUploadModel;
 import com.zhidian.views.WebsitePageVO;
 import com.zhidian.views.WebsitePaDTO;
@@ -161,13 +162,35 @@ public class AppTest {
 		model.setResultProcessor("");
 		System.out.println("start");
 		try {
-			int num = mainService.updateWebsiteForUpdataInfo(model,account);
+			int num = mainService.updateWebsiteForUpdateInfo(model,account);
 			System.out.println(num);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		System.out.println("end");
+	}
+	
+	@Test
+	@Transactional
+	@Rollback
+	public void testUpdate(){
+		WebsiteMainAddModel model =new  WebsiteMainAddModel();
+		model.setPagePipeline("");
+		model.setSearchAddr("");
+		model.setResultProcessor("");
+		model.setName("segmentfault");
+		model.setVersionId("0.0.1");
+		model.setResultPipeline("");
+		model.setPageProcessor("");
+		String account = "Admin";
+		try {
+			int id = mainService.addWebsiteInfo(model,account);
+			System.out.println(id);
+		} catch (PageArgumentsException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	// ###########################Configs##################

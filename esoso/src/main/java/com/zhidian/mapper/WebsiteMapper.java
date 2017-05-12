@@ -66,12 +66,12 @@ public interface WebsiteMapper {
 
 
 
-	void insertWebsitesForDataInfoAdminService01SimpleWebsite(Website w);
+	int insertWebsitesForDataInfoAdminService01SimpleWebsite(Website w);
 
 
 
 
-	void insertWebsitesForDataInfoAdminService02SimpleWebsite(Website w);
+	int insertWebsitesForDataInfoAdminService02SimpleWebsite(Website w);
 
 
 
@@ -161,6 +161,19 @@ public interface WebsiteMapper {
 
 
 	int updateWebsitesForAdminMainSupportService03ReturnId(Website w);
+
+
+
+
+	/**
+	* @Title: insertWebsitesForAdminMainSupportService01ReturnId
+	* @Description: TODO(type:engine要存在,type2:answer等要存在，nmp=1,versionId存在。暂将type,type2写死.[待改进])
+	* @param @param w
+	* @param @return    参数
+	* @return int    返回类型
+	* @throws
+	*/
+	int insertWebsitesForAdminMainSupportService01ReturnId(Website w);
 
 
 

@@ -10,7 +10,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import org.apache.commons.io.FileExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -21,8 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.alibaba.fastjson.JSON;
 import com.zhidian.bases.AppEnumDefine;
+import com.zhidian.exception.FileExistException;
 import com.zhidian.exception.PageArgumentsException;
 import com.zhidian.service.AdminMainSupportService;
 import com.zhidian.service.DataInfoAdminService;
@@ -30,9 +29,9 @@ import com.zhidian.util.BasicUtils;
 import com.zhidian.util.FileUtils;
 import com.zhidian.views.PullArticleUpdateModel;
 import com.zhidian.views.ResultModel;
+import com.zhidian.views.WebsiteMainAddModel;
 import com.zhidian.views.WebsiteMainUploadModel;
 import com.zhidian.views.WebsitePostModel;
-import com.zhidian.views.WebsitePostModel2;
 
 @RestController
 @RequestMapping("/admin/website/settings")
@@ -242,32 +241,35 @@ public class WebsiteAdminMainController {
 				tempPath = uploadFileHandler(pageProcessorClass, pagePipelineClass, pageRObjectClass,
 						resultProcessorClass, resultPipelineClass, resultRObjectClass, model, baseDirectory, true,
 						code);
-			} catch (FileExistsException e) {
+			} catch (FileExistException e) {
 			}
-			// 开始处理字节码文件.强制更新是忽略文件是否存在，而进行的直接覆盖
-			int num = mainService.updateWebsiteForceForUpdateInfo(model, "Admin");
-			if (num > 0) {
-				// 文件转移
+			try {// 内部错误需要捕获，并且清除临时文件
+				// 开始处理字节码文件.强制更新是忽略文件是否存在，而进行的直接覆盖
+				int num = mainService.updateWebsiteForceForUpdateInfo(model, "Admin");
+				if (num > 0) {
+					// 文件转移
+					if (tempPath != null && tempPath.size() > 0) {
+						for (String s : tempPath) {
+							FileUtils.copyFileToPath(
+									baseDirectory + File.separator + FileUtils.TempFileName + File.separator + code, s,
+									baseDirectory);
+						}
+					}
+					result.setCode("200");
+					result.setMessage("操作成功!");
+				} else {
+					result.setCode("401");// 可能前置条件有
+					result.setMessage("操作失败!");
+				}
+			} catch (PageArgumentsException e) {
+				throw e;
+			}finally{
 				if (tempPath != null && tempPath.size() > 0) {
 					for (String s : tempPath) {
-						FileUtils.copyFileToPath(
-								baseDirectory + File.separator + FileUtils.TempFileName + File.separator + code, s,
-								baseDirectory);
 						FileUtils.deleteFileOnExist(
 								baseDirectory + File.separator + FileUtils.TempFileName + File.separator + code, s);
 					}
 				}
-				result.setCode("200");
-				result.setMessage("操作成功!");
-			} else {
-				if (tempPath != null && tempPath.size() > 0) {
-					for (String s : tempPath) {
-						FileUtils.deleteFileOnExist(
-								baseDirectory + File.separator + FileUtils.TempFileName + File.separator + code, s);
-					}
-				}
-				result.setCode("401");// 可能前置条件有
-				result.setMessage("操作失败!");
 			}
 		}
 		return result;
@@ -276,7 +278,7 @@ public class WebsiteAdminMainController {
 	private List<String> uploadFileHandler(MultipartFile pageProcessorClass, MultipartFile pagePipelineClass,
 			MultipartFile pageRObjectClass, MultipartFile resultProcessorClass, MultipartFile resultPipelineClass,
 			MultipartFile resultRObjectClass, WebsiteMainUploadModel model, String root, boolean igExit, String code)
-			throws FileExistsException {
+			throws FileExistException {
 		String fPath = "com" + File.separator + "zhidian" + File.separator; // 文件名
 		List<String> filePath = new ArrayList<String>();
 		String name = FileUtils.keepMultipartFileToTemp(pageProcessorClass, root,
@@ -345,140 +347,50 @@ public class WebsiteAdminMainController {
 			}
 			String root = System.getProperty("webapp.root");
 			String baseDirectory = root + File.separator + "WEB-INF" + File.separator + "classes2";
-			List<String> tempPath = null;
+			List<String> tempPath = new ArrayList<String>();
 			String code = "" + new Date().getTime();
 			try {
 				tempPath = uploadFileHandler(pageProcessorClass, pagePipelineClass, pageRObjectClass,
-						resultProcessorClass, resultPipelineClass, resultRObjectClass, model, baseDirectory, true,
+						resultProcessorClass, resultPipelineClass, resultRObjectClass, model, baseDirectory, false,
 						code);
-			} catch (FileExistsException e) {
+			} catch (FileExistException e) {
 				// 说明有文件存在
 				result.setMessage("文件存在,不可覆盖!");
 				return result;
 			}
-			// 非强制更新是不能覆盖存在的文件
-			int num = mainService.updateWebsiteForUpdateInfo(model, "Admin");
-			if (num > 0) {
-				if (tempPath != null && tempPath.size() > 0) {
-					for (String s : tempPath) {
-						FileUtils.copyFileToPath(
-								baseDirectory + File.separator + FileUtils.TempFileName + File.separator + code, s,
-								baseDirectory);
-						FileUtils.deleteFileOnExist(
-								baseDirectory + File.separator + FileUtils.TempFileName + File.separator + code, s);
+			try {
+				// 非强制更新是不能覆盖存在的文件
+				int num = mainService.updateWebsiteForUpdateInfo(model, "Admin");
+				if (num > 0) {
+					// 文件转移
+					if (tempPath != null && tempPath.size() > 0) {
+						for (String s : tempPath) {
+							FileUtils.copyFileToPath(
+									baseDirectory + File.separator + FileUtils.TempFileName + File.separator + code, s,
+									baseDirectory);
+						}
 					}
-				}
-				result.setCode("200");
-				result.setMessage("操作成功!");
-			} else {
-				if (tempPath != null && tempPath.size() > 0) {
-					for (String s : tempPath) {
-						FileUtils.deleteFileOnExist(
-								baseDirectory + File.separator + FileUtils.TempFileName + File.separator + code, s);
-					}
-				}
-				result.setCode("401");// 可能前置条件有
-				result.setMessage("操作失败!");
-			}
-		}
-		return result;
-
-	}
-
-	@PostMapping("/add")
-	public Object addNewWebsite(@ModelAttribute @Valid WebsitePostModel2 model, MultipartHttpServletRequest request,
-			BindingResult error) {
-		ResultModel result = new ResultModel();
-		if (error.getErrorCount() > 0) {
-			result.setMessage("参数验证不通过!");
-		} else {
-			MultipartFile f1 = request.getFile("pageProcessorClass");
-			MultipartFile f2 = request.getFile("pageRObjectClass");
-			MultipartFile f3 = request.getFile("resultProcessorClass");
-			if (f1 != null && f2 != null && f3 != null) {
-				if (f1.getOriginalFilename().lastIndexOf(".class") <= 0
-						|| f2.getOriginalFilename().lastIndexOf(".class") <= 0
-						|| f3.getOriginalFilename().lastIndexOf(".class") <= 0) {
-					result.setMessage("字节码文件的格式不正确!");
-					return result;
+					result.setCode("200");
+					result.setMessage("操作成功!");
 				} else {
-					// 校验其他的字节码文件是否上传
-					MultipartFile f4 = request.getFile("pagePipelineClass");
-					MultipartFile f5 = request.getFile("resultPipelineClass");
-					MultipartFile f6 = request.getFile("resultRObjectClass");
-					if (f4 != null) {
-						if (f4.getOriginalFilename().lastIndexOf(".class") <= 0) {
-							result.setMessage("字节码文件的格式不正确!");
-							return result;
-						}
-					}
-					if (f5 != null) {
-						if (f5.getOriginalFilename().lastIndexOf(".class") <= 0) {
-							result.setMessage("字节码文件的格式不正确!");
-							return result;
-						}
-					}
-					if (f6 != null) {
-						if (f6.getOriginalFilename().lastIndexOf(".class") <= 0) {
-							result.setMessage("字节码文件的格式不正确!");
-							return result;
-						}
-					}
-					// 校验上传的配置文件格式是否正确[待改进]
-
-					// 所有文件上傳成功之後的操作...
-					int i = dataService.addNewWebsite(model, "Admin");
-					if (i == 1) {
-						// 开始保存文件
-						String root = System.getProperty("webapp.root");
-						String r = root + File.separator + "WEB-INF" + File.separator + "classes2" + File.separator
-								+ "com" + File.separator + "zhidian" + File.separator;
-						File f = new File(
-								r + "bases" + File.separator + "worms" + File.separator + "processor" + File.separator,
-								f1.getOriginalFilename());
-						try {
-							BasicUtils.copyFromBytes(f1.getBytes(), f);// pageProcessor
-							f = new File(r + "model" + File.separator + "websites" + File.separator + "answer"
-									+ File.separator, f2.getOriginalFilename());// pageRObject
-							BasicUtils.copyFromBytes(f2.getBytes(), f);
-							f = new File(
-									r + "bases" + File.separator + "worms" + File.separator + "processor"
-											+ File.separator, // resultProcessor
-									f3.getOriginalFilename());
-							BasicUtils.copyFromBytes(f3.getBytes(), f);
-							if (f4 != null) {
-								f = new File(r + "bases" + File.separator + "worms" + File.separator + "pipeline"
-										+ File.separator, f4.getOriginalFilename());// pagePipeline
-								BasicUtils.copyFromBytes(f4.getBytes(), f);
-							}
-							if (f5 != null) {
-								f = new File(r + "bases" + File.separator + "worms" + File.separator + "pipeline"
-										+ File.separator, f5.getOriginalFilename());// resultPipeline
-								BasicUtils.copyFromBytes(f5.getBytes(), f);
-							}
-							if (f6 != null) {
-								f = new File(r + "model" + File.separator + "websites" + File.separator + "answer"
-										+ File.separator, f6.getOriginalFilename());// resultRObject
-								BasicUtils.copyFromBytes(f6.getBytes(), f);
-							}
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-						result.setMessage("新增成功!");
-					} else if (i == -1) {
-						result.setMessage("新增失败,参数异常");
+					result.setCode("401");// 可能前置条件有
+					result.setMessage("操作失败!");
+				}
+			} catch (PageArgumentsException e) {
+				throw e;
+			}finally{
+				if (tempPath != null && tempPath.size() > 0) {
+					for (String s : tempPath) {
+						FileUtils.deleteFileOnExist(
+								baseDirectory + File.separator + FileUtils.TempFileName + File.separator + code, s);
 					}
 				}
-			} else {
-				result.setMessage("字节码文件不能为空!");
-				return result;
 			}
-			System.out.println(JSON.toJSONString(model));
-			result.setMessage("验证中...");
 		}
 		return result;
+
 	}
-	
+
 	@PostMapping("/addWebsite")
 	public Object addWebsite(
 			@RequestParam(value = "pageProcessorClass", required = false) MultipartFile pageProcessorClass,
@@ -487,7 +399,7 @@ public class WebsiteAdminMainController {
 			@RequestParam(value = "resultProcessorClass", required = false) MultipartFile resultProcessorClass,
 			@RequestParam(value = "resultPipelineClass", required = false) MultipartFile resultPipelineClass,
 			@RequestParam(value = "resultRObjectClass", required = false) MultipartFile resultRObjectClass,
-			@ModelAttribute @Valid WebsiteMainUploadModel model, BindingResult error) throws PageArgumentsException {
+			@ModelAttribute @Valid WebsiteMainAddModel model, BindingResult error) throws PageArgumentsException {
 		// 强制提交
 		// 可能需要接收到上传的字节码文件。
 		ResultModel result = new ResultModel();
@@ -506,48 +418,94 @@ public class WebsiteAdminMainController {
 			}
 			String root = System.getProperty("webapp.root");
 			String baseDirectory = root + File.separator + "WEB-INF" + File.separator + "classes2";
-			List<String> tempPath = null;
+			List<String> tempPath = new ArrayList<String>();
 			String code = "" + new Date().getTime();
 			try {
 				// 统一忽略文件存在，直接覆盖
 				// baseDiectory:d:/..../WEB-INF/classes2
 				// 需要考虑如果数据更新入数据库失败需要还原，删除文件
 				tempPath = uploadFileHandler(pageProcessorClass, pagePipelineClass, pageRObjectClass,
-						resultProcessorClass, resultPipelineClass, resultRObjectClass, model, baseDirectory, true,
+						resultProcessorClass, resultPipelineClass, resultRObjectClass, model, baseDirectory, false,
 						code);
-			} catch (FileExistsException e) {
+			} catch (FileExistException e) {
+				result.setMessage("文件存在,不可覆盖!");
+				return result;
 			}
 			// 开始处理字节码文件.强制更新是忽略文件是否存在，而进行的直接覆盖
-			int num = mainService.updateWebsiteForceForUpdateInfo(model, "Admin");
-			if (num > 0) {
-				// 文件转移
+			try {
+				int num = mainService.addWebsiteInfo(model, "Admin");
+				if (num > 0) {
+					// 文件转移
+					if (tempPath != null && tempPath.size() > 0) {
+						for (String s : tempPath) {
+							FileUtils.copyFileToPath(
+									baseDirectory + File.separator + FileUtils.TempFileName + File.separator + code, s,
+									baseDirectory);
+						}
+					}
+					result.setCode("200");
+					result.setMessage("操作成功!");
+				} else {
+					result.setCode("401");// 可能前置条件有
+					result.setMessage("操作失败!");
+				}
+			} catch (PageArgumentsException e) {
+				throw e;
+			}finally{
 				if (tempPath != null && tempPath.size() > 0) {
 					for (String s : tempPath) {
-						FileUtils.copyFileToPath(
-								baseDirectory + File.separator + FileUtils.TempFileName + File.separator + code, s,
-								baseDirectory);
 						FileUtils.deleteFileOnExist(
 								baseDirectory + File.separator + FileUtils.TempFileName + File.separator + code, s);
 					}
 				}
-				result.setCode("200");
-				result.setMessage("操作成功!");
-			} else {
-				if (tempPath != null && tempPath.size() > 0) {
-					for (String s : tempPath) {
-						FileUtils.deleteFileOnExist(
-								baseDirectory + File.separator + FileUtils.TempFileName + File.separator + code, s);
-					}
-				}
-				result.setCode("401");// 可能前置条件有
-				result.setMessage("操作失败!");
 			}
 		}
 		return result;
 	}
-	
+
+	private List<String> uploadFileHandler(MultipartFile pageProcessorClass, MultipartFile pagePipelineClass,
+			MultipartFile pageRObjectClass, MultipartFile resultProcessorClass, MultipartFile resultPipelineClass,
+			MultipartFile resultRObjectClass, WebsiteMainAddModel model, String root, boolean igExit, String code)
+			throws FileExistException {
+		String fPath = "com" + File.separator + "zhidian" + File.separator; // 文件名
+		List<String> filePath = new ArrayList<String>();
+		String name = FileUtils.keepMultipartFileToTemp(pageProcessorClass, root,
+				fPath + "bases" + File.separator + "worms" + File.separator + "processor", igExit, code);
+		if (name != null) {
+			filePath.add(name);// com/sere/dsdf/vvv.class
+			model.setPageProcessor(FileUtils.fileNameHandlerWithOutSuffix(name));
+		}
+		name = FileUtils.keepMultipartFileToTemp(pagePipelineClass, root,
+				fPath + "bases" + File.separator + "worms" + File.separator + "pipeline", igExit, code);
+		if (name != null) {
+			filePath.add(name);
+			model.setPagePipeline(FileUtils.fileNameHandlerWithOutSuffix(name));
+		}
+		name = FileUtils.keepMultipartFileToTemp(pageRObjectClass, root,
+				fPath + "bases" + File.separator + "worms" + File.separator + "model", igExit, code);
+		if (name != null) {
+			filePath.add(name);
+			model.setPageRObject(FileUtils.fileNameHandlerWithOutSuffix(name));
+		}
+		name = FileUtils.keepMultipartFileToTemp(resultProcessorClass, root,
+				fPath + "bases" + File.separator + "worms" + File.separator + "processor", igExit, code);
+		if (name != null) {
+			filePath.add(name);
+			model.setResultProcessor(FileUtils.fileNameHandlerWithOutSuffix(name));
+		}
+		name = FileUtils.keepMultipartFileToTemp(resultPipelineClass, root,
+				fPath + "bases" + File.separator + "worms" + File.separator + "pipeline", igExit, code);
+		if (name != null) {
+			filePath.add(name);
+			model.setResultPipeline(FileUtils.fileNameHandlerWithOutSuffix(name));
+		}
+		name = FileUtils.keepMultipartFileToTemp(resultRObjectClass, root,
+				fPath + "bases" + File.separator + "worms" + File.separator + "model", igExit, code);
+		if (name != null) {
+			filePath.add(name);
+			model.setResultRObject(FileUtils.fileNameHandlerWithOutSuffix(name));
+		}
+		return filePath;
+	}
+
 }
-
-
-
-	

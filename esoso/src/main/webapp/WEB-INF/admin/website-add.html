@@ -78,7 +78,7 @@ table tr {
 							autocomplete="off" /></td>
 					</tr>
 					<tr>
-						<td><span class="c-red">*</span>依赖默认版本</td>
+						<td>依赖默认版本</td>
 						<td><div class="check-box">
 								<input type="checkbox" id="check2" autocomplete="off"
 									name="check2" checked="checked" /> <label for="checkbox-2">&nbsp;</label>
@@ -92,7 +92,7 @@ table tr {
 					<tr id="versionTr" v-if="items!=null">
 						<td>依赖版本</td>
 						<td><span class="select-box"> <select
-								name="versionId" id=""versionId"" class="select valid"
+								name="versionId" id="versionId" class="select valid"
 								autocomplete="off" aria-required="true" aria-invalid="false"
 								v-model="checked"><option value="0.0.0"
 										v-for="item in items" v-bind:value="item">{{item}}</option>
@@ -309,7 +309,7 @@ table tr {
 					},
 					resultProcessor : {
 						required : true
-					}*/, 
+					}, */
 					pageProcessorClass : {
 						required : true,
 						fileType : [ "class" ]

@@ -3,9 +3,10 @@ package com.zhidian.util;
 import java.io.File;
 import java.io.IOException;
 
-import org.apache.commons.io.FileExistsException;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.zhidian.exception.FileExistException;
 
 public class FileUtils {
 	public static String TempFileName = "temp";
@@ -29,15 +30,16 @@ public class FileUtils {
 
 	/**
 	 * @param code
-	 * 			@Title: keepMultipartFileToTemp @Description:
-	 *            TODO(保存文件到classes2/temp/com/...临时目录。code为识别码) @param @param
-	 *            file @param @param root d:/..../WEB-INF/classes2 @param @param
-	 *            fPath com/bases/dfdf @param @param
-	 *            igExit @param @return @param @throws FileExistsException
-	 *            参数 @return String 返回类型 @throws
+	 * @throws FileExistException
+	 * @Title: keepMultipartFileToTemp @Description:
+	 *         TODO(保存文件到classes2/temp/com/...临时目录。code为识别码) @param @param
+	 *         file @param @param root d:/..../WEB-INF/classes2 @param @param
+	 *         fPath com/bases/dfdf @param @param
+	 *         igExit @param @return @param @throws FileExistsException
+	 *         参数 @return String 返回类型 @throws
 	 */
 	public static String keepMultipartFileToTemp(MultipartFile file, String root, String fPath, boolean igExit,
-			String code) throws FileExistsException {
+			String code) throws FileExistException {
 		if (file != null) {
 			String name = file.getOriginalFilename();
 			if (name != null && name.trim().length() > 0) {
@@ -48,10 +50,9 @@ public class FileUtils {
 				try {
 					if (!igExit) {
 						// 校验非temp文件目录是否存在文件
-						File tfile = new File(root + File.separator + File.separator + fPath,
-								name);
-						if(tfile!=null&&tfile.exists()&&tfile.isFile()){
-							throw new FileExistsException();
+						File tfile = new File(root + File.separator + File.separator + fPath, name);
+						if (tfile != null && tfile.exists() && tfile.isFile()) {
+							throw new FileExistException();
 						}
 					}
 					if (!f.exists()) {
@@ -102,18 +103,18 @@ public class FileUtils {
 
 	/**
 	 * @Title: copyFileToPath @Description: TODO(这里用一句话描述这个方法的作用) @param @param
-	 * fPath d:/....WEB-INF/classes2/temp/201345654 @param @param filePathAndName
-	 * com/abd/sdf.class @param @param keepPath d:/....WEB-INF/classes2
-	 * 参数 @return void 返回类型 @throws
+	 *         fPath d:/....WEB-INF/classes2/temp/201345654 @param @param
+	 *         filePathAndName com/abd/sdf.class @param @param keepPath
+	 *         d:/....WEB-INF/classes2 参数 @return void 返回类型 @throws
 	 */
 	public static void copyFileToPath(String fPath, String filePathAndName, String keepPath) {
 		if (fPath != null && filePathAndName != null && keepPath != null && keepPath.trim().length() > 0
 				&& filePathAndName.trim().length() > 0 && fPath.trim().length() > 0) {
-			File f = new File(fPath,filePathAndName);
-			if(f!=null&&f.exists()){
-				File out = new File(keepPath,filePathAndName);
+			File f = new File(fPath, filePathAndName);
+			if (f != null && f.exists()) {
+				File out = new File(keepPath, filePathAndName);
 				FileUtils.mkdirs(out);
-				if(out!=null&&!out.exists()){
+				if (out != null && !out.exists()) {
 					try {
 						out.createNewFile();
 					} catch (IOException e) {
@@ -128,14 +129,21 @@ public class FileUtils {
 	}
 
 	public static void deleteFileOnExist(String fPath, String filePathAndName) {
-		if(fPath!=null&&filePathAndName!=null&&fPath.trim().length()>0&&filePathAndName.trim().length()>0){
-			File f = new File(fPath,filePathAndName);
-			if(f!=null&&f.exists()){
-				if(f.isFile()){
-					f.deleteOnExit();
+		if (fPath != null && filePathAndName != null && fPath.trim().length() > 0
+				&& filePathAndName.trim().length() > 0) {
+			File f = new File(fPath, filePathAndName);
+			if (f != null && f.exists()) {
+				if (f.isFile()) {
+						f.delete();
 				}
 			}
 		}
+	}
+
+	public static void main(String[] args) {
+		String s = "D:/Documents//.metadata/null/org.eclipse.wst.server.core/tmp1/wtpwebapps/esoso/WEB-INF/classes2/temp/1494602936723";
+		String f = "com/zhidian/bases/worms/model/UrlUtils.class";
+		deleteFileOnExist(s, f);
 	}
 
 }
