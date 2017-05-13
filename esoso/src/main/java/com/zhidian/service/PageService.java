@@ -147,6 +147,7 @@ public class PageService {
 			if (web == null) {
 				return pull;
 			}
+			System.out.println("web:"+JSON.toJSONString(web));
 			if (css == null || css.size() == 0 || js == null || js.size() == 0 || StringUtils.isEmpty(page)) {
 				// css为空
 				Version version = web.getVersion();
@@ -155,23 +156,27 @@ public class PageService {
 							article.getUuid());
 					return pull;
 				}
+				String versionId = BasicUtils.id2Version(version.getId());
 				if (css == null || css.size() == 0) {
 					if (StringUtils.isNotEmpty(web.getDefPageCss())) {
 						article.setCssPath(web.getDefPageCss());
 					} else {
 						article.setCssPath(version.getDefCss());
 					}
-					css = RegExpUtils.convertString2List2(article.getCssPath());
+					css = RegExpUtils.convertString2List2(article.getCssPath(),"css/" + ResourceEnumDefine.ResourceType.内容详情页.getValue() + "/" + version.getName() + "/"
+							+ versionId + "/");
 				}
 
 				if (js == null || js.size() == 0) {
 					// js为空
 					article.setJsPath(version.getDefJs());
-					js = RegExpUtils.convertString2List2(article.getJsPath());
+					js = RegExpUtils.convertString2List2(article.getJsPath(),"js/" + ResourceEnumDefine.ResourceType.内容详情页.getValue() + "/" + version.getName() + "/"
+							+ versionId + "/");
 				}
 				if (StringUtils.isEmpty(page)) {
 					// page为空
-					article.setPagePath(version.getDefPage());
+					article.setPagePath("/websites/"+version.getName()+"/"+versionId+"/"+version.getDefPage());
+					System.out.println("url is:"+article.getPagePath());
 					page = article.getPagePath();
 				}
 			}

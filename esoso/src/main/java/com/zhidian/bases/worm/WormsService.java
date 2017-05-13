@@ -532,4 +532,11 @@ public class WormsService {
 		}
 		return strArr;
 	}
+
+	public void passAll() {
+		List<PullArticle> list = pullArticleMapper.queryPullArticlesForAdminInfoSupportServcie07ListPullArticle();
+		if(list!=null&&list.size()>0){
+			pullArticleMapper.updateStatus(list);
+		}
+	}
 }

@@ -98,6 +98,10 @@ public interface PullArticleMapper {
 
 	List<ResultPageBO> queryPullArticlesForPullArticleService01ResultPageBO(@Param("key") String key,
 			@Param("list") List<String> from,@Param("offset") int offset,@Param("size") int size);
+
+	List<PullArticle> queryPullArticlesForAdminInfoSupportServcie07ListPullArticle();
+
+	void updateStatus(@Param("list") List<PullArticle> list);
 	
 
 	// PullArticle selectPullArticleByIdAndName(@Param("id") int id,@Param("id")

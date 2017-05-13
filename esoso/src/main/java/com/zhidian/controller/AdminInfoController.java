@@ -5,11 +5,11 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.zhidian.service.AdminService;
-import com.zhidian.views.RequestModel;
 
 @Controller
 @RequestMapping("/admin")
@@ -49,6 +49,12 @@ public class AdminInfoController {
 	@PostMapping("/loginout")
 	public String loginout(HttpServletRequest request) {
 		request.getSession().removeAttribute(ADMINCODE);
+		System.out.println("退出...");
 		return "redirect:login";
+	}
+	
+	@GetMapping("/pa/{uuid}")
+	public String pa(@PathVariable("uuid") String uuid){
+		return "redirect:/pa/f/"+uuid;
 	}
 }

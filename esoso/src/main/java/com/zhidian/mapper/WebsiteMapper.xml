@@ -23,19 +23,16 @@
 		<result property="defPageConfig" column="defPageConfig" />
 		<result property="defResultConfig" column="defResultConfig" />
 		<result property="defRequestHeader" column="defRequestHeader" />
-		<association property="version" column="versionId"
+		<association property="version" column="versionId"  select="selectVersion"
 			javaType="Version">
-			<id column="id" property="id" />
-			<result property="name" column="name" />
-			<result property="using" column="using" />
-			<result property="defCss" column="defCss" />
-			<result property="defPage" column="defPage" />
-			<result property="defJs" column="defJs" />
-			<result property="sign" column="sign" />
-			<result property="type" column="type" />
+
 		</association>
 	</resultMap>
-
+	
+	<select id="selectVersion" resultType="Version">
+		select * from versions where id = #{versionId}
+	</select>
+	
 	<insert id="insertWebsitesForAdminMainSupportService01ReturnId" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
 		insert into websites set searchAddr = #{searchAddr},pagination=#{pagination},sign=#{sign},
 		useSearch=#{useSearch},defaultPageCss=#{defaultPageCss},defPageConfig=#{defPageConfig},
@@ -78,7 +75,7 @@
 		</insert> -->
 
 	<select id="queryWebsitesForPageService01SimpleWebsiteBO"
-		resultType="WebsiteBO" parameterType="hashmap">
+	 parameterType="hashmap" resultMap="websiteBOMap">
 		select * from websites where type = #{type} and name = #{name}
 		<choose>
 			<when test="id == 0">

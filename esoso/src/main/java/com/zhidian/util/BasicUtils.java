@@ -86,7 +86,7 @@ public class BasicUtils {
 	}
 
 	public static String filterValues(String value){
-		value = value.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+//		value = value.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
 		value = value.replaceAll("\\(", "&#40;").replace("\\)", "&#41;");
 		value = value.replaceAll("'", "&#39;");
 //		value = value.replaceAll("!","！").replaceAll("=");
@@ -94,7 +94,7 @@ public class BasicUtils {
 		value = value.replaceAll("[\\\"\\\'][\\s]*javascript:(.*)[\\\"\\\']", "\"\"");
 		value = value.replace("script", "");
 		return value;
-	}
+	}//https://segmentfault.com/q/1010000004373045
 	
 	
 	public static String urlSearchPart(String url) {

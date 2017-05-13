@@ -56,7 +56,7 @@ public class PullArticleInfoController {
 			System.out.println(JSON.toJSONString(result));
 			return result.getUrl();// "//websites/answer/segmentfault/0.0.0.0/index";
 		} else {
-			return "websites/answer/segmentfault/0.0.0.0/index";
+			return "websites/answer/segmentfault/0.0.2/index";
 		}
 	}
 

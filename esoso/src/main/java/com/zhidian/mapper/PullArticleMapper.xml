@@ -16,11 +16,16 @@
 		</trim>
 	</insert>
 
-	<select id="queryPullArticlesForPullArticleService01SimplePullArticle"
+	<!-- <select id="queryPullArticlesForPullArticleService01SimplePullArticle"
 		parameterType="string" resultType="PullArticle">
 		select * from pullArticles where
 		uuid = #{uuid} and pullArticles.using = 1 and pullArticles.status = 0
 		group by startTime desc limit 1;
+	</select> -->
+	<select id="queryPullArticlesForPullArticleService01SimplePullArticle"
+		parameterType="string" resultType="PullArticle">
+		select * from pullArticles where
+		uuid = #{uuid} group by startTime desc limit 1;
 	</select>
 
 	<select id="selectPullArticlesForPullArticleService01MapObject"
@@ -106,14 +111,26 @@
 	<select id="queryPullArticlesForAdminInfoSupportServcie06ListPullArticle" resultType="PullArticle">
 		select * from pullArticles where url = #{url} and status = 0;
 	</select>
+
 	
 	<select id="queryPullArticlesForPullArticleService01ResultPageBO" resultType="ResultPageBO">
-		select * from pullArticles where name in 
+		select uuid as id,title,resultContent as contents,url as originUrl,name as 'from',mark,tags,startTime as createTime,views,scores from pullArticles where name in 
 		<foreach collection="list" close=")" open="(" separator="," item="item">
 			#{item}
 		</foreach>
 		and (resultContent like CONCAT('%',#{key},'%') or title like CONCAT('%',#{key},'%')) limit #{offset},#{size}
 	</select>
+	
+	<select id="queryPullArticlesForAdminInfoSupportServcie07ListPullArticle" resultType="PullArticle">
+		select * from pullArticles where status = 2 limit 20;
+	</select>
+	
+	<update id="updateStatus" statementType="CALLABLE">
+		<foreach collection="list" separator="," item="item">
+			call confirmPullarticleok(#{item.name},#{item.type},#{item.uuid},#{item.url});
+		</foreach>
+	</update>
+	
 	
 
 	<update id="updatePullArticlesForAdminMainSupportService01RetrunId"

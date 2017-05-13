@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.zhidian.bases.worm.WormsService;
 import com.zhidian.model.sys.PullPageObjectModel;
+import com.zhidian.views.ResultModel;
 
 @Controller
 @RequestMapping("/admin/worm")
@@ -38,10 +39,33 @@ public class WormAdminInfoController {
 		List<PullPageObjectModel> list= wormsService.startPullDataFromScheduleByAdminTrigger();
 		return list;
 	}
+	
+	@GetMapping("/s/s")
+	@ResponseBody
+	public Object startPullData2() {
+		ResultModel result = new ResultModel();
+		new Thread(new Runnable() {
+			public void run() {
+				wormsService.startPullDataFromScheduleByAdminTrigger();				
+			}
+		}).start();;
+		result.setMessage("执行成功!");
+		return result;
+	}
+	
 	@GetMapping("/s/start/{id}")
 	@ResponseBody
 	public List<PullPageObjectModel> startPullDataForId(@PathVariable("id") int id){
 		return wormsService.startPullDataFromScheduleByAdminTriggerForId(id);
+	}
+	
+	@GetMapping("/s/pass")
+	@ResponseBody
+	public Object pass(){
+		ResultModel result = new ResultModel();
+		wormsService.passAll();
+		result.setMessage("执行成功!");
+		return result;
 	}
 	
 }

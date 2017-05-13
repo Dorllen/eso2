@@ -58,6 +58,7 @@ import com.zhidian.service.AdminInfoSupportService;
 import com.zhidian.service.AdminMainSupportService;
 import com.zhidian.service.AdminService;
 import com.zhidian.service.DataInfoAdminService;
+import com.zhidian.service.PageService;
 import com.zhidian.util.BasicUtils;
 import com.zhidian.views.ServiceSettingsDTO;
 import com.zhidian.views.WebsiteMainAddModel;
@@ -92,6 +93,21 @@ public class AppTest {
 	// }
 	// }
 
+	@Autowired
+	PageService page;
+	
+	@Test
+	public void testPageService(){
+		WebsiteBO web = websiteMapper.queryWebsitesForPageService01SimpleWebsiteBO(
+				AppEnumDefine.SiteService.搜索.getValue(), "segmentfault", 1);
+		System.out.println(JSON.toJSONString(web.getVersion()));
+		System.out.println(JSON.toJSONString(web));
+	}
+	
+	@Test
+	public void teswwer(){
+		System.out.println(JSON.toJSONString(page.getPullArticle("eb2f2e75d8e462f7153caa4e2a582277")));
+	}
 	
 	// ###########################AdminService##################
 	

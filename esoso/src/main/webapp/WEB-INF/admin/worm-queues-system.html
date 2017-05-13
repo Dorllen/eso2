@@ -325,7 +325,7 @@
 				layer.confirm('是否立即运行？', {
 					  btn: ['运行','放弃'] //按钮
 					}, function(){
-						$.post("").done(function(data){
+						$.get("worms/s/s").done(function(data){
 							if(data){
 								if(data.message){
 									layer.msg(data.message,{time:2000,icon:1});

@@ -67,14 +67,14 @@
 		mapping="/**/*.ttf" /> <mvc:resources location="/WEB-INF/" mapping="/**/*.map" 
 		/> <mvc:resources location="/WEB-INF/" mapping="/**/*.swf" /> -->
 	
-	<mvc:interceptors>
+<!-- 	<mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/admin/**/*.html"/>
 			<mvc:exclude-mapping path="/admin/login"/>
 			<mvc:exclude-mapping path="/admin/up/login"/>
 			<beans:bean class="com.zhidian.interceptor.LoginInterceptor"></beans:bean>
 		</mvc:interceptor>
-	</mvc:interceptors>
+	</mvc:interceptors> -->
 	
 	<!-- 视图解析器 -->
 	<beans:bean id="templateResolver"
@@ -228,11 +228,11 @@
 		</beans:property>
 	</beans:bean>
 
-	<task:scheduled-tasks>
-		<!-- 定时更新t_stores_tmp表的数据。将该表更新的数据自动更新入t_stores表（每一小时触发一次）-->
-		<task:scheduled ref="scheduleService" method="autoDownloadFromSheduleQueue"
+	<!-- <task:scheduled-tasks> -->
+		<!-- 定时更新t_stores_tmp表的数据。将该表更新的数据自动更新入t_stores表（每一小时触发一次） -->
+ 		<!-- <task:scheduled ref="scheduleService" method="autoDownloadFromSheduleQueue"
 			initial-delay="6000" fixed-delay="180000" />
-	</task:scheduled-tasks>
+	</task:scheduled-tasks> -->
 
 	<!-- http://www.cnblogs.com/everSeeker/p/5188840.html 开启定时任务的2种方法，（1）通过spring－task，采用@Scheduled注解方式，配置简单，使用灵活方便； 
 		（2）通过quartz，配置稍微复杂，功能强大 方法一： 开启task:annotation-driven，spring可以通过注解@Scheduled来开启任务 

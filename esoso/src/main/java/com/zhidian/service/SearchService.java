@@ -8,6 +8,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSON;
 import com.zhidian.bases.ResourceEnumDefine;
 import com.zhidian.bases.SearchEngineEnumDefine;
 import com.zhidian.mapper.VersionMapper;
@@ -213,6 +214,7 @@ public class SearchService {
 	}
 
 	public ResultPageVO exchangeObjectPullPageModelFromDB(List<ResultPageBO> lists) {
+		System.out.println("JSON:"+JSON.toJSONString(lists));
 		ResultPageVO result = new ResultPageVO();
 		Date d = new Date();
 		result.setResults(dataHandler(lists));

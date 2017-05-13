@@ -1,5 +1,6 @@
 package com.zhidian.controller;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
 import com.zhidian.bases.SearchEngineEnumDefine;
 import com.zhidian.bases.worm.WormsService;
 import com.zhidian.model.sys.PullResultPageModel;
@@ -59,6 +61,12 @@ public class SearchMainController {
 			@RequestParam(value = "t2", required = false) String time, // 时间戳.【待完善，让收藏更方便】
 			Model model) {
 		long start = System.currentTimeMillis();
+		try {
+			key  = new String(key.getBytes("ISO8859-1"),"UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+			return "redirect:null";
+		}
 		if (!StringUtils.isEmpty(key)) {
 			// ResultPageDTO => ResultPageVO . 同时要连通数据库，找出当前用户的信息，如：收藏，访问量
 			if (SearchEngineEnumDefine.Type.问答.getValue().equals(type)) {
@@ -182,6 +190,12 @@ public class SearchMainController {
 			@RequestParam("q") String query) {
 		// 直接开始爬取
 		// return wormsService.pullOnlineDataWithThreading(from, query);
+		return null;
+	}
+	
+	@GetMapping("/null")
+	@ResponseBody
+	public Object getNullInfor(){
 		return null;
 	}
 }
