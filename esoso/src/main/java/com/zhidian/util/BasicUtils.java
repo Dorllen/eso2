@@ -85,6 +85,18 @@ public class BasicUtils {
 		return -1;
 	}
 
+	public static String filterValues(String value){
+		value = value.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+		value = value.replaceAll("\\(", "&#40;").replace("\\)", "&#41;");
+		value = value.replaceAll("'", "&#39;");
+//		value = value.replaceAll("!","！").replaceAll("=");
+		value = value.replaceAll("eval\\((.*)\\)", "");
+		value = value.replaceAll("[\\\"\\\'][\\s]*javascript:(.*)[\\\"\\\']", "\"\"");
+		value = value.replace("script", "");
+		return value;
+	}
+	
+	
 	public static String urlSearchPart(String url) {
 		if (StringUtils.isNotEmpty(url)) {
 			Matcher matcher = Pattern.compile("(?:http:\\/\\/|http://www\\.|www\\.)?.*\\?([0-9A-Za-z&!=\\-]*)")

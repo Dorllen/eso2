@@ -22,6 +22,13 @@
 		select * from scheduleQueues where status = 1 and type !=
 		'System';
 	</select>
+	
+	<select id="queryScheduleQueuesForWormsService02ListScheduleQueue" resultType="ScheduleQueue">
+		select * from scheduleQueues where status = 1 and type = 'System' limit 15;
+	</select>
+	
+	
+	
 	<select id="queryScheduleQueuesForPullArticleService01ListScheduleQueue"
 		resultType="ScheduleQueue">
 		select * from scheduleQueues where type = 'System' and type2 = 'answer' and type3 = 'websites' and 

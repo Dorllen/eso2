@@ -43,7 +43,7 @@ http://127.0.0.1:8080/esoso/admin/website/getInfo3?name=Result 測試CommonClass
 
 
 严重问题：
-
+1. 定时任务处理交叉...
 
 
 使用vue良好效果的有：

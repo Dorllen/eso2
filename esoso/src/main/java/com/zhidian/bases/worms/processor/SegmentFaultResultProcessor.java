@@ -11,6 +11,7 @@ import com.zhidian.bases.WormEnumDefine;
 import com.zhidian.bases.worms.pipeline.ResultSimplePipeline;
 import com.zhidian.model.sys.PullResultBO;
 import com.zhidian.model.sys.PullResultPageModel;
+import com.zhidian.util.BasicUtils;
 
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.selector.Selectable;
@@ -43,13 +44,13 @@ public class SegmentFaultResultProcessor extends BaseResultPageProcessor<PullRes
 						search = new PullResultBO();
 						// 解析tile
 						Selectable title = result.xpath("//h2[@class='h4']/a[1]/text()");
-						search.setTitle(title.toString());
+						search.setTitle(BasicUtils.filterValues(title.toString()));
 						// 监听是否异常
 						setWatcherForProperty(title, page.getUrl().toString(), "title",
 								"xpath(\"//h2[@class='h4']/a[1]/text()\")");
 						// 解析content
 						Selectable content = result.xpath("//p[@class='excerpt']/text()");
-						search.setContent(content.toString());
+						search.setContent(BasicUtils.filterValues(content.toString()));
 						setWatcherForProperty(content, page.getUrl().toString(), "content",
 								"xpath(\"//p[@class='excerpt']/text()\")");
 						// 解析link

@@ -19,7 +19,6 @@ import java.util.List;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
 
-import com.alibaba.fastjson.JSON;
 import com.zhidian.bases.AppEnumDefine;
 import com.zhidian.model.sys.CssInfoModel;
 import com.zhidian.model.sys.CssObjectModel;
@@ -63,7 +62,7 @@ public abstract class BasePageProcessor extends BaseProcessor {
 	public void process(Page page) {
 		if (isCss(page.getUrl().toString())) {
 			try {
-				System.out.println("進入Css處理識別中....");
+//				System.out.println("進入Css處理識別中....");
 				cssHandler(page);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -75,8 +74,8 @@ public abstract class BasePageProcessor extends BaseProcessor {
 				List<String> cssPaths = page.getHtml().xpath("//link[contains(@rel, 'stylesheet')]").$("link", "href")
 						.all();
 				cssPaths.toString();// cssPaths不調用會出錯
-				System.out.println("CSS:" + JSON.toJSONString(cssPaths));
-				System.out.println("CSS Model:" + JSON.toJSONString(this.getObj().getCssModel()));
+//				System.out.println("CSS:" + JSON.toJSONString(cssPaths));
+//				System.out.println("CSS Model:" + JSON.toJSONString(this.getObj().getCssModel()));
 				if (cssPaths != null && cssPaths.size() > 0) {
 					if (this.getObj() != null && this.getObj().getCssModel() != null) {
 						List<String> temp = new ArrayList<String>(cssPaths.size());
@@ -99,65 +98,67 @@ public abstract class BasePageProcessor extends BaseProcessor {
 	public abstract int pageHandler(Page page);
 
 	public void cssHandler(Page page) throws Exception {
-		for (CssInfoModel css : this.getObj().getCssModel()) {
-			// 比较
-			if (cssUrlEquals(page.getUrl().toString(), css)) {
-				// 比较内容
-				String html = page.getRawText();
-				if (StringUtils.isNotEmpty(html)) {
-					String code = DigestUtils.md5Hex(html);
-					if (code != null) {
-						if (code.equals(css.getUuid())) {
-							// 相等则忽略
-						} else {
-							// 准备下载
-							CssObjectModel csModel = new CssObjectModel();
-							csModel.setVersion(BasicUtils.newVersion(css.getVersion()));
-							csModel.setDownloadPath(css.getCssPath() + "/" + css.getWebSite() + "/"
-									+ csModel.getVersion() + "/" + css.getName() + ".css.temp");// 以.temp存储
-							File f = new File(csModel.getDownloadPath());// 取当前站点在当前项目的css路径
-							while (true) {// 循环建立，直到建立成功。创建正确的版本文件目录
-								if (!f.exists()) {
-									f.mkdirs();
-									if (f.isFile()) {
+		if (this.getObj().getCssModel() != null) {
+			for (CssInfoModel css : this.getObj().getCssModel()) {
+				// 比较
+				if (cssUrlEquals(page.getUrl().toString(), css)) {
+					// 比较内容
+					String html = page.getRawText();
+					if (StringUtils.isNotEmpty(html)) {
+						String code = DigestUtils.md5Hex(html);
+						if (code != null) {
+							if (code.equals(css.getUuid())) {
+								// 相等则忽略
+							} else {
+								// 准备下载
+								CssObjectModel csModel = new CssObjectModel();
+								csModel.setVersion(BasicUtils.newVersion(css.getVersion()));
+								csModel.setDownloadPath(css.getCssPath() + "/" + css.getWebSite() + "/"
+										+ csModel.getVersion() + "/" + css.getName() + ".css.temp");// 以.temp存储
+								File f = new File(csModel.getDownloadPath());// 取当前站点在当前项目的css路径
+								while (true) {// 循环建立，直到建立成功。创建正确的版本文件目录
+									if (!f.exists()) {
+										f.mkdirs();
+										if (f.isFile()) {
+											try {
+												f.createNewFile();
+											} catch (IOException e) {
+												e.printStackTrace();
+											}
+										}
+										break;
+									} else {
+										// 存在文件则版本+1
+										csModel.setVersion(BasicUtils.newVersion(csModel.getVersion()));
+										String f_ = "/" + css.getWebSite() + "/" + csModel.getVersion() + "/"
+												+ css.getName() + ".css";
+										csModel.setCssPath(css.getCssPath() + f_);
+										csModel.setDownloadPath(css.getAbCssPath() + f_);// 存储当前站点在当前项目的css路径
+										f = new File(csModel.getDownloadPath() + ".temp");// 以.temp存储
+									}
+								}
+								csModel.setUuid(code);
+								csModel.setDate(new Date());
+								csModel.setUrl(page.getUrl().toString());
+								csModel.setSearch(BasicUtils.urlSearchPart(page.getUrl().toString()));
+								csModel.setName(css.getName());
+
+								OutputStream out = new FileOutputStream(f);
+								try {
+									out.write(html.getBytes());
+									csModel.setDownload(true);// 確定下載
+									this.getObj().addCssPaths(csModel);// 增加入
+									this.getObj().setChanged(true);// 代表页面变动了
+									setWatcherForCss(csModel);
+								} catch (IOException e) {
+									e.printStackTrace();
+								} finally {
+									if (out != null) {
 										try {
-											f.createNewFile();
+											out.close();
 										} catch (IOException e) {
 											e.printStackTrace();
 										}
-									}
-									break;
-								} else {
-									// 存在文件则版本+1
-									csModel.setVersion(BasicUtils.newVersion(csModel.getVersion()));
-									String f_ = "/" + css.getWebSite() + "/" + csModel.getVersion() + "/"
-											+ css.getName() + ".css";
-									csModel.setCssPath(css.getCssPath() + f_);
-									csModel.setDownloadPath(css.getAbCssPath() + f_);// 存储当前站点在当前项目的css路径
-									f = new File(csModel.getDownloadPath() + ".temp");// 以.temp存储
-								}
-							}
-							csModel.setUuid(code);
-							csModel.setDate(new Date());
-							csModel.setUrl(page.getUrl().toString());
-							csModel.setSearch(BasicUtils.urlSearchPart(page.getUrl().toString()));
-							csModel.setName(css.getName());
-
-							OutputStream out = new FileOutputStream(f);
-							try {
-								out.write(html.getBytes());
-								csModel.setDownload(true);// 確定下載
-								this.getObj().addCssPaths(csModel);// 增加入
-								this.getObj().setChanged(true);// 代表页面变动了
-								setWatcherForCss(csModel);
-							} catch (IOException e) {
-								e.printStackTrace();
-							} finally {
-								if (out != null) {
-									try {
-										out.close();
-									} catch (IOException e) {
-										e.printStackTrace();
 									}
 								}
 							}
@@ -211,11 +212,11 @@ public abstract class BasePageProcessor extends BaseProcessor {
 						if (name_.equals(dbCss.getName())) {
 							String f1 = pageUrl.substring(0, pageUrl.lastIndexOf("/"));
 							String[] urls = dbCss.getUrl().split("\\|");
-							if(urls!=null){
-								for(String s : urls){
-									if(s.length()>0){
+							if (urls != null) {
+								for (String s : urls) {
+									if (s.length() > 0) {
 										String f2 = s.substring(0, s.lastIndexOf("/"));
-										if(BasicUtils.checkUrlEquals(f1, f2)){
+										if (BasicUtils.checkUrlEquals(f1, f2)) {
 											return true;
 										}
 									}

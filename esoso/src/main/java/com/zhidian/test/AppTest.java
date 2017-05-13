@@ -49,6 +49,7 @@ import com.zhidian.model.WormLog;
 import com.zhidian.model.sys.AdminBO;
 import com.zhidian.model.sys.ConfigBO;
 import com.zhidian.model.sys.NameValueModel;
+import com.zhidian.model.sys.PullPageObjectModel;
 import com.zhidian.model.sys.PullResultBO;
 import com.zhidian.model.sys.PullResultPageModel;
 import com.zhidian.model.sys.ResultRoleBO;
@@ -264,6 +265,12 @@ public class AppTest {
 		List<PullResultPageModel> list = wormsService.getResultsByOnlineSearch("python", from);
 		String str = JSON.toJSONString(list);
 		System.out.println("results:" + str);
+	}
+	
+	@Test
+	public void tesWormService02(){
+		List<PullPageObjectModel> list = wormsService.startPullDataFromScheduleBySystemTrigger();
+		System.out.println(JSON.toJSONString(list));
 	}
 
 	// ###########################Result##################

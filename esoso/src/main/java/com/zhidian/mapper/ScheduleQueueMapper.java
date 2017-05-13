@@ -61,5 +61,7 @@ public interface ScheduleQueueMapper {
 	*/
 	Map<String,String> selectScheduleQueuesForPullArticleService01MapObject(@Param("uuid") String uuid);
 
+	List<ScheduleQueue> queryScheduleQueuesForWormsService02ListScheduleQueue();
+
 
 }

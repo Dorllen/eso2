@@ -359,6 +359,28 @@ public class WormsService {
 		}
 		return null;
 	}
+	
+	public List<PullPageObjectModel> startPullDataFromScheduleBySystemTrigger() {
+		List<ScheduleQueue> list = scheduleMapper.queryScheduleQueuesForWormsService02ListScheduleQueue();
+		if (list != null && list.size() > 0) {
+			// 开始处理
+			List<String> names = getScheduleQueueNemesNotSame(list);
+			if (names != null && names.size() > 0) {
+				List<WebsiteBO> websites = websiteMapper
+						.queryWebsitesForWormsService01ListWebsiteBO(AppEnumDefine.SiteService.搜索.getValue(), names);
+				// 获取站点的爬虫配置信息
+				// 觉得把websites转list换为map更加棒
+				Map<String, WebsiteBO> wMap = getMapWebsiteBOFromListWebsiteBO(websites);
+				String webRoot = System.getProperty("webapp.root");
+				List<PullPageDataTaskModel> models = createPullPageDataTaskModel(webRoot, list, wMap);
+				// 数据处理
+				List<PullPageObjectModel> results = pullService.startPullDataFromMapCompleteScheduleQueues(models);
+				handlerAfterPullPageData(results);
+				return results;
+			}
+		}
+		return null;
+	}
 
 	public List<PullPageObjectModel> startPullDataFromScheduleByAdminTriggerForId(int id) {
 		ScheduleQueue sche = scheduleMapper.queryScheduleQueuesForWormsService01SimpleScheduleQueue(id);

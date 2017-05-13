@@ -15,6 +15,7 @@ import com.zhidian.bases.WormEnumDefine;
 import com.zhidian.bases.worms.model.SegmentfaultPageRObject;
 import com.zhidian.bases.worms.pipeline.BasePagePipeline;
 import com.zhidian.model.sys.PullPageObjectModel;
+import com.zhidian.util.BasicUtils;
 
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.selector.Selectable;
@@ -50,18 +51,18 @@ public class SegmentFaultPageProcessor extends BasePageProcessor {
 			// 基本处理区域
 			Selectable tTitle = title.xpath("//h1[@id='questionTitle']//a/allText()");
 			setWatcherForProperty(tTitle,page.getUrl().toString(),"only title","xpath(\"//h1[@id='questionTitle']//a/allText()\")");
-			this.getObj().setTitle(tTitle.get());
+			this.getObj().setTitle(BasicUtils.filterValues(tTitle.get()));
 			
 			// question fmt
 			Selectable tContent = content.$("div.question.fmt").xpath("/allText()");
 			setWatcherForProperty(tContent,page.getUrl().toString(),"only content","$(\"div.question.fmt\").xpath(\"/allText()\")");
-			this.getObj().setResultContent(tContent.get());
+			this.getObj().setResultContent(BasicUtils.filterValues(tContent.get()));
 
 			// 内容处理区域.放PageBO的子文件夾
 			handler.setId(this.getObj().getUuid());// uuid
 			handler.setOriginUrl(page.getUrl().toString());// 页面源地址
-			handler.setTitle(title.get());
-			handler.setMain(content.get());
+			handler.setTitle(BasicUtils.filterValues(title.get()));
+			handler.setMain(BasicUtils.filterValues(content.get()));
 			this.getObj().setModel(handler);
 			page.putField(BasePagePipeline.STATUS, WormEnumDefine.Status.结束.name());
 			page.putField(WormEnumDefine.Object.内容详情页.name(), this.getObj());

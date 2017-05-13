@@ -21,7 +21,7 @@ public class ScheduleService {
 
 	public void autoDownloadFromSheduleQueue() {
 		try {
-			wormsService.startPullDataFromScheduleByAdminTrigger();
+			wormsService.startPullDataFromScheduleBySystemTrigger();
 		} catch (Exception e) {
 			log.warn("定时任务出现异常-> {}", e.getMessage());
 		}
