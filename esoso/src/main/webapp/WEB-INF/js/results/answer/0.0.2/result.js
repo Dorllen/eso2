@@ -279,7 +279,7 @@ $(function() {
 						}
 					})
 
-	$("div.type span").on(
+/*	$("div.type span").on(
 			"click",
 			function() {
 				var $i = $(this).children("i");
@@ -308,7 +308,7 @@ $(function() {
 						}
 					}
 				}
-			})
+			})*/
 	$("div.tagsChoose").on("click", "span", function() {
 		// 遮罩
 		$(this).toggleClass('remove');

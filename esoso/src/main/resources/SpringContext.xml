@@ -228,6 +228,11 @@
 		</beans:property>
 	</beans:bean>
 
+	<task:scheduled-tasks>
+		<!-- 定时更新t_stores_tmp表的数据。将该表更新的数据自动更新入t_stores表（每一小时触发一次）-->
+		<task:scheduled ref="scheduleService" method="autoDownloadFromSheduleQueue"
+			initial-delay="6000" fixed-delay="180000" />
+	</task:scheduled-tasks>
 
 	<!-- http://www.cnblogs.com/everSeeker/p/5188840.html 开启定时任务的2种方法，（1）通过spring－task，采用@Scheduled注解方式，配置简单，使用灵活方便； 
 		（2）通过quartz，配置稍微复杂，功能强大 方法一： 开启task:annotation-driven，spring可以通过注解@Scheduled来开启任务 
@@ -242,4 +247,7 @@
 		value="0/10 * * * * ?"/> </bean> 配置调度工厂 <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean"> 
 		<property name="triggers"> <list> <ref bean="cronTrigger"/> </list> </property> 
 		</bean> -->
+		
+		
+		
 </beans:beans>

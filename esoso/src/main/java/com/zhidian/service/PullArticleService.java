@@ -218,8 +218,8 @@ public class PullArticleService {
 					// queue.setCreateTime(new Date());//
 					// 时间采用了数据库的入库时间，即数据库内置函数【需注意】
 					queue.setName(r.getName());
-					// queue.setType(AppEnumDefine.ScheduleQueuesType.系统自增.getValue());//【为了..】
-					queue.setType(AppEnumDefine.ScheduleQueuesType.管理员自增.getValue());//
+					queue.setType(AppEnumDefine.ScheduleQueuesType.系统自增.getValue());//【为了..】
+//					queue.setType(AppEnumDefine.ScheduleQueuesType.管理员自增.getValue());//
 					queue.setType2(SearchEngineEnumDefine.Type.问答.getValue());// 默认是搜索引擎的answer类型
 					queue.setType3(ResourceEnumDefine.ResourceType.内容详情页.getValue());// 爬虫页面的类型
 					queue.setUrl(r.getUrl());

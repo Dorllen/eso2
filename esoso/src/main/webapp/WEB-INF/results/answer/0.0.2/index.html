@@ -12,7 +12,7 @@
 <!--[if IE 7]>
 			<link rel="stylesheet" href="static/fonts/font-awesome/font-awesome-ie7.min.css" th:href="@{/static/fonts/font-awesome/font-awesome-ie7.min.css}"/>
 		<![endif]-->
-		
+
 <link rel="shortcut icon" href="../ico/i/favicon.png"
 	th:href="@{/ico/i/favicon.png}" />
 <link rel="apple-touch-icon-precomposed" sizes="144x144"
@@ -45,6 +45,59 @@
 </head>
 <head th:if="${not #lists.isEmpty(Message.version)}">
 <script th:each="js:${Message.version.defJs}" th:src="@{|/${js}|}"></script>
+<script type="text/javascript" src="admin/static/h-ui/js/H-ui.min.js"></script>
+<script type="text/javascript" src="admin/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" th:inline="javascript">
+//<![CDATA[
+	$(function(){
+	$("div.type span").on("click",function() {
+				var $i = $(this).children("i");
+				var $s = $(this).siblings("span").first();
+				var $si = $s.children("i");
+				if ($i.hasClass('icon-check-empty')) {
+					if ($si.hasClass('icon-check')) {
+						if ($s.is("#sSources")) {
+							layer.confirm('在线获取数据，耗时较长，是否继续？', {
+								btn : [ '确定', '放弃' ],
+								icon : 0,
+							}, function() {
+								var index = layer.load(1, {
+									  time:3000,
+									  shade: [0.1,'#fff'] //0.1透明度的白色背景
+								})
+								$i.removeClass('icon-check-empty').addClass(
+								"icon-check");
+								$si.removeClass('icon-check').addClass(
+								'icon-check-empty');
+								$("#form input[name='o']").val('origin');
+								$("div.content").load("s div.content",$("#form").serialize(),function(){
+									layer.msg('加载成功...', {icon: 1});
+								});
+							});
+						} else {
+							var index = layer.load(1, {
+								  time:3000,
+								  shade: [0.1,'#fff'] //0.1透明度的白色背景
+							});
+							$i.removeClass('icon-check-empty').addClass(
+							"icon-check");
+							$si.removeClass('icon-check').addClass(
+							'icon-check-empty');
+							$("#form input[name='o']").val('');
+							$("div.content").load("s div.content",$("#form").serialize(),function(){
+								layer.msg('加载成功...', {icon: 1});
+							});
+							$i.removeClass('icon-check-empty').addClass(
+									"icon-check");
+							$si.removeClass('icon-check').addClass(
+									'icon-check-empty');
+						}
+					}
+				}
+			})
+	})
+//]]>
+</script>
 </head>
 <body>
 	<header>
@@ -104,7 +157,7 @@
 	<section class="choose">
 		<div class="wrap">
 			<div class="bar">
-				<form action="#" method="get" th:action="@{/s}"
+				<form action="#" method="get" th:action="@{/s}" id="form"
 					th:object="${Message}">
 					<span class="titleSpan">易搜：</span>
 					<div class="set_btn">
@@ -112,6 +165,7 @@
 							<i class="icon-cogs"></i>
 						</p>
 					</div>
+					<input type="hidden" name ="o" value=""/>
 					<input type="text" name="q"
 						placeholder="查找关键字:python/java/ElasticSearch" autocomplete="off"
 						th:placeholder="*{placeholder}" th:value="*{key}" id="query" /> <input
@@ -181,11 +235,11 @@
 					</span>
 				</div> -->
 			</div>
-			<div class="cBar">
+<!-- 			<div class="cBar">
 				<p>
 					<i class="icon-chevron-down"></i>
 				</p>
-			</div>
+			</div> -->
 		</div>
 	</section>
 	<div id="choose">

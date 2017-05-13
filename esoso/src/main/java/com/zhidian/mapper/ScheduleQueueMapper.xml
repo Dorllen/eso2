@@ -12,7 +12,7 @@
 		values
 		<trim suffixOverrides=",">
 			<foreach collection="list" index="i" separator="," item="item">
-				(#{item.type},#{item.type2},#{item.type3},#{item.name},CURRENT_TIMESTAMP(),#{item.createMan},#{item.url},#{item.uuid},#{websiteId})
+				(#{item.type},#{item.type2},#{item.type3},#{item.name},CURRENT_TIMESTAMP(),#{item.createMan},#{item.url},#{item.uuid},#{item.websiteId})
 			</foreach>
 		</trim>
 	</insert>

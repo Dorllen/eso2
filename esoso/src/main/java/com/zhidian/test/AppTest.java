@@ -425,13 +425,20 @@ public class AppTest {
 		s.setUrl("http://segmentfault.com/a/123456");
 		list.add(s);
 		s = new ScheduleQueue();
-		s.setCreateMan(AppEnumDefine.AppUser.系统.getValue());
-		s.setName("github");
+		s.setName("segmentfault");
 		s.setType(AppEnumDefine.ScheduleQueuesType.系统自增.getValue());
 		s.setType2(SearchEngineEnumDefine.Type.问答.getValue());// 默认是搜索引擎的answer类型
 		s.setType3(ResourceEnumDefine.ResourceType.内容详情页.getValue());// 爬虫页面的类型
-		s.setUrl("http://github.com/a/123456");
+		s.setUrl("test1");
+		s.setUuid("test2");
 		list.add(s);
+//		s.setCreateMan(AppEnumDefine.AppUser.系统.getValue());
+//		s.setName("github");
+//		s.setType(AppEnumDefine.ScheduleQueuesType.系统自增.getValue());
+//		s.setType2(SearchEngineEnumDefine.Type.问答.getValue());// 默认是搜索引擎的answer类型
+//		s.setType3(ResourceEnumDefine.ResourceType.内容详情页.getValue());// 爬虫页面的类型
+//		s.setUrl("http://github.com/a/123456");
+//		list.add(s);
 		scheduleMapper.insertScheduleQueuesForPullArticleService01SimpleVoid(list);
 	}
 

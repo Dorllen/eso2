@@ -345,10 +345,10 @@ window.onload = function(event) {
 		}
 		return false;
 	}
-	var liTools = document.querySelector("li#tools");
+/*	var liTools = document.querySelector("li#tools");
 	liTools.onclick = function() {
 		toggleClass(liTools, 'show')
-	}
+	}*/
 	var sectionLi = section.querySelectorAll("div ul li");
 	for ( var i in sectionLi) {
 		sectionLi[i].index = i;

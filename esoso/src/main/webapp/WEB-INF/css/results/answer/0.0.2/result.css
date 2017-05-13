@@ -430,7 +430,7 @@ section div.origin {
 	border-top: 1px solid #b1b1b1;
 	position: relative;
 	border-bottom: 1px solid #ccc;
-	display: none;
+	/* display: none; */
 }
 
 section div.type, section div.tagsChoose {

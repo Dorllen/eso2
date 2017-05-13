@@ -51,6 +51,7 @@ a:hover {
 header {
 	margin-top: 0;
 	position: relative;
+	border-bottom: 1px solid #eee;
 	background-color: #f6f6f6;
 }
 
@@ -141,7 +142,7 @@ header ul.header_ul2 li:not (.person ) a:hover, header ul.header_ul3 li:not
 
 header ul.header_ul1 li:first-child {
 	width: 40px;
-	background: #fff8f8;
+	background: #f1f1f1;
 	text-decoration: none;
 }
 
@@ -306,7 +307,9 @@ section>div {
 	position: absolute;
 	top: 40%;
 	left: 50%;
-	transform: translate(-50%, -50%);
+	/* transform: translate(-50%, -50%); */
+    margin-left: -200px;
+    margin-top: -90px;
 }
 
 section>div ul {
