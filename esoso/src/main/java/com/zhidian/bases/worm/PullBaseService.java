@@ -95,7 +95,7 @@ public class PullBaseService {
 		}
 		return null;
 	}
-
+	
 	public List<PullPageObjectModel> startPullDataFromMapCompleteScheduleQueues(List<PullPageDataTaskModel> models) {
 		if (models != null && models.size() > 0) {
 			List<PullPageObjectModel> pullList = new ArrayList<PullPageObjectModel>(models.size());
