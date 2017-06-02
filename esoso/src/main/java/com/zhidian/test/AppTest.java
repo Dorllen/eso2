@@ -95,34 +95,37 @@ public class AppTest {
 
 	@Autowired
 	PageService page;
-	
+
 	@Test
-	public void testPageService(){
+	public void testPageService() {
 		WebsiteBO web = websiteMapper.queryWebsitesForPageService01SimpleWebsiteBO(
 				AppEnumDefine.SiteService.搜索.getValue(), "segmentfault", 1);
 		System.out.println(JSON.toJSONString(web.getVersion()));
 		System.out.println(JSON.toJSONString(web));
 	}
-	
+
 	@Test
-	public void teswwer(){
+	public void teswwer() {
 		System.out.println(JSON.toJSONString(page.getPullArticle("eb2f2e75d8e462f7153caa4e2a582277")));
 	}
-	
+
+	@Test
+	public void test5() {
+		System.out.println(JSON.toJSONString(page.getIndexCurrentPageInfo()));
+	}
+
 	// ###########################AdminService##################
-	
+
 	@Autowired
 	AdminService adminServie;
+
 	@Test
-	public void testAdminService(){
+	public void testAdminService() {
 		AdminBO a = adminServie.checkIsRightLogin("admin@eso.me", "123456");
 		System.out.println(a);
-		
+
 	}
-	
-	
-	
-	
+
 	// ###########################AdminInfoSupportService##################
 	@Autowired
 	AdminInfoSupportService infoService;
@@ -137,11 +140,12 @@ public class AppTest {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Test
-	public void testPullArticleSearchService(){
+	public void testPullArticleSearchService() {
 		try {
-			List<WebsitePaDTO> list= infoService.getWebsitePaListList("2016-5-10", "2017-5-11", "website", "segmentfault");
+			List<WebsitePaDTO> list = infoService.getWebsitePaListList("2016-5-10", "2017-5-11", "website",
+					"segmentfault");
 			System.out.println(list.size());
 			System.out.println(JSON.toJSONString(list));
 		} catch (PageArgumentsException e) {
@@ -180,23 +184,23 @@ public class AppTest {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Test
-//	@Transactional
-//	@Rollback
-	public void testUpdateWebsite(){
+	// @Transactional
+	// @Rollback
+	public void testUpdateWebsite() {
 		WebsiteMainUploadModel model = new WebsiteMainUploadModel();
 		model.setVersionId("0.0.1");
 		model.setWebsiteId("0.0.4");
 		model.setAlias("HHH..Test");
-		String account ="TestAdmin";
+		String account = "TestAdmin";
 		model.setSearchAddr("https://segmentfault.com/search?q=");
 		model.setResultProcessor("");
 		model.setPageRObject("");
 		model.setResultProcessor("");
 		System.out.println("start");
 		try {
-			int num = mainService.updateWebsiteForUpdateInfo(model,account);
+			int num = mainService.updateWebsiteForUpdateInfo(model, account);
 			System.out.println(num);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -204,12 +208,12 @@ public class AppTest {
 		}
 		System.out.println("end");
 	}
-	
+
 	@Test
 	@Transactional
 	@Rollback
-	public void testUpdate(){
-		WebsiteMainAddModel model =new  WebsiteMainAddModel();
+	public void testUpdate() {
+		WebsiteMainAddModel model = new WebsiteMainAddModel();
 		model.setPagePipeline("");
 		model.setSearchAddr("");
 		model.setResultProcessor("");
@@ -219,7 +223,7 @@ public class AppTest {
 		model.setPageProcessor("");
 		String account = "Admin";
 		try {
-			int id = mainService.addWebsiteInfo(model,account);
+			int id = mainService.addWebsiteInfo(model, account);
 			System.out.println(id);
 		} catch (PageArgumentsException e) {
 			// TODO Auto-generated catch block
@@ -282,9 +286,9 @@ public class AppTest {
 		String str = JSON.toJSONString(list);
 		System.out.println("results:" + str);
 	}
-	
+
 	@Test
-	public void tesWormService02(){
+	public void tesWormService02() {
 		List<PullPageObjectModel> list = wormsService.startPullDataFromScheduleBySystemTrigger();
 		System.out.println(JSON.toJSONString(list));
 	}
@@ -365,6 +369,11 @@ public class AppTest {
 		List<NameValueModel> list = versionMapper.queryVersionsForAdminInfoSupportService01ListVersionBO2("websites",
 				"answer");
 		System.out.println("?:" + JSON.toJSONString(list));
+	}
+
+	@Test
+	public void testVersion4() {
+		System.out.println(versionMapper.queryVersionsForPageService01SimpleVersion("page", "engine", "index"));
 	}
 
 	@Test
@@ -455,13 +464,15 @@ public class AppTest {
 		s.setUrl("test1");
 		s.setUuid("test2");
 		list.add(s);
-//		s.setCreateMan(AppEnumDefine.AppUser.系统.getValue());
-//		s.setName("github");
-//		s.setType(AppEnumDefine.ScheduleQueuesType.系统自增.getValue());
-//		s.setType2(SearchEngineEnumDefine.Type.问答.getValue());// 默认是搜索引擎的answer类型
-//		s.setType3(ResourceEnumDefine.ResourceType.内容详情页.getValue());// 爬虫页面的类型
-//		s.setUrl("http://github.com/a/123456");
-//		list.add(s);
+		// s.setCreateMan(AppEnumDefine.AppUser.系统.getValue());
+		// s.setName("github");
+		// s.setType(AppEnumDefine.ScheduleQueuesType.系统自增.getValue());
+		// s.setType2(SearchEngineEnumDefine.Type.问答.getValue());//
+		// 默认是搜索引擎的answer类型
+		// s.setType3(ResourceEnumDefine.ResourceType.内容详情页.getValue());//
+		// 爬虫页面的类型
+		// s.setUrl("http://github.com/a/123456");
+		// list.add(s);
 		scheduleMapper.insertScheduleQueuesForPullArticleService01SimpleVoid(list);
 	}
 

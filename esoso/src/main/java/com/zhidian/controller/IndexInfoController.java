@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.alibaba.fastjson.JSON;
 import com.zhidian.model.sys.VersionBO;
 import com.zhidian.service.PageService;
 import com.zhidian.views.IndexPageVO;
@@ -42,6 +43,7 @@ public class IndexInfoController {
 		// 如何首页的搜索框要提供更多的服务，需要到SearchEnumDefine.type，以及维护好WebSiteEnumDefine的爬虫对象
 		IndexPageVO index = pageService.getIndexCurrentPageInfo();
 		model.addAttribute("Message", index);
+		System.out.println("login1:"+JSON.toJSONString(index));
 		if(index!=null){
 			VersionBO version =index.getVersion();
 			if(version!=null){
@@ -52,6 +54,7 @@ public class IndexInfoController {
 				}
 			}
 		}
+		System.out.println("login2");
 		return "index";
 	}
 }

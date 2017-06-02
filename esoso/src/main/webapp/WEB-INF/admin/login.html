@@ -8,7 +8,6 @@
 <link rel="shortcut icon" href="favicon.ico" mce_href="favicon.ico"
 	type="image/x-icon" th:href="@{/}" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <!-- CSS -->
@@ -22,7 +21,7 @@
 	th:href="@{/admin/login/css/form-elements.css}" />
 <link rel="stylesheet" href="login/css/style.css"
 	th:href="@{/admin/login/css/style.css}" />
-<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>	
+<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
 <link rel="shortcut icon" href="login/ico/favicon.png"
 	th:href="@{/admin/ico/favicon.png}" />
 <link rel="apple-touch-icon-precomposed" sizes="144x144"
@@ -112,46 +111,60 @@
 	src="lib/jquery.validation/1.14.0/validate-methods.js"></script>
 <script type="text/javascript"
 	src="lib/jquery.validation/1.14.0/messages_zh.js"></script>
-<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script>	
+<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script>
 <script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script>
 <script type="text/javascript">
-//<![CDATA[
-	$(function(){
+	//<![CDATA[
+	$(function() {
 		$("#form").validate({
-			rules:{
-				username:{
-					required:true,
-					email:true
+			rules : {
+				username : {
+					required : true,
+					email : true
 				},
-				password:{
-					required:true
+				password : {
+					required : true
 				}
 			},
-			onkeyup:false,
-			focusCleanup:true,
-			success:"valid",
-			submitHandler:function(form){
-				$(form).ajaxSubmit({type:"post",url:"up/login",success:function(data){
-					if(data){
-						if(data.message){
-							if("200" == data.code){
-								layer.msg(data.message,{icon:1,time:2000});
-							}else{
-								layer.msg(data.message,{icon:2,time:2000});
+			onkeyup : false,
+			focusCleanup : true,
+			success : "valid",
+			submitHandler : function(form) {
+				$(form).ajaxSubmit({
+					type : "post",
+					url : "up/login",
+					success : function(data) {
+						if (data) {
+							if (data.message) {
+								if ("200" == data.code) {
+									layer.msg(data.message, {
+										icon : 1,
+										time : 2000
+									});
+								} else {
+									layer.msg(data.message, {
+										icon : 2,
+										time : 2000
+									});
+								}
+							}
+							if (data.href) {
+								console.log(data.href);
+								window.location.href = data.href;
 							}
 						}
-						if(data.href){
-							console.log(data.href);
-							window.location.href=data.href;
-						}
+					},
+					error : function() {
+						layer.msg('请求失败', {
+							icon : 5,
+							time : 1000
+						});
 					}
-				},error:function(){
-					layer.msg('请求失败',{icon:5,time:1000});
-				}})
+				})
 			}
 		})
 	});
-//]]>
+	//]]>
 </script>
 
 </head>
@@ -179,7 +192,8 @@
 							</div>
 						</div>
 						<div class="form-bottom">
-							<form action="login" method="post" role="form" class="login-form" id="form">
+							<form action="login" method="post" role="form" class="login-form"
+								id="form">
 								<div>
 									<div class="form-group">
 										<label class="sr-only" for="form-username">Username</label> <input
@@ -189,8 +203,7 @@
 
 									<div class="form-group">
 										<label class="sr-only" for="form-password">Password</label> <input
-											type="password" id="password" name="password" value=""
-											placeholder="请输入密码" class="form-password form-control" />
+											type="password" id="password" name="password" placeholder="请输入密码" class="form-password form-control" />
 									</div>
 									<div class="form-group" style="display: none">
 										<label class="sr-only" for="form-yzm">验证码</label> <input
