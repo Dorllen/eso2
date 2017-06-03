@@ -286,7 +286,7 @@
 						th:object="${result}">
 						<input type="hidden" name="data-id" value="" th:value="*{id}" />
 						<div class="item_tag viewTag" th:if="*{mark} == 'cviews'">高访问</div>
-						<div class="item_tag comTag" th:if="*{mark} == 'common'">普通</div>
+						<div class="item_tag comTag" th:if="*{mark} == 'common' or *{mark} == null">普通</div>
 						<div class="item_tag hotTag" th:if="*{mark} == 'hot'">热度</div>
 						<div class="item_tag tjTag" th:if="*{mark} == 'tj'">推荐</div>
 						<div class="item_info">
